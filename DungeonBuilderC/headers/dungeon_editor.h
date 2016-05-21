@@ -1,3 +1,5 @@
+#pragma once
+
 #include "curses.h"
 #include <vector>
 #include <string>
@@ -11,33 +13,55 @@ struct editor
 	int x,y;	
 	vector<string> lines;
 	int done = 0;
+	string header;
+	WINDOW *headerWindow;
+	WINDOW *mainWindow;
+
+	int w,h;
 
 	editor() {
 		x = 0;
-		y = 0;				
-		appendLine("");
-
+		y = 0;						
 	}
-	editor(string s)  {
+	
+
+	void reset()
+	{
 		x = 0;
 		y = 0;
-		
-		istringstream iss(s);
-		string line;
-		while(getline(iss,line))
-		{
-			appendLine(line);
-		}
-
+		done = 0;
+		header = "";
+		lines.clear();
+		delwin(headerWindow);
+		delwin(mainWindow);
 	}
 
-	string edit()
-	{
+	string edit(string _header, string startText)
+	{		
+		header = _header;
+		appendLine("");
+		headerWindow = newwin(1,COLS,0,0);		
+		mainWindow = newwin(LINES-1,COLS,1,0);
+
+				
+		refresh();		
+		wrefresh(headerWindow);								
+		wrefresh(mainWindow);
+		getmaxyx(stdscr,h,w);
+
+		for(string::size_type i = 0; i < startText.length();i++)
+		{
+			handleInput((int)startText[i]);
+		}
+
 		while(!done)
-		{		
-			printStatusLine();
-			printBuff();
-			int input = getch();
+		{				
+			getmaxyx(stdscr,h,w); //this isn't working!
+			
+			printBuff();						
+			printStatusLine();							
+			wrefresh(headerWindow);																						
+			int input = wgetch(mainWindow);			
 			handleInput(input);
 		}
 		string result;
@@ -45,9 +69,11 @@ struct editor
 		{
 			result = result + lines[i];
 		}
+		reset();
 		return result;
 	}
 
+		
 	string remTabs(string line) {
 		int tab = line.find("\t");
 		if(tab == line.npos)
@@ -74,14 +100,14 @@ struct editor
 		if(x-1 >= 0)
 		{
 			x--;
-			move(y,x);
+			wmove(mainWindow,y,x);
 		}
 	}
 	void moveRight() {
-		if(x+y < COLS && x+1 <= lines[y].length())
+		if(x+y < w && x+1 <= lines[y].length())
 		{
 			x++;
-			move(y,x);
+			wmove(mainWindow,y,x);
 		}
 	}
 	void moveUp() {
@@ -89,15 +115,15 @@ struct editor
 			y--;
 		if(x >= lines[y].length())
 			x = lines[y].length();
-		move(y,x);
+		wmove(mainWindow,y,x);
 	}
 	void moveDown() {
 
-		if(y+1 < LINES-1 && y+1 < lines.size())
+		if(y+1 < h-1 && y+1 < lines.size())
 			y++;
 		if(x >= lines[y].length())
 			x = lines[y].length();
-		move(y,x);
+		wmove(mainWindow,y,x);
 	}
 
 
@@ -196,29 +222,29 @@ struct editor
 		}
 	}
 	void printBuff() {
-		for(int i = 0; i < LINES-1; i++)
+		for(int i = 0; i < h-1; i++)
 		{
 			if(i >= lines.size())
 			{
-				move(i,0);
-				clrtoeol();
+				wmove(mainWindow,i,0);
+				wclrtoeol(mainWindow);
 			}
 			else
 			{
-				mvprintw(i,0,lines[i].c_str());
+				mvwprintw(mainWindow,i,0,lines[i].c_str());
 			}
-			clrtoeol();
+			wclrtoeol(mainWindow);
 		}
-		move(y,x);
+		wmove(mainWindow,y,x);
 	}
 	void printStatusLine() {
-		init_pair(1,COLOR_RED,COLOR_BLACK);
-		attron(COLOR_PAIR(1));
-		attron(A_REVERSE);
-		mvprintw(LINES-1,0,"Dungeon Room Editor");
-		clrtoeol();
-		attroff(A_REVERSE);
-		attroff(COLOR_PAIR(1));
+		
+		init_pair(1,COLOR_BLACK,COLOR_RED);
+		wattron(headerWindow,COLOR_PAIR(1));		
+
+		mvwprintw(headerWindow,0,(w-header.length())/2,header.c_str());
+		wclrtoeol(headerWindow);		
+		wattroff(headerWindow,COLOR_PAIR(1));
 	}
 
 };

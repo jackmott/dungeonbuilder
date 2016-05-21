@@ -25,6 +25,7 @@
     <ClInclude Include="headers\curses.h" />
     <ClInclude Include="headers\dungeon_editor.h" />
     <ClInclude Include="headers\panel.h" />
+    <ClInclude Include="headers\printutlls.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{799C09B3-0B2C-4371-8D26-DDAA12EE6691}</ProjectGuid>

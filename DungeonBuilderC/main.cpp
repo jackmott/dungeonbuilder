@@ -19,9 +19,8 @@ int main(int argc,char* argv[])
 
 	curses_init();
 
-	e.edit();
-
-	refresh();
+	e.edit("Dungeon Editor","Start");
+	
 	endwin();
 	return 0;
 
