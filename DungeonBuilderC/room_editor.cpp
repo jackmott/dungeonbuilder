@@ -1,33 +1,31 @@
-#include "headers/main_menu.h"
+
+#include "headers/room_editor.h"
 
 using namespace std;
 
-void MainMenu::exit(vector<string> args)
+void RoomEditor::exit(vector<string> args)
 {
 
 }
 
-void MainMenu::create(vector<string> args)
+void RoomEditor::edit(vector<string> args)
 {
-	RoomEditor ed;
-	DungeonRoom room;
-	room.name = "Default Name";
-	room.description = "Default Description";
-	ed.load(room);
+	DungeonEditor ed;
+	ed.edit("Empty Room","Empty Room");
 }
 
 
-void MainMenu::reset()
+void RoomEditor::reset()
 {
 	delwin(commandWindow);
 	delwin(responseWindow);
 	delwin(mainWindow);
 }
 
-void MainMenu::load()
+void RoomEditor::load(DungeonRoom room)
 {
-	cmdMap["create"] = &MainMenu::create;
-	cmdMap["exit"] = &MainMenu::exit;
+	cmdMap["edit"] = &RoomEditor::edit;
+	cmdMap["exit"] = &RoomEditor::exit;
 
 	commandWindow = newwin(1,COLS,LINES-1,0);
 	responseWindow = newwin(1,COLS,LINES-2,0);
@@ -42,11 +40,12 @@ void MainMenu::load()
 	int done = false;
 	string command;
 	
-	setcolor(mainWindow,1,COLOR_RED);
-	mvwprintwCenter(mainWindow,3,"Dungeon Builder");		
-	setcolor(mainWindow,2,COLOR_CYAN);
-	mvwprintwCenter(mainWindow,5,"[Create] a new Dungeon");	
-	mvwprintwCenter(mainWindow,6,"[Exit] this world");	
+	setcolor(mainWindow,1,COLOR_WHITE);	
+	string nameRow = "[Name]" + room.name;
+	mvwprintwCenter(mainWindow,2,nameRow);
+	string descRow = "[Description] " + room.description;
+	mvwprintwCenter(mainWindow,3,descRow.c_str());	
+	
 	wrefresh(mainWindow);
 	
 
@@ -68,8 +67,9 @@ void MainMenu::load()
 	}
 
 	commandFunction cmdFunc = cmdMap[cmd[0]];
-		
 	(this->*cmdFunc)(cmd);
+		
+	
 
 
 	reset();

@@ -21,21 +21,23 @@
   <ItemGroup>
     <ClCompile Include="dungeon_editor.cpp">
     </ClCompile>
+    <ClCompile Include="room_editor.cpp" />
     <ClCompile Include="utils.cpp" />
-    <ClInclude Include="headers\command.hpp" />
-    <ClInclude Include="headers\command_window.hpp" />
-    <ClInclude Include="headers\main_menu.hpp" />
+    <ClInclude Include="headers\command_window.h" />
+    <ClInclude Include="headers\dungeon_data.h" />
+    <ClInclude Include="headers\main_menu.h" />
     <ClCompile Include="command_window.cpp" />
     <ClCompile Include="printutils.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClInclude Include="headers\utils.hpp" />
+    <ClInclude Include="headers\room_editor.h" />
+    <ClInclude Include="headers\utils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\curses.h" />
-    <ClInclude Include="headers\dungeon_editor.hpp" />
+    <ClInclude Include="headers\dungeon_editor.h" />
     <ClInclude Include="headers\panel.h" />
     <ClCompile Include="main_menu.cpp" />
-    <ClInclude Include="headers\printutlls.hpp" />
+    <ClInclude Include="headers\printutils.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{799C09B3-0B2C-4371-8D26-DDAA12EE6691}</ProjectGuid>

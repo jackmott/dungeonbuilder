@@ -7,15 +7,17 @@
     <ClCompile Include="command_window.cpp" />
     <ClCompile Include="printutils.cpp" />
     <ClCompile Include="utils.cpp" />
+    <ClCompile Include="room_editor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\curses.h" />
-    <ClInclude Include="headers\printutlls.hpp" />
-    <ClInclude Include="headers\dungeon_editor.hpp" />
-    <ClInclude Include="headers\main_menu.hpp" />
-    <ClInclude Include="headers\command_window.hpp" />
     <ClInclude Include="headers\panel.h" />
-    <ClInclude Include="headers\command.hpp" />
-    <ClInclude Include="headers\utils.hpp" />
+    <ClInclude Include="headers\room_editor.h" />
+    <ClInclude Include="headers\dungeon_data.h" />
+    <ClInclude Include="headers\command_window.h" />
+    <ClInclude Include="headers\dungeon_editor.h" />
+    <ClInclude Include="headers\main_menu.h" />
+    <ClInclude Include="headers\printutils.h" />
+    <ClInclude Include="headers\utils.h" />
   </ItemGroup>
 </Project>

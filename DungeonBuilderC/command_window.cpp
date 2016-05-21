@@ -1,5 +1,5 @@
-#include "headers/command_window.hpp"
-#include "headers/utils.hpp"
+#include "headers/command_window.h"
+#include "headers/utils.h"
 
 using namespace std;
 

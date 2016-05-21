@@ -1,5 +1,5 @@
-#include "headers/dungeon_editor.hpp"
-#include "headers/printutlls.hpp"
+#include "headers/dungeon_editor.h"
+
 using namespace std;
 
 

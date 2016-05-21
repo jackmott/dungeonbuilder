@@ -7,12 +7,16 @@
 #include <string>
 #include <sstream>
 #include <map>
-#include "command.hpp"
+#include "headers/printutils.h"
+#include "headers/command_window.h"
+#include "headers/utils.h"
+#include "headers/dungeon_data.h"
+#include "headers/room_editor.h"
 
 using namespace std;
-struct mainMenu
+struct MainMenu
 {
-		
+	typedef void (MainMenu::*commandFunction) (vector<string>);
 	map<string,commandFunction> cmdMap;
 
 	WINDOW *responseWindow;
@@ -21,7 +25,8 @@ struct mainMenu
 
 	int w,h;
 
-	
+	void create(vector<string> args);
+	void exit(vector<string> args);
 	void reset();
 	void load();
 	

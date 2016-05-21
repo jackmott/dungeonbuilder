@@ -1,7 +1,7 @@
 #include "headers/curses.h"
 #include <string>
-//#include "headers/dungeon_editor.hpp"
-#include "headers/main_menu.hpp"
+//#include "headers/dungeon_editor.h"
+#include "headers/main_menu.h"
 
 using namespace std;
 
@@ -19,7 +19,7 @@ int main(int argc,char* argv[])
 	curses_init();
 			
 	
-	mainMenu mm;
+	MainMenu mm;
 	mm.load();
 
 	endwin();
