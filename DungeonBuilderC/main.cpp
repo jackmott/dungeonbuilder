@@ -19,7 +19,7 @@ int main(int argc,char* argv[])
 
 	curses_init();
 
-	
+	e.edit();
 
 	refresh();
 	endwin();

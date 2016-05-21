@@ -43,8 +43,9 @@ struct editor
 		string result;
 		for(int i = 0; i < lines.size()-1; i++)
 		{
-
+			result = result + lines[i];
 		}
+		return result;
 	}
 
 	string remTabs(string line) {
