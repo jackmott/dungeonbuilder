@@ -16,10 +16,11 @@ void curses_init()
 int main(int argc,char* argv[])
 {
 	curses_init();
-	editor e = editor();
-		
-	e.edit("Dungeon Editor","Start");
 	
+	
+	
+	editor e = editor();		
+	e.edit("Dungeon Editor","Start");	
 	endwin();
 	return 0;
 
