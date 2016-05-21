@@ -28,7 +28,7 @@ struct editor
 		header = "";
 		lines.clear();
 		delwin(headerWindow);
-		delwin(mainWindow);
+		delwin(mainWindow);		
 	}
 
 	string edit(string _header, string startText)
@@ -152,6 +152,7 @@ struct editor
 			done = 1;
 			break;
 		case 127:
+		case KEY_BACKSPACE:
 		case 8:  //KEY_BACKSPACE:
 			// The Backspace key
 			if(x == 0 && y > 0)

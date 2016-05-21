@@ -2,12 +2,15 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="headers\main_menu.h" />
+    <ClCompile Include="main_menu.cpp" />
+    <ClCompile Include="parser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\curses.h" />
-    <ClInclude Include="headers\dungeon_editor.h" />
-    <ClInclude Include="headers\panel.h" />
-    <ClInclude Include="headers\printutlls.h" />
+    <ClInclude Include="headers\printutlls.hpp" />
+    <ClInclude Include="headers\panel.hpp" />
+    <ClInclude Include="headers\dungeon_editor.hpp" />
+    <ClInclude Include="headers\main_menu.hpp" />
+    <ClInclude Include="headers\parser.hpp" />
   </ItemGroup>
 </Project>

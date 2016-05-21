@@ -1,13 +1,14 @@
 #include "headers/curses.h"
 #include <string>
-#include "headers/dungeon_editor.h"
+//#include "headers/dungeon_editor.hpp"
+#include "headers/main_menu.hpp"
 
 using namespace std;
 
 void curses_init()
 {	
 	initscr();	
-	noecho();
+	echo();
 	cbreak();
 	keypad(stdscr,true);
 	start_color();
@@ -16,11 +17,13 @@ void curses_init()
 int main(int argc,char* argv[])
 {
 	curses_init();
+			
 	
-	
-	
-	editor e;
-	e.edit("Dungeon Editor","Start");	
+	mainMenu mm;
+	mm.load();
+
+
+
 	endwin();
 	return 0;
 
