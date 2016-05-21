@@ -1,6 +1,7 @@
 #include "headers/main_menu.hpp"
 #include "headers/command_window.hpp"
 #include "headers/dungeon_editor.hpp"
+#include "headers/printutlls.hpp"
 using namespace std;
 
 void exit()
@@ -25,6 +26,7 @@ void mainMenu::reset()
 void mainMenu::load()
 {
 	cmdMap["create"] = &create;
+	cmdMap["exit"] = &exit;
 
 	commandWindow = newwin(1,COLS,LINES-1,0);
 	responseWindow = newwin(1,COLS,LINES-2,0);
@@ -39,7 +41,11 @@ void mainMenu::load()
 	int done = false;
 	string command;
 	
-	mvwprintw(mainWindow,0,0,"Dungeon Builder");	
+	setcolor(mainWindow,1,COLOR_RED);
+	mvwprintwCenter(mainWindow,3,"Dungeon Builder");		
+	setcolor(mainWindow,2,COLOR_CYAN);
+	mvwprintwCenter(mainWindow,5,"[Create] a new Dungeon");	
+	mvwprintwCenter(mainWindow,6,"[Exit] this world");	
 	wrefresh(mainWindow);
 	
 

@@ -25,6 +25,7 @@
     <ClInclude Include="headers\command_window.hpp" />
     <ClInclude Include="headers\main_menu.hpp" />
     <ClCompile Include="command_window.cpp" />
+    <ClCompile Include="printutils.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>

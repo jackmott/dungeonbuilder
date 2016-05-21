@@ -1,5 +1,4 @@
 #include "headers/command_window.hpp"
-
 using namespace std;
 
 void CommandWindow::reset(){
@@ -24,7 +23,9 @@ string CommandWindow::command(WINDOW* _window,string _prompt) {
 		done = handleInput(c);
 	}
 	reset();
-	return input;
+	string result = input;
+	transform(result.begin(),result.end(),result.begin(),tolower);
+	return result;
 	
 }
 void CommandWindow::moveLeft() {

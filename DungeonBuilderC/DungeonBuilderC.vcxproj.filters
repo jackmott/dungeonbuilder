@@ -5,6 +5,7 @@
     <ClCompile Include="main_menu.cpp" />
     <ClCompile Include="dungeon_editor.cpp" />
     <ClCompile Include="command_window.cpp" />
+    <ClCompile Include="printutils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\curses.h" />

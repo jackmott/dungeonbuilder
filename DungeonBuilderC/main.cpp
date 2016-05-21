@@ -10,7 +10,7 @@ void curses_init()
 	initscr();	
 	noecho();
 	cbreak();
-	keypad(stdscr,true);
+	keypad(stdscr,true);	
 	start_color();
 }
 
@@ -21,8 +21,6 @@ int main(int argc,char* argv[])
 	
 	mainMenu mm;
 	mm.load();
-
-
 
 	endwin();
 	return 0;

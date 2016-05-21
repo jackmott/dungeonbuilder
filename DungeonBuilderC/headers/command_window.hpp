@@ -3,7 +3,7 @@
 #define COMMAND_WINDOW
 
 #include "curses.h"
-#include <vector>
+#include <algorithm>
 #include <string>
 #include <sstream>
 

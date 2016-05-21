@@ -1,5 +1,5 @@
 #include "headers/dungeon_editor.hpp"
-
+#include "headers/printutlls.hpp"
 using namespace std;
 
 
@@ -224,7 +224,7 @@ void DungeonEditor::printStatusLine() {
 	init_pair(1,COLOR_BLACK,COLOR_RED);
 	wattron(headerWindow,COLOR_PAIR(1));
 	wclear(headerWindow);
-	mvwprintw(headerWindow,0,(w-header.length())/2,header.c_str());
+	mvwprintwCenter(headerWindow,0,header);
 	wclrtoeol(headerWindow);
 	wattroff(headerWindow,COLOR_PAIR(1));
 }
