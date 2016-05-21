@@ -6,11 +6,15 @@
 #include <vector>
 #include <string>
 #include <sstream>
+#include <map>
+#include "command.hpp"
 
-
+using namespace std;
 struct mainMenu
 {
 		
+	map<string,commandFunction> cmdMap;
+
 	WINDOW *responseWindow;
 	WINDOW *commandWindow;
 	WINDOW *mainWindow;
@@ -19,9 +23,8 @@ struct mainMenu
 
 	
 	void reset();
-
 	void load();
-				
+	
 };
 
 #endif

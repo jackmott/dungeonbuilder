@@ -13,5 +13,6 @@
     <ClInclude Include="headers\main_menu.hpp" />
     <ClInclude Include="headers\command_window.hpp" />
     <ClInclude Include="headers\panel.h" />
+    <ClInclude Include="headers\command.hpp" />
   </ItemGroup>
 </Project>

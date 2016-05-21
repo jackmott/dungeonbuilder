@@ -1,8 +1,18 @@
 #include "headers/main_menu.hpp"
 #include "headers/command_window.hpp"
-
+#include "headers/dungeon_editor.hpp"
 using namespace std;
 
+void exit()
+{
+
+}
+
+void create()
+{
+	DungeonEditor ed;
+	ed.edit("Empty Room","Empty Room");
+}
 
 
 void mainMenu::reset()
@@ -14,6 +24,7 @@ void mainMenu::reset()
 
 void mainMenu::load()
 {
+	cmdMap["create"] = &create;
 
 	commandWindow = newwin(1,COLS,LINES-1,0);
 	responseWindow = newwin(1,COLS,LINES-2,0);
@@ -30,12 +41,28 @@ void mainMenu::load()
 	
 	mvwprintw(mainWindow,0,0,"Dungeon Builder");	
 	wrefresh(mainWindow);
-			
+	
+
 	CommandWindow cmdW;
-	cmdW.command(commandWindow,":");
+	bool cmdFound = false;
+	string cmd;
+	while (!cmdFound) {
+		cmd = cmdW.command(commandWindow,":");
+		cmdFound = cmdMap.count(cmd) > 0;		
+		if(!cmdFound) {
+			mvwprintw(responseWindow,0,0,"What are you doing, dave?");
+			wclrtoeol(responseWindow);
+			wrefresh(responseWindow);
+		}
+	}
+
+	commandFunction cmdFunc = cmdMap[cmd];
+	cmdFunc();
 
 
+	reset();
 }
+
 
 
 

@@ -3,11 +3,13 @@
 using namespace std;
 
 void CommandWindow::reset(){
-
+	wclear(window);	
+	
 }
 
 string CommandWindow::command(WINDOW* _window,string _prompt) {
 	
+	input = "";
 	prompt = _prompt;
 	window = _window;
 	x = prompt.length();
@@ -18,10 +20,10 @@ string CommandWindow::command(WINDOW* _window,string _prompt) {
 	while(!done)
 	{
 		print();
-		int input = wgetch(window);
-		done = handleInput(input);
+		int c= wgetch(window);
+		done = handleInput(c);
 	}
-	
+	reset();
 	return input;
 	
 }
@@ -41,7 +43,7 @@ bool CommandWindow::handleInput(int c){
 				x--;
 			break;
 		case KEY_ENTER:
-		case 10:
+		case 10:			
 			return true;
 		default:
 			input.push_back((char)c);
