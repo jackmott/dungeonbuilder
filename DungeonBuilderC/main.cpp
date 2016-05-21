@@ -19,7 +19,7 @@ int main(int argc,char* argv[])
 	
 	
 	
-	editor e = editor();		
+	editor e;
 	e.edit("Dungeon Editor","Start");	
 	endwin();
 	return 0;

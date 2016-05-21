@@ -19,12 +19,7 @@ struct editor
 
 	int w,h;
 
-	editor() {
-		x = 0;
-		y = 0;						
-	}
 	
-
 	void reset()
 	{
 		x = 0;
@@ -39,6 +34,8 @@ struct editor
 	string edit(string _header, string startText)
 	{		
 		header = _header;
+		x = 0;
+		y = 0;
 		appendLine("");
 		headerWindow = newwin(1,COLS,0,0);		
 		mainWindow = newwin(LINES-1,COLS,1,0);

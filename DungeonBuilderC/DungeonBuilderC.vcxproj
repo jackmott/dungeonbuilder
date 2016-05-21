@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="headers\main_menu.cpp" />
+    <ClCompile Include="headers\main_menu.h" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
