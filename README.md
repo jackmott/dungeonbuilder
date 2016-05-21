@@ -1,2 +1,3 @@
 # dungeonbuilder
-First person text based non shooter
+First person text based N dimensional adventure engine
+
