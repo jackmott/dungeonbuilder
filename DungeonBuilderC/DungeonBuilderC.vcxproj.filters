@@ -8,6 +8,9 @@
     <ClCompile Include="printutils.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="room_editor.cpp" />
+    <ClCompile Include="object_editor.cpp" />
+    <ClCompile Include="exit_editor.cpp" />
+    <ClCompile Include="creature_editor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\curses.h" />
@@ -19,5 +22,8 @@
     <ClInclude Include="headers\main_menu.h" />
     <ClInclude Include="headers\printutils.h" />
     <ClInclude Include="headers\utils.h" />
+    <ClInclude Include="headers\object_editor.h" />
+    <ClInclude Include="headers\exit_editor.h" />
+    <ClInclude Include="headers\creature_editor.h" />
   </ItemGroup>
 </Project>
