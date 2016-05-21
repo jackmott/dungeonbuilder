@@ -22,6 +22,7 @@ string DungeonEditor::edit(string _header,string startText)
 	appendLine("");
 	headerWindow = newwin(1,COLS,0,0);
 	mainWindow = newwin(LINES-1,COLS,1,0);
+	keypad(mainWindow,true);   //turns on arrows and f keys
 	getmaxyx(stdscr,h,w); //why the fuck doesn't this work?
 
 	refresh();
@@ -221,11 +222,11 @@ void DungeonEditor::printBuff() {
 }
 void DungeonEditor::printStatusLine() {
 
-	init_pair(1,COLOR_BLACK,COLOR_RED);
-	wattron(headerWindow,COLOR_PAIR(1));
+	
+	setcolors(headerWindow,3,COLOR_BLACK,COLOR_RED);	
 	wclear(headerWindow);
 	mvwprintwCenter(headerWindow,0,header);
 	wclrtoeol(headerWindow);
-	wattroff(headerWindow,COLOR_PAIR(1));
+	
 }
 
