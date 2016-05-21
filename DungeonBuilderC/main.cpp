@@ -5,8 +5,8 @@
 using namespace std;
 
 void curses_init()
-{
-	initscr();
+{	
+	initscr();	
 	noecho();
 	cbreak();
 	keypad(stdscr,true);
@@ -15,10 +15,9 @@ void curses_init()
 
 int main(int argc,char* argv[])
 {
-	editor e = editor();
-
 	curses_init();
-
+	editor e = editor();
+		
 	e.edit("Dungeon Editor","Start");
 	
 	endwin();

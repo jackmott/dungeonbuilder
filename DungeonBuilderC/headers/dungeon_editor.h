@@ -42,12 +42,12 @@ struct editor
 		appendLine("");
 		headerWindow = newwin(1,COLS,0,0);		
 		mainWindow = newwin(LINES-1,COLS,1,0);
-
+		getmaxyx(stdscr,h,w); //why the fuck doesn't this work?
 				
 		refresh();		
 		wrefresh(headerWindow);								
 		wrefresh(mainWindow);
-		getmaxyx(stdscr,h,w);
+		
 
 		for(string::size_type i = 0; i < startText.length();i++)
 		{
@@ -56,12 +56,13 @@ struct editor
 
 		while(!done)
 		{				
-			getmaxyx(stdscr,h,w); //this isn't working!
+			
 			
 			printBuff();						
 			printStatusLine();							
+			
 			wrefresh(headerWindow);																						
-			int input = wgetch(mainWindow);			
+			int input = wgetch(mainWindow);									
 			handleInput(input);
 		}
 		string result;
@@ -137,7 +138,7 @@ struct editor
 		
 	void handleInput(int c) {
 		switch(c)
-		{
+		{		
 		case KEY_LEFT:
 			moveLeft();
 			break;
@@ -241,7 +242,7 @@ struct editor
 		
 		init_pair(1,COLOR_BLACK,COLOR_RED);
 		wattron(headerWindow,COLOR_PAIR(1));		
-
+		wclear(headerWindow);
 		mvwprintw(headerWindow,0,(w-header.length())/2,header.c_str());
 		wclrtoeol(headerWindow);		
 		wattroff(headerWindow,COLOR_PAIR(1));

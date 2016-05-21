@@ -1,7 +1,5 @@
 /* Public Domain Curses */
 
-/* $Id: panel.h,v 1.19 2008/07/13 16:08:16 wmcbrine Exp $ */
-
 /*----------------------------------------------------------------------*
  *                         Panels for PDCurses                          *
  *----------------------------------------------------------------------*/
@@ -9,7 +7,7 @@
 #ifndef __PDCURSES_PANEL_H__
 #define __PDCURSES_PANEL_H__ 1
 
-#include "curses.h"
+#include <curses.h>
 
 #if defined(__cplusplus) || defined(__cplusplus__) || defined(__CPLUSPLUS)
 extern "C"
