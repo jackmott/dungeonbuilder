@@ -8,7 +8,7 @@ using namespace std;
 void curses_init()
 {	
 	initscr();	
-	echo();
+	noecho();
 	cbreak();
 	keypad(stdscr,true);
 	start_color();

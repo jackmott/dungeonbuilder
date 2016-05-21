@@ -19,16 +19,18 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="dungeon_editor.cpp">
+    </ClCompile>
+    <ClInclude Include="headers\command_window.hpp" />
     <ClInclude Include="headers\main_menu.hpp" />
-    <ClInclude Include="headers\parser.hpp" />
+    <ClCompile Include="command_window.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\curses.h" />
     <ClInclude Include="headers\dungeon_editor.hpp" />
-    <ClInclude Include="headers\panel.hpp" />
+    <ClInclude Include="headers\panel.h" />
     <ClCompile Include="main_menu.cpp" />
-    <ClCompile Include="parser.cpp" />
     <ClInclude Include="headers\printutlls.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

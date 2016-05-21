@@ -3,14 +3,15 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="main_menu.cpp" />
-    <ClCompile Include="parser.cpp" />
+    <ClCompile Include="dungeon_editor.cpp" />
+    <ClCompile Include="command_window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\curses.h" />
     <ClInclude Include="headers\printutlls.hpp" />
-    <ClInclude Include="headers\panel.hpp" />
     <ClInclude Include="headers\dungeon_editor.hpp" />
     <ClInclude Include="headers\main_menu.hpp" />
-    <ClInclude Include="headers\parser.hpp" />
+    <ClInclude Include="headers\command_window.hpp" />
+    <ClInclude Include="headers\panel.h" />
   </ItemGroup>
 </Project>
