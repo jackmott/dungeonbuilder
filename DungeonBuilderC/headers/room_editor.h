@@ -5,6 +5,8 @@
 #include <string>
 #include <sstream>
 #include <map>
+#include <algorithm>
+#include <iostream>
 #include "headers/command_window.h"
 #include "headers/dungeon_editor.h"
 #include "headers/printutils.h"
@@ -15,9 +17,10 @@ using namespace std;
 
 struct RoomEditor
 {
-	typedef void (RoomEditor::*commandFunction) (vector<string>);			
+	typedef string (RoomEditor::*commandFunction) (vector<string>);			
 	map<string,commandFunction> cmdMap;
 
+	DungeonRoom room;
 	WINDOW *responseWindow;
 	WINDOW *commandWindow;
 	WINDOW *mainWindow;
@@ -25,11 +28,12 @@ struct RoomEditor
 	int w,h;
 
 	
-	void reset();
+	void clearWindows();
+	void resetWindows();
 	void load(DungeonRoom room);
 
-	void edit(vector<string> args);
-	void exit(vector<string> args);
+	string edit(vector<string> args);
+	string exit(vector<string> args);
 	
 };
 

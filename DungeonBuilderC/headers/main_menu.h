@@ -26,8 +26,9 @@ struct MainMenu
 	int w,h;
 
 	void create(vector<string> args);
-	void exit(vector<string> args);
-	void reset();
+	void exitMenu(vector<string> args);
+	void clearWindows();
+	void resetWindows();
 	void load();
 	
 };
