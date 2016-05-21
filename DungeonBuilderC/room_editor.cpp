@@ -10,8 +10,40 @@ string RoomEditor::exit(vector<string> args)
 
 string RoomEditor::edit(vector<string> args)
 {
-	//DungeonEditor ed;
-	//ed.edit(room.name,room.description);
+	if(args.size() < 2)
+	{
+		return "What do you want to edit?";
+	}
+	string editNoun = args[1];
+	toLower(&editNoun);
+
+	if(editNoun == "name")	
+	{
+		//set it directly or go to editor
+		if(args.size() < 3) {
+			return "Please supply the name directly in the command";
+		}
+		else
+		{
+			string newname = join(2,args," ");
+			room.name = newname;
+			clearWindows();
+			resetWindows();
+			return "";
+		}
+
+	}
+	else if(editNoun == "description")
+	{
+		DungeonEditor ed;
+		string newdesc = ed.edit("Editing Description For Room:"+room.name,room.description);
+		room.description = newdesc;
+		clearWindows();
+		resetWindows();
+		return "";
+	}
+
+
 	return "test";
 }
 
@@ -42,6 +74,7 @@ void RoomEditor::resetWindows()
 	string nameRow = "[Name]" + room.name;
 	mvwprintwCenter(mainWindow,2,nameRow);
 	string descRow = "[Description] " + room.description.substr(0,min(30,(int)room.description.length()));
+	if (30 < room.description.length()) descRow += "...";
 	mvwprintwCenter(mainWindow,3,descRow.c_str());
 
 	wrefresh(mainWindow);
