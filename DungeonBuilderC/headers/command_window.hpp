@@ -6,7 +6,7 @@
 #include <algorithm>
 #include <string>
 #include <sstream>
-
+#include <vector>
 using namespace std;
 
 struct CommandWindow
@@ -19,7 +19,7 @@ struct CommandWindow
 	string prompt;
 				
 	void reset();	
-	string command(WINDOW* _window,string prompt);				
+	vector<string> command(WINDOW* _window,string prompt);				
 	void moveLeft();
 	void moveRight();			
 	bool handleInput(int c);

@@ -2,14 +2,16 @@
 #include "headers/command_window.hpp"
 #include "headers/dungeon_editor.hpp"
 #include "headers/printutlls.hpp"
+#include "headers/utils.hpp"
+
 using namespace std;
 
-void exit()
+void exit(vector<string> args)
 {
 
 }
 
-void create()
+void create(vector<string> args)
 {
 	DungeonEditor ed;
 	ed.edit("Empty Room","Empty Room");
@@ -51,19 +53,24 @@ void mainMenu::load()
 
 	CommandWindow cmdW;
 	bool cmdFound = false;
-	string cmd;
+	vector<string> cmd;
 	while (!cmdFound) {
 		cmd = cmdW.command(commandWindow,":");
-		cmdFound = cmdMap.count(cmd) > 0;		
+		if (cmd.size() > 0) {
+			toLower(&cmd[0]);
+			cmdFound = cmdMap.count(cmd[0]) > 0;		
+		}
 		if(!cmdFound) {
+			cmd.clear();
 			mvwprintw(responseWindow,0,0,"What are you doing, dave?");
 			wclrtoeol(responseWindow);
 			wrefresh(responseWindow);
 		}
 	}
 
-	commandFunction cmdFunc = cmdMap[cmd];
-	cmdFunc();
+	commandFunction cmdFunc = cmdMap[cmd[0]];
+		
+	cmdFunc(cmd);
 
 
 	reset();

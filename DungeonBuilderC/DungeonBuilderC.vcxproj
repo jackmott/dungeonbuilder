@@ -21,12 +21,14 @@
   <ItemGroup>
     <ClCompile Include="dungeon_editor.cpp">
     </ClCompile>
+    <ClCompile Include="utils.cpp" />
     <ClInclude Include="headers\command.hpp" />
     <ClInclude Include="headers\command_window.hpp" />
     <ClInclude Include="headers\main_menu.hpp" />
     <ClCompile Include="command_window.cpp" />
     <ClCompile Include="printutils.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClInclude Include="headers\utils.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\curses.h" />

@@ -1,4 +1,6 @@
 #include "headers/command_window.hpp"
+#include "headers/utils.hpp"
+
 using namespace std;
 
 void CommandWindow::reset(){
@@ -6,7 +8,7 @@ void CommandWindow::reset(){
 	
 }
 
-string CommandWindow::command(WINDOW* _window,string _prompt) {
+vector<string> CommandWindow::command(WINDOW* _window,string _prompt) {
 	
 	input = "";
 	prompt = _prompt;
@@ -23,8 +25,9 @@ string CommandWindow::command(WINDOW* _window,string _prompt) {
 		done = handleInput(c);
 	}
 	reset();
-	string result = input;
-	transform(result.begin(),result.end(),result.begin(),tolower);
+	
+	vector<string> result = split(input,' ');
+
 	return result;
 	
 }

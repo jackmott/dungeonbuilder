@@ -6,6 +6,7 @@
     <ClCompile Include="dungeon_editor.cpp" />
     <ClCompile Include="command_window.cpp" />
     <ClCompile Include="printutils.cpp" />
+    <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\curses.h" />
@@ -15,5 +16,6 @@
     <ClInclude Include="headers\command_window.hpp" />
     <ClInclude Include="headers\panel.h" />
     <ClInclude Include="headers\command.hpp" />
+    <ClInclude Include="headers\utils.hpp" />
   </ItemGroup>
 </Project>
