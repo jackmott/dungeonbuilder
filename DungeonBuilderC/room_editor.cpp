@@ -42,9 +42,38 @@ string RoomEditor::edit(vector<string> args)
 		resetWindows();
 		return "";
 	}
+	else
+	{
+		return "I don't know how to edit that";
+	}
 
 
-	return "test";
+	
+}
+
+string RoomEditor::create(vector<string> args)
+{
+	if(args.size() < 2) {
+		return "What do you want to create?";
+	}
+
+	string createNoun = args[1];
+	toLower(&createNoun);
+
+	if(createNoun == "exit") {		
+		return "create an exit";
+	}
+	else if(createNoun == "creature")
+	{
+		return "create a creature";
+	} 
+	else if(createNoun == "object")
+	{
+		return "create an object";
+	}
+	else {
+		return "I don't know how to create that";
+	}
 }
 
 
@@ -86,6 +115,7 @@ void RoomEditor::load(DungeonRoom _room)
 	room = _room;
 	cmdMap["edit"] = &RoomEditor::edit;
 	cmdMap["exit"] = &RoomEditor::exit;
+	cmdMap["create"] = &RoomEditor::create;
 
 	resetWindows();
 
