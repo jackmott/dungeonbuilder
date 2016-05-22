@@ -7,6 +7,7 @@
 #include <string>
 #include <sstream>
 #include <map>
+#include <fstream>
 #include "headers/printutils.h"
 #include "headers/command_window.h"
 #include "headers/utils.h"
@@ -25,9 +26,10 @@ struct MainMenu
 
 	int w,h;
 
-	void create(vector<string> args);
-	void exitMenu(vector<string> args);
+	void create(vector<string>);
+	void exitMenu(vector<string>);
 	void clearWindows();
+	string saveMap(vector<string>);
 	void resetWindows();
 	void load();
 	

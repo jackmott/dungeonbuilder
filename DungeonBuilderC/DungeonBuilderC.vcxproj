@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="creature_editor.cpp" />
+    <ClCompile Include="dungeon_data.cpp" />
     <ClCompile Include="dungeon_editor.cpp">
     </ClCompile>
     <ClCompile Include="exit_editor.cpp" />

@@ -35,6 +35,10 @@ void MainMenu::clearWindows()
 	delwin(mainWindow);
 }
 
+string MainMenu::loadMap(vector<string> args) {
+	if ( args.size < 2 )
+}
+
 void MainMenu::resetWindows()
 {
 	commandWindow = newwin(1,COLS,LINES-1,0);
