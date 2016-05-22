@@ -6,6 +6,9 @@ using namespace std;
 
 DungeonRoom *g_startRoom;
 vector<DungeonRoom*> g_roomList;
+int global_id = 0;
+
+int getUID() { return global_id++; }
 
 
 void MainMenu::exitMenu(vector<string> args)
@@ -23,6 +26,7 @@ void MainMenu::create(vector<string> args)
 	RoomEditor ed;
 	g_startRoom = new DungeonRoom();
 	g_roomList.push_back(g_startRoom);
+	g_startRoom->uid = getUID();
 	g_startRoom->name = "Default Name";
 	g_startRoom->description = "Default Description";
 	clearWindows();
@@ -44,7 +48,8 @@ void MainMenu::clearWindows()
 	delwin(mainWindow);
 }
 
-void MainMenu::saveMap(vector<string> args) {
+void MainMenu::saveMap(vector<string> args) 
+{
 
 	if (args.size() < 1)
 		mvwprintw(responseWindow, 0, 0, "Oops you need a file");
@@ -68,6 +73,9 @@ void MainMenu::saveMap(vector<string> args) {
 	wclrtoeol(responseWindow);
 	wrefresh(responseWindow);
 }
+
+void MainMenu::loadMap(vector<string> args)
+{}
 
 void MainMenu::resetWindows()
 {
