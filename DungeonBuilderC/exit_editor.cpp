@@ -57,7 +57,31 @@ string ExitEditor::edit(vector<string> args)
 
 string ExitEditor::create(vector<string> args)
 {
-	return "Create not implemented";
+	if(args.size() < 2) {
+		return "What do you want to create?";
+	}
+
+	if(args.size() < 3)
+	{
+		return "Provide name for the " + args[1];
+	}
+	string createNoun = args[1];
+
+	toLower(&createNoun);
+
+	if(createNoun == "room")
+	{
+		DungeonRoom* newRoom = new DungeonRoom();		
+		newRoom->name = join(2,args," ");
+		dungeonExit->room = newRoom;
+		g_roomList.push_back(newRoom);
+		clearWindows();
+		resetWindows();		
+		return "";
+	}
+	else {
+		return "I don't know how to create that";
+	}
 }
 
 
@@ -86,22 +110,22 @@ void ExitEditor::resetWindows()
 	setcolors(mainWindow,1,COLOR_RED,COLOR_BLACK);
 	mvwprintwCenter(mainWindow,1,"Exit Editor");
 	setcolor(mainWindow,2,COLOR_WHITE);
-	string nameRow = "[Set][Name]" + dungeonExit->name;
+	string nameRow = "[Set](Name):" + dungeonExit->name;
 	mvwprintw(mainWindow,3,0,nameRow.c_str());
-	string descRow = "[Edit][Description] " + dungeonExit->description.substr(0,min(MAX_EDITOR_PRINT_WIDTH,(int)dungeonExit->description.length()));
-	if(MAX_EDITOR_PRINT_WIDTH < dungeonExit->description.length()) descRow += "...";
-
-	string roomRow = "[Edit/Set/New][Room] " + dungeonExit->room->name;
-	mvwprintw(mainWindow,4,0,roomRow.c_str());
+	string descRow = "[Set/Edit](Description): " + dungeonExit->description;
+	mvwprintw(mainWindow,4,0,descRow.c_str());
+	string roomRow = "[Set/Edit/New](Room):" + dungeonExit->room->name;
+	mvwprintw(mainWindow,5,0,roomRow.c_str());
 
 
 	wrefresh(mainWindow);
 
 }
 
-DungeonRoom* ExitEditor::load(DungeonExit *_dungeonExit)
+DungeonRoom* ExitEditor::load(DungeonExit *_dungeonExit, DungeonRoom *_fromRoom)
 {
 	dungeonExit = _dungeonExit;
+	fromRoom = _fromRoom;
 	cmdMap["edit"] = &ExitEditor::edit;
 	cmdMap["exit"] = &ExitEditor::exit;
 	cmdMap["create"] = &ExitEditor::create;
@@ -134,7 +158,7 @@ DungeonRoom* ExitEditor::load(DungeonExit *_dungeonExit)
 			}
 			else if(response == "exit")
 			{
-				return dungeonExit->room;
+				return fromRoom;
 			}
 			if(response.length() > 0) {
 				cmd.clear();

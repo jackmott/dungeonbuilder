@@ -8,6 +8,35 @@ string RoomEditor::exit(vector<string> args)
 	return "exit";
 }
 
+string RoomEditor::set(vector<string> args)
+{
+	if(args.size() < 2)
+	{
+		return "What do you want to edit?";
+	}
+	if(args.size() < 3) {
+		return "Please supply the name directly in the command";
+	}
+	string editNoun = args[1];
+	toLower(&editNoun);
+	if (editNoun == "name")
+	{
+		string newname = join(2,args," ");
+		room->name = newname;
+		clearWindows();
+		resetWindows();
+		return "";
+	}
+	else if(editNoun == "desc" || editNoun == "description")
+	{
+		string desc = join(2,args," ");
+		room->description = desc;
+		clearWindows();
+		resetWindows();
+		return "";
+	}
+}
+
 string RoomEditor::edit(vector<string> args)
 {
 	if(args.size() < 2)
@@ -17,28 +46,16 @@ string RoomEditor::edit(vector<string> args)
 	string editNoun = args[1];
 	toLower(&editNoun);
 
-	if(editNoun == "name")	
+	if(editNoun == "name")
 	{
-		//set it directly or go to editor
-		if(args.size() < 3) {
-			return "Please supply the name directly in the command";
-		}
-		else
-		{
-			string newname = join(2,args," ");
-			room->name = newname;
-			clearWindows();
-			resetWindows();
-			return "";
-		}
-
+		return set(args);
 	}
 	else if(editNoun == "description" || editNoun == "desc")
 	{
 		DungeonEditor ed;
 		clearWindows();
 		string newdesc = ed.edit("Editing Description For Room:"+room->name,room->description);
-		room->description = newdesc;		
+		room->description = newdesc;
 		resetWindows();
 		return "";
 	}
@@ -46,7 +63,7 @@ string RoomEditor::edit(vector<string> args)
 	{
 		return "I don't know how to edit that";
 	}
-	
+
 }
 
 string RoomEditor::create(vector<string> args)
@@ -63,23 +80,23 @@ string RoomEditor::create(vector<string> args)
 
 	toLower(&createNoun);
 
-	
+
 	if(createNoun == "creature")
-	{		
+	{
 		CreatureEditor editor;
-		DungeonCreature* creature = new DungeonCreature();		
-		creature->name = join(2,args," ");		
+		DungeonCreature* creature = new DungeonCreature();
+		creature->name = join(2,args," ");
 		clearWindows();
 		editor.load(creature);
 		room->creatures.push_back(creature);
 		resetWindows();
 		return "";
-	} 
+	}
 	else if(createNoun == "object")
 	{
 		ObjectEditor oe;
-		DungeonObject* o = new DungeonObject();		
-		o->name = join(2,args," ");		
+		DungeonObject* o = new DungeonObject();
+		o->name = join(2,args," ");
 		clearWindows();
 		oe.load(o);
 		room->objects.push_back(o);
@@ -94,7 +111,7 @@ string RoomEditor::create(vector<string> args)
 		e->room = g_startRoom;
 		e->name = join(2,args," ");
 		clearWindows();
-		DungeonRoom* newRoom = editor.load(e);		
+		DungeonRoom* newRoom = editor.load(e,room);
 		room->exits.push_back(e);
 		if(newRoom != NULL)
 		{
@@ -124,7 +141,7 @@ void RoomEditor::resetWindows()
 	mainWindow = newwin(LINES-2,COLS-8,0,4);
 	scrollok(mainWindow,TRUE);
 	getmaxyx(stdscr,h,w); // this doesn't work in windows
-	
+
 	int lineCount = 3;
 
 	int done = false;
@@ -136,10 +153,10 @@ void RoomEditor::resetWindows()
 	mvwprintw(mainWindow,lineCount,0,nameRow.c_str());
 
 	lineCount++;
-	string descRow = "[Set/Edit](Desc) " + room->description;	
+	string descRow = "[Set/Edit](Desc) " + room->description;
 	mvwprintw(mainWindow,lineCount,0,descRow.c_str());
 
-	lineCount++;	
+	lineCount++;
 	lineCount++;
 	mvwprintw(mainWindow,lineCount,0,"[Create/Delete/Edit](Object):");
 	for(int i = 0; i < room->objects.size(); i++)
@@ -148,7 +165,7 @@ void RoomEditor::resetWindows()
 		string row = room->objects[i]->name;
 		mvwprintw(mainWindow,lineCount,2,row.c_str());
 	}
-		
+
 	lineCount++;
 	mvwprintw(mainWindow,lineCount,0,"[Create/Delete/Edit](Creatures):");
 	for(int i =0; i < room->creatures.size(); i++)
@@ -157,8 +174,8 @@ void RoomEditor::resetWindows()
 		string row = room->creatures[i]->name;
 		mvwprintw(mainWindow,lineCount,2,row.c_str());
 	}
-	
-	lineCount++;	
+
+	lineCount++;
 	mvwprintw(mainWindow,lineCount,0,"[Create/Delete/Edit](Exits): ");
 	for(int i =0; i < room->exits.size(); i++)
 	{
@@ -166,7 +183,7 @@ void RoomEditor::resetWindows()
 		string row = room->exits[i]->name + "->" + room->exits[i]->room->name;
 		mvwprintw(mainWindow,lineCount,2,row.c_str());
 	}
-	
+
 	refresh();
 	wrefresh(commandWindow);
 	wrefresh(responseWindow);
@@ -178,6 +195,7 @@ void RoomEditor::load(DungeonRoom *_room)
 {
 	room = _room;
 	cmdMap["edit"] = &RoomEditor::edit;
+	cmdMap["set"] = &RoomEditor::set;
 	cmdMap["exit"] = &RoomEditor::exit;
 	cmdMap["create"] = &RoomEditor::create;
 
@@ -200,7 +218,7 @@ void RoomEditor::load(DungeonRoom *_room)
 		}
 		else
 		{
-			if (cmd[0] == "exit") break;
+			if(cmd[0] == "exit") break;
 			commandFunction cmdFunc = cmdMap[cmd[0]];
 			string response = (this->*cmdFunc)(cmd);
 			if(response.length() > 0) {
