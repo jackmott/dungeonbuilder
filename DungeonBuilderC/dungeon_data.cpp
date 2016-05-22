@@ -35,15 +35,20 @@ string DungeonRoom::toString()
 string DungeonExit::toString()
 {
 	ostringstream sout;
+	sout << "\"Name\":\"" << name << "\", \"Description\":\"" << description 
+		 << "\", \"links\":" << room->uid;
 	return sout.str();
 }
 string DungeonObject::toString()
 {
 	ostringstream sout;
+	sout << "\"Name\":\"" << name << "\", \"Description\":\"" << description << "\"";
 	return sout.str();
 }
 string DungeonCreature::toString()
 {
 	ostringstream sout;
+	sout << "\"Name\":\"" << name << "\", \"Description\":\"" << description
+		 << "\", \"hitpoints\":" << hitpoints << ", \"Alignment\":" << alignment;
 	return sout.str();
 }
