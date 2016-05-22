@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="creature_editor.cpp" />
+    <ClCompile Include="dungeon_display.cpp" />
     <ClCompile Include="dungeon_data.cpp" />
     <ClCompile Include="room_player.cpp" />
     <ClCompile Include="text_editor.cpp">
@@ -32,6 +33,7 @@
     <ClInclude Include="headers\creature_editor.h" />
     <ClInclude Include="headers\dungeon_data.h" />
     <ClInclude Include="headers\exit_editor.h" />
+    <ClInclude Include="headers\dungeon_display.h" />
     <ClInclude Include="headers\main_menu.h" />
     <ClCompile Include="command_window.cpp" />
     <ClCompile Include="printutils.cpp" />

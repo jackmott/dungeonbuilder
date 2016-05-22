@@ -35,6 +35,9 @@ string RoomEditor::set(vector<string> args)
 		resetWindows();
 		return "";
 	}
+	else {
+		return "I don't know how to set that";
+	}
 }
 
 string RoomEditor::edit(vector<string> args)
@@ -158,7 +161,7 @@ void RoomEditor::resetWindows()
 	lineCount++;
 	lineCount++;
 	mvwprintw(mainWindow,lineCount,0,"[Create/Delete/Edit](Object):");
-	for(int i = 0; i < room->objects.size(); i++)
+	for(auto i= 0u; i < room->objects.size(); i++)
 	{
 		lineCount++;
 		string row = room->objects[i]->name;
@@ -167,7 +170,7 @@ void RoomEditor::resetWindows()
 
 	lineCount++;
 	mvwprintw(mainWindow,lineCount,0,"[Create/Delete/Edit](Creatures):");
-	for(int i =0; i < room->creatures.size(); i++)
+	for(auto i=0u; i < room->creatures.size(); i++)
 	{
 		lineCount++;
 		string row = room->creatures[i]->name;
@@ -176,7 +179,7 @@ void RoomEditor::resetWindows()
 
 	lineCount++;
 	mvwprintw(mainWindow,lineCount,0,"[Create/Delete/Edit](Exits): ");
-	for(int i =0; i < room->exits.size(); i++)
+	for(auto i=0u; i < room->exits.size(); i++)
 	{
 		lineCount++;
 		string row = room->exits[i]->name + "->" + room->exits[i]->room->name;
