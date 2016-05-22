@@ -24,7 +24,7 @@ string DungeonEditor::edit(string _header,string startText)
 	headerWindow = newwin(1,COLS,0,0);
 	mainWindow = newwin(LINES-1,COLS,1,0);
 	keypad(mainWindow,true);   //turns on arrows and f keys
-	getmaxyx(stdscr,h,w); //why the fuck doesn't this work?
+	getmaxyx(stdscr,h,w); // this doesn't work in windows
 
 	refresh();
 	wrefresh(headerWindow);

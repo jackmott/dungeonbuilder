@@ -69,7 +69,7 @@ void ExitEditor::resetWindows()
 	commandWindow = newwin(1,COLS,LINES-1,0);
 	responseWindow = newwin(1,COLS,LINES-2,0);
 	mainWindow = newwin(LINES-2,COLS-8,0,4);
-	getmaxyx(stdscr,h,w); //why the fuck doesn't this work?
+	getmaxyx(stdscr,h,w); // this doesn't work in windows
 	refresh();
 
 	wrefresh(commandWindow);
@@ -80,13 +80,16 @@ void ExitEditor::resetWindows()
 	string command;
 
 	setcolors(mainWindow,1,COLOR_RED,COLOR_BLACK);
-	mvwprintwCenter(mainWindow,1,"Object Editor");
+	mvwprintwCenter(mainWindow,1,"Exit Editor");
 	setcolor(mainWindow,2,COLOR_WHITE);
 	string nameRow = "[Name]" + dungeonExit->name;
 	mvwprintw(mainWindow,3,0,nameRow.c_str());
 	string descRow = "[Description] " + dungeonExit->description.substr(0,min(MAX_EDITOR_PRINT_WIDTH,(int)dungeonExit->description.length()));
 	if (MAX_EDITOR_PRINT_WIDTH < dungeonExit->description.length()) descRow += "...";
-	mvwprintw(mainWindow,4,0,descRow.c_str());
+
+	string roomRow = "[Room] " + dungeonExit->room->name;
+	mvwprintw(mainWindow,4,0,roomRow.c_str());
+	
 
 	wrefresh(mainWindow);
 

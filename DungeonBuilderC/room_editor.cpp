@@ -63,10 +63,8 @@ string RoomEditor::create(vector<string> args)
 
 	toLower(&createNoun);
 
-	if(createNoun == "exit") {		
-		return "create an exit";
-	}
-	else if(createNoun == "creature")
+	
+	if(createNoun == "creature")
 	{		
 		CreatureEditor editor;
 		DungeonCreature* creature = new DungeonCreature();		
@@ -93,11 +91,13 @@ string RoomEditor::create(vector<string> args)
 	{
 		ExitEditor editor;
 		DungeonExit * e = new DungeonExit();
+		e->room = g_startRoom;
 		e->name = join(2,args," ");
 		clearWindows();
 		editor.load(e);
 		room->exits.push_back(e);
 		resetWindows();
+		return "";
 	}
 	else {
 		return "I don't know how to create that";
@@ -118,7 +118,7 @@ void RoomEditor::resetWindows()
 	commandWindow = newwin(1,COLS,LINES-1,0);
 	responseWindow = newwin(1,COLS,LINES-2,0);
 	mainWindow = newwin(LINES-2,COLS-8,0,4);
-	getmaxyx(stdscr,h,w); //why the fuck doesn't this work?
+	getmaxyx(stdscr,h,w); // this doesn't work in windows
 	
 	
 
@@ -136,16 +136,23 @@ void RoomEditor::resetWindows()
 	string objectRow = "[Objects] ";
 	for(int i = 0; i < room->objects.size(); i++)
 	{
-		objectRow = objectRow+ room->objects[i]->name + " ";
+		objectRow = objectRow+ room->objects[i]->name + ", ";
 	}
 	mvwprintw(mainWindow,5,0,objectRow.c_str());
 
 	string creatureRow ="[Creatures] ";
 	for(int i =0; i < room->creatures.size(); i++)
 	{
-		creatureRow = creatureRow + room->creatures[i]->name + " ";
+		creatureRow = creatureRow + room->creatures[i]->name + ",";
 	}
 	mvwprintw(mainWindow,6,0,creatureRow.c_str());
+
+	string exitRow ="[Exits] ";
+	for(int i =0; i < room->exits.size(); i++)
+	{
+		exitRow = exitRow + room->exits[i]->name + ",";
+	}
+	mvwprintw(mainWindow,7,0,exitRow.c_str());
 	refresh();
 	wrefresh(commandWindow);
 	wrefresh(responseWindow);

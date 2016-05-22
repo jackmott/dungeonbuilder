@@ -17,8 +17,10 @@
 #include "headers/utils.h";
 #include "headers/dungeon_data.h"
 
-using namespace std;
 
+using namespace std;
+extern DungeonRoom *g_startRoom;
+extern vector<DungeonRoom*> g_roomList;
 struct RoomEditor
 {
 	typedef string (RoomEditor::*commandFunction) (vector<string>);			

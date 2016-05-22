@@ -16,7 +16,7 @@ vector<string> CommandWindow::command(WINDOW* _window,string _prompt) {
 	x = prompt.length();
 	done = false;
 				
-	w = getmaxx(window); //why the fuck doesn't this work?
+	w = getmaxx(window); //This doesn't update in windows
 		
 	while(!done)
 	{
