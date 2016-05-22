@@ -21,6 +21,8 @@ struct RoomPlayer
 	map<string,DungeonRoom*> moveMap;
 
 	DungeonRoom *room;
+	DungeonPlayer *player;
+
 	WINDOW *headerWindow;
 	WINDOW *responseWindow;
 	WINDOW *commandWindow;
@@ -30,7 +32,7 @@ struct RoomPlayer
 	
 	void clearWindows();
 	void resetWindows();
-	void load(DungeonRoom *_room);
+	void load(DungeonRoom *_room, DungeonPlayer *_player);
 
 	
 	string exit(vector<string> args);

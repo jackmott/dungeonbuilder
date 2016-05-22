@@ -59,8 +59,9 @@ void RoomPlayer::resetWindows()
 
 }
 
-void RoomPlayer::load(DungeonRoom *_room)
+void RoomPlayer::load(DungeonRoom *_room, DungeonPlayer *_player)
 {
+	player = _player;
 	room = _room;
 	cmdMap["exit"] = &RoomPlayer::exit;
 	for(int i = 0; i < room->exits.size();i++)

@@ -3,6 +3,7 @@
 using namespace std;
 
 DungeonRoom *g_startRoom;
+DungeonPlayer *g_player;
 vector<DungeonRoom*> g_roomList;
 
 
@@ -31,7 +32,8 @@ void MainMenu::create(vector<string> args)
 void MainMenu::play(vector<string> args)
 {
 	RoomPlayer rp;
-	rp.load(g_startRoom);
+	g_player = new DungeonPlayer();
+	rp.load(g_startRoom,g_player);
 	resetWindows();
 }
 
