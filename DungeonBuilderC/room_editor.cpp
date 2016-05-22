@@ -93,6 +93,7 @@ void RoomEditor::clearWindows()
 	delwin(commandWindow);
 	delwin(responseWindow);
 	delwin(mainWindow);
+	clear();
 }
 
 void RoomEditor::resetWindows()

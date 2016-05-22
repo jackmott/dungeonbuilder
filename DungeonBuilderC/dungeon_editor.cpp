@@ -3,7 +3,7 @@
 using namespace std;
 
 
-void DungeonEditor::reset()
+void DungeonEditor::clearWindows()
 {
 	x = 0;
 	y = 0;
@@ -12,6 +12,7 @@ void DungeonEditor::reset()
 	lines.clear();
 	delwin(headerWindow);
 	delwin(mainWindow);
+	clear();
 }
 
 string DungeonEditor::edit(string _header,string startText)
@@ -51,7 +52,7 @@ string DungeonEditor::edit(string _header,string startText)
 	{
 		result = result + lines[i];
 	}
-	reset();
+	clearWindows();
 	return result;
 }
 
