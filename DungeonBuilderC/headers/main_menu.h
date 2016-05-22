@@ -34,6 +34,7 @@ struct MainMenu
 	void exitMenu(vector<string> args);
 	void clearWindows();
 	void saveMap(vector<string> args);
+	void loadMap(vector<string> args);
 	void resetWindows();
 	void load();
 	
