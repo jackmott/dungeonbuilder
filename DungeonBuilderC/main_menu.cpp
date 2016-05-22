@@ -36,8 +36,17 @@ void MainMenu::clearWindows()
 	delwin(mainWindow);
 }
 
-string MainMenu::loadMap(vector<string> args) {
-	if ( args.size < 2 )
+void MainMenu::saveMap(vector<string> args) {
+	//argument is filename, check and make sure it exists
+	//and it can open.
+	if (args.size() < 2)
+		
+	ofstream fout(args[1].c_str());
+
+	//Why does it keep telling me fout does not exist?
+	/*fout << g_startRoom->toString();
+
+	fout.close();*/
 }
 
 void MainMenu::resetWindows()
@@ -69,6 +78,7 @@ void MainMenu::load()
 {
 	cmdMap["create"] = &MainMenu::create;
 	cmdMap["exit"] = &MainMenu::exitMenu;
+	cmdMap["save"] = &MainMenu::saveMap;
 
 	resetWindows();
 

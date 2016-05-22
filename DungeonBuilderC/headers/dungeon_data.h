@@ -12,6 +12,7 @@ struct DungeonCreature;
 
 struct DungeonRoom
 {
+	int uid;
 	string name;
 	string description;
 	vector<DungeonExit*> exits;
