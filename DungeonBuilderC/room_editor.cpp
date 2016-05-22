@@ -19,7 +19,7 @@ string RoomEditor::set(vector<string> args)
 	}
 	string editNoun = args[1];
 	toLower(&editNoun);
-	if (editNoun == "name")
+	if(editNoun == "name")
 	{
 		string newname = join(2,args," ");
 		room->name = newname;
@@ -52,7 +52,7 @@ string RoomEditor::edit(vector<string> args)
 	}
 	else if(editNoun == "description" || editNoun == "desc")
 	{
-		DungeonEditor ed;
+		TextEditor ed;
 		clearWindows();
 		string newdesc = ed.edit("Editing Description For Room:"+room->name,room->description);
 		room->description = newdesc;
@@ -144,8 +144,7 @@ void RoomEditor::resetWindows()
 
 	int lineCount = 3;
 
-	int done = false;
-	string command;
+	
 	setcolors(mainWindow,1,COLOR_RED,COLOR_BLACK);
 	mvwprintwCenter(mainWindow,1,"Room Editor");
 	setcolor(mainWindow,2,COLOR_WHITE);
@@ -209,23 +208,24 @@ void RoomEditor::load(DungeonRoom *_room)
 		if(cmd.size() > 0) {
 			toLower(&cmd[0]);
 			cmdFound = cmdMap.count(cmd[0]) > 0;
-		}
-		if(!cmdFound) {
-			cmd.clear();
-			mvwprintw(responseWindow,0,0,"What are you doing, dave?");
-			wclrtoeol(responseWindow);
-			wrefresh(responseWindow);
-		}
-		else
-		{
-			if(cmd[0] == "exit") break;
-			commandFunction cmdFunc = cmdMap[cmd[0]];
-			string response = (this->*cmdFunc)(cmd);
-			if(response.length() > 0) {
+
+			if(!cmdFound) {
 				cmd.clear();
-				mvwprintw(responseWindow,0,0,response.c_str());
+				mvwprintw(responseWindow,0,0,"What are you doing, dave?");
 				wclrtoeol(responseWindow);
 				wrefresh(responseWindow);
+			}
+			else
+			{
+				if(cmd[0] == "exit") break;
+				commandFunction cmdFunc = cmdMap[cmd[0]];
+				string response = (this->*cmdFunc)(cmd);
+				if(response.length() > 0) {
+					cmd.clear();
+					mvwprintw(responseWindow,0,0,response.c_str());
+					wclrtoeol(responseWindow);
+					wrefresh(responseWindow);
+				}
 			}
 		}
 	}

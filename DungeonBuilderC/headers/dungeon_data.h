@@ -38,3 +38,13 @@ struct DungeonCreature
 	int hitpoints;
 	int alignment;
 };
+
+struct DungeonPlayer
+{
+	string name;
+	string description;
+	int hitpoints;
+	int score;
+	vector<DungeonObject*> objects;
+	DungeonRoom* location;
+};

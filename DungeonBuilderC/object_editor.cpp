@@ -35,7 +35,7 @@ string ObjectEditor::edit(vector<string> args)
 	}
 	else if(editNoun == "description")
 	{
-		DungeonEditor ed;
+		TextEditor ed;
 		string newdesc = ed.edit("Editing Description For Object:"+object->name,object->description);
 		object->description = newdesc;
 		clearWindows();

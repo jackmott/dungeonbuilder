@@ -1,9 +1,9 @@
-#include "headers/dungeon_editor.h"
+#include "headers/text_editor.h"
 
 using namespace std;
 
 
-void DungeonEditor::clearWindows()
+void TextEditor::clearWindows()
 {
 	x = 0;
 	y = 0;
@@ -15,7 +15,7 @@ void DungeonEditor::clearWindows()
 	clear();
 }
 
-string DungeonEditor::edit(string _header,string startText)
+string TextEditor::edit(string _header,string startText)
 {
 	header = _header;
 	x = 0;
@@ -57,7 +57,7 @@ string DungeonEditor::edit(string _header,string startText)
 }
 
 
-string DungeonEditor::remTabs(string line) {
+string TextEditor::remTabs(string line) {
 	int tab = line.find("\t");
 	if(tab == line.npos)
 		return line;
@@ -65,42 +65,42 @@ string DungeonEditor::remTabs(string line) {
 		return remTabs(line.replace(tab,1,"    "));
 }
 
-void DungeonEditor::insertLine(string line,int n) {
+void TextEditor::insertLine(string line,int n) {
 	line = remTabs(line);
 	lines.insert(lines.begin()+n,line);
 }
 
-void DungeonEditor::appendLine(string line) {
+void TextEditor::appendLine(string line) {
 	line = remTabs(line);
 	lines.push_back(line);
 }
 
-void DungeonEditor::removeLine(int n) {
+void TextEditor::removeLine(int n) {
 	lines.erase(lines.begin()+n);
 }
 
-void DungeonEditor::moveLeft() {
+void TextEditor::moveLeft() {
 	if(x-1 >= 0)
 	{
 		x--;
 		wmove(mainWindow,y,x);
 	}
 }
-void DungeonEditor::moveRight() {
+void TextEditor::moveRight() {
 	if(x+y < w && x+1 <= lines[y].length())
 	{
 		x++;
 		wmove(mainWindow,y,x);
 	}
 }
-void DungeonEditor::moveUp() {
+void TextEditor::moveUp() {
 	if(y-1 >= 0)
 		y--;
 	if(x >= lines[y].length())
 		x = lines[y].length();
 	wmove(mainWindow,y,x);
 }
-void DungeonEditor::moveDown() {
+void TextEditor::moveDown() {
 
 	if(y+1 < h-1 && y+1 < lines.size())
 		y++;
@@ -110,15 +110,15 @@ void DungeonEditor::moveDown() {
 }
 
 
-void DungeonEditor::deleteLine() {
+void TextEditor::deleteLine() {
 	removeLine(y);
 }
-void DungeonEditor::deleteLine(int n) {
+void TextEditor::deleteLine(int n) {
 	removeLine(n);
 }
 
 
-void DungeonEditor::handleInput(int c) {
+void TextEditor::handleInput(int c) {
 	switch(c)
 	{
 	case KEY_LEFT:
@@ -133,7 +133,7 @@ void DungeonEditor::handleInput(int c) {
 	case KEY_DOWN:
 		moveDown();
 		break;
-	case 27:
+	case 27: //escape key
 		done = 1;
 		break;
 	case 127:
@@ -205,7 +205,7 @@ void DungeonEditor::handleInput(int c) {
 		break;
 	}
 }
-void DungeonEditor::printBuff() {
+void TextEditor::printBuff() {
 	for(int i = 0; i < h-1; i++)
 	{
 		if(i >= lines.size())
@@ -221,7 +221,7 @@ void DungeonEditor::printBuff() {
 	}
 	wmove(mainWindow,y,x);
 }
-void DungeonEditor::printStatusLine() {
+void TextEditor::printStatusLine() {
 
 	
 	setcolors(headerWindow,3,COLOR_BLACK,COLOR_RED);	

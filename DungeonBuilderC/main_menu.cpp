@@ -38,9 +38,10 @@ void MainMenu::clearWindows()
 
 void MainMenu::resetWindows()
 {
+	clear();
 	commandWindow = newwin(1,COLS,LINES-1,0);
 	responseWindow = newwin(1,COLS,LINES-2,0);
-	mainWindow = newwin(LINES-2,COLS,0,0);
+	mainWindow = newwin(LINES-2,COLS-8,0,4);
 	getmaxyx(stdscr,h,w); // this doesn't work in windows
 	refresh();
 
@@ -54,8 +55,9 @@ void MainMenu::resetWindows()
 	setcolor(mainWindow,1,COLOR_RED);
 	mvwprintwCenter(mainWindow,3,"Dungeon Builder");
 	setcolor(mainWindow,2,COLOR_CYAN);
-	mvwprintwCenter(mainWindow,5,"[Create] a new Dungeon");
-	mvwprintwCenter(mainWindow,6,"[Exit] this world");
+	mvwprintw(mainWindow,5,0,"[Create] a Dungeon");
+	mvwprintw(mainWindow,6,0,"[Enter] Dungeon");
+	mvwprintw(mainWindow,7,0,"[Exit] this world");
 	wrefresh(mainWindow);
 
 

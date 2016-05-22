@@ -49,6 +49,9 @@ bool CommandWindow::handleInput(int c){
 		case KEY_ENTER:
 		case 10:			
 			return true;
+		case 27:  //escape key
+			input = "exit";
+			return true;			
 		default:
 			input.push_back((char)c);
 			x++;
