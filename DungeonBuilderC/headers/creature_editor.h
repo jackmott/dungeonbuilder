@@ -20,7 +20,8 @@ struct CreatureEditor
 	typedef string (CreatureEditor::*commandFunction) (vector<string>);			
 	map<string,commandFunction> cmdMap;
 
-	DungeonRoom room;
+	DungeonCreature *creature;
+
 	WINDOW *responseWindow;
 	WINDOW *commandWindow;
 	WINDOW *mainWindow;
@@ -30,7 +31,7 @@ struct CreatureEditor
 	
 	void clearWindows();
 	void resetWindows();
-	void load(DungeonRoom room);
+	void load(DungeonCreature *creature);
 
 	string edit(vector<string> args);
 	string exit(vector<string> args);

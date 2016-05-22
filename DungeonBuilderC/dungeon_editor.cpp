@@ -47,7 +47,7 @@ string DungeonEditor::edit(string _header,string startText)
 		handleInput(input);
 	}
 	string result;
-	for(int i = 0; i < lines.size()-1; i++)
+	for(int i = 0; i < lines.size(); i++)
 	{
 		result = result + lines[i];
 	}

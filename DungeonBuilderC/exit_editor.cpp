@@ -26,7 +26,7 @@ string ExitEditor::edit(vector<string> args)
 		else
 		{
 			string newname = join(2,args," ");
-			room.name = newname;
+			object->name = newname;
 			clearWindows();
 			resetWindows();
 			return "";
@@ -36,8 +36,8 @@ string ExitEditor::edit(vector<string> args)
 	else if(editNoun == "description")
 	{
 		DungeonEditor ed;
-		string newdesc = ed.edit("Editing Description For Room:"+room.name,room.description);
-		room.description = newdesc;
+		string newdesc = ed.edit("Editing Description For Object:"+object->name,object->description);
+		object->description = newdesc;
 		clearWindows();
 		resetWindows();
 		return "";
@@ -53,27 +53,7 @@ string ExitEditor::edit(vector<string> args)
 
 string ExitEditor::create(vector<string> args)
 {
-	if(args.size() < 2) {
-		return "What do you want to create?";
-	}
-
-	string createNoun = args[1];
-	toLower(&createNoun);
-
-	if(createNoun == "exit") {		
-		return "create an exit";
-	}
-	else if(createNoun == "creature")
-	{
-		return "create a creature";
-	} 
-	else if(createNoun == "object")
-	{
-		return "create an object";
-	}
-	else {
-		return "I don't know how to create that";
-	}
+	return "Create not implemented";
 }
 
 
@@ -88,7 +68,7 @@ void ExitEditor::resetWindows()
 {
 	commandWindow = newwin(1,COLS,LINES-1,0);
 	responseWindow = newwin(1,COLS,LINES-2,0);
-	mainWindow = newwin(LINES-2,COLS,0,0);
+	mainWindow = newwin(LINES-2,COLS-8,0,4);
 	getmaxyx(stdscr,h,w); //why the fuck doesn't this work?
 	refresh();
 
@@ -99,20 +79,22 @@ void ExitEditor::resetWindows()
 	int done = false;
 	string command;
 
-	setcolor(mainWindow,1,COLOR_WHITE);
-	string nameRow = "[Name]" + room.name;
-	mvwprintwCenter(mainWindow,2,nameRow);
-	string descRow = "[Description] " + room.description.substr(0,min(30,(int)room.description.length()));
-	if (30 < room.description.length()) descRow += "...";
-	mvwprintwCenter(mainWindow,3,descRow.c_str());
+	setcolors(mainWindow,1,COLOR_RED,COLOR_BLACK);
+	mvwprintwCenter(mainWindow,1,"Object Editor");
+	setcolor(mainWindow,2,COLOR_WHITE);
+	string nameRow = "[Name]" + object->name;
+	mvwprintw(mainWindow,3,0,nameRow.c_str());
+	string descRow = "[Description] " + object->description.substr(0,min(MAX_EDITOR_PRINT_WIDTH,(int)object->description.length()));
+	if (MAX_EDITOR_PRINT_WIDTH < object->description.length()) descRow += "...";
+	mvwprintw(mainWindow,4,0,descRow.c_str());
 
 	wrefresh(mainWindow);
 
 }
 
-void ExitEditor::load(DungeonRoom _room)
+void ExitEditor::load(DungeonObject *_object)
 {
-	room = _room;
+	object = _object;
 	cmdMap["edit"] = &ExitEditor::edit;
 	cmdMap["exit"] = &ExitEditor::exit;
 	cmdMap["create"] = &ExitEditor::create;

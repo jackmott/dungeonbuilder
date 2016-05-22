@@ -20,7 +20,8 @@ struct ExitEditor
 	typedef string (ExitEditor::*commandFunction) (vector<string>);			
 	map<string,commandFunction> cmdMap;
 
-	DungeonRoom room;
+	DungeonObject *object;
+
 	WINDOW *responseWindow;
 	WINDOW *commandWindow;
 	WINDOW *mainWindow;
@@ -30,7 +31,7 @@ struct ExitEditor
 	
 	void clearWindows();
 	void resetWindows();
-	void load(DungeonRoom room);
+	void load(DungeonObject *object);
 
 	string edit(vector<string> args);
 	string exit(vector<string> args);

@@ -36,9 +36,9 @@ string RoomEditor::edit(vector<string> args)
 	else if(editNoun == "description")
 	{
 		DungeonEditor ed;
-		string newdesc = ed.edit("Editing Description For Room:"+room->name,room->description);
-		room->description = newdesc;
 		clearWindows();
+		string newdesc = ed.edit("Editing Description For Room:"+room->name,room->description);
+		room->description = newdesc;		
 		resetWindows();
 		return "";
 	}
@@ -46,8 +46,6 @@ string RoomEditor::edit(vector<string> args)
 	{
 		return "I don't know how to edit that";
 	}
-
-
 	
 }
 
@@ -65,12 +63,19 @@ string RoomEditor::create(vector<string> args)
 	}
 	else if(createNoun == "creature")
 	{
-		return "create a creature";
+		CreatureEditor editor;
+		DungeonCreature* creature = new DungeonCreature();
+		clearWindows();
+		editor.load(creature);
+		room->creatures.push_back(creature);
+		resetWindows();
+		return "";
 	} 
 	else if(createNoun == "object")
 	{
 		ObjectEditor oe;
 		DungeonObject* o = new DungeonObject();
+		clearWindows();
 		oe.load(o);
 		room->objects.push_back(o);
 		resetWindows();
@@ -96,11 +101,8 @@ void RoomEditor::resetWindows()
 	responseWindow = newwin(1,COLS,LINES-2,0);
 	mainWindow = newwin(LINES-2,COLS-8,0,4);
 	getmaxyx(stdscr,h,w); //why the fuck doesn't this work?
-	refresh();
-
-	wrefresh(commandWindow);
-	wrefresh(responseWindow);
-	wrefresh(mainWindow);
+	
+	
 
 	int done = false;
 	string command;
@@ -109,8 +111,8 @@ void RoomEditor::resetWindows()
 	setcolor(mainWindow,2,COLOR_WHITE);
 	string nameRow = "[Name]" + room->name;
 	mvwprintw(mainWindow,3,0,nameRow.c_str());
-	string descRow = "[Description] " + room->description.substr(0,min(50,(int)room->description.length()));
-	if (30 < room->description.length()) descRow += "...";
+	string descRow = "[Description] " + room->description.substr(0,min(MAX_EDITOR_PRINT_WIDTH,(int)room->description.length()));
+	if (MAX_EDITOR_PRINT_WIDTH < room->description.length()) descRow += "...";
 	mvwprintw(mainWindow,4,0,descRow.c_str());
 
 	string objectRow = "[Objects] ";
@@ -119,6 +121,16 @@ void RoomEditor::resetWindows()
 		objectRow = objectRow+ room->objects[i]->name + " ";
 	}
 	mvwprintw(mainWindow,5,0,objectRow.c_str());
+
+	string creatureRow ="[Creatures] ";
+	for(int i =0; i < room->creatures.size(); i++)
+	{
+		creatureRow = creatureRow + room->creatures[i]->name + " ";
+	}
+	mvwprintw(mainWindow,6,0,creatureRow.c_str());
+	refresh();
+	wrefresh(commandWindow);
+	wrefresh(responseWindow);
 	wrefresh(mainWindow);
 
 }
