@@ -146,7 +146,7 @@ void RoomEditor::resetWindows()
 
 	
 	setcolors(mainWindow,1,COLOR_RED,COLOR_BLACK);
-	mvwprintwCenter(mainWindow,1,"Room Editor");
+	mvwprintwCenterBold(mainWindow,1,"Room Editor");
 	setcolor(mainWindow,2,COLOR_WHITE);
 	string nameRow = "[Set](Name):" + room->name;
 	mvwprintw(mainWindow,lineCount,0,nameRow.c_str());

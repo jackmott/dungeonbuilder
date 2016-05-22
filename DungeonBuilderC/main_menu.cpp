@@ -59,11 +59,11 @@ void MainMenu::resetWindows()
 	string command;
 
 	setcolor(mainWindow,1,COLOR_RED);
-	mvwprintwCenter(mainWindow,3,"Dungeon Builder");
+	mvwprintwCenterBold(mainWindow,3,"Dungeon Builder");
 	setcolor(mainWindow,2,COLOR_CYAN);
-	mvwprintw(mainWindow,5,0,"[Create] a Dungeon");
-	mvwprintw(mainWindow,6,0,"[Enter] Dungeon");
-	mvwprintw(mainWindow,7,0,"[Exit] this world");
+	mvwprintwBold(mainWindow,5,0,"[Create] a Dungeon");
+	mvwprintwBold(mainWindow,6,0,"[Enter] Dungeon");
+	mvwprintwBold(mainWindow,7,0,"[Exit] this world");
 	wrefresh(mainWindow);
 
 

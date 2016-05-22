@@ -28,10 +28,9 @@ void RoomPlayer::resetWindows()
 	getmaxyx(stdscr,h,w); // this doesn't work in windows
 
 	string header = "Dungeon!  Room:"+room->name;
-	mvwprintwCenter(headerWindow,0,header.c_str());
+	mvwprintwCenterBold(headerWindow,0,header.c_str());
 
 	int lineCount = 1;
-
 
 	string desc = room->description;
 	mvwprintw(mainWindow,lineCount,0,desc.c_str());

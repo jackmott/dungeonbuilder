@@ -108,7 +108,7 @@ void ExitEditor::resetWindows()
 	string command;
 
 	setcolors(mainWindow,1,COLOR_RED,COLOR_BLACK);
-	mvwprintwCenter(mainWindow,1,"Exit Editor");
+	mvwprintwCenterBold(mainWindow,1,"Exit Editor");
 	setcolor(mainWindow,2,COLOR_WHITE);
 	string nameRow = "[Set](Name):" + dungeonExit->name;
 	mvwprintw(mainWindow,3,0,nameRow.c_str());

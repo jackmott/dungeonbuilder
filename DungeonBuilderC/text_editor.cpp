@@ -226,7 +226,7 @@ void TextEditor::printStatusLine() {
 	
 	setcolors(headerWindow,3,COLOR_BLACK,COLOR_RED);	
 	wclear(headerWindow);
-	mvwprintwCenter(headerWindow,0,header);
+	mvwprintwCenterBold(headerWindow,0,header);
 	wclrtoeol(headerWindow);
 	
 }
