@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <sstream>
 
 using namespace std;
 
@@ -11,11 +12,14 @@ struct DungeonCreature;
 
 struct DungeonRoom
 {
+	int uid;
 	string name;
 	string description;
 	vector<DungeonExit*> exits;
 	vector<DungeonObject*> objects;
 	vector<DungeonCreature*> creatures;
+
+	string toString();
 
 };
 struct DungeonExit
@@ -23,6 +27,8 @@ struct DungeonExit
 	string name;
 	string description;	
 	DungeonRoom* room;
+
+	string toString();
 };
 
 enum USE_EFFECT
@@ -71,6 +77,8 @@ struct DungeonObject
 	USE_EFFECT creatureEffect;
 	USE_EFFECT objectEffect;
 
+
+	string toString();
 };
 
 struct DungeonCreature
@@ -79,6 +87,8 @@ struct DungeonCreature
 	string description;
 	int hitpoints;
 	int alignment;
+
+	string toString();
 };
 
 struct DungeonPlayer

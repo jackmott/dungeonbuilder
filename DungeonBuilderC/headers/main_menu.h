@@ -7,6 +7,7 @@
 #include <string>
 #include <sstream>
 #include <map>
+#include <fstream>
 #include "headers/printutils.h"
 #include "headers/command_window.h"
 #include "headers/utils.h"
@@ -32,6 +33,8 @@ struct MainMenu
 	void play(vector<string> args);
 	void exitMenu(vector<string> args);
 	void clearWindows();
+	void saveMap(vector<string> args);
+	void loadMap(vector<string> args);
 	void resetWindows();
 	void load();
 	

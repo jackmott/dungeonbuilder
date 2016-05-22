@@ -12,6 +12,7 @@
     <ClCompile Include="creature_editor.cpp" />
     <ClCompile Include="text_editor.cpp" />
     <ClCompile Include="room_player.cpp" />
+    <ClCompile Include="dungeon_data.cpp" />
     <ClCompile Include="dungeon_display.cpp" />
   </ItemGroup>
   <ItemGroup>

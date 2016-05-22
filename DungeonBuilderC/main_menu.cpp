@@ -1,10 +1,15 @@
 #include "headers/main_menu.h"
 
+#define TAB "\t"
+
 using namespace std;
 
 DungeonRoom *g_startRoom;
 DungeonPlayer *g_player;
 vector<DungeonRoom*> g_roomList;
+int global_id = 0;
+
+int getUID() { return global_id++; }
 
 
 void MainMenu::exitMenu(vector<string> args)
@@ -22,6 +27,7 @@ void MainMenu::create(vector<string> args)
 	RoomEditor ed;
 	g_startRoom = new DungeonRoom();
 	g_roomList.push_back(g_startRoom);
+	g_startRoom->uid = getUID();
 	g_startRoom->name = "Default Name";
 	g_startRoom->description = "Default Description";
 	clearWindows();
@@ -44,6 +50,35 @@ void MainMenu::clearWindows()
 	delwin(mainWindow);
 }
 
+void MainMenu::saveMap(vector<string> args) 
+{
+
+	if (args.size() < 1)
+		mvwprintw(responseWindow, 0, 0, "Oops you need a file");
+	else if(!g_startRoom)
+		mvwprintw(responseWindow, 0, 0, "Must make a room first");
+	else {
+		ofstream fout(args[1].c_str());
+		fout << "{" << endl;
+		fout << TAB << "\"Rooms\": [" << endl;
+		for (int i = 0; i < g_roomList.size(); i++) {
+			fout << TAB << TAB << "{" << endl;
+			fout << g_roomList[i]->toString();
+			fout << TAB << TAB << "}," << endl;
+		}
+		fout << TAB << "]" << endl;
+		fout << "}";
+
+		fout.close();
+		mvwprintw(responseWindow, 0, 0, "File written");
+	}
+	wclrtoeol(responseWindow);
+	wrefresh(responseWindow);
+}
+
+void MainMenu::loadMap(vector<string> args)
+{}
+
 void MainMenu::resetWindows()
 {
 	clear();
@@ -63,9 +98,11 @@ void MainMenu::resetWindows()
 	setcolor(mainWindow,1,COLOR_RED);
 	mvwprintwCenterBold(mainWindow,3,"Dungeon Builder");
 	setcolor(mainWindow,2,COLOR_CYAN);
+
 	mvwprintwBold(mainWindow,5,0,"[Create] a Dungeon");
 	mvwprintwBold(mainWindow,6,0,"[Enter] Dungeon");
-	mvwprintwBold(mainWindow,7,0,"[Exit] this world");
+	mvwprintwBold(mainWindow,7,0,"[Save] this map");
+	mvwprintwBold(mainWindow,8,0,"[Exit] this world");
 	wrefresh(mainWindow);
 
 
@@ -76,6 +113,7 @@ void MainMenu::load()
 	cmdMap["create"] = &MainMenu::create;
 	cmdMap["exit"] = &MainMenu::exitMenu;
 	cmdMap["enter"] = &MainMenu::play;
+	cmdMap["save"] = &MainMenu::saveMap;
 
 	resetWindows();
 
