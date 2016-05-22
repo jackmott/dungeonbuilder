@@ -26,7 +26,7 @@ string ExitEditor::edit(vector<string> args)
 		else
 		{
 			string newname = join(2,args," ");
-			object->name = newname;
+			dungeonExit->name = newname;
 			clearWindows();
 			resetWindows();
 			return "";
@@ -36,8 +36,8 @@ string ExitEditor::edit(vector<string> args)
 	else if(editNoun == "description")
 	{
 		DungeonEditor ed;
-		string newdesc = ed.edit("Editing Description For Object:"+object->name,object->description);
-		object->description = newdesc;
+		string newdesc = ed.edit("Editing Description For Object:"+dungeonExit->name,dungeonExit->description);
+		dungeonExit->description = newdesc;
 		clearWindows();
 		resetWindows();
 		return "";
@@ -82,19 +82,19 @@ void ExitEditor::resetWindows()
 	setcolors(mainWindow,1,COLOR_RED,COLOR_BLACK);
 	mvwprintwCenter(mainWindow,1,"Object Editor");
 	setcolor(mainWindow,2,COLOR_WHITE);
-	string nameRow = "[Name]" + object->name;
+	string nameRow = "[Name]" + dungeonExit->name;
 	mvwprintw(mainWindow,3,0,nameRow.c_str());
-	string descRow = "[Description] " + object->description.substr(0,min(MAX_EDITOR_PRINT_WIDTH,(int)object->description.length()));
-	if (MAX_EDITOR_PRINT_WIDTH < object->description.length()) descRow += "...";
+	string descRow = "[Description] " + dungeonExit->description.substr(0,min(MAX_EDITOR_PRINT_WIDTH,(int)dungeonExit->description.length()));
+	if (MAX_EDITOR_PRINT_WIDTH < dungeonExit->description.length()) descRow += "...";
 	mvwprintw(mainWindow,4,0,descRow.c_str());
 
 	wrefresh(mainWindow);
 
 }
 
-void ExitEditor::load(DungeonObject *_object)
+void ExitEditor::load(DungeonExit *_dungeonExit)
 {
-	object = _object;
+	dungeonExit = _dungeonExit;
 	cmdMap["edit"] = &ExitEditor::edit;
 	cmdMap["exit"] = &ExitEditor::exit;
 	cmdMap["create"] = &ExitEditor::create;

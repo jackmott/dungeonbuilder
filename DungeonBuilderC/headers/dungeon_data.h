@@ -22,6 +22,7 @@ struct DungeonExit
 {
 	string name;
 	string description;
+	string direction;
 	DungeonRoom room;
 };
 

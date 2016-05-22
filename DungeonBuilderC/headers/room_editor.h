@@ -11,6 +11,7 @@
 #include "headers/dungeon_editor.h"
 #include "headers/object_editor.h"
 #include "headers/creature_editor.h"
+#include "headers/exit_editor.h"
 #include "headers/dungeon_editor.h"
 #include "headers/printutils.h"
 #include "headers/utils.h";

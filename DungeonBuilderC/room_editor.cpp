@@ -33,7 +33,7 @@ string RoomEditor::edit(vector<string> args)
 		}
 
 	}
-	else if(editNoun == "description")
+	else if(editNoun == "description" || editNoun == "desc")
 	{
 		DungeonEditor ed;
 		clearWindows();
@@ -55,16 +55,22 @@ string RoomEditor::create(vector<string> args)
 		return "What do you want to create?";
 	}
 
+	if(args.size() < 3)
+	{
+		return "Provide name for the " + args[1];
+	}
 	string createNoun = args[1];
+
 	toLower(&createNoun);
 
 	if(createNoun == "exit") {		
 		return "create an exit";
 	}
 	else if(createNoun == "creature")
-	{
+	{		
 		CreatureEditor editor;
-		DungeonCreature* creature = new DungeonCreature();
+		DungeonCreature* creature = new DungeonCreature();		
+		creature->name = join(2,args," ");		
 		clearWindows();
 		editor.load(creature);
 		room->creatures.push_back(creature);
@@ -74,13 +80,24 @@ string RoomEditor::create(vector<string> args)
 	else if(createNoun == "object")
 	{
 		ObjectEditor oe;
-		DungeonObject* o = new DungeonObject();
+		DungeonObject* o = new DungeonObject();		
+		o->name = join(2,args," ");		
 		clearWindows();
 		oe.load(o);
 		room->objects.push_back(o);
 		resetWindows();
 
 		return "";
+	}
+	else if(createNoun == "exit")
+	{
+		ExitEditor editor;
+		DungeonExit * e = new DungeonExit();
+		e->name = join(2,args," ");
+		clearWindows();
+		editor.load(e);
+		room->exits.push_back(e);
+		resetWindows();
 	}
 	else {
 		return "I don't know how to create that";
