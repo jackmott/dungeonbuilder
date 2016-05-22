@@ -43,8 +43,8 @@ string ExitEditor::edit(vector<string> args)
 		return "";
 	}
 	else if(editNoun =="room")
-	{
-		//todo
+	{		
+		return "room";
 	}
 	else
 	{
@@ -99,7 +99,7 @@ void ExitEditor::resetWindows()
 
 }
 
-void ExitEditor::load(DungeonExit *_dungeonExit)
+DungeonRoom* ExitEditor::load(DungeonExit *_dungeonExit)
 {
 	dungeonExit = _dungeonExit;
 	cmdMap["edit"] = &ExitEditor::edit;
@@ -128,6 +128,10 @@ void ExitEditor::load(DungeonExit *_dungeonExit)
 			if (cmd[0] == "exit") break;
 			commandFunction cmdFunc = cmdMap[cmd[0]];
 			string response = (this->*cmdFunc)(cmd);
+			if(response == "room")
+			{
+				return dungeonExit->room;
+			}
 			if(response.length() > 0) {
 				cmd.clear();
 				mvwprintw(responseWindow,0,0,response.c_str());

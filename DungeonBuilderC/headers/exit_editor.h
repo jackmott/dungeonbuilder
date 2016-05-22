@@ -31,7 +31,7 @@ struct ExitEditor
 	
 	void clearWindows();
 	void resetWindows();
-	void load(DungeonExit *_dungeonExit);
+	DungeonRoom* load(DungeonExit *_dungeonExit);
 
 	string edit(vector<string> args);
 	string exit(vector<string> args);

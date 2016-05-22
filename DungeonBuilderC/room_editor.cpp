@@ -94,8 +94,12 @@ string RoomEditor::create(vector<string> args)
 		e->room = g_startRoom;
 		e->name = join(2,args," ");
 		clearWindows();
-		editor.load(e);
+		DungeonRoom* newRoom = editor.load(e);		
 		room->exits.push_back(e);
+		if(newRoom != NULL)
+		{
+			room = newRoom;
+		}
 		resetWindows();
 		return "";
 	}
