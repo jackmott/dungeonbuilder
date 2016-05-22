@@ -136,7 +136,8 @@ void RoomEditor::resetWindows()
 	mvwprintw(mainWindow,lineCount,0,nameRow.c_str());
 
 	lineCount++;
-	string descRow = "[Set/Edit](Desc) " + room->description;	
+	string descRow = "[Set\Edit](Desc) " + room->description.substr(0,min(MAX_EDITOR_PRINT_WIDTH,(int)room->description.length()));
+	if (MAX_EDITOR_PRINT_WIDTH < room->description.length()) descRow += "...";
 	mvwprintw(mainWindow,lineCount,0,descRow.c_str());
 
 	lineCount++;	
@@ -159,7 +160,7 @@ void RoomEditor::resetWindows()
 	}
 	
 	lineCount++;	
-	mvwprintw(mainWindow,lineCount,0,"[Create/Delete/Edit](Exits): ");
+	mvwprintw(mainWindow,lineCount,0,"[Create/Delete/Edit][Exits] ");
 	for(int i =0; i < room->exits.size(); i++)
 	{
 		lineCount++;
