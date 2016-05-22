@@ -17,10 +17,10 @@ vector<string> split(const string &s,char delim) {
 	return elems;
 }
 
-string join(int offset,vector<string> &v, string delim)
+string join(unsigned int offset,vector<string> &v, string delim)
 {
 	string result;
-	for(int i = offset; i < v.size();i++)
+	for(auto i = offset; i < v.size();i++)
 	{
 		result = result + v[i];
 		if(i < v.size()-1)

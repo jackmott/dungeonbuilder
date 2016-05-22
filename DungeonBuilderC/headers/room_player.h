@@ -36,11 +36,9 @@ struct RoomPlayer
 
 	
 	string exit(vector<string> args);
-	string move(DungeonRoom * newRoom);
+	string use(vector<string> args);
+
 };
-
-
-
 
 #endif
 

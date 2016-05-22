@@ -7,6 +7,25 @@ string RoomPlayer::exit(vector<string> args)
 	return "exit";
 }
 
+string RoomPlayer::use(vector<string> args)
+{
+	if(args.size() < 2) {
+		return "What do you want to use?";
+	}
+
+	if(args.size() < 3)
+	{
+		return "What do you want to use " + args[1] + " on?";
+	}
+	string createNoun = args[1];
+	toLower(&createNoun);
+
+	string subject = args[2];
+	toLower(&subject);
+
+	return "";
+
+}
 
 
 void RoomPlayer::clearWindows()
@@ -36,14 +55,14 @@ void RoomPlayer::resetWindows()
 	mvwprintw(mainWindow,lineCount,0,desc.c_str());
 
 	lineCount++;
-	for(int i = 0; i < room->objects.size(); i++)
+	for(auto i = 0u; i < room->objects.size(); i++)
 	{
 		lineCount++;
 		mvwprintw(mainWindow,lineCount,0,room->objects[i]->description.c_str());
 	}
 	lineCount++;
 	lineCount++;
-	for(int i =0; i < room->exits.size();i++)
+	for(auto i =0u; i < room->exits.size();i++)
 	{
 		lineCount++;
 		mvwprintw(mainWindow,lineCount,0,room->exits[i]->description.c_str());
@@ -59,12 +78,15 @@ void RoomPlayer::resetWindows()
 
 }
 
-void RoomPlayer::load(DungeonRoom *_room, DungeonPlayer *_player)
+void RoomPlayer::load(DungeonRoom *_room,DungeonPlayer *_player)
 {
 	player = _player;
 	room = _room;
 	cmdMap["exit"] = &RoomPlayer::exit;
-	for(int i = 0; i < room->exits.size();i++)
+	cmdMap["use"] = &RoomPlayer::use;
+
+
+	for(auto i = 0u; i < room->exits.size();i++)
 	{
 		string name = room->exits[i]->name;
 		toLower(&name);
@@ -93,7 +115,7 @@ void RoomPlayer::load(DungeonRoom *_room, DungeonPlayer *_player)
 				else
 				{
 					DungeonRoom *newRoom = moveMap[cmd[0]];
-					room = newRoom;		
+					room = newRoom;
 					clearWindows();
 					resetWindows();
 				}

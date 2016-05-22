@@ -13,14 +13,14 @@ using namespace std;
 struct TextEditor
 {
 
-	int x,y;	
+	unsigned int x,y;	
 	vector<string> lines;
 	int done = 0;
 	string header;
 	WINDOW *headerWindow;
 	WINDOW *mainWindow;
 
-	int w,h;
+	unsigned int w,h;
 
 	
 	void clearWindows();

@@ -10,7 +10,7 @@
 #include "headers/command_window.h"
 #include "headers/text_editor.h"
 #include "headers/printutils.h"
-#include "headers/utils.h";
+#include "headers/utils.h"
 #include "headers/dungeon_data.h"
 
 using namespace std;
