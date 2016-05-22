@@ -94,7 +94,7 @@ void RoomEditor::resetWindows()
 {
 	commandWindow = newwin(1,COLS,LINES-1,0);
 	responseWindow = newwin(1,COLS,LINES-2,0);
-	mainWindow = newwin(LINES-2,COLS,0,0);
+	mainWindow = newwin(LINES-2,COLS-8,0,4);
 	getmaxyx(stdscr,h,w); //why the fuck doesn't this work?
 	refresh();
 
@@ -108,17 +108,17 @@ void RoomEditor::resetWindows()
 	mvwprintwCenter(mainWindow,1,"Room Editor");
 	setcolor(mainWindow,2,COLOR_WHITE);
 	string nameRow = "[Name]" + room->name;
-	mvwprintwCenter(mainWindow,3,nameRow);
-	string descRow = "[Description] " + room->description.substr(0,min(30,(int)room->description.length()));
+	mvwprintw(mainWindow,3,0,nameRow.c_str());
+	string descRow = "[Description] " + room->description.substr(0,min(50,(int)room->description.length()));
 	if (30 < room->description.length()) descRow += "...";
-	mvwprintwCenter(mainWindow,4,descRow.c_str());
+	mvwprintw(mainWindow,4,0,descRow.c_str());
 
 	string objectRow = "[Objects] ";
 	for(int i = 0; i < room->objects.size(); i++)
 	{
 		objectRow = objectRow+ room->objects[i]->name + " ";
 	}
-	mvwprintwCenter(mainWindow,5,objectRow.c_str());
+	mvwprintw(mainWindow,5,0,objectRow.c_str());
 	wrefresh(mainWindow);
 
 }

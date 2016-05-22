@@ -68,7 +68,7 @@ void ObjectEditor::resetWindows()
 {
 	commandWindow = newwin(1,COLS,LINES-1,0);
 	responseWindow = newwin(1,COLS,LINES-2,0);
-	mainWindow = newwin(LINES-2,COLS,0,0);
+	mainWindow = newwin(LINES-2,COLS-8,0,4);
 	getmaxyx(stdscr,h,w); //why the fuck doesn't this work?
 	refresh();
 
@@ -83,10 +83,10 @@ void ObjectEditor::resetWindows()
 	mvwprintwCenter(mainWindow,1,"Object Editor");
 	setcolor(mainWindow,2,COLOR_WHITE);
 	string nameRow = "[Name]" + object->name;
-	mvwprintwCenter(mainWindow,3,nameRow);
-	string descRow = "[Description] " + object->description.substr(0,min(30,(int)object->description.length()));
+	mvwprintw(mainWindow,3,0,nameRow.c_str());
+	string descRow = "[Description] " + object->description.substr(0,min(70,(int)object->description.length()));
 	if (30 < object->description.length()) descRow += "...";
-	mvwprintwCenter(mainWindow,4,descRow.c_str());
+	mvwprintw(mainWindow,4,0,descRow.c_str());
 
 	wrefresh(mainWindow);
 
