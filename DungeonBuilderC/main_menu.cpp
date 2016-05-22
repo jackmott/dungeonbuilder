@@ -1,5 +1,7 @@
 #include "headers/main_menu.h"
 
+#define TAB "\t"
+
 using namespace std;
 
 DungeonRoom *g_startRoom;
@@ -50,8 +52,11 @@ void MainMenu::saveMap(vector<string> args) {
 		mvwprintw(responseWindow, 0, 0, "Must make a room first");
 	else {
 		ofstream fout(args[1].c_str());
-
-		fout << g_startRoom->toString();
+		fout << "{" << endl;
+		fout << TAB << "\"Rooms\": [" << endl;
+		fout << TAB << TAB << g_startRoom->toString();
+		fout << TAB << "]" << endl;
+		fout << "}";
 
 		fout.close();
 		mvwprintw(responseWindow, 0, 0, "File written");

@@ -7,31 +7,29 @@ using namespace std;
 string DungeonRoom::toString()
 {
 	ostringstream sout;
-	sout << TAB << "ID: " << uid << endl;
-	sout << TAB << "Name: " << name << endl;
-	sout << TAB << "Description: " << description << endl;
+	sout << "{" << endl;
+	sout << TAB << TAB << TAB << "\"ID\":\"" << uid << "\"," << endl;
+	sout << TAB << TAB << TAB << "\"Name\":\"" << name << "\"," << endl;
+	sout << TAB << TAB << TAB << "\"Description\":\"" << description << "\"," << endl;
 
-	sout << TAB << "--ROOM_EXITS--" << endl;
-	for (int i = 0; i < exits.size(); i++) {
-		sout << TAB << TAB << "-EXIT-" << endl;
-		sout << TAB << TAB << exits[i]->toString();
-		sout << TAB << "-END_EXIT-";
-	}
-
-	sout << TAB << "--ROOM_OBJECTS--" << endl;
+	sout << TAB << TAB << TAB << "\"Objects\":[" << endl;
 	for (int i = 0; i < objects.size(); i++) {
-		sout << TAB << TAB << "-OBJECT-" << endl;
-		sout << TAB << TAB << objects[i]->toString();
-		sout << TAB << "-END_OBJECT-";
+		sout << TAB << TAB << TAB << TAB << "{" << objects[i]->toString() << "}," << endl;
 	}
+	sout << TAB << TAB << TAB << "]," << endl;
 
-	sout << TAB << "--ROOM_CREATURES--" << endl;
+	sout << TAB << TAB << TAB << "\"Creatures\":[" << endl;
 	for (int i = 0; i < creatures.size(); i++) {
-		sout << TAB << TAB << "-CREATURE-" << endl;
-		sout << TAB << TAB << creatures[i]->toString();
-		sout << TAB << "-END_CREATURE-";
+		sout << TAB << TAB << TAB << TAB << "{" << creatures[i]->toString() << "}," << endl;
 	}
+	sout << TAB << TAB << TAB << "]," << endl;
 
+	sout << TAB << TAB << TAB << "\"Exits\":[" << endl;
+	for (int i = 0; i < exits.size(); i++) {
+		sout << TAB << TAB << TAB << TAB << "{" << exits[i]->toString() << "}," << endl;
+	}
+	sout << TAB << TAB << TAB << "]" << endl;
+	sout << TAB << TAB << "}" << endl;
 	return sout.str();
 }
 string DungeonExit::toString()
