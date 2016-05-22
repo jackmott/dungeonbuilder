@@ -7,7 +7,6 @@ using namespace std;
 string DungeonRoom::toString()
 {
 	ostringstream sout;
-	sout << "{" << endl;
 	sout << TAB << TAB << TAB << "\"ID\":\"" << uid << "\"," << endl;
 	sout << TAB << TAB << TAB << "\"Name\":\"" << name << "\"," << endl;
 	sout << TAB << TAB << TAB << "\"Description\":\"" << description << "\"," << endl;
@@ -29,7 +28,6 @@ string DungeonRoom::toString()
 		sout << TAB << TAB << TAB << TAB << "{" << exits[i]->toString() << "}," << endl;
 	}
 	sout << TAB << TAB << TAB << "]" << endl;
-	sout << TAB << TAB << "}" << endl;
 	return sout.str();
 }
 string DungeonExit::toString()

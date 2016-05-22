@@ -54,7 +54,11 @@ void MainMenu::saveMap(vector<string> args) {
 		ofstream fout(args[1].c_str());
 		fout << "{" << endl;
 		fout << TAB << "\"Rooms\": [" << endl;
-		fout << TAB << TAB << g_startRoom->toString();
+		for (int i = 0; i < g_roomList.size(); i++) {
+			fout << TAB << TAB << "{" << endl;
+			fout << g_roomList[i]->toString();
+			fout << TAB << TAB << "}," << endl;
+		}
 		fout << TAB << "]" << endl;
 		fout << "}";
 
