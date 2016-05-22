@@ -19,7 +19,7 @@ struct DungeonRoom
 	vector<DungeonObject*> objects;
 	vector<DungeonCreature*> creatures;
 
-	string toString();
+	string toJSON();
 
 };
 struct DungeonExit
@@ -28,7 +28,7 @@ struct DungeonExit
 	string description;	
 	DungeonRoom* room;
 
-	string toString();
+	string toJSON();
 };
 
 enum USE_EFFECT
@@ -78,7 +78,7 @@ struct DungeonObject
 	USE_EFFECT objectEffect;
 
 
-	string toString();
+	string toJSON();
 };
 
 struct DungeonCreature
@@ -88,7 +88,7 @@ struct DungeonCreature
 	int hitpoints;
 	int alignment;
 
-	string toString();
+	string toJSON();
 };
 
 struct DungeonPlayer

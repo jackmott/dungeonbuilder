@@ -4,7 +4,7 @@
 
 using namespace std;
 
-string DungeonRoom::toString()
+string DungeonRoom::toJSON()
 {
 	ostringstream sout;
 	sout << TAB << TAB << TAB << "\"ID\":\"" << uid << "\"," << endl;
@@ -12,38 +12,38 @@ string DungeonRoom::toString()
 	sout << TAB << TAB << TAB << "\"Description\":\"" << description << "\"," << endl;
 
 	sout << TAB << TAB << TAB << "\"Objects\":[" << endl;
-	for (int i = 0; i < objects.size(); i++) {
-		sout << TAB << TAB << TAB << TAB << "{" << objects[i]->toString() << "}," << endl;
+	for (auto i = 0u; i < objects.size(); i++) {
+		sout << TAB << TAB << TAB << TAB << "{" << objects[i]->toJSON() << "}," << endl;
 	}
 	sout << TAB << TAB << TAB << "]," << endl;
 
 	sout << TAB << TAB << TAB << "\"Creatures\":[" << endl;
-	for (int i = 0; i < creatures.size(); i++) {
-		sout << TAB << TAB << TAB << TAB << "{" << creatures[i]->toString() << "}," << endl;
+	for (auto i = 0u; i < creatures.size(); i++) {
+		sout << TAB << TAB << TAB << TAB << "{" << creatures[i]->toJSON() << "}," << endl;
 	}
 	sout << TAB << TAB << TAB << "]," << endl;
 
 	sout << TAB << TAB << TAB << "\"Exits\":[" << endl;
-	for (int i = 0; i < exits.size(); i++) {
-		sout << TAB << TAB << TAB << TAB << "{" << exits[i]->toString() << "}," << endl;
+	for (auto i = 0u; i < exits.size(); i++) {
+		sout << TAB << TAB << TAB << TAB << "{" << exits[i]->toJSON() << "}," << endl;
 	}
 	sout << TAB << TAB << TAB << "]" << endl;
 	return sout.str();
 }
-string DungeonExit::toString()
+string DungeonExit::toJSON()
 {
 	ostringstream sout;
 	sout << "\"Name\":\"" << name << "\", \"Description\":\"" << description 
 		 << "\", \"links\":" << room->uid;
 	return sout.str();
 }
-string DungeonObject::toString()
+string DungeonObject::toJSON()
 {
 	ostringstream sout;
 	sout << "\"Name\":\"" << name << "\", \"Description\":\"" << description << "\"";
 	return sout.str();
 }
-string DungeonCreature::toString()
+string DungeonCreature::toJSON()
 {
 	ostringstream sout;
 	sout << "\"Name\":\"" << name << "\", \"Description\":\"" << description

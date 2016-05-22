@@ -61,9 +61,9 @@ void MainMenu::saveMap(vector<string> args)
 		ofstream fout(args[1].c_str());
 		fout << "{" << endl;
 		fout << TAB << "\"Rooms\": [" << endl;
-		for (int i = 0; i < g_roomList.size(); i++) {
+		for (auto i = 0u; i < g_roomList.size(); i++) {
 			fout << TAB << TAB << "{" << endl;
-			fout << g_roomList[i]->toString();
+			fout << g_roomList[i]->toJSON();
 			fout << TAB << TAB << "}," << endl;
 		}
 		fout << TAB << "]" << endl;
