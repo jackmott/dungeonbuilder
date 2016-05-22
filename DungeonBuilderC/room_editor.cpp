@@ -12,10 +12,10 @@ string RoomEditor::set(vector<string> args)
 {
 	if(args.size() < 2)
 	{
-		return "What do you want to edit?";
+		return "What do you want to set?";
 	}
 	if(args.size() < 3) {
-		return "Please supply the name directly in the command";
+		return "Please supply the value directly in the command";
 	}
 	string editNoun = args[1];
 	toLower(&editNoun);
