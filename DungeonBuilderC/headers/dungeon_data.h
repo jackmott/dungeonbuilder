@@ -25,7 +25,7 @@ struct DungeonExit
 {
 	string name;
 	string description;
-	DungeonRoom room;
+	DungeonRoom* room;
 
 	string toString();
 };

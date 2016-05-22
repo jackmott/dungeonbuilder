@@ -6,6 +6,7 @@
 #include <string>
 using namespace std;
 
+#define MAX_EDITOR_PRINT_WIDTH 60
 
 void mvwprintwCenter (WINDOW * window,int row, string text);
 void setcolor (WINDOW* window, int group, int fore);

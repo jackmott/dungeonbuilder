@@ -3,7 +3,7 @@
 using namespace std;
 
 
-void DungeonEditor::reset()
+void DungeonEditor::clearWindows()
 {
 	x = 0;
 	y = 0;
@@ -12,6 +12,7 @@ void DungeonEditor::reset()
 	lines.clear();
 	delwin(headerWindow);
 	delwin(mainWindow);
+	clear();
 }
 
 string DungeonEditor::edit(string _header,string startText)
@@ -23,7 +24,7 @@ string DungeonEditor::edit(string _header,string startText)
 	headerWindow = newwin(1,COLS,0,0);
 	mainWindow = newwin(LINES-1,COLS,1,0);
 	keypad(mainWindow,true);   //turns on arrows and f keys
-	getmaxyx(stdscr,h,w); //why the fuck doesn't this work?
+	getmaxyx(stdscr,h,w); // this doesn't work in windows
 
 	refresh();
 	wrefresh(headerWindow);
@@ -47,11 +48,11 @@ string DungeonEditor::edit(string _header,string startText)
 		handleInput(input);
 	}
 	string result;
-	for(int i = 0; i < lines.size()-1; i++)
+	for(int i = 0; i < lines.size(); i++)
 	{
 		result = result + lines[i];
 	}
-	reset();
+	clearWindows();
 	return result;
 }
 

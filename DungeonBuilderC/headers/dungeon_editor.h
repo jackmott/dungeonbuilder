@@ -23,7 +23,7 @@ struct DungeonEditor
 	int w,h;
 
 	
-	void reset();
+	void clearWindows();
 	
 	string edit(string _header, string startText);
 		

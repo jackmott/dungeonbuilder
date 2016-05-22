@@ -33,12 +33,12 @@ string RoomEditor::edit(vector<string> args)
 		}
 
 	}
-	else if(editNoun == "description")
+	else if(editNoun == "description" || editNoun == "desc")
 	{
 		DungeonEditor ed;
-		string newdesc = ed.edit("Editing Description For Room:"+room->name,room->description);
-		room->description = newdesc;
 		clearWindows();
+		string newdesc = ed.edit("Editing Description For Room:"+room->name,room->description);
+		room->description = newdesc;		
 		resetWindows();
 		return "";
 	}
@@ -46,8 +46,6 @@ string RoomEditor::edit(vector<string> args)
 	{
 		return "I don't know how to edit that";
 	}
-
-
 	
 }
 
@@ -57,24 +55,48 @@ string RoomEditor::create(vector<string> args)
 		return "What do you want to create?";
 	}
 
+	if(args.size() < 3)
+	{
+		return "Provide name for the " + args[1];
+	}
 	string createNoun = args[1];
+
 	toLower(&createNoun);
 
-	if(createNoun == "exit") {		
-		return "create an exit";
-	}
-	else if(createNoun == "creature")
-	{
-		return "create a creature";
+	
+	if(createNoun == "creature")
+	{		
+		CreatureEditor editor;
+		DungeonCreature* creature = new DungeonCreature();		
+		creature->name = join(2,args," ");		
+		clearWindows();
+		editor.load(creature);
+		room->creatures.push_back(creature);
+		resetWindows();
+		return "";
 	} 
 	else if(createNoun == "object")
 	{
 		ObjectEditor oe;
-		DungeonObject* o = new DungeonObject();
+		DungeonObject* o = new DungeonObject();		
+		o->name = join(2,args," ");		
+		clearWindows();
 		oe.load(o);
 		room->objects.push_back(o);
 		resetWindows();
 
+		return "";
+	}
+	else if(createNoun == "exit")
+	{
+		ExitEditor editor;
+		DungeonExit * e = new DungeonExit();
+		e->room = g_startRoom;
+		e->name = join(2,args," ");
+		clearWindows();
+		editor.load(e);
+		room->exits.push_back(e);
+		resetWindows();
 		return "";
 	}
 	else {
@@ -88,6 +110,7 @@ void RoomEditor::clearWindows()
 	delwin(commandWindow);
 	delwin(responseWindow);
 	delwin(mainWindow);
+	clear();
 }
 
 void RoomEditor::resetWindows()
@@ -95,12 +118,9 @@ void RoomEditor::resetWindows()
 	commandWindow = newwin(1,COLS,LINES-1,0);
 	responseWindow = newwin(1,COLS,LINES-2,0);
 	mainWindow = newwin(LINES-2,COLS-8,0,4);
-	getmaxyx(stdscr,h,w); //why the fuck doesn't this work?
-	refresh();
-
-	wrefresh(commandWindow);
-	wrefresh(responseWindow);
-	wrefresh(mainWindow);
+	getmaxyx(stdscr,h,w); // this doesn't work in windows
+	
+	
 
 	int done = false;
 	string command;
@@ -109,16 +129,33 @@ void RoomEditor::resetWindows()
 	setcolor(mainWindow,2,COLOR_WHITE);
 	string nameRow = "[Name]" + room->name;
 	mvwprintw(mainWindow,3,0,nameRow.c_str());
-	string descRow = "[Description] " + room->description.substr(0,min(50,(int)room->description.length()));
-	if (30 < room->description.length()) descRow += "...";
+	string descRow = "[Description] " + room->description.substr(0,min(MAX_EDITOR_PRINT_WIDTH,(int)room->description.length()));
+	if (MAX_EDITOR_PRINT_WIDTH < room->description.length()) descRow += "...";
 	mvwprintw(mainWindow,4,0,descRow.c_str());
 
 	string objectRow = "[Objects] ";
 	for(int i = 0; i < room->objects.size(); i++)
 	{
-		objectRow = objectRow+ room->objects[i]->name + " ";
+		objectRow = objectRow+ room->objects[i]->name + ", ";
 	}
 	mvwprintw(mainWindow,5,0,objectRow.c_str());
+
+	string creatureRow ="[Creatures] ";
+	for(int i =0; i < room->creatures.size(); i++)
+	{
+		creatureRow = creatureRow + room->creatures[i]->name + ",";
+	}
+	mvwprintw(mainWindow,6,0,creatureRow.c_str());
+
+	string exitRow ="[Exits] ";
+	for(int i =0; i < room->exits.size(); i++)
+	{
+		exitRow = exitRow + room->exits[i]->name + ",";
+	}
+	mvwprintw(mainWindow,7,0,exitRow.c_str());
+	refresh();
+	wrefresh(commandWindow);
+	wrefresh(responseWindow);
 	wrefresh(mainWindow);
 
 }

@@ -15,6 +15,8 @@
 #include "headers/room_editor.h"
 
 using namespace std;
+
+
 struct MainMenu
 {
 	typedef void (MainMenu::*commandFunction) (vector<string>);
