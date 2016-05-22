@@ -9,6 +9,9 @@
 #include <iostream>
 #include "headers/command_window.h"
 #include "headers/dungeon_editor.h"
+#include "headers/object_editor.h"
+#include "headers/creature_editor.h"
+#include "headers/dungeon_editor.h"
 #include "headers/printutils.h"
 #include "headers/utils.h";
 #include "headers/dungeon_data.h"
@@ -20,7 +23,7 @@ struct RoomEditor
 	typedef string (RoomEditor::*commandFunction) (vector<string>);			
 	map<string,commandFunction> cmdMap;
 
-	DungeonRoom room;
+	DungeonRoom *room;
 	WINDOW *responseWindow;
 	WINDOW *commandWindow;
 	WINDOW *mainWindow;
@@ -30,7 +33,7 @@ struct RoomEditor
 	
 	void clearWindows();
 	void resetWindows();
-	void load(DungeonRoom room);
+	void load(DungeonRoom *_room);
 
 	string edit(vector<string> args);
 	string exit(vector<string> args);

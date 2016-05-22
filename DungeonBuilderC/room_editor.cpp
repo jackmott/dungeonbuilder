@@ -26,7 +26,7 @@ string RoomEditor::edit(vector<string> args)
 		else
 		{
 			string newname = join(2,args," ");
-			room.name = newname;
+			room->name = newname;
 			clearWindows();
 			resetWindows();
 			return "";
@@ -36,8 +36,8 @@ string RoomEditor::edit(vector<string> args)
 	else if(editNoun == "description")
 	{
 		DungeonEditor ed;
-		string newdesc = ed.edit("Editing Description For Room:"+room.name,room.description);
-		room.description = newdesc;
+		string newdesc = ed.edit("Editing Description For Room:"+room->name,room->description);
+		room->description = newdesc;
 		clearWindows();
 		resetWindows();
 		return "";
@@ -69,7 +69,13 @@ string RoomEditor::create(vector<string> args)
 	} 
 	else if(createNoun == "object")
 	{
-		return "create an object";
+		ObjectEditor oe;
+		DungeonObject* o = new DungeonObject();
+		oe.load(o);
+		room->objects.push_back(o);
+		resetWindows();
+
+		return "";
 	}
 	else {
 		return "I don't know how to create that";
@@ -98,19 +104,26 @@ void RoomEditor::resetWindows()
 
 	int done = false;
 	string command;
+	setcolors(mainWindow,1,COLOR_RED,COLOR_BLACK);
+	mvwprintwCenter(mainWindow,1,"Room Editor");
+	setcolor(mainWindow,2,COLOR_WHITE);
+	string nameRow = "[Name]" + room->name;
+	mvwprintwCenter(mainWindow,3,nameRow);
+	string descRow = "[Description] " + room->description.substr(0,min(30,(int)room->description.length()));
+	if (30 < room->description.length()) descRow += "...";
+	mvwprintwCenter(mainWindow,4,descRow.c_str());
 
-	setcolor(mainWindow,1,COLOR_WHITE);
-	string nameRow = "[Name]" + room.name;
-	mvwprintwCenter(mainWindow,2,nameRow);
-	string descRow = "[Description] " + room.description.substr(0,min(30,(int)room.description.length()));
-	if (30 < room.description.length()) descRow += "...";
-	mvwprintwCenter(mainWindow,3,descRow.c_str());
-
+	string objectRow = "[Objects] ";
+	for(int i = 0; i < room->objects.size(); i++)
+	{
+		objectRow = objectRow+ room->objects[i]->name + " ";
+	}
+	mvwprintwCenter(mainWindow,5,objectRow.c_str());
 	wrefresh(mainWindow);
 
 }
 
-void RoomEditor::load(DungeonRoom _room)
+void RoomEditor::load(DungeonRoom *_room)
 {
 	room = _room;
 	cmdMap["edit"] = &RoomEditor::edit;

@@ -13,9 +13,9 @@ struct DungeonRoom
 {
 	string name;
 	string description;
-	vector<DungeonExit> exits;
-	vector<DungeonObject> objects;
-	vector<DungeonCreature> creatures;
+	vector<DungeonExit*> exits;
+	vector<DungeonObject*> objects;
+	vector<DungeonCreature*> creatures;
 
 };
 struct DungeonExit

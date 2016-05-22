@@ -2,6 +2,9 @@
 
 using namespace std;
 
+DungeonRoom *g_startRoom;
+vector<DungeonRoom*> g_roomList;
+
 void MainMenu::exitMenu(vector<string> args)
 {
 	exit(EXIT_SUCCESS);
@@ -9,12 +12,18 @@ void MainMenu::exitMenu(vector<string> args)
 
 void MainMenu::create(vector<string> args)
 {
+	//Creating a new game
+	//Create a room editor
+	//Create a start room and set the global start room pointer
+	//Add the room to the global room list
+	//Edit the room
 	RoomEditor ed;
-	DungeonRoom room;
-	room.name = "Default Name";
-	room.description = "Default Description";
+	g_startRoom = new DungeonRoom();
+	g_roomList.push_back(g_startRoom);
+	g_startRoom->name = "Default Name";
+	g_startRoom->description = "Default Description";
 	clearWindows();
-	ed.load(room);
+	ed.load(g_startRoom);
 	resetWindows();
 }
 
