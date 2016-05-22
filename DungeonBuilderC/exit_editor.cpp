@@ -42,6 +42,10 @@ string ExitEditor::edit(vector<string> args)
 		resetWindows();
 		return "";
 	}
+	else if(editNoun =="room")
+	{
+		//todo
+	}
 	else
 	{
 		return "I don't know how to edit that";

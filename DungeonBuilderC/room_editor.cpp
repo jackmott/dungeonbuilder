@@ -150,7 +150,7 @@ void RoomEditor::resetWindows()
 	string exitRow ="[Exits] ";
 	for(int i =0; i < room->exits.size(); i++)
 	{
-		exitRow = exitRow + room->exits[i]->name + ",";
+		exitRow = exitRow + room->exits[i]->name + "->" + room->exits[i]->room->name+ ",";
 	}
 	mvwprintw(mainWindow,7,0,exitRow.c_str());
 	refresh();

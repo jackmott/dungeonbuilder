@@ -32,7 +32,6 @@ struct RoomEditor
 	WINDOW *mainWindow;
 
 	int w,h;
-
 	
 	void clearWindows();
 	void resetWindows();
