@@ -48,3 +48,13 @@ struct DungeonCreature
 
 	string toString();
 };
+
+struct DungeonPlayer
+{
+	string name;
+	string description;
+	int hitpoints;
+	int score;
+	vector<DungeonObject*> objects;
+	DungeonRoom* location;
+};

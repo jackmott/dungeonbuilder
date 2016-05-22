@@ -1,6 +1,6 @@
 #pragma once
-#ifndef DUNGEON_EDITOR
-#define DUNGEON_EDITOR
+#ifndef TEXT_EDITOR
+#define TEXT_EDITOR
 
 #include "curses.h"
 #include <vector>
@@ -10,7 +10,7 @@
 
 using namespace std;
 
-struct DungeonEditor
+struct TextEditor
 {
 
 	int x,y;	

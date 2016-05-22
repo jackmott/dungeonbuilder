@@ -8,11 +8,11 @@
 #include <algorithm>
 #include <iostream>
 #include "headers/command_window.h"
-#include "headers/dungeon_editor.h"
+#include "headers/text_editor.h"
 #include "headers/object_editor.h"
 #include "headers/creature_editor.h"
 #include "headers/exit_editor.h"
-#include "headers/dungeon_editor.h"
+#include "headers/text_editor.h"
 #include "headers/printutils.h"
 #include "headers/utils.h"
 #include "headers/dungeon_data.h"
@@ -32,13 +32,13 @@ struct RoomEditor
 	WINDOW *mainWindow;
 
 	int w,h;
-
 	
 	void clearWindows();
 	void resetWindows();
 	void load(DungeonRoom *_room);
 
 	string edit(vector<string> args);
+	string set(vector<string> args);
 	string exit(vector<string> args);
 	string create(vector<string> args);
 };

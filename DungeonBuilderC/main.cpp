@@ -1,6 +1,6 @@
 #include "headers/curses.h"
 #include <string>
-//#include "headers/dungeon_editor.h"
+//#include "headers/text_editor.h"
 #include "headers/main_menu.h"
 
 using namespace std;

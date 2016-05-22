@@ -13,6 +13,7 @@
 #include "headers/utils.h"
 #include "headers/dungeon_data.h"
 #include "headers/room_editor.h"
+#include "headers/room_player.h"
 
 using namespace std;
 
@@ -28,10 +29,11 @@ struct MainMenu
 
 	int w,h;
 
-	void create(vector<string>);
-	void exitMenu(vector<string>);
+	void create(vector<string> args);
+	void play(vector<string> args);
+	void exitMenu(vector<string> args);
 	void clearWindows();
-	void saveMap(vector<string>);
+	void saveMap(vector<string> args);
 	void resetWindows();
 	void load();
 	

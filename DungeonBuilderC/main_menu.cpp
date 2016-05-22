@@ -28,6 +28,12 @@ void MainMenu::create(vector<string> args)
 	resetWindows();
 }
 
+void MainMenu::play(vector<string> args)
+{
+	RoomPlayer rp;
+	rp.load(g_startRoom);
+	resetWindows();
+}
 
 void MainMenu::clearWindows()
 {
@@ -56,9 +62,10 @@ void MainMenu::saveMap(vector<string> args) {
 
 void MainMenu::resetWindows()
 {
+	clear();
 	commandWindow = newwin(1,COLS,LINES-1,0);
 	responseWindow = newwin(1,COLS,LINES-2,0);
-	mainWindow = newwin(LINES-2,COLS,0,0);
+	mainWindow = newwin(LINES-2,COLS-8,0,4);
 	getmaxyx(stdscr,h,w); // this doesn't work in windows
 	refresh();
 
@@ -70,11 +77,13 @@ void MainMenu::resetWindows()
 	string command;
 
 	setcolor(mainWindow,1,COLOR_RED);
-	mvwprintwCenter(mainWindow,3,"Dungeon Builder");
+	mvwprintwCenterBold(mainWindow,3,"Dungeon Builder");
 	setcolor(mainWindow,2,COLOR_CYAN);
-	mvwprintwCenter(mainWindow,5,"[Create] a new Dungeon");
-	mvwprintwCenter(mainWindow, 6, "[Save] this map");
-	mvwprintwCenter(mainWindow,7,"[Exit] this world");
+
+	mvwprintwBold(mainWindow,5,0,"[Create] a Dungeon");
+	mvwprintwBold(mainWindow,6,0,"[Enter] Dungeon");
+	mvwprintwBold(mainWindow,7,0,"[Save] this map");
+	mvwprintwBold(mainWindow,8,0,"[Exit] this world");
 	wrefresh(mainWindow);
 
 
@@ -84,6 +93,7 @@ void MainMenu::load()
 {
 	cmdMap["create"] = &MainMenu::create;
 	cmdMap["exit"] = &MainMenu::exitMenu;
+	cmdMap["enter"] = &MainMenu::play;
 	cmdMap["save"] = &MainMenu::saveMap;
 
 	resetWindows();

@@ -8,7 +8,7 @@
 #include <algorithm>
 #include <iostream>
 #include "headers/command_window.h"
-#include "headers/dungeon_editor.h"
+#include "headers/text_editor.h"
 #include "headers/printutils.h"
 #include "headers/utils.h"
 #include "headers/dungeon_data.h"

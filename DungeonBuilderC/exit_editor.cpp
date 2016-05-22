@@ -17,7 +17,7 @@ string ExitEditor::edit(vector<string> args)
 	string editNoun = args[1];
 	toLower(&editNoun);
 
-	if(editNoun == "name")	
+	if(editNoun == "name")
 	{
 		//set it directly or go to editor
 		if(args.size() < 3) {
@@ -35,12 +35,16 @@ string ExitEditor::edit(vector<string> args)
 	}
 	else if(editNoun == "description")
 	{
-		DungeonEditor ed;
+		TextEditor ed;
 		string newdesc = ed.edit("Editing Description For Object:"+dungeonExit->name,dungeonExit->description);
 		dungeonExit->description = newdesc;
 		clearWindows();
 		resetWindows();
 		return "";
+	}
+	else if(editNoun =="room")
+	{
+		return "room";
 	}
 	else
 	{
@@ -48,12 +52,36 @@ string ExitEditor::edit(vector<string> args)
 	}
 
 
-	
+
 }
 
 string ExitEditor::create(vector<string> args)
 {
-	return "Create not implemented";
+	if(args.size() < 2) {
+		return "What do you want to create?";
+	}
+
+	if(args.size() < 3)
+	{
+		return "Provide name for the " + args[1];
+	}
+	string createNoun = args[1];
+
+	toLower(&createNoun);
+
+	if(createNoun == "room")
+	{
+		DungeonRoom* newRoom = new DungeonRoom();		
+		newRoom->name = join(2,args," ");
+		dungeonExit->room = newRoom;
+		g_roomList.push_back(newRoom);
+		clearWindows();
+		resetWindows();		
+		return "";
+	}
+	else {
+		return "I don't know how to create that";
+	}
 }
 
 
@@ -80,24 +108,24 @@ void ExitEditor::resetWindows()
 	string command;
 
 	setcolors(mainWindow,1,COLOR_RED,COLOR_BLACK);
-	mvwprintwCenter(mainWindow,1,"Exit Editor");
+	mvwprintwCenterBold(mainWindow,1,"Exit Editor");
 	setcolor(mainWindow,2,COLOR_WHITE);
-	string nameRow = "[Name]" + dungeonExit->name;
+	string nameRow = "[Set](Name):" + dungeonExit->name;
 	mvwprintw(mainWindow,3,0,nameRow.c_str());
-	string descRow = "[Description] " + dungeonExit->description.substr(0,min(MAX_EDITOR_PRINT_WIDTH,(int)dungeonExit->description.length()));
-	if (MAX_EDITOR_PRINT_WIDTH < dungeonExit->description.length()) descRow += "...";
+	string descRow = "[Set/Edit](Description): " + dungeonExit->description;
+	mvwprintw(mainWindow,4,0,descRow.c_str());
+	string roomRow = "[Set/Edit/New](Room):" + dungeonExit->room->name;
+	mvwprintw(mainWindow,5,0,roomRow.c_str());
 
-	string roomRow = "[Room] " + dungeonExit->room->name;
-	mvwprintw(mainWindow,4,0,roomRow.c_str());
-	
 
 	wrefresh(mainWindow);
 
 }
 
-void ExitEditor::load(DungeonExit *_dungeonExit)
+DungeonRoom* ExitEditor::load(DungeonExit *_dungeonExit, DungeonRoom *_fromRoom)
 {
 	dungeonExit = _dungeonExit;
+	fromRoom = _fromRoom;
 	cmdMap["edit"] = &ExitEditor::edit;
 	cmdMap["exit"] = &ExitEditor::exit;
 	cmdMap["create"] = &ExitEditor::create;
@@ -121,9 +149,17 @@ void ExitEditor::load(DungeonExit *_dungeonExit)
 		}
 		else
 		{
-			if (cmd[0] == "exit") break;
+
 			commandFunction cmdFunc = cmdMap[cmd[0]];
 			string response = (this->*cmdFunc)(cmd);
+			if(response == "room")
+			{
+				return dungeonExit->room;
+			}
+			else if(response == "exit")
+			{
+				return fromRoom;
+			}
 			if(response.length() > 0) {
 				cmd.clear();
 				mvwprintw(responseWindow,0,0,response.c_str());

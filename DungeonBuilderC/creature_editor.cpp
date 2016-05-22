@@ -35,7 +35,7 @@ string CreatureEditor::edit(vector<string> args)
 	}
 	else if(editNoun == "description")
 	{
-		DungeonEditor ed;
+		TextEditor ed;
 		string newdesc = ed.edit("Editing Description For Creature:"+creature->name,creature->description);
 		creature->description = newdesc;
 		clearWindows();
@@ -80,7 +80,7 @@ void CreatureEditor::resetWindows()
 	string command;
 
 	setcolors(mainWindow,1,COLOR_RED,COLOR_BLACK);
-	mvwprintwCenter(mainWindow,1,"Creature Editor");
+	mvwprintwCenterBold(mainWindow,1,"Creature Editor");
 	setcolor(mainWindow,2,COLOR_WHITE);
 	string nameRow = "[Name]" + creature->name;
 	mvwprintw(mainWindow,3,0,nameRow.c_str());

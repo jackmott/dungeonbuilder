@@ -3,7 +3,6 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="main_menu.cpp" />
-    <ClCompile Include="dungeon_editor.cpp" />
     <ClCompile Include="command_window.cpp" />
     <ClCompile Include="printutils.cpp" />
     <ClCompile Include="utils.cpp" />
@@ -11,6 +10,8 @@
     <ClCompile Include="object_editor.cpp" />
     <ClCompile Include="exit_editor.cpp" />
     <ClCompile Include="creature_editor.cpp" />
+    <ClCompile Include="text_editor.cpp" />
+    <ClCompile Include="room_player.cpp" />
     <ClCompile Include="dungeon_data.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -19,12 +20,13 @@
     <ClInclude Include="headers\room_editor.h" />
     <ClInclude Include="headers\dungeon_data.h" />
     <ClInclude Include="headers\command_window.h" />
-    <ClInclude Include="headers\dungeon_editor.h" />
     <ClInclude Include="headers\main_menu.h" />
     <ClInclude Include="headers\printutils.h" />
     <ClInclude Include="headers\utils.h" />
     <ClInclude Include="headers\object_editor.h" />
     <ClInclude Include="headers\exit_editor.h" />
     <ClInclude Include="headers\creature_editor.h" />
+    <ClInclude Include="headers\text_editor.h" />
+    <ClInclude Include="headers\room_player.h" />
   </ItemGroup>
 </Project>
