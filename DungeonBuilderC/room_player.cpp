@@ -7,6 +7,8 @@ string RoomPlayer::exit(vector<string> args)
 	return "exit";
 }
 
+
+
 void RoomPlayer::clearWindows()
 {
 	delwin(commandWindow);
@@ -29,19 +31,27 @@ void RoomPlayer::resetWindows()
 	mvwprintwCenter(headerWindow,0,header.c_str());
 
 	int lineCount = 1;
-		
-	
+
+
 	string desc = room->description;
 	mvwprintw(mainWindow,lineCount,0,desc.c_str());
-	
-	lineCount++;	
+
+	lineCount++;
 	for(int i = 0; i < room->objects.size(); i++)
 	{
-		lineCount++;				
-		mvwprintw(mainWindow,lineCount,2,room->objects[i]->description.c_str());
+		lineCount++;
+		mvwprintw(mainWindow,lineCount,0,room->objects[i]->description.c_str());
+	}
+	lineCount++;
+	lineCount++;
+	for(int i =0; i < room->exits.size();i++)
+	{
+		lineCount++;
+		mvwprintw(mainWindow,lineCount,0,room->exits[i]->description.c_str());
 	}
 
-	
+
+
 	refresh();
 	wrefresh(headerWindow);
 	wrefresh(commandWindow);
@@ -52,9 +62,14 @@ void RoomPlayer::resetWindows()
 
 void RoomPlayer::load(DungeonRoom *_room)
 {
-	room = _room;	
+	room = _room;
 	cmdMap["exit"] = &RoomPlayer::exit;
-	
+	for(int i = 0; i < room->exits.size();i++)
+	{
+		string name = room->exits[i]->name;
+		toLower(&name);
+		moveMap[name] = room->exits[i]->room;
+	}
 
 	resetWindows();
 
@@ -68,10 +83,20 @@ void RoomPlayer::load(DungeonRoom *_room)
 			cmdFound = cmdMap.count(cmd[0]) > 0;
 
 			if(!cmdFound) {
-				cmd.clear();
-				mvwprintw(responseWindow,0,0,"What are you doing, dave?");
-				wclrtoeol(responseWindow);
-				wrefresh(responseWindow);
+				bool moveFound = moveMap.count(cmd[0]) > 0;
+				if(!moveFound) {
+					cmd.clear();
+					mvwprintw(responseWindow,0,0,"What are you doing, dave?");
+					wclrtoeol(responseWindow);
+					wrefresh(responseWindow);
+				}
+				else
+				{
+					DungeonRoom *newRoom = moveMap[cmd[0]];
+					room = newRoom;		
+					clearWindows();
+					resetWindows();
+				}
 			}
 			else
 			{
@@ -86,6 +111,7 @@ void RoomPlayer::load(DungeonRoom *_room)
 				}
 			}
 		}
+
 	}
 
 

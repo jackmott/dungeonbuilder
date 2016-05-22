@@ -15,7 +15,10 @@ extern vector<DungeonRoom*> g_roomList;
 struct RoomPlayer
 {
 	typedef string (RoomPlayer::*commandFunction) (vector<string>);			
+
+	
 	map<string,commandFunction> cmdMap;
+	map<string,DungeonRoom*> moveMap;
 
 	DungeonRoom *room;
 	WINDOW *headerWindow;
@@ -31,7 +34,7 @@ struct RoomPlayer
 
 	
 	string exit(vector<string> args);
-	
+	string move(DungeonRoom * newRoom);
 };
 
 

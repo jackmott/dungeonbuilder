@@ -28,6 +28,12 @@ void MainMenu::create(vector<string> args)
 	resetWindows();
 }
 
+void MainMenu::play(vector<string> args)
+{
+	RoomPlayer rp;
+	rp.load(g_startRoom);
+	resetWindows();
+}
 
 void MainMenu::clearWindows()
 {
@@ -67,6 +73,7 @@ void MainMenu::load()
 {
 	cmdMap["create"] = &MainMenu::create;
 	cmdMap["exit"] = &MainMenu::exitMenu;
+	cmdMap["enter"] = &MainMenu::play;
 
 	resetWindows();
 
