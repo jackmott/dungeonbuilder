@@ -73,7 +73,8 @@ void MainMenu::resetWindows()
 	mvwprintwCenter(mainWindow,3,"Dungeon Builder");
 	setcolor(mainWindow,2,COLOR_CYAN);
 	mvwprintwCenter(mainWindow,5,"[Create] a new Dungeon");
-	mvwprintwCenter(mainWindow,6,"[Exit] this world");
+	mvwprintwCenter(mainWindow, 6, "[Save] this map");
+	mvwprintwCenter(mainWindow,7,"[Exit] this world");
 	wrefresh(mainWindow);
 
 
