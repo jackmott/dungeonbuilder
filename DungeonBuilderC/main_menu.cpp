@@ -37,16 +37,21 @@ void MainMenu::clearWindows()
 }
 
 void MainMenu::saveMap(vector<string> args) {
-	//argument is filename, check and make sure it exists
-	//and it can open.
-	if (args.size() < 2)
-		
-	ofstream fout(args[1].c_str());
 
-	//Why does it keep telling me fout does not exist?
-	/*fout << g_startRoom->toString();
+	if (args.size() < 1)
+		mvwprintw(responseWindow, 0, 0, "Oops you need a file");
+	else if(!g_startRoom)
+		mvwprintw(responseWindow, 0, 0, "Must make a room first");
+	else {
+		ofstream fout(args[1].c_str());
 
-	fout.close();*/
+		fout << g_startRoom->toString();
+
+		fout.close();
+		mvwprintw(responseWindow, 0, 0, "File written");
+	}
+	wclrtoeol(responseWindow);
+	wrefresh(responseWindow);
 }
 
 void MainMenu::resetWindows()
