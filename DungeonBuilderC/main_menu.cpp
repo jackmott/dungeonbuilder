@@ -57,11 +57,13 @@ void MainMenu::saveMap(vector<string> args)
 		mvwprintw(responseWindow, 0, 0, "Oops you need a file");
 	else if(!g_startRoom)
 		mvwprintw(responseWindow, 0, 0, "Must make a room first");
-	else {
+	else 
+	{
 		ofstream fout(args[1].c_str());
 		fout << "{" << endl;
 		fout << TAB << "\"Rooms\": [" << endl;
-		for (auto i = 0u; i < g_roomList.size(); i++) {
+		for (auto i = 0u; i < g_roomList.size(); i++) 
+		{
 			fout << TAB << TAB << "{" << endl;
 			fout << g_roomList[i]->toJSON();
 			fout << TAB << TAB << "}," << endl;
@@ -77,7 +79,29 @@ void MainMenu::saveMap(vector<string> args)
 }
 
 void MainMenu::loadMap(vector<string> args)
-{}
+{
+	if (args.size() != 2) 
+	{
+		mvwprintw(responseWindow, 0, 0, "Requires single filename to load");
+	}
+	else
+	{
+		ifstream fin(args[1].c_str());
+		if (!fin)
+		{
+			mvwprintw(responseWindow, 0, 0, "Could not open that file");
+		}
+		else
+		{
+			JSONLoader loader;
+			g_roomList = loader.loadMap(fin);
+			g_startRoom = g_roomList[0];
+		}
+	}
+
+	wclrtoeol(responseWindow);
+	wrefresh(responseWindow);
+}
 
 void MainMenu::resetWindows()
 {

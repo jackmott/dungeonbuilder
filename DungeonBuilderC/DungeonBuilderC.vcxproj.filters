@@ -14,6 +14,7 @@
     <ClCompile Include="room_player.cpp" />
     <ClCompile Include="dungeon_data.cpp" />
     <ClCompile Include="dungeon_display.cpp" />
+    <ClCompile Include="JSON_loader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\curses.h" />
@@ -31,6 +32,7 @@
     <ClInclude Include="headers\room_player.h" />
     <ClInclude Include="headers\dungeon_display.h" />
     <ClInclude Include="headers\string_constants.h" />
+    <ClInclude Include="headers\JSON_loader.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\pdcurses.lib" />
