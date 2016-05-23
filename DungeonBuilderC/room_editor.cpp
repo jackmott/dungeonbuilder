@@ -158,28 +158,28 @@ void RoomEditor::resetWindows()
 	lineCount++;
 	lineCount++;
 	mvwprintw(mainWindow,lineCount,0,STR_MENU_OBJECT);
-	for(auto i= 0u; i < room->objects.size(); i++)
+	for(auto o : room->objects)
 	{
 		lineCount++;
-		string row = room->objects[i]->name;
+		string row = o->name;
 		mvwprintw(mainWindow,lineCount,2,row.c_str());
 	}
 
 	lineCount++;
 	mvwprintw(mainWindow,lineCount,0,STR_MENU_CREATURE);
-	for(auto i=0u; i < room->creatures.size(); i++)
+	for(auto creature : room->creatures)
 	{
 		lineCount++;
-		string row = room->creatures[i]->name;
+		string row = creature->name;
 		mvwprintw(mainWindow,lineCount,2,row.c_str());
 	}
 
 	lineCount++;
 	mvwprintw(mainWindow,lineCount,0,STR_MENU_EXIT);
-	for(auto i=0u; i < room->exits.size(); i++)
+	for(auto e : room->exits)
 	{
 		lineCount++;
-		string row = room->exits[i]->name + STR_ARROW + room->exits[i]->room->name;
+		string row = e->name + STR_ARROW + e->room->name;
 		mvwprintw(mainWindow,lineCount,2,row.c_str());
 	}
 

@@ -38,19 +38,16 @@ string TextEditor::edit(string _header,string startText)
 
 	while(!done)
 	{
-
-
 		printBuff();
 		printStatusLine();
-
 		wrefresh(headerWindow);
 		int input = wgetch(mainWindow);
 		handleInput(input);
 	}
 	string result;
-	for(auto i = 0u; i < lines.size(); i++)
+	for(auto line : lines)
 	{
-		result = result + lines[i];
+		result = result + line;
 	}
 	clearWindows();
 	return result;

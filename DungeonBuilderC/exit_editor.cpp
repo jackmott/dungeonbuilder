@@ -51,8 +51,6 @@ string ExitEditor::edit(vector<string> args)
 		return "I don't know how to edit that";
 	}
 
-
-
 }
 
 string ExitEditor::create(vector<string> args)

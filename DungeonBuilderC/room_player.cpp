@@ -79,21 +79,19 @@ void RoomPlayer::resetWindows()
 	mvwprintw(mainWindow,lineCount,0,desc.c_str());
 
 	lineCount++;
-	for(auto i = 0u; i < room->objects.size(); i++)
+	for(auto o : room->objects)
 	{
 		lineCount++;
-		mvwprintw(mainWindow,lineCount,0,room->objects[i]->description.c_str());
+		mvwprintw(mainWindow,lineCount,0,o->description.c_str());
 	}
 
 	lineCount++;
 	lineCount++;
-	for(auto i =0u; i < room->exits.size();i++)
+	for(auto exit : room->exits)
 	{
 		lineCount++;
-		mvwprintw(mainWindow,lineCount,0,room->exits[i]->description.c_str());
+		mvwprintw(mainWindow,lineCount,0,exit->description.c_str());
 	}
-
-
 
 	refresh();
 	wrefresh(headerWindow);
@@ -113,21 +111,20 @@ void RoomPlayer::load(DungeonRoom *_room,DungeonPlayer *_player)
 
 	//iterate over players inventory and add all
 	//aliases for the verb 'use' to the cmdMap
-	for(auto i = 0u; i < player->objects.size();i++)
-	{
-		DungeonObject *o = player->objects[i];
-		for(auto j = 0u; j < o->useAliases.size(); j++)
+	for(auto o : player->objects)
+	{		
+		for(auto alias : o->useAliases)
 		{
-			cmdMap[o->useAliases[i]] = &RoomPlayer::use;
+			cmdMap[alias] = &RoomPlayer::use;
 		}
 	}
 
 	//create a map of exit names to move to
-	for(auto i = 0u; i < room->exits.size();i++)
+	for(auto e : room->exits)
 	{
-		string name = room->exits[i]->name;
+		string name = e->name;
 		toLower(&name);
-		moveMap[name] = room->exits[i]->room;
+		moveMap[name] = e->room;
 	}
 
 	resetWindows();
