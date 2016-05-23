@@ -23,32 +23,26 @@ string CreatureEditor::set(vector<string> args)
 	{
 		string newname = join(2,args," ");
 		creature->name = newname;
-		clearWindows();
-		resetWindows();
-		return "";
 	}
-	else if (editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
+	else if(editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
 	{
 		string desc = join(2,args," ");
-		creature->description = desc;
-		clearWindows();
-		resetWindows();
-		return "";
+		creature->description = desc;		
 	}
 	else if(editNoun == STR_HITPOINTS)
 	{
 		string hitstring = args[2];
 		int hitpoints = stoi(hitstring,nullptr,10);
-		creature->hitpoints = hitpoints;
-		clearWindows();
-		resetWindows();
-		return "";
-
+		creature->hitpoints = hitpoints;		
 	}
 	else {
 		return "I don't know how to set that";
 	}
+	clearWindows();
+	resetWindows();
+	return "";
 }
+
 
 string CreatureEditor::edit(vector<string> args)
 {
@@ -64,7 +58,7 @@ string CreatureEditor::edit(vector<string> args)
 		return set(args);
 
 	}
-	else if (editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
+	else if(editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
 	{
 		TextEditor ed;
 		string newdesc = ed.edit("Editing Description For Creature:"+creature->name,creature->description);

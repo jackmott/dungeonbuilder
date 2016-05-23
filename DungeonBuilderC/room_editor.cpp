@@ -23,21 +23,18 @@ string RoomEditor::set(vector<string> args)
 	{
 		string newname = join(2,args," ");
 		room->name = newname;
-		clearWindows();
-		resetWindows();
-		return "";
 	}
-	else if (editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
+	else if(editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
 	{
 		string desc = join(2,args," ");
 		room->description = desc;
-		clearWindows();
-		resetWindows();
-		return "";
 	}
 	else {
 		return "I don't know how to set that";
 	}
+	clearWindows();
+	resetWindows();
+	return "";
 }
 
 string RoomEditor::edit(vector<string> args)
@@ -53,12 +50,12 @@ string RoomEditor::edit(vector<string> args)
 	{
 		return set(args);
 	}
-	else if (editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
+	else if(editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
 	{
 		TextEditor ed;
 		clearWindows();
 		string newdesc = ed.edit("Editing Description For Room:"+room->name,room->description);
-		room->description = newdesc;
+		room->description = newdesc;		
 		resetWindows();
 		return "";
 	}
@@ -147,7 +144,7 @@ void RoomEditor::resetWindows()
 
 	int lineCount = 3;
 
-	
+
 	setcolors(mainWindow,1,COLOR_RED,COLOR_BLACK);
 	mvwprintwCenterBold(mainWindow,1,"Room Editor");
 	setcolor(mainWindow,2,COLOR_WHITE);
