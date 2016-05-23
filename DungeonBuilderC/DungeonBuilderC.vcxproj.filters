@@ -11,9 +11,9 @@
     <ClCompile Include="exit_editor.cpp" />
     <ClCompile Include="creature_editor.cpp" />
     <ClCompile Include="text_editor.cpp" />
-    <ClCompile Include="room_player.cpp" />
     <ClCompile Include="dungeon_data.cpp" />
     <ClCompile Include="dungeon_display.cpp" />
+    <ClCompile Include="dungeon_engine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\curses.h" />
@@ -28,9 +28,9 @@
     <ClInclude Include="headers\exit_editor.h" />
     <ClInclude Include="headers\creature_editor.h" />
     <ClInclude Include="headers\text_editor.h" />
-    <ClInclude Include="headers\room_player.h" />
     <ClInclude Include="headers\dungeon_display.h" />
     <ClInclude Include="headers\string_constants.h" />
+    <ClInclude Include="headers\dungeon_engine.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\pdcurses.lib" />

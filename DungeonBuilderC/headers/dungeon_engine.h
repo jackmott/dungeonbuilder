@@ -13,9 +13,9 @@
 extern DungeonRoom *g_startRoom;
 extern vector<DungeonRoom*> g_roomList;
 
-struct RoomPlayer
+struct DungeonEngine
 {
-	typedef string (RoomPlayer::*commandFunction) (vector<string>);			
+	typedef string (DungeonEngine::*commandFunction) (vector<string>);			
 
 	
 	map<string,commandFunction> cmdMap;

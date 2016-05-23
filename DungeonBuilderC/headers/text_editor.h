@@ -7,7 +7,7 @@
 #include <string>
 #include <sstream>
 #include "headers/printutils.h"
-
+#include "headers/utils.h"
 using namespace std;
 
 struct TextEditor

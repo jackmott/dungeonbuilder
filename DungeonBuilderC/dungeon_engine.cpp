@@ -1,13 +1,13 @@
-#include "headers/room_player.h"
+#include "headers/dungeon_engine.h"
 
 using namespace std;
 
-string RoomPlayer::exit(vector<string> args)
+string DungeonEngine::exit(vector<string> args)
 {
 	return STR_EXIT;
 }
 
-string RoomPlayer::take(vector<string> args)
+string DungeonEngine::take(vector<string> args)
 {
 	if(args.size() < 2) {
 		return "What do you want to take?";
@@ -31,7 +31,7 @@ string RoomPlayer::take(vector<string> args)
 	return "You take the " + args[1];
 	
 }
-string RoomPlayer::use(vector<string> args)
+string DungeonEngine::use(vector<string> args)
 {
 	if(args.size() < 2) {
 		return "What do you want to use?";
@@ -52,7 +52,7 @@ string RoomPlayer::use(vector<string> args)
 }
 
 
-void RoomPlayer::clearWindows()
+void DungeonEngine::clearWindows()
 {
 	delwin(commandWindow);
 	delwin(responseWindow);
@@ -61,7 +61,7 @@ void RoomPlayer::clearWindows()
 	clear();
 }
 
-void RoomPlayer::resetWindows()
+void DungeonEngine::resetWindows()
 {
 	headerWindow = newwin(1,COLS,0,0);
 	commandWindow = newwin(1,COLS,LINES-1,0);
@@ -101,13 +101,13 @@ void RoomPlayer::resetWindows()
 
 }
 
-void RoomPlayer::load(DungeonRoom *_room,DungeonPlayer *_player)
+void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 {
 	player = _player;
 	room = _room;
-	cmdMap[STR_EXIT] = &RoomPlayer::exit;
-	cmdMap[STR_USE] = &RoomPlayer::use;
-	cmdMap[STR_TAKE] = &RoomPlayer::take;
+	cmdMap[STR_EXIT] = &DungeonEngine::exit;
+	cmdMap[STR_USE] = &DungeonEngine::use;
+	cmdMap[STR_TAKE] = &DungeonEngine::take;
 
 	//iterate over players inventory and add all
 	//aliases for the verb 'use' to the cmdMap
@@ -115,7 +115,7 @@ void RoomPlayer::load(DungeonRoom *_room,DungeonPlayer *_player)
 	{		
 		for(auto alias : o->useAliases)
 		{
-			cmdMap[alias] = &RoomPlayer::use;
+			cmdMap[alias] = &DungeonEngine::use;
 		}
 	}
 
