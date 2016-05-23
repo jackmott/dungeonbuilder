@@ -1,4 +1,8 @@
+#ifdef _WIN32
 #include "curses.h"
+#else
+#include <ncurses.h>
+#endif
 #include <string>
 //#include "text_editor.h"
 #include "main_menu.h"

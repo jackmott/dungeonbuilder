@@ -2,7 +2,11 @@
 #ifndef MAIN_MENU_H
 #define MAIN_MENU_H
 
+#ifdef _WIN32
 #include "curses.h"
+#else
+#include <ncurses.h>
+#endif
 #include <vector>
 #include <string>
 #include <sstream>

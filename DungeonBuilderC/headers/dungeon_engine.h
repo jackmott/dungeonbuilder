@@ -2,7 +2,11 @@
 #ifndef ROOM_PLAYER
 #define ROOM_PLAYER
 
+#ifdef _WIN32
 #include "curses.h"
+#else
+#include <ncurses.h>
+#endif
 #include "dungeon_data.h"
 #include "printutils.h"
 #include "utils.h"

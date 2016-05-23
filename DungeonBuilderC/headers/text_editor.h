@@ -2,7 +2,11 @@
 #ifndef TEXT_EDITOR
 #define TEXT_EDITOR
 
+#ifdef _WIN32
 #include "curses.h"
+#else
+#include <ncurses.h>
+#endif
 #include <vector>
 #include <string>
 #include <sstream>

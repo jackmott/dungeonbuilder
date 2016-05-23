@@ -2,7 +2,12 @@
 #ifndef COMMAND_WINDOW
 #define COMMAND_WINDOW
 
+#ifdef _WIN32
 #include "curses.h"
+#else
+#include <ncurses.h>
+#endif
+
 #include <algorithm>
 #include <string>
 #include <sstream>
