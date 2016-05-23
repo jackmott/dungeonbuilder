@@ -16,8 +16,13 @@ vector<DungeonRoom*> JSONLoader::loadMap(ifstream& fin)
 	symStack.push('}');
 	symStack.push(']');
 	int numRooms = 0;
-	while (!symStack.empty()) {
-		roomList.push_back(this->loadRoom(fin));
+	while (!symStack.empty()) 
+	{
+		fin >> ch;
+		if (ch == '{')
+			roomList.push_back(this->loadRoom(fin));
+		else
+			symStack.pop();
 	}
 
 	return roomList;
@@ -25,7 +30,9 @@ vector<DungeonRoom*> JSONLoader::loadMap(ifstream& fin)
 
 DungeonRoom* JSONLoader::loadRoom(ifstream& fin)
 {
+	char ch;
+	string curr;
 	DungeonRoom* room = new DungeonRoom;
-
+	while(fin >> ch)
 	return room;
 }
