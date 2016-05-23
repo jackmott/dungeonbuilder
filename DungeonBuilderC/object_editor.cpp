@@ -17,7 +17,7 @@ string ObjectEditor::edit(vector<string> args)
 	string editNoun = args[1];
 	toLower(&editNoun);
 
-	if(editNoun == "name")	
+	if(editNoun == "name")
 	{
 		//set it directly or go to editor
 		if(args.size() < 3) {
@@ -47,8 +47,32 @@ string ObjectEditor::edit(vector<string> args)
 		return "I don't know how to edit that";
 	}
 
+}
 
-	
+string ObjectEditor::add(vector<string> args)
+{
+	if(args.size() < 2)
+	{
+		return "What do you want to add?";
+	}
+	string addNoun = args[1];
+	toLower(&addNoun);
+
+	if(addNoun == "usealias") {
+		if(args.size() < 3)
+		{
+			return "Provide a string to alias the verb 'use'";
+		}
+		string alias = args[2];
+		object->useAliases.push_back(alias);
+		clearWindows();
+		resetWindows();
+		return "";
+	}
+	else
+	{
+		return "I don't know how to add that";
+	}
 }
 
 string ObjectEditor::create(vector<string> args)
@@ -82,12 +106,13 @@ void ObjectEditor::resetWindows()
 	setcolors(mainWindow,1,COLOR_RED,COLOR_BLACK);
 	mvwprintwCenterBold(mainWindow,1,"Object Editor");
 	setcolor(mainWindow,2,COLOR_WHITE);
-	string nameRow = "[Name]" + object->name;
+	string nameRow = "[Name]: " + object->name;
 	mvwprintw(mainWindow,3,0,nameRow.c_str());
-	string descRow = "[Description] " + object->description.substr(0,min(MAX_EDITOR_PRINT_WIDTH,(int)object->description.length()));
-	if (MAX_EDITOR_PRINT_WIDTH < object->description.length()) descRow += "...";
+	string descRow = "[Description]: " + object->description;
 	mvwprintw(mainWindow,4,0,descRow.c_str());
-
+	string aliasRow = "[Add/Remove](UseAlias): ";
+	aliasRow += join(0,object->useAliases,",");
+	mvwprintw(mainWindow,5,0,aliasRow.c_str());
 	wrefresh(mainWindow);
 
 }
@@ -98,6 +123,7 @@ void ObjectEditor::load(DungeonObject *_object)
 	cmdMap["edit"] = &ObjectEditor::edit;
 	cmdMap["exit"] = &ObjectEditor::exit;
 	cmdMap["create"] = &ObjectEditor::create;
+	cmdMap["add"] = &ObjectEditor::add;
 
 	resetWindows();
 
@@ -118,7 +144,7 @@ void ObjectEditor::load(DungeonObject *_object)
 		}
 		else
 		{
-			if (cmd[0] == "exit") break;
+			if(cmd[0] == "exit") break;
 			commandFunction cmdFunc = cmdMap[cmd[0]];
 			string response = (this->*cmdFunc)(cmd);
 			if(response.length() > 0) {

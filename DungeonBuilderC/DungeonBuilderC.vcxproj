@@ -50,6 +50,9 @@
     <ClCompile Include="main_menu.cpp" />
     <ClInclude Include="headers\printutils.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Library Include="lib\pdcurses.lib" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{799C09B3-0B2C-4371-8D26-DDAA12EE6691}</ProjectGuid>
     <RootNamespace>DungeonBuilderC</RootNamespace>
