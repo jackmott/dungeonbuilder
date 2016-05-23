@@ -5,7 +5,7 @@ using namespace std;
 
 string ExitEditor::exit(vector<string> args)
 {
-	return "exit";
+	return STR_EXIT;
 }
 
 string ExitEditor::edit(vector<string> args)
@@ -17,7 +17,7 @@ string ExitEditor::edit(vector<string> args)
 	string editNoun = args[1];
 	toLower(&editNoun);
 
-	if(editNoun == "name")
+	if(editNoun == STR_NAME)
 	{
 		//set it directly or go to editor
 		if(args.size() < 3) {
@@ -33,7 +33,7 @@ string ExitEditor::edit(vector<string> args)
 		}
 
 	}
-	else if(editNoun == "description")
+	else if (editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
 	{
 		TextEditor ed;
 		string newdesc = ed.edit("Editing Description For Object:"+dungeonExit->name,dungeonExit->description);
@@ -42,9 +42,9 @@ string ExitEditor::edit(vector<string> args)
 		resetWindows();
 		return "";
 	}
-	else if(editNoun =="room")
+	else if(editNoun == STR_ROOM)
 	{
-		return "room";
+		return STR_ROOM;
 	}
 	else
 	{
@@ -69,7 +69,7 @@ string ExitEditor::create(vector<string> args)
 
 	toLower(&createNoun);
 
-	if(createNoun == "room")
+	if(createNoun == STR_ROOM)
 	{
 		DungeonRoom* newRoom = new DungeonRoom();		
 		newRoom->name = join(2,args," ");
@@ -110,11 +110,11 @@ void ExitEditor::resetWindows()
 	setcolors(mainWindow,1,COLOR_RED,COLOR_BLACK);
 	mvwprintwCenterBold(mainWindow,1,"Exit Editor");
 	setcolor(mainWindow,2,COLOR_WHITE);
-	string nameRow = "[Set](Name):" + dungeonExit->name;
+	string nameRow = STR_MENU_NAME + dungeonExit->name;
 	mvwprintw(mainWindow,3,0,nameRow.c_str());
-	string descRow = "[Set/Edit](Description): " + dungeonExit->description;
+	string descRow = STR_MENU_DESCRIPTION + dungeonExit->description;
 	mvwprintw(mainWindow,4,0,descRow.c_str());
-	string roomRow = "[Set/Edit/New](Room):" + dungeonExit->room->name;
+	string roomRow = STR_MENU_ROOM + dungeonExit->room->name;
 	mvwprintw(mainWindow,5,0,roomRow.c_str());
 
 
@@ -126,9 +126,9 @@ DungeonRoom* ExitEditor::load(DungeonExit *_dungeonExit, DungeonRoom *_fromRoom)
 {
 	dungeonExit = _dungeonExit;
 	fromRoom = _fromRoom;
-	cmdMap["edit"] = &ExitEditor::edit;
-	cmdMap["exit"] = &ExitEditor::exit;
-	cmdMap["create"] = &ExitEditor::create;
+	cmdMap[STR_EDIT] = &ExitEditor::edit;
+	cmdMap[STR_EXIT] = &ExitEditor::exit;
+	cmdMap[STR_CREATE] = &ExitEditor::create;
 
 	resetWindows();
 
@@ -136,7 +136,7 @@ DungeonRoom* ExitEditor::load(DungeonExit *_dungeonExit, DungeonRoom *_fromRoom)
 	bool cmdFound = false;
 	vector<string> cmd;
 	while(true) {
-		cmd = cmdW.command(commandWindow,":");
+		cmd = cmdW.command(commandWindow,STR_PROMPT);
 		if(cmd.size() > 0) {
 			toLower(&cmd[0]);
 			cmdFound = cmdMap.count(cmd[0]) > 0;
@@ -152,11 +152,11 @@ DungeonRoom* ExitEditor::load(DungeonExit *_dungeonExit, DungeonRoom *_fromRoom)
 
 			commandFunction cmdFunc = cmdMap[cmd[0]];
 			string response = (this->*cmdFunc)(cmd);
-			if(response == "room")
+			if(response == STR_ROOM)
 			{
 				return dungeonExit->room;
 			}
-			else if(response == "exit")
+			else if(response == STR_EXIT)
 			{
 				return fromRoom;
 			}

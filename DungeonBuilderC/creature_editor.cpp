@@ -5,7 +5,7 @@ using namespace std;
 
 string CreatureEditor::exit(vector<string> args)
 {
-	return "exit";
+	return STR_EXIT;
 }
 
 string CreatureEditor::set(vector<string> args)
@@ -19,7 +19,7 @@ string CreatureEditor::set(vector<string> args)
 	}
 	string editNoun = args[1];
 	toLower(&editNoun);
-	if(editNoun == "name")
+	if(editNoun ==STR_NAME)
 	{
 		string newname = join(2,args," ");
 		creature->name = newname;
@@ -27,7 +27,7 @@ string CreatureEditor::set(vector<string> args)
 		resetWindows();
 		return "";
 	}
-	else if(editNoun == "desc" || editNoun == "description")
+	else if (editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
 	{
 		string desc = join(2,args," ");
 		creature->description = desc;
@@ -35,7 +35,7 @@ string CreatureEditor::set(vector<string> args)
 		resetWindows();
 		return "";
 	}
-	else if(editNoun == "hitpoints")
+	else if(editNoun == STR_HITPOINTS)
 	{
 		string hitstring = args[2];
 		int hitpoints = stoi(hitstring,nullptr,10);
@@ -59,12 +59,12 @@ string CreatureEditor::edit(vector<string> args)
 	string editNoun = args[1];
 	toLower(&editNoun);
 
-	if(editNoun == "name")
+	if(editNoun == STR_NAME)
 	{
 		return set(args);
 
 	}
-	else if(editNoun == "description")
+	else if (editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
 	{
 		TextEditor ed;
 		string newdesc = ed.edit("Editing Description For Creature:"+creature->name,creature->description);
@@ -113,11 +113,11 @@ void CreatureEditor::resetWindows()
 	setcolors(mainWindow,1,COLOR_RED,COLOR_BLACK);
 	mvwprintwCenterBold(mainWindow,1,"Creature Editor");
 	setcolor(mainWindow,2,COLOR_WHITE);
-	string nameRow = "[Name]" + creature->name;
+	string nameRow = STR_MENU_NAME + creature->name;
 	mvwprintw(mainWindow,3,0,nameRow.c_str());
-	string descRow = "[Description] " + creature->description;
+	string descRow = STR_MENU_DESCRIPTION + creature->description;
 	mvwprintw(mainWindow,4,0,descRow.c_str());
-	string hitpointsRow = "[Hitpoints] " + to_string(creature->hitpoints);
+	string hitpointsRow = STR_MENU_HITPOINTS + to_string(creature->hitpoints);
 	mvwprintw(mainWindow,5,0,hitpointsRow.c_str());
 
 	wrefresh(mainWindow);
@@ -127,10 +127,10 @@ void CreatureEditor::resetWindows()
 void CreatureEditor::load(DungeonCreature *_creature)
 {
 	creature = _creature;
-	cmdMap["edit"] = &CreatureEditor::edit;
-	cmdMap["exit"] = &CreatureEditor::exit;
-	cmdMap["create"] = &CreatureEditor::create;
-	cmdMap["set"] = &CreatureEditor::set;
+	cmdMap[STR_EDIT] = &CreatureEditor::edit;
+	cmdMap[STR_EXIT] = &CreatureEditor::exit;
+	cmdMap[STR_CREATE] = &CreatureEditor::create;
+	cmdMap[STR_SET] = &CreatureEditor::set;
 
 	resetWindows();
 
@@ -138,7 +138,7 @@ void CreatureEditor::load(DungeonCreature *_creature)
 	bool cmdFound = false;
 	vector<string> cmd;
 	while(true) {
-		cmd = cmdW.command(commandWindow,":");
+		cmd = cmdW.command(commandWindow,STR_PROMPT);
 		if(cmd.size() > 0) {
 			toLower(&cmd[0]);
 			cmdFound = cmdMap.count(cmd[0]) > 0;
@@ -151,7 +151,7 @@ void CreatureEditor::load(DungeonCreature *_creature)
 		}
 		else
 		{
-			if(cmd[0] == "exit") break;
+			if(cmd[0] == STR_EXIT) break;
 			commandFunction cmdFunc = cmdMap[cmd[0]];
 			string response = (this->*cmdFunc)(cmd);
 			if(response.length() > 0) {

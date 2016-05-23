@@ -12,6 +12,8 @@
 #include "headers/printutils.h"
 #include "headers/utils.h"
 #include "headers/dungeon_data.h"
+#include "headers/string_constants.h"
+#include "headers/string_constants.h"
 
 using namespace std;
 

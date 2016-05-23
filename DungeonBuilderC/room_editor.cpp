@@ -5,7 +5,7 @@ using namespace std;
 
 string RoomEditor::exit(vector<string> args)
 {
-	return "exit";
+	return STR_EXIT;
 }
 
 string RoomEditor::set(vector<string> args)
@@ -19,7 +19,7 @@ string RoomEditor::set(vector<string> args)
 	}
 	string editNoun = args[1];
 	toLower(&editNoun);
-	if(editNoun == "name")
+	if(editNoun == STR_NAME)
 	{
 		string newname = join(2,args," ");
 		room->name = newname;
@@ -27,7 +27,7 @@ string RoomEditor::set(vector<string> args)
 		resetWindows();
 		return "";
 	}
-	else if(editNoun == "desc" || editNoun == "description")
+	else if (editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
 	{
 		string desc = join(2,args," ");
 		room->description = desc;
@@ -49,11 +49,11 @@ string RoomEditor::edit(vector<string> args)
 	string editNoun = args[1];
 	toLower(&editNoun);
 
-	if(editNoun == "name")
+	if(editNoun == STR_NAME)
 	{
 		return set(args);
 	}
-	else if(editNoun == "description" || editNoun == "desc")
+	else if (editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
 	{
 		TextEditor ed;
 		clearWindows();
@@ -84,7 +84,7 @@ string RoomEditor::create(vector<string> args)
 	toLower(&createNoun);
 
 
-	if(createNoun == "creature")
+	if(createNoun == STR_CREATURE)
 	{
 		CreatureEditor editor;
 		DungeonCreature* creature = new DungeonCreature();
@@ -95,7 +95,7 @@ string RoomEditor::create(vector<string> args)
 		resetWindows();
 		return "";
 	}
-	else if(createNoun == "object")
+	else if(createNoun == STR_OBJECT)
 	{
 		ObjectEditor oe;
 		DungeonObject* o = new DungeonObject();
@@ -107,7 +107,7 @@ string RoomEditor::create(vector<string> args)
 
 		return "";
 	}
-	else if(createNoun == "exit")
+	else if(createNoun == STR_EXIT)
 	{
 		ExitEditor editor;
 		DungeonExit * e = new DungeonExit();
@@ -151,16 +151,16 @@ void RoomEditor::resetWindows()
 	setcolors(mainWindow,1,COLOR_RED,COLOR_BLACK);
 	mvwprintwCenterBold(mainWindow,1,"Room Editor");
 	setcolor(mainWindow,2,COLOR_WHITE);
-	string nameRow = "[Set](Name):" + room->name;
+	string nameRow = STR_MENU_NAME + room->name;
 	mvwprintw(mainWindow,lineCount,0,nameRow.c_str());
 
 	lineCount++;
-	string descRow = "[Set/Edit](Desc) " + room->description;
+	string descRow = STR_MENU_DESCRIPTION + room->description;
 	mvwprintw(mainWindow,lineCount,0,descRow.c_str());
 
 	lineCount++;
 	lineCount++;
-	mvwprintw(mainWindow,lineCount,0,"[Create/Delete/Edit](Object):");
+	mvwprintw(mainWindow,lineCount,0,STR_MENU_OBJECT);
 	for(auto i= 0u; i < room->objects.size(); i++)
 	{
 		lineCount++;
@@ -169,7 +169,7 @@ void RoomEditor::resetWindows()
 	}
 
 	lineCount++;
-	mvwprintw(mainWindow,lineCount,0,"[Create/Delete/Edit](Creatures):");
+	mvwprintw(mainWindow,lineCount,0,STR_MENU_CREATURE);
 	for(auto i=0u; i < room->creatures.size(); i++)
 	{
 		lineCount++;
@@ -178,11 +178,11 @@ void RoomEditor::resetWindows()
 	}
 
 	lineCount++;
-	mvwprintw(mainWindow,lineCount,0,"[Create/Delete/Edit](Exits): ");
+	mvwprintw(mainWindow,lineCount,0,STR_MENU_EXIT);
 	for(auto i=0u; i < room->exits.size(); i++)
 	{
 		lineCount++;
-		string row = room->exits[i]->name + "->" + room->exits[i]->room->name;
+		string row = room->exits[i]->name + STR_ARROW + room->exits[i]->room->name;
 		mvwprintw(mainWindow,lineCount,2,row.c_str());
 	}
 
@@ -196,10 +196,10 @@ void RoomEditor::resetWindows()
 void RoomEditor::load(DungeonRoom *_room)
 {
 	room = _room;
-	cmdMap["edit"] = &RoomEditor::edit;
-	cmdMap["set"] = &RoomEditor::set;
-	cmdMap["exit"] = &RoomEditor::exit;
-	cmdMap["create"] = &RoomEditor::create;
+	cmdMap[STR_EDIT] = &RoomEditor::edit;
+	cmdMap[STR_SET] = &RoomEditor::set;
+	cmdMap[STR_EXIT] = &RoomEditor::exit;
+	cmdMap[STR_CREATE] = &RoomEditor::create;
 
 	resetWindows();
 
@@ -207,7 +207,7 @@ void RoomEditor::load(DungeonRoom *_room)
 	bool cmdFound = false;
 	vector<string> cmd;
 	while(true) {
-		cmd = cmdW.command(commandWindow,":");
+		cmd = cmdW.command(commandWindow,STR_PROMPT);
 		if(cmd.size() > 0) {
 			toLower(&cmd[0]);
 			cmdFound = cmdMap.count(cmd[0]) > 0;
@@ -220,7 +220,7 @@ void RoomEditor::load(DungeonRoom *_room)
 			}
 			else
 			{
-				if(cmd[0] == "exit") break;
+				if(cmd[0] == STR_EXIT) break;
 				commandFunction cmdFunc = cmdMap[cmd[0]];
 				string response = (this->*cmdFunc)(cmd);
 				if(response.length() > 0) {

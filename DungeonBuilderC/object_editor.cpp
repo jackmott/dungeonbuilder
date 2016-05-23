@@ -5,7 +5,7 @@ using namespace std;
 
 string ObjectEditor::exit(vector<string> args)
 {
-	return "exit";
+	return STR_EXIT;
 }
 
 string ObjectEditor::edit(vector<string> args)
@@ -17,7 +17,7 @@ string ObjectEditor::edit(vector<string> args)
 	string editNoun = args[1];
 	toLower(&editNoun);
 
-	if(editNoun == "name")
+	if(editNoun == STR_NAME)
 	{
 		//set it directly or go to editor
 		if(args.size() < 3) {
@@ -33,7 +33,7 @@ string ObjectEditor::edit(vector<string> args)
 		}
 
 	}
-	else if(editNoun == "description")
+	else if (editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
 	{
 		TextEditor ed;
 		string newdesc = ed.edit("Editing Description For Object:"+object->name,object->description);
@@ -58,7 +58,7 @@ string ObjectEditor::add(vector<string> args)
 	string addNoun = args[1];
 	toLower(&addNoun);
 
-	if(addNoun == "usealias") {
+	if(addNoun == STR_USE_ALIAS) {
 		if(args.size() < 3)
 		{
 			return "Provide a string to alias the verb 'use'";
@@ -106,12 +106,12 @@ void ObjectEditor::resetWindows()
 	setcolors(mainWindow,1,COLOR_RED,COLOR_BLACK);
 	mvwprintwCenterBold(mainWindow,1,"Object Editor");
 	setcolor(mainWindow,2,COLOR_WHITE);
-	string nameRow = "[Name]: " + object->name;
+	string nameRow = STR_MENU_NAME + object->name;
 	mvwprintw(mainWindow,3,0,nameRow.c_str());
-	string descRow = "[Description]: " + object->description;
+	string descRow = STR_MENU_DESCRIPTION + object->description;
 	mvwprintw(mainWindow,4,0,descRow.c_str());
-	string aliasRow = "[Add/Remove](UseAlias): ";
-	aliasRow += join(0,object->useAliases,",");
+	string aliasRow = STR_MENU_USE_ALIAS;
+	aliasRow += join(0,object->useAliases,STR_JOINER);
 	mvwprintw(mainWindow,5,0,aliasRow.c_str());
 	wrefresh(mainWindow);
 
@@ -120,10 +120,10 @@ void ObjectEditor::resetWindows()
 void ObjectEditor::load(DungeonObject *_object)
 {
 	object = _object;
-	cmdMap["edit"] = &ObjectEditor::edit;
-	cmdMap["exit"] = &ObjectEditor::exit;
-	cmdMap["create"] = &ObjectEditor::create;
-	cmdMap["add"] = &ObjectEditor::add;
+	cmdMap[STR_EDIT] = &ObjectEditor::edit;
+	cmdMap[STR_EXIT] = &ObjectEditor::exit;
+	cmdMap[STR_CREATE] = &ObjectEditor::create;
+	cmdMap[STR_ADD] = &ObjectEditor::add;
 
 	resetWindows();
 
@@ -131,7 +131,7 @@ void ObjectEditor::load(DungeonObject *_object)
 	bool cmdFound = false;
 	vector<string> cmd;
 	while(true) {
-		cmd = cmdW.command(commandWindow,":");
+		cmd = cmdW.command(commandWindow,STR_PROMPT);
 		if(cmd.size() > 0) {
 			toLower(&cmd[0]);
 			cmdFound = cmdMap.count(cmd[0]) > 0;
@@ -144,7 +144,7 @@ void ObjectEditor::load(DungeonObject *_object)
 		}
 		else
 		{
-			if(cmd[0] == "exit") break;
+			if(cmd[0] == STR_EXIT) break;
 			commandFunction cmdFunc = cmdMap[cmd[0]];
 			string response = (this->*cmdFunc)(cmd);
 			if(response.length() > 0) {

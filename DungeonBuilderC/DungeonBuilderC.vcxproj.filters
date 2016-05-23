@@ -30,6 +30,7 @@
     <ClInclude Include="headers\text_editor.h" />
     <ClInclude Include="headers\room_player.h" />
     <ClInclude Include="headers\dungeon_display.h" />
+    <ClInclude Include="headers\string_constants.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\pdcurses.lib" />

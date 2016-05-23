@@ -110,10 +110,10 @@ void MainMenu::resetWindows()
 
 void MainMenu::load()
 {
-	cmdMap["create"] = &MainMenu::create;
-	cmdMap["exit"] = &MainMenu::exitMenu;
-	cmdMap["enter"] = &MainMenu::play;
-	cmdMap["save"] = &MainMenu::saveMap;
+	cmdMap[STR_CREATE] = &MainMenu::create;
+	cmdMap[STR_EXIT] = &MainMenu::exitMenu;
+	cmdMap[STR_ENTER] = &MainMenu::play;
+	cmdMap[STR_SAVE] = &MainMenu::saveMap;
 
 	resetWindows();
 
@@ -121,7 +121,7 @@ void MainMenu::load()
 	bool cmdFound = false;
 	vector<string> cmd;
 	while(true) {
-		cmd = cmdW.command(commandWindow,":");
+		cmd = cmdW.command(commandWindow,STR_PROMPT);
 		if(cmd.size() > 0) {
 			toLower(&cmd[0]);
 			cmdFound = cmdMap.count(cmd[0]) > 0;

@@ -7,6 +7,7 @@
 #include "headers/printutils.h"
 #include "headers/utils.h"
 #include "headers/command_window.h"
+#include "headers/string_constants.h"
 #include <map>
 
 extern DungeonRoom *g_startRoom;

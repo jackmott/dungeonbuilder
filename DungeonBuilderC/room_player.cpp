@@ -4,7 +4,7 @@ using namespace std;
 
 string RoomPlayer::exit(vector<string> args)
 {
-	return "exit";
+	return STR_EXIT;
 }
 
 string RoomPlayer::use(vector<string> args)
@@ -82,8 +82,8 @@ void RoomPlayer::load(DungeonRoom *_room,DungeonPlayer *_player)
 {
 	player = _player;
 	room = _room;
-	cmdMap["exit"] = &RoomPlayer::exit;
-	cmdMap["use"] = &RoomPlayer::use;
+	cmdMap[STR_EXIT] = &RoomPlayer::exit;
+	cmdMap[STR_USE] = &RoomPlayer::use;
 
 
 	for(auto i = 0u; i < room->exits.size();i++)
@@ -99,7 +99,7 @@ void RoomPlayer::load(DungeonRoom *_room,DungeonPlayer *_player)
 	bool cmdFound = false;
 	vector<string> cmd;
 	while(true) {
-		cmd = cmdW.command(commandWindow,":");
+		cmd = cmdW.command(commandWindow,STR_PROMPT);
 		if(cmd.size() > 0) {
 			toLower(&cmd[0]);
 			cmdFound = cmdMap.count(cmd[0]) > 0;
@@ -122,7 +122,7 @@ void RoomPlayer::load(DungeonRoom *_room,DungeonPlayer *_player)
 			}
 			else
 			{
-				if(cmd[0] == "exit") break;
+				if(cmd[0] == STR_USE) break;
 				commandFunction cmdFunc = cmdMap[cmd[0]];
 				string response = (this->*cmdFunc)(cmd);
 				if(response.length() > 0) {

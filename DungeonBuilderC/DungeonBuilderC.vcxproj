@@ -41,6 +41,7 @@
     <ClInclude Include="headers\object_editor.h" />
     <ClInclude Include="headers\room_editor.h" />
     <ClInclude Include="headers\room_player.h" />
+    <ClInclude Include="headers\string_constants.h" />
     <ClInclude Include="headers\utils.h" />
   </ItemGroup>
   <ItemGroup>
