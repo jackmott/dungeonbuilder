@@ -11,6 +11,8 @@
 #define STR_MENU_USE_ALIAS "[Add/Remove](UseAlias):"
 #define STR_MENU_HITPOINTS "[Set](Hitpoints):"
 #define STR_MENU_ROOM "[Set/Edit/New](Room):"
+#define STR_MENU_DAMAGE "[Set](Damage):"
+#define STR_MENU_TAKEABLE "[Set](Takeable)[T/F]:"
 
 #define STR_EXIT "exit"
 #define STR_SET "set"
@@ -29,6 +31,12 @@
 #define STR_HITPOINTS "hitpoints"
 #define STR_ROOM "room"
 #define STR_USE "use"
+#define STR_DAMAGE "damage"
+#define STR_TRUE "t"
+#define STR_FALSE "f"
+#define STR_TAKEABLE "takeable"
+#define STR_TAKE "take"
+
 
 #define STR_ARROW "->"
 #define STR_JOINER ","

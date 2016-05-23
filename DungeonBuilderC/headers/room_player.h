@@ -35,7 +35,7 @@ struct RoomPlayer
 	void resetWindows();
 	void load(DungeonRoom *_room, DungeonPlayer *_player);
 
-	
+	string take(vector<string> args);
 	string exit(vector<string> args);
 	string use(vector<string> args);
 

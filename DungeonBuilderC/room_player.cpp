@@ -7,6 +7,30 @@ string RoomPlayer::exit(vector<string> args)
 	return STR_EXIT;
 }
 
+string RoomPlayer::take(vector<string> args)
+{
+	if(args.size() < 2) {
+		return "What do you want to take?";
+	}
+	string takeNoun = args[1];
+	toLower(&takeNoun);
+	
+	auto i = 0u;
+	for (i = 0u; i < room->objects.size(); i++)
+	{
+		DungeonObject *o = room->objects[i];
+		if(o->name == takeNoun && o->takeable)
+		{			
+			player->objects.push_back(o);
+			break;
+		}
+	}
+	room->objects.erase(room->objects.begin()+i);
+	clearWindows();
+	resetWindows();
+	return "You take the " + args[1];
+	
+}
 string RoomPlayer::use(vector<string> args)
 {
 	if(args.size() < 2) {
@@ -17,8 +41,8 @@ string RoomPlayer::use(vector<string> args)
 	{
 		return "What do you want to use " + args[1] + " on?";
 	}
-	string createNoun = args[1];
-	toLower(&createNoun);
+	string useNoun = args[1];
+	toLower(&useNoun);
 
 	string subject = args[2];
 	toLower(&subject);
@@ -60,6 +84,7 @@ void RoomPlayer::resetWindows()
 		lineCount++;
 		mvwprintw(mainWindow,lineCount,0,room->objects[i]->description.c_str());
 	}
+
 	lineCount++;
 	lineCount++;
 	for(auto i =0u; i < room->exits.size();i++)
@@ -84,8 +109,20 @@ void RoomPlayer::load(DungeonRoom *_room,DungeonPlayer *_player)
 	room = _room;
 	cmdMap[STR_EXIT] = &RoomPlayer::exit;
 	cmdMap[STR_USE] = &RoomPlayer::use;
+	cmdMap[STR_TAKE] = &RoomPlayer::take;
 
+	//iterate over players inventory and add all
+	//aliases for the verb 'use' to the cmdMap
+	for(auto i = 0u; i < player->objects.size();i++)
+	{
+		DungeonObject *o = player->objects[i];
+		for(auto j = 0u; j < o->useAliases.size(); j++)
+		{
+			cmdMap[o->useAliases[i]] = &RoomPlayer::use;
+		}
+	}
 
+	//create a map of exit names to move to
 	for(auto i = 0u; i < room->exits.size();i++)
 	{
 		string name = room->exits[i]->name;

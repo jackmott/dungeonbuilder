@@ -8,6 +8,58 @@ string ObjectEditor::exit(vector<string> args)
 	return STR_EXIT;
 }
 
+
+string ObjectEditor::set(vector<string> args)
+{
+	if(args.size() < 2)
+	{
+		return "What do you want to set?";
+	}
+	if(args.size() < 3) {
+		return "Please supply the value directly in the command";
+	}
+	string editNoun = args[1];
+	toLower(&editNoun);
+	if(editNoun == STR_NAME)
+	{
+		string newname = join(2,args," ");
+		object->name = newname;
+	}
+	else if(editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
+	{
+		string desc = join(2,args," ");
+		object->description = desc;
+	}
+	else if(editNoun == STR_DAMAGE)
+	{
+		string damagestring = args[2];
+		int dmg = stoi(damagestring,nullptr,10);
+		object->damage = dmg;
+	}
+	else if(editNoun == STR_TAKEABLE)
+	{
+		string b = args[2];
+		toLower(&b);
+
+		if(b == "t" || b=="y" || b=="yes" || b == "true")
+		{
+			object->takeable = true;
+		}
+		else if(b== "f" || b=="n" || b == "no" || b=="false")
+		{
+			object->takeable=false;
+		}
+	}
+	else {
+		return "I don't know how to set that";
+	}
+
+	clearWindows();
+	resetWindows();
+	return "";
+}
+
+
 string ObjectEditor::edit(vector<string> args)
 {
 	if(args.size() < 2)
@@ -19,34 +71,22 @@ string ObjectEditor::edit(vector<string> args)
 
 	if(editNoun == STR_NAME)
 	{
-		//set it directly or go to editor
-		if(args.size() < 3) {
-			return "Please supply the name directly in the command";
-		}
-		else
-		{
-			string newname = join(2,args," ");
-			object->name = newname;
-			clearWindows();
-			resetWindows();
-			return "";
-		}
+		return set(args);
 
 	}
-	else if (editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
+	else if(editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
 	{
 		TextEditor ed;
 		string newdesc = ed.edit("Editing Description For Object:"+object->name,object->description);
 		object->description = newdesc;
-		clearWindows();
-		resetWindows();
-		return "";
 	}
 	else
 	{
 		return "I don't know how to edit that";
 	}
-
+	clearWindows();
+	resetWindows();
+	return "";
 }
 
 string ObjectEditor::add(vector<string> args)
@@ -59,6 +99,8 @@ string ObjectEditor::add(vector<string> args)
 	toLower(&addNoun);
 
 	if(addNoun == STR_USE_ALIAS) {
+
+		//TODO - check if use alias is already used for summin else
 		if(args.size() < 3)
 		{
 			return "Provide a string to alias the verb 'use'";
@@ -103,16 +145,36 @@ void ObjectEditor::resetWindows()
 	int done = false;
 	string command;
 
-	setcolors(mainWindow,1,COLOR_RED,COLOR_BLACK);
+	int lineCount = 1;
+	setcolors(mainWindow,lineCount,COLOR_RED,COLOR_BLACK);
 	mvwprintwCenterBold(mainWindow,1,"Object Editor");
+
+	lineCount++;
+	lineCount++;
 	setcolor(mainWindow,2,COLOR_WHITE);
 	string nameRow = STR_MENU_NAME + object->name;
-	mvwprintw(mainWindow,3,0,nameRow.c_str());
+	mvwprintw(mainWindow,lineCount,0,nameRow.c_str());
+
+	lineCount++;
 	string descRow = STR_MENU_DESCRIPTION + object->description;
-	mvwprintw(mainWindow,4,0,descRow.c_str());
+	mvwprintw(mainWindow,lineCount,0,descRow.c_str());
+
+	lineCount++;
 	string aliasRow = STR_MENU_USE_ALIAS;
 	aliasRow += join(0,object->useAliases,STR_JOINER);
-	mvwprintw(mainWindow,5,0,aliasRow.c_str());
+	mvwprintw(mainWindow,lineCount,0,aliasRow.c_str());
+
+	lineCount++;
+	string dmgRow = STR_MENU_DAMAGE + to_string(object->damage);
+	mvwprintw(mainWindow,lineCount,0,dmgRow.c_str());
+
+	lineCount++;
+	string torf = object->takeable ? STR_TRUE : STR_FALSE;
+	string takeRow = STR_MENU_TAKEABLE + torf;
+	mvwprintw(mainWindow,lineCount,0,takeRow.c_str());
+
+
+
 	wrefresh(mainWindow);
 
 }
@@ -124,7 +186,7 @@ void ObjectEditor::load(DungeonObject *_object)
 	cmdMap[STR_EXIT] = &ObjectEditor::exit;
 	cmdMap[STR_CREATE] = &ObjectEditor::create;
 	cmdMap[STR_ADD] = &ObjectEditor::add;
-
+	cmdMap[STR_SET] = &ObjectEditor::set;
 	resetWindows();
 
 	CommandWindow cmdW;
