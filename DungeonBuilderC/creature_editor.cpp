@@ -1,5 +1,5 @@
 
-#include "headers/creature_editor.h"
+#include "creature_editor.h"
 
 using namespace std;
 

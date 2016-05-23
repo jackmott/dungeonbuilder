@@ -1,7 +1,7 @@
 #ifndef DUNGEON_DISPLAY
 #define DUGEON_DISPLAY
 
-#include "headers/dungeon_data.h"
+#include "dungeon_data.h"
 
 void displayInventory(DungeonPlayer *player);
 

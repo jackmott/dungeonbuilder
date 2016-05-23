@@ -1,7 +1,7 @@
-#include "headers/curses.h"
+#include "curses.h"
 #include <string>
-//#include "headers/text_editor.h"
-#include "headers/main_menu.h"
+//#include "text_editor.h"
+#include "main_menu.h"
 
 using namespace std;
 

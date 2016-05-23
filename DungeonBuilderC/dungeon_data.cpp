@@ -1,4 +1,4 @@
-#include "headers/dungeon_data.h"
+#include "dungeon_data.h"
 
 #define TAB "\t"
 

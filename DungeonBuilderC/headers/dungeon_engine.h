@@ -2,12 +2,12 @@
 #ifndef ROOM_PLAYER
 #define ROOM_PLAYER
 
-#include "headers/curses.h"
-#include "headers/dungeon_data.h"
-#include "headers/printutils.h"
-#include "headers/utils.h"
-#include "headers/command_window.h"
-#include "headers/string_constants.h"
+#include "curses.h"
+#include "dungeon_data.h"
+#include "printutils.h"
+#include "utils.h"
+#include "command_window.h"
+#include "string_constants.h"
 #include <map>
 
 extern DungeonRoom *g_startRoom;

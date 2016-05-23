@@ -1,4 +1,4 @@
-#include "headers/main_menu.h"
+#include "main_menu.h"
 
 #define TAB "\t"
 

@@ -1,4 +1,4 @@
-#include "headers/dungeon_display.h"
+#include "dungeon_display.h"
 
 void displayInventory(DungeonPlayer *player)
 {

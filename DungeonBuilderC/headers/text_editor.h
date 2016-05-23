@@ -6,8 +6,8 @@
 #include <vector>
 #include <string>
 #include <sstream>
-#include "headers/printutils.h"
-#include "headers/utils.h"
+#include "printutils.h"
+#include "utils.h"
 using namespace std;
 
 struct TextEditor

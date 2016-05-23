@@ -8,12 +8,12 @@
 #include <sstream>
 #include <map>
 #include <fstream>
-#include "headers/printutils.h"
-#include "headers/command_window.h"
-#include "headers/utils.h"
-#include "headers/dungeon_data.h"
-#include "headers/room_editor.h"
-#include "headers/dungeon_engine.h"
+#include "printutils.h"
+#include "command_window.h"
+#include "utils.h"
+#include "dungeon_data.h"
+#include "room_editor.h"
+#include "dungeon_engine.h"
 
 using namespace std;
 

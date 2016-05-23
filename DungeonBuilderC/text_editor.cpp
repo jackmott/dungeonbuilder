@@ -1,4 +1,4 @@
-#include "headers/text_editor.h"
+#include "text_editor.h"
 
 using namespace std;
 
@@ -193,7 +193,7 @@ void TextEditor::handleInput(int c) {
 		break;
 	default:
 		// Any other character insert
-		if(x < COLS) {
+		if(x < (int)COLS) {
 			lines[y].insert(x,1,char(c));
 			x++;
 		}
