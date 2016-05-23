@@ -1,6 +1,6 @@
 #pragma once
 
-#include "curses.h"
+#include "pdcurses.h"
 #include <vector>
 #include <string>
 #include <sstream>

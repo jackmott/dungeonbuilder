@@ -16,7 +16,6 @@
     <ClCompile Include="dungeon_engine.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="headers\curses.h" />
     <ClInclude Include="headers\panel.h" />
     <ClInclude Include="headers\room_editor.h" />
     <ClInclude Include="headers\dungeon_data.h" />
@@ -31,6 +30,7 @@
     <ClInclude Include="headers\dungeon_display.h" />
     <ClInclude Include="headers\string_constants.h" />
     <ClInclude Include="headers\dungeon_engine.h" />
+    <ClInclude Include="headers\pdcurses.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\pdcurses.lib" />

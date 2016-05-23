@@ -45,7 +45,7 @@
     <ClInclude Include="headers\utils.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="headers\curses.h" />
+    <ClInclude Include="headers\pdcurses.h" />
     <ClInclude Include="headers\text_editor.h" />
     <ClInclude Include="headers\panel.h" />
     <ClCompile Include="main_menu.cpp" />
