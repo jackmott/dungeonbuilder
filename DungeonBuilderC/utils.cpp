@@ -33,5 +33,5 @@ string join(unsigned int offset,vector<string> &v, string delim)
 
 void toLower(string *s)
 {
-	transform(s->begin(),s->end(),s->begin(),tolower);
+	transform(s->begin(),s->end(),s->begin(),::tolower);
 }

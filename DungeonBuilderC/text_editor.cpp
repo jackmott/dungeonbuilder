@@ -193,7 +193,7 @@ void TextEditor::handleInput(int c) {
 		break;
 	default:
 		// Any other character insert
-		if(x < (int)COLS) {
+		if(x < (unsigned int)COLS) {
 			lines[y].insert(x,1,char(c));
 			x++;
 		}
