@@ -13,19 +13,19 @@ string DungeonRoom::toJSON()
 
 	sout << TAB << TAB << TAB << "\"Objects\":[" << endl;
 	for (auto i = 0u; i < objects.size(); i++) {
-		sout << TAB << TAB << TAB << TAB << "{" << objects[i]->toJSON() << "}," << endl;
+		sout << TAB << TAB << TAB << TAB << "{ " << objects[i]->toJSON() << "}," << endl;
 	}
 	sout << TAB << TAB << TAB << "]," << endl;
 
 	sout << TAB << TAB << TAB << "\"Creatures\":[" << endl;
 	for (auto i = 0u; i < creatures.size(); i++) {
-		sout << TAB << TAB << TAB << TAB << "{" << creatures[i]->toJSON() << "}," << endl;
+		sout << TAB << TAB << TAB << TAB << "{ " << creatures[i]->toJSON() << "}," << endl;
 	}
 	sout << TAB << TAB << TAB << "]," << endl;
 
 	sout << TAB << TAB << TAB << "\"Exits\":[" << endl;
 	for (auto i = 0u; i < exits.size(); i++) {
-		sout << TAB << TAB << TAB << TAB << "{" << exits[i]->toJSON() << "}," << endl;
+		sout << TAB << TAB << TAB << TAB << "{ " << exits[i]->toJSON() << "}," << endl;
 	}
 	sout << TAB << TAB << TAB << "]" << endl;
 	return sout.str();
