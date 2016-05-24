@@ -39,6 +39,7 @@
 #define STR_LOOK "look"
 
 
+#define STR_TAB  "    "
 #define STR_ARROW "->"
 #define STR_JOINER ","
 #define STR_PROMPT ">"

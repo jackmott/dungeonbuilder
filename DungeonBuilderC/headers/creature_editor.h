@@ -7,16 +7,8 @@
 #endif
 #include <vector>
 #include <string>
-#include <sstream>
 #include <map>
-#include <algorithm>
-#include <iostream>
-#include "command_window.h"
-#include "text_editor.h"
-#include "printutils.h"
-#include "utils.h"
 #include "dungeon_data.h"
-#include "string_constants.h"
 
 using namespace std;
 

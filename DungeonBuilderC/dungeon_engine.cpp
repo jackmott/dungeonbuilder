@@ -1,4 +1,9 @@
 #include "dungeon_engine.h"
+#include <Windows.h>
+#include "printutils.h"
+#include "utils.h"
+#include "command_window.h"
+#include "string_constants.h"
 
 using namespace std;
 

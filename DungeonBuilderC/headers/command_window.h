@@ -8,9 +8,7 @@
 #include <ncurses.h>
 #endif
 
-#include <algorithm>
 #include <string>
-#include <sstream>
 #include <vector>
 using namespace std;
 

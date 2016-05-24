@@ -1,5 +1,7 @@
 #include "command_window.h"
 #include "utils.h"
+#include <algorithm>
+#include <sstream>
 
 using namespace std;
 

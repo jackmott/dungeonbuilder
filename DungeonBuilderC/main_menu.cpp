@@ -1,6 +1,14 @@
 #include "main_menu.h"
+#include <sstream>
+#include <fstream>
+#include "printutils.h"
+#include "command_window.h"
+#include "utils.h"
+#include "room_editor.h"
+#include "dungeon_engine.h"
+#include "string_constants.h"
 
-#define TAB "\t"
+
 
 using namespace std;
 
@@ -62,13 +70,13 @@ void MainMenu::saveMap(vector<string> args)
 	else {
 		ofstream fout(args[1].c_str());
 		fout << "{" << endl;
-		fout << TAB << "\"Rooms\": [" << endl;
+		fout << STR_TAB << "\"Rooms\": [" << endl;
 		for (auto i = 0u; i < g_roomList.size(); i++) {
-			fout << TAB << TAB << "{" << endl;
+			fout << STR_TAB << STR_TAB << "{" << endl;
 			fout << g_roomList[i]->toJSON();
-			fout << TAB << TAB << "}," << endl;
+			fout << STR_TAB << STR_TAB << "}," << endl;
 		}
-		fout << TAB << "]" << endl;
+		fout << STR_TAB << "]" << endl;
 		fout << "}";
 
 		fout.close();

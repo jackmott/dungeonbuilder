@@ -9,15 +9,9 @@
 #endif
 #include <vector>
 #include <string>
-#include <sstream>
 #include <map>
-#include <fstream>
-#include "printutils.h"
-#include "command_window.h"
-#include "utils.h"
 #include "dungeon_data.h"
-#include "room_editor.h"
-#include "dungeon_engine.h"
+
 
 using namespace std;
 

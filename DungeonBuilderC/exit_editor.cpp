@@ -1,5 +1,13 @@
 
 #include "exit_editor.h"
+#include <sstream>
+#include <algorithm>
+#include <iostream>
+#include "command_window.h"
+#include "text_editor.h"
+#include "printutils.h"
+#include "utils.h"
+#include "string_constants.h"
 
 using namespace std;
 

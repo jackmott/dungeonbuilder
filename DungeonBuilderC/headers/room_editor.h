@@ -6,20 +6,11 @@
 #include <ncurses.h>
 #endif
 #include <vector>
-#include <string>
-#include <sstream>
 #include <map>
-#include <algorithm>
-#include <iostream>
-#include "command_window.h"
-#include "text_editor.h"
-#include "object_editor.h"
-#include "creature_editor.h"
-#include "exit_editor.h"
-#include "text_editor.h"
-#include "printutils.h"
-#include "utils.h"
+#include <string>
 #include "dungeon_data.h"
+
+
 
 
 using namespace std;

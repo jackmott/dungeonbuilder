@@ -1,6 +1,8 @@
 #include "dungeon_data.h"
+#include <sstream>
+#include "utils.h"
+#include "string_constants.h"
 
-#define TAB "\t"
 
 using namespace std;
 
@@ -17,27 +19,27 @@ DungeonRoom::~DungeonRoom()
 string DungeonRoom::toJSON()
 {
 	ostringstream sout;
-	sout << TAB << TAB << TAB << "\"ID\":\"" << uid << "\"," << endl;
-	sout << TAB << TAB << TAB << "\"Name\":\"" << name << "\"," << endl;
-	sout << TAB << TAB << TAB << "\"Description\":\"" << join(0,description,"\n") << "\"," << endl;
+	sout << STR_TAB << STR_TAB << STR_TAB << "\"ID\":\"" << uid << "\"," << endl;
+	sout << STR_TAB << STR_TAB << STR_TAB << "\"Name\":\"" << name << "\"," << endl;
+	sout << STR_TAB << STR_TAB << STR_TAB << "\"Description\":\"" << join(0,description,"\n") << "\"," << endl;
 
-	sout << TAB << TAB << TAB << "\"Objects\":[" << endl;
+	sout << STR_TAB << STR_TAB << STR_TAB << "\"Objects\":[" << endl;
 	for (auto i = 0u; i < objects.size(); i++) {
-		sout << TAB << TAB << TAB << TAB << "{" << objects[i]->toJSON() << "}," << endl;
+		sout << STR_TAB << STR_TAB << STR_TAB << STR_TAB << "{" << objects[i]->toJSON() << "}," << endl;
 	}
-	sout << TAB << TAB << TAB << "]," << endl;
+	sout << STR_TAB << STR_TAB << STR_TAB << "]," << endl;
 
-	sout << TAB << TAB << TAB << "\"Creatures\":[" << endl;
+	sout << STR_TAB << STR_TAB << STR_TAB << "\"Creatures\":[" << endl;
 	for (auto i = 0u; i < creatures.size(); i++) {
-		sout << TAB << TAB << TAB << TAB << "{" << creatures[i]->toJSON() << "}," << endl;
+		sout << STR_TAB << STR_TAB << STR_TAB << STR_TAB << "{" << creatures[i]->toJSON() << "}," << endl;
 	}
-	sout << TAB << TAB << TAB << "]," << endl;
+	sout << STR_TAB << STR_TAB << STR_TAB << "]," << endl;
 
-	sout << TAB << TAB << TAB << "\"Exits\":[" << endl;
+	sout << STR_TAB << STR_TAB << STR_TAB << "\"Exits\":[" << endl;
 	for (auto i = 0u; i < exits.size(); i++) {
-		sout << TAB << TAB << TAB << TAB << "{" << exits[i]->toJSON() << "}," << endl;
+		sout << STR_TAB << STR_TAB << STR_TAB << STR_TAB << "{" << exits[i]->toJSON() << "}," << endl;
 	}
-	sout << TAB << TAB << TAB << "]" << endl;
+	sout << STR_TAB << STR_TAB << STR_TAB << "]" << endl;
 	return sout.str();
 }
 
