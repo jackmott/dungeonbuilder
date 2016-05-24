@@ -48,18 +48,16 @@ string ObjectEditor::set(vector<string> args)
 		object->damage = dmg;
 	}
 	else if(editNoun == STR_TAKEABLE)
+	{				
+		object->canTake = isAffirmative(args[2]);		
+	}
+	else if(editNoun == STR_OPENABLE)
 	{
-		string b = args[2];
-		toLower(&b);
-
-		if(b == "t" || b=="y" || b=="yes" || b == "true")
-		{
-			object->takeable = true;
-		}
-		else if(b== "f" || b=="n" || b == "no" || b=="false")
-		{
-			object->takeable=false;
-		}
+			object->canOpen = isAffirmative(args[2]);		
+	}
+	else if(editNoun == STR_OPEN)
+	{
+			object->isOpen = isAffirmative(args[2]);		
 	}
 	else {
 		return "I don't know how to set that";
@@ -121,6 +119,7 @@ string ObjectEditor::add(vector<string> args)
 		resetWindows();
 		return "";
 	}
+	
 	else
 	{
 		return "I don't know how to add that";
@@ -129,7 +128,32 @@ string ObjectEditor::add(vector<string> args)
 
 string ObjectEditor::create(vector<string> args)
 {
-	return "Create not implemented";
+	if(args.size() < 2) {
+		return "What do you want to create?";
+	}
+
+	if(args.size() < 3)
+	{
+		return "Provide name for the " + args[1];
+	}
+	string createNoun = args[1];
+
+	toLower(&createNoun);
+
+
+	if(createNoun == STR_OBJECT)
+	{
+		ObjectEditor oe;
+		DungeonObject* o = new DungeonObject();
+		o->name = join(2,args," ");
+		clearWindows();
+		oe.load(o);
+		object->contents.push_back(o);
+		resetWindows();
+		return "";
+	}
+
+	return "I don't know how to create that";
 }
 
 
@@ -170,6 +194,17 @@ void ObjectEditor::resetWindows()
 	string descRow = STR_MENU_DESCRIPTION + desc;
 	mvwprintw(mainWindow,lineCount,0,descRow.c_str());
 
+	
+	lineCount++;
+	mvwprintw(mainWindow,lineCount,0,STR_MENU_OBJECT);
+	for(auto o : object->contents)
+	{
+		lineCount++;
+		string row = o->name;
+		mvwprintw(mainWindow,lineCount,2,row.c_str());
+	}
+
+	
 	lineCount++;
 	string aliasRow = STR_MENU_USE_ALIAS;
 	aliasRow += join(0,object->useAliases,STR_JOINER);
@@ -180,9 +215,19 @@ void ObjectEditor::resetWindows()
 	mvwprintw(mainWindow,lineCount,0,dmgRow.c_str());
 
 	lineCount++;
-	string torf = object->takeable ? STR_TRUE : STR_FALSE;
+	string torf = object->canTake? STR_TRUE : STR_FALSE;
 	string takeRow = STR_MENU_TAKEABLE + torf;
 	mvwprintw(mainWindow,lineCount,0,takeRow.c_str());
+
+	lineCount++;
+	torf = object->canOpen ? STR_TRUE : STR_FALSE;
+	string canOpenRow = STR_MENU_CAN_OPEN + torf;
+	mvwprintw(mainWindow,lineCount,0,canOpenRow.c_str());
+
+	lineCount++;
+	torf = object->isOpen ? STR_TRUE : STR_FALSE;
+	string isOpenRow = STR_MENU_IS_OPEN + torf;
+	mvwprintw(mainWindow,lineCount,0,isOpenRow.c_str());
 
 
 

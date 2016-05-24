@@ -29,12 +29,12 @@ vector<string> removeArticles(vector<string> words)
 
 bool containsWith(vector<string> words)
 {
-	
+
 	for(auto word: words)
 	{
 		string lowerWord = word;
 		toLower(&lowerWord);
-		if (lowerWord == "with") return true;		
+		if(lowerWord == "with") return true;
 	}
 	return false;
 }
@@ -46,7 +46,36 @@ vector<string> split(const string &s,char delim) {
 	return elems;
 }
 
-string join(unsigned int offset,vector<string> &v, string delim)
+bool isVowel(char c)
+{
+	switch(c)
+	{
+	case 'a':
+	case 'e':
+	case 'i':
+	case 'o':
+	case 'u':
+		return true;
+	default:
+		return false;
+	}
+
+}
+
+string a_an (string s)
+{
+	string lowerS = s;
+	toLower(&lowerS);
+	if(isVowel(lowerS[0]))
+	{
+		return "an "+s;
+	}
+	else {
+		return "a "+s;
+	}
+}
+
+string join(unsigned int offset,vector<string> &v,string delim)
 {
 	string result;
 	for(auto i = offset; i < v.size();i++)
@@ -65,3 +94,11 @@ void toLower(string *s)
 	transform(s->begin(),s->end(),s->begin(),::tolower);
 }
 
+bool isAffirmative(string s)
+{
+	string l = s;
+	toLower(&l);
+
+	if (l == "t" || l=="y" || l=="yes" || l == "true") return true;
+	return false;
+}

@@ -69,10 +69,10 @@ DungeonObject::DungeonObject()
 	mass =0;
 	size=0;
 
-	container = false;
-	open = false;
+	canOpen = false;
+	isOpen = false;
+	canTake = true;
 
-	takeable = true;
 	takeMessage = "";
 	dropMessage= "";
 

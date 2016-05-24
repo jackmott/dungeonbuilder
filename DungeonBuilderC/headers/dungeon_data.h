@@ -69,13 +69,13 @@ struct DungeonObject
 	int mass;
 	int size;
 	
-	bool container;
-	bool open;
+	bool canOpen;
+	bool isOpen;
 	vector<DungeonObject*> contents;	
 	string openMessage;
 	string closeMessage;
 	
-	bool takeable;
+	bool canTake;
 	string takeMessage;
 	string dropMessage;
 

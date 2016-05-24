@@ -40,9 +40,11 @@ struct DungeonEngine
 	void resetWindows();
 	void load(DungeonRoom *_room, DungeonPlayer *_player);
 	void render(unsigned int start, unsigned int end);
-
+	void showContents(DungeonObject * o);
 	void addToBuffer(vector<string> *v);
+	void addToBuffer(string s);
 
+	string open(vector<string> args);
 	string take(vector<string> args);
 	string exit(vector<string> args);
 	string use(vector<string> args);

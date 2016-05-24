@@ -13,6 +13,8 @@
 #define STR_MENU_ROOM "[Set/Edit/New](Room):"
 #define STR_MENU_DAMAGE "[Set](Damage):"
 #define STR_MENU_TAKEABLE "[Set](Takeable)[T/F]:"
+#define STR_MENU_CAN_OPEN "[Set](Openable)[T/F]:"
+#define STR_MENU_IS_OPEN "[Set](Open)[T/F]:"
 
 #define STR_EXIT "exit"
 #define STR_SET "set"
@@ -32,11 +34,13 @@
 #define STR_ROOM "room"
 #define STR_USE "use"
 #define STR_DAMAGE "damage"
-#define STR_TRUE "t"
-#define STR_FALSE "f"
+#define STR_TRUE "Yes"
+#define STR_FALSE "No"
 #define STR_TAKEABLE "takeable"
+#define STR_OPENABLE "openable"
 #define STR_TAKE "take"
 #define STR_LOOK "look"
+#define STR_OPEN "open"
 
 
 #define STR_TAB  "    "
