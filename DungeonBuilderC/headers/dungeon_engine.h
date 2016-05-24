@@ -13,6 +13,7 @@
 #include "command_window.h"
 #include "string_constants.h"
 #include <map>
+#include <Windows.h>
 
 extern DungeonRoom *g_startRoom;
 extern vector<DungeonRoom*> g_roomList;
@@ -31,13 +32,13 @@ struct DungeonEngine
 	DungeonRoom *room;
 	DungeonPlayer *player;
 
-	WINDOW *headerWindow;
-	WINDOW *responseWindow;
+	WINDOW *headerWindow;	
 	WINDOW *commandWindow;
 	WINDOW *mainWindow;
 
 	int w,h;
-	int pos;
+	
+	int renderPos;
 	
 	void clearWindows();
 	void resetWindows();

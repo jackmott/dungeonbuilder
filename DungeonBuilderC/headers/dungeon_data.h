@@ -13,6 +13,9 @@ struct DungeonCreature;
 
 struct DungeonRoom
 {
+	DungeonRoom();
+	~DungeonRoom();
+
 	int uid;
 	string name;
 	vector<string> description;
@@ -25,6 +28,9 @@ struct DungeonRoom
 };
 struct DungeonExit
 {
+	DungeonExit();
+	~DungeonExit();
+
 	string name;
 	vector<string> description;	
 	DungeonRoom* room;
@@ -32,7 +38,7 @@ struct DungeonExit
 	string toJSON();
 };
 
-enum USE_EFFECT
+enum class USE_EFFECT
 {
 	HEAL,
 	DAMAGE,
@@ -52,6 +58,8 @@ enum USE_EFFECT
 
 struct DungeonObject
 {
+	DungeonObject();
+	~DungeonObject();
 	string name;
 	vector<string> description;
 	
@@ -84,6 +92,8 @@ struct DungeonObject
 
 struct DungeonCreature
 {
+	DungeonCreature();
+	~DungeonCreature();
 	string name;
 	vector<string> description;
 	int hitpoints;
@@ -94,6 +104,8 @@ struct DungeonCreature
 
 struct DungeonPlayer
 {
+	DungeonPlayer();
+	~DungeonPlayer();
 	string name;
 	vector<string> description;
 	int hitpoints;
