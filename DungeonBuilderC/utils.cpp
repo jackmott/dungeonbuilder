@@ -1,5 +1,6 @@
 #include "utils.h"
-
+#include <sstream>
+#include <algorithm>
 
 vector<string> &split(const string &s,char delim,vector<string> &elems) {
 	stringstream ss(s);

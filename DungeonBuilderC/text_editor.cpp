@@ -1,5 +1,7 @@
 #include "text_editor.h"
-
+#include <sstream>
+#include "printutils.h"
+#include "utils.h"
 using namespace std;
 
 
