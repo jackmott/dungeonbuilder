@@ -33,6 +33,34 @@ DungeonRoom* JSONLoader::loadRoom(ifstream& fin)
 	char ch;
 	string curr;
 	DungeonRoom* room = new DungeonRoom;
-	while(fin >> ch)
+	while (fin >> curr && curr != "\"Objects\":[" )
+	{
+		string entry[2];
+		split(curr, entry);
+		if (part[0] == "ID")
+			room->uid = part[1];
+		else if (part[0] == "ID")
+			room->name = part[1];
+		else if (part[0] == "Description")
+			room->description = part[1];
+	}
 	return room;
+}
+
+void JSONLoader::split(string entry, string parts[2])
+{
+	int i = 0;
+	while (entry[i] != ':')
+	{
+		if(entry[i] != '\"')
+			parts[0].push_back(entry[i]);
+		++i;
+	}
+	++i;
+	while (entry[i] != ',')
+	{
+		if (entry[i] != '\"')
+			parts[1].push_back(entry[i]);
+		++i;
+	}
 }

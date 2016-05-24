@@ -9,4 +9,6 @@ using namespace std;
 struct JSONLoader {
 	vector<DungeonRoom*> loadMap(ifstream&);
 	DungeonRoom* loadRoom(ifstream&);
+
+	void split(string, string[2]);
 };
