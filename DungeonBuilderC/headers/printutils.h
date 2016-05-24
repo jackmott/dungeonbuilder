@@ -2,7 +2,11 @@
 #ifndef PRINT_UTILS
 #define PRINT_UTILS
 
-#include "curses.h"
+#ifdef _WIN32
+#include "pdcurses.h"
+#else
+#include <ncurses.h>
+#endif
 #include <string>
 using namespace std;
 

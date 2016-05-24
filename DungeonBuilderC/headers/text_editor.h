@@ -2,12 +2,16 @@
 #ifndef TEXT_EDITOR
 #define TEXT_EDITOR
 
-#include "curses.h"
+#ifdef _WIN32
+#include "pdcurses.h"
+#else
+#include <ncurses.h>
+#endif
 #include <vector>
 #include <string>
 #include <sstream>
-#include "headers/printutils.h"
-
+#include "printutils.h"
+#include "utils.h"
 using namespace std;
 
 struct TextEditor

@@ -1,5 +1,5 @@
 
-#include "headers/object_editor.h"
+#include "object_editor.h"
 
 using namespace std;
 

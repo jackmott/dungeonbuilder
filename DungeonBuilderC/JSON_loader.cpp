@@ -37,12 +37,12 @@ DungeonRoom* JSONLoader::loadRoom(ifstream& fin)
 	{
 		string entry[2];
 		split(curr, entry);
-		if (part[0] == "ID")
-			room->uid = part[1];
-		else if (part[0] == "ID")
-			room->name = part[1];
-		else if (part[0] == "Description")
-			room->description = part[1];
+		if (entry[0] == "ID")
+			room->uid = static_cast<int>(entry[1]);
+		else if (entry[0] == "ID")
+			room->name = entry[1];
+		else if (entry[0] == "Description")
+			room->description = entry[1];
 	}
 	return room;
 }

@@ -2,20 +2,24 @@
 #ifndef ROOM_PLAYER
 #define ROOM_PLAYER
 
-#include "headers/curses.h"
-#include "headers/dungeon_data.h"
-#include "headers/printutils.h"
-#include "headers/utils.h"
-#include "headers/command_window.h"
-#include "headers/string_constants.h"
+#ifdef _WIN32
+#include "pdcurses.h"
+#else
+#include <ncurses.h>
+#endif
+#include "dungeon_data.h"
+#include "printutils.h"
+#include "utils.h"
+#include "command_window.h"
+#include "string_constants.h"
 #include <map>
 
 extern DungeonRoom *g_startRoom;
 extern vector<DungeonRoom*> g_roomList;
 
-struct RoomPlayer
+struct DungeonEngine
 {
-	typedef string (RoomPlayer::*commandFunction) (vector<string>);			
+	typedef string (DungeonEngine::*commandFunction) (vector<string>);			
 
 	
 	map<string,commandFunction> cmdMap;

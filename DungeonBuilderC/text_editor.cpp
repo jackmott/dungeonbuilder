@@ -1,4 +1,4 @@
-#include "headers/text_editor.h"
+#include "text_editor.h"
 
 using namespace std;
 
@@ -44,11 +44,7 @@ string TextEditor::edit(string _header,string startText)
 		int input = wgetch(mainWindow);
 		handleInput(input);
 	}
-	string result;
-	for(auto line : lines)
-	{
-		result = result + line;
-	}
+	string result = join(0,lines,"\n");
 	clearWindows();
 	return result;
 }
@@ -196,9 +192,16 @@ void TextEditor::handleInput(int c) {
 		x += 4;
 		break;
 	default:
-		// Any other character
-		lines[y].insert(x,1,char(c));
-		x++;
+		// Any other character insert
+		if(x < (unsigned int)COLS) {
+			lines[y].insert(x,1,char(c));
+			x++;
+		}
+		else {
+			//nope
+		}
+		
+
 		break;
 	}
 }
@@ -220,11 +223,11 @@ void TextEditor::printBuff() {
 }
 void TextEditor::printStatusLine() {
 
-	
-	setcolors(headerWindow,3,COLOR_BLACK,COLOR_RED);	
+
+	setcolors(headerWindow,3,COLOR_BLACK,COLOR_RED);
 	wclear(headerWindow);
 	mvwprintwCenterBold(headerWindow,0,header);
 	wclrtoeol(headerWindow);
-	
+
 }
 

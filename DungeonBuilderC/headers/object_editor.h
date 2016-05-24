@@ -1,19 +1,23 @@
 #pragma once
 
-#include "curses.h"
+#ifdef _WIN32
+#include "pdcurses.h"
+#else
+#include <ncurses.h>
+#endif
 #include <vector>
 #include <string>
 #include <sstream>
 #include <map>
 #include <algorithm>
 #include <iostream>
-#include "headers/command_window.h"
-#include "headers/text_editor.h"
-#include "headers/printutils.h"
-#include "headers/utils.h"
-#include "headers/dungeon_data.h"
-#include "headers/string_constants.h"
-#include "headers/string_constants.h"
+#include "command_window.h"
+#include "text_editor.h"
+#include "printutils.h"
+#include "utils.h"
+#include "dungeon_data.h"
+#include "string_constants.h"
+#include "string_constants.h"
 
 using namespace std;
 

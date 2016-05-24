@@ -1,4 +1,4 @@
-#include "headers/main_menu.h"
+#include "main_menu.h"
 
 #define TAB "\t"
 
@@ -37,9 +37,9 @@ void MainMenu::create(vector<string> args)
 
 void MainMenu::play(vector<string> args)
 {
-	RoomPlayer rp;
+	DungeonEngine engine;
 	g_player = new DungeonPlayer();
-	rp.load(g_startRoom,g_player);
+	engine.load(g_startRoom,g_player);
 	resetWindows();
 }
 

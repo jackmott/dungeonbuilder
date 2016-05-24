@@ -1,21 +1,25 @@
 #pragma once
 
-#include "curses.h"
+#ifdef _WIN32
+#include "pdcurses.h"
+#else
+#include <ncurses.h>
+#endif
 #include <vector>
 #include <string>
 #include <sstream>
 #include <map>
 #include <algorithm>
 #include <iostream>
-#include "headers/command_window.h"
-#include "headers/text_editor.h"
-#include "headers/object_editor.h"
-#include "headers/creature_editor.h"
-#include "headers/exit_editor.h"
-#include "headers/text_editor.h"
-#include "headers/printutils.h"
-#include "headers/utils.h"
-#include "headers/dungeon_data.h"
+#include "command_window.h"
+#include "text_editor.h"
+#include "object_editor.h"
+#include "creature_editor.h"
+#include "exit_editor.h"
+#include "text_editor.h"
+#include "printutils.h"
+#include "utils.h"
+#include "dungeon_data.h"
 
 
 using namespace std;

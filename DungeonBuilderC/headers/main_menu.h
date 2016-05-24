@@ -2,20 +2,25 @@
 #ifndef MAIN_MENU_H
 #define MAIN_MENU_H
 
-#include "curses.h"
+#ifdef _WIN32
+#include "pdcurses.h"
+#else
+#include <ncurses.h>
+#endif
 #include <vector>
 #include <string>
 #include <sstream>
 #include <map>
 #include <fstream>
+#include "printutils.h"
+#include "command_window.h"
+#include "utils.h"
+#include "dungeon_data.h"
+#include "room_editor.h"
+#include "dungeon_engine.h"
 #include <stack>
-#include "headers/printutils.h"
-#include "headers/command_window.h"
-#include "headers/utils.h"
-#include "headers/dungeon_data.h"
-#include "headers/room_editor.h"
-#include "headers/room_player.h"
-#include "headers/JSON_loader.h"
+
+#include "JSON_loader.h"
 
 using namespace std;
 

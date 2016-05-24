@@ -1,4 +1,4 @@
-#include "headers/utils.h"
+#include "utils.h"
 
 
 vector<string> &split(const string &s,char delim,vector<string> &elems) {
@@ -33,5 +33,5 @@ string join(unsigned int offset,vector<string> &v, string delim)
 
 void toLower(string *s)
 {
-	transform(s->begin(),s->end(),s->begin(),tolower);
+	transform(s->begin(),s->end(),s->begin(),::tolower);
 }

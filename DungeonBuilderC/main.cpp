@@ -1,7 +1,11 @@
-#include "headers/curses.h"
+#ifdef _WIN32
+#include "pdcurses.h"
+#else
+#include <ncurses.h>
+#endif
 #include <string>
-//#include "headers/text_editor.h"
-#include "headers/main_menu.h"
+//#include "text_editor.h"
+#include "main_menu.h"
 
 using namespace std;
 
