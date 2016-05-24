@@ -8,6 +8,8 @@ Runs in Linux (using ncurses 6.0) but has issues with colors and key code matchi
 At this point you can create arbitrarily large directed cyclic graphs, put creatures and objects in the nodes, and kill those creatures with those objects. 
 
 ## How To Help
+contact me at jack.mott@theemailmanypeopleusethatgoogledoes
+
 I am amateurish at C/C++, anyone passing through who could do a code review and pass along high level tips on style/organisation etc would be appreicated.
 
 Fixing *NIX specific issues would be appreciated as well. 
