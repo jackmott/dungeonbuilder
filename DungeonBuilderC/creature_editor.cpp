@@ -27,7 +27,9 @@ string CreatureEditor::set(vector<string> args)
 	else if(editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
 	{
 		string desc = join(2,args," ");
-		creature->description = desc;		
+		vector<string> descVector;
+		descVector.push_back(desc);
+		creature->description = descVector;
 	}
 	else if(editNoun == STR_HITPOINTS)
 	{
@@ -60,9 +62,8 @@ string CreatureEditor::edit(vector<string> args)
 	}
 	else if(editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
 	{
-		TextEditor ed;
-		string newdesc = ed.edit("Editing Description For Creature:"+creature->name,creature->description);
-		creature->description = newdesc;
+		TextEditor ed;		
+		creature->description = ed.edit("Editing Description For Creature:"+creature->name,creature->description);
 		clearWindows();
 		resetWindows();
 		return "";
@@ -109,7 +110,7 @@ void CreatureEditor::resetWindows()
 	setcolor(mainWindow,2,COLOR_WHITE);
 	string nameRow = STR_MENU_NAME + creature->name;
 	mvwprintw(mainWindow,3,0,nameRow.c_str());
-	string descRow = STR_MENU_DESCRIPTION + creature->description;
+	string descRow = STR_MENU_DESCRIPTION + creature->description[0] + STR_ELLIPSES;
 	mvwprintw(mainWindow,4,0,descRow.c_str());
 	string hitpointsRow = STR_MENU_HITPOINTS + to_string(creature->hitpoints);
 	mvwprintw(mainWindow,5,0,hitpointsRow.c_str());

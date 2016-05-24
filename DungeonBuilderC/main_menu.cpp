@@ -29,7 +29,9 @@ void MainMenu::create(vector<string> args)
 	g_roomList.push_back(g_startRoom);
 	g_startRoom->uid = getUID();
 	g_startRoom->name = "Default Name";
-	g_startRoom->description = "Default Description";
+	vector<string> defDesc;
+	defDesc.push_back("Default Description");
+	g_startRoom->description = defDesc;
 	clearWindows();
 	ed.load(g_startRoom);
 	resetWindows();

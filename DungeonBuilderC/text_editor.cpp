@@ -8,34 +8,29 @@ void TextEditor::clearWindows()
 	x = 0;
 	y = 0;
 	done = 0;
-	header = "";
-	lines.clear();
+	header = "";	
 	delwin(headerWindow);
-	delwin(mainWindow);
+	delwin(mainWindow);	
 	clear();
 }
 
-string TextEditor::edit(string _header,string startText)
-{
+vector<string> TextEditor::edit(string _header,vector<string> startText)
+{	
 	header = _header;
+	lines = startText;
 	x = 0;
 	y = 0;
 	appendLine("");
 	headerWindow = newwin(1,COLS,0,0);
 	mainWindow = newwin(LINES-1,COLS,1,0);
+	scrollok(mainWindow,true);
 	keypad(mainWindow,true);   //turns on arrows and f keys
-	getmaxyx(stdscr,h,w); // this doesn't work in windows
+	w = getmaxx(stdscr); // this doesn't work in windows
 
 	refresh();
 	wrefresh(headerWindow);
 	wrefresh(mainWindow);
-
-
-	for(string::size_type i = 0; i < startText.length();i++)
-	{
-		handleInput((int)startText[i]);
-	}
-
+	
 	while(!done)
 	{
 		printBuff();
@@ -44,9 +39,9 @@ string TextEditor::edit(string _header,string startText)
 		int input = wgetch(mainWindow);
 		handleInput(input);
 	}
-	string result = join(0,lines,"\n");
+	
 	clearWindows();
-	return result;
+	return lines;
 }
 
 
@@ -95,7 +90,7 @@ void TextEditor::moveUp() {
 }
 void TextEditor::moveDown() {
 
-	if(y+1 < h-1 && y+1 < lines.size())
+	if(y+1 < lines.size())
 		y++;
 	if(x >= lines[y].length())
 		x = lines[y].length();
@@ -121,7 +116,8 @@ void TextEditor::handleInput(int c) {
 		moveRight();
 		break;
 	case KEY_UP:
-		moveUp();
+		//moveUp();
+		scroll(mainWindow);
 		break;
 	case KEY_DOWN:
 		moveDown();
@@ -206,7 +202,7 @@ void TextEditor::handleInput(int c) {
 	}
 }
 void TextEditor::printBuff() {
-	for(auto i = 0u; i < h-1; i++)
+	for(auto i = 0u; i < lines.size(); i++)
 	{
 		if(i >= lines.size())
 		{
@@ -219,7 +215,12 @@ void TextEditor::printBuff() {
 		}
 		wclrtoeol(mainWindow);
 	}
+	int maxY = getmaxy(mainWindow);
+    if (y > (unsigned int)maxY-1) {
+		scroll(mainWindow);
+	}
 	wmove(mainWindow,y,x);
+	
 }
 void TextEditor::printStatusLine() {
 

@@ -25,6 +25,9 @@ struct DungeonEngine
 	map<string,commandFunction> cmdMap;
 	map<string,DungeonRoom*> moveMap;
 
+	vector<string> textBuffer;
+	
+
 	DungeonRoom *room;
 	DungeonPlayer *player;
 
@@ -34,10 +37,14 @@ struct DungeonEngine
 	WINDOW *mainWindow;
 
 	int w,h;
+	int pos;
 	
 	void clearWindows();
 	void resetWindows();
 	void load(DungeonRoom *_room, DungeonPlayer *_player);
+	void render(unsigned int start, unsigned int end);
+
+	void addToBuffer(vector<string> *v);
 
 	string take(vector<string> args);
 	string exit(vector<string> args);

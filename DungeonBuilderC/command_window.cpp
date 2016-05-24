@@ -4,20 +4,20 @@
 using namespace std;
 
 void CommandWindow::reset(){
-	wclear(window);	
-	
+	wclear(window);
+
 }
 
 vector<string> CommandWindow::command(WINDOW* _window,string _prompt) {
-	
+
 	input = "";
 	prompt = _prompt;
 	window = _window;
 	x = prompt.length();
 	done = false;
-				
+
 	w = getmaxx(window); //This doesn't update in windows
-		
+
 	while(!done)
 	{
 		print();
@@ -25,11 +25,11 @@ vector<string> CommandWindow::command(WINDOW* _window,string _prompt) {
 		done = handleInput(c);
 	}
 	reset();
-	
+
 	vector<string> result = split(input,' ');
 
 	return result;
-	
+
 }
 void CommandWindow::moveLeft() {
 }
@@ -40,21 +40,24 @@ void CommandWindow::moveRight() {
 bool CommandWindow::handleInput(int c){
 	switch(c)
 	{
-		case KEY_BACKSPACE:
-		case 8:  //backspace
-			if (input.length() > 0)
-				input.pop_back();
-				x--;
-			break;
-		case KEY_ENTER:
-		case 10:			
-			return true;
-		case 27:  //escape key
-			input = "exit";
-			return true;			
-		default:
+	case KEY_BACKSPACE:
+	case 8:  //backspace
+		if(input.length() > 0)
+			input.pop_back();
+		x--;
+		break;
+	case KEY_ENTER:
+	case 10:
+		return true;
+	case 27:  //escape key
+		input = "exit";
+		return true;
+	default:
+		if(input.size() < (unsigned int)(COLS -2))
+		{
 			input.push_back((char)c);
 			x++;
+		}
 	}
 	return false;
 
@@ -62,7 +65,7 @@ bool CommandWindow::handleInput(int c){
 
 void CommandWindow::print(){
 	string output = prompt + input;
-	mvwprintw(window,0,0,output.c_str());	
-	wclrtoeol(window);	
+	mvwprintw(window,0,0,output.c_str());
+	wclrtoeol(window);
 	wmove(window,0,x);
 }

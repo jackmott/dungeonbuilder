@@ -24,12 +24,12 @@ struct TextEditor
 	WINDOW *headerWindow;
 	WINDOW *mainWindow;
 
-	unsigned int w,h;
+	unsigned int w;
 
 	
 	void clearWindows();
 	
-	string edit(string _header, string startText);
+	vector<string> edit(string _header, vector<string> startText);
 		
 	string remTabs(string line);
 

@@ -35,9 +35,8 @@ string ExitEditor::edit(vector<string> args)
 	}
 	else if (editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
 	{
-		TextEditor ed;
-		string newdesc = ed.edit("Editing Description For Object:"+dungeonExit->name,dungeonExit->description);
-		dungeonExit->description = newdesc;
+		TextEditor ed;		
+		dungeonExit->description = ed.edit("Editing Description For Object:"+dungeonExit->name,dungeonExit->description);
 		clearWindows();
 		resetWindows();
 		return "";
@@ -110,7 +109,7 @@ void ExitEditor::resetWindows()
 	setcolor(mainWindow,2,COLOR_WHITE);
 	string nameRow = STR_MENU_NAME + dungeonExit->name;
 	mvwprintw(mainWindow,3,0,nameRow.c_str());
-	string descRow = STR_MENU_DESCRIPTION + dungeonExit->description;
+	string descRow = STR_MENU_DESCRIPTION + dungeonExit->description[0] + STR_ELLIPSES;
 	mvwprintw(mainWindow,4,0,descRow.c_str());
 	string roomRow = STR_MENU_ROOM + dungeonExit->room->name;
 	mvwprintw(mainWindow,5,0,roomRow.c_str());

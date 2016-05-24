@@ -1,4 +1,5 @@
 #pragma once
+#include "utils.h"
 #include <string>
 #include <vector>
 #include <sstream>
@@ -14,7 +15,7 @@ struct DungeonRoom
 {
 	int uid;
 	string name;
-	string description;
+	vector<string> description;
 	vector<DungeonExit*> exits;
 	vector<DungeonObject*> objects;
 	vector<DungeonCreature*> creatures;
@@ -25,7 +26,7 @@ struct DungeonRoom
 struct DungeonExit
 {
 	string name;
-	string description;	
+	vector<string> description;	
 	DungeonRoom* room;
 
 	string toJSON();
@@ -52,7 +53,7 @@ enum USE_EFFECT
 struct DungeonObject
 {
 	string name;
-	string description;
+	vector<string> description;
 	
 	int damage;  //0 if not a weapon
 	vector<string> hitMessages;
@@ -84,7 +85,7 @@ struct DungeonObject
 struct DungeonCreature
 {
 	string name;
-	string description;
+	vector<string> description;
 	int hitpoints;
 	int alignment;
 
@@ -94,7 +95,7 @@ struct DungeonCreature
 struct DungeonPlayer
 {
 	string name;
-	string description;
+	vector<string> description;
 	int hitpoints;
 	int score;
 	vector<DungeonObject*> objects;

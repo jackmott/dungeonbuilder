@@ -41,4 +41,5 @@
 #define STR_ARROW "->"
 #define STR_JOINER ","
 #define STR_PROMPT ">"
+#define STR_ELLIPSES "..."
 #endif

@@ -27,7 +27,9 @@ string RoomEditor::set(vector<string> args)
 	else if(editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
 	{
 		string desc = join(2,args," ");
-		room->description = desc;
+		vector<string> descVector;
+		descVector.push_back(desc);
+		room->description = descVector;
 	}
 	else {
 		return "I don't know how to set that";
@@ -53,9 +55,8 @@ string RoomEditor::edit(vector<string> args)
 	else if(editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
 	{
 		TextEditor ed;
-		clearWindows();
-		string newdesc = ed.edit("Editing Description For Room:"+room->name,room->description);
-		room->description = newdesc;		
+		clearWindows();		
+		room->description = ed.edit("Editing Description For Room:"+room->name,room->description);
 		resetWindows();
 		return "";
 	}
@@ -152,7 +153,7 @@ void RoomEditor::resetWindows()
 	mvwprintw(mainWindow,lineCount,0,nameRow.c_str());
 
 	lineCount++;
-	string descRow = STR_MENU_DESCRIPTION + room->description;
+	string descRow = STR_MENU_DESCRIPTION + room->description[0] + STR_ELLIPSES;
 	mvwprintw(mainWindow,lineCount,0,descRow.c_str());
 
 	lineCount++;

@@ -28,7 +28,9 @@ string ObjectEditor::set(vector<string> args)
 	else if(editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
 	{
 		string desc = join(2,args," ");
-		object->description = desc;
+		vector<string> descVector;
+		descVector.push_back(desc);
+		object->description = descVector;
 	}
 	else if(editNoun == STR_DAMAGE)
 	{
@@ -76,9 +78,8 @@ string ObjectEditor::edit(vector<string> args)
 	}
 	else if(editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
 	{
-		TextEditor ed;
-		string newdesc = ed.edit("Editing Description For Object:"+object->name,object->description);
-		object->description = newdesc;
+		TextEditor ed;		
+		object->description = ed.edit("Editing Description For Object:"+object->name,object->description);
 	}
 	else
 	{
@@ -156,7 +157,7 @@ void ObjectEditor::resetWindows()
 	mvwprintw(mainWindow,lineCount,0,nameRow.c_str());
 
 	lineCount++;
-	string descRow = STR_MENU_DESCRIPTION + object->description;
+	string descRow = STR_MENU_DESCRIPTION + object->description[0] + STR_ELLIPSES;
 	mvwprintw(mainWindow,lineCount,0,descRow.c_str());
 
 	lineCount++;

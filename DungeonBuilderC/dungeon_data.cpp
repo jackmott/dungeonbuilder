@@ -9,7 +9,7 @@ string DungeonRoom::toJSON()
 	ostringstream sout;
 	sout << TAB << TAB << TAB << "\"ID\":\"" << uid << "\"," << endl;
 	sout << TAB << TAB << TAB << "\"Name\":\"" << name << "\"," << endl;
-	sout << TAB << TAB << TAB << "\"Description\":\"" << description << "\"," << endl;
+	sout << TAB << TAB << TAB << "\"Description\":\"" << join(0,description,"\n") << "\"," << endl;
 
 	sout << TAB << TAB << TAB << "\"Objects\":[" << endl;
 	for (auto i = 0u; i < objects.size(); i++) {
@@ -33,20 +33,20 @@ string DungeonRoom::toJSON()
 string DungeonExit::toJSON()
 {
 	ostringstream sout;
-	sout << "\"Name\":\"" << name << "\", \"Description\":\"" << description 
+	sout << "\"Name\":\"" << name << "\", \"Description\":\"" << join(0,description,"\n")
 		 << "\", \"links\":" << room->uid;
 	return sout.str();
 }
 string DungeonObject::toJSON()
 {
 	ostringstream sout;
-	sout << "\"Name\":\"" << name << "\", \"Description\":\"" << description << "\"";
+	sout << "\"Name\":\"" << name << "\", \"Description\":\"" << join(0,description,"\n") << "\"";
 	return sout.str();
 }
 string DungeonCreature::toJSON()
 {
 	ostringstream sout;
-	sout << "\"Name\":\"" << name << "\", \"Description\":\"" << description
+	sout << "\"Name\":\"" << name << "\", \"Description\":\"" << join(0,description,"\n")
 		 << "\", \"hitpoints\":" << hitpoints << ", \"Alignment\":" << alignment;
 	return sout.str();
 }

@@ -61,6 +61,12 @@ void DungeonEngine::clearWindows()
 	clear();
 }
 
+void DungeonEngine::addToBuffer(vector<string> *v)
+{
+	textBuffer.insert(textBuffer.end(),v->begin(),v->end());
+}
+
+
 void DungeonEngine::resetWindows()
 {
 	headerWindow = newwin(1,COLS,0,0);
@@ -73,25 +79,20 @@ void DungeonEngine::resetWindows()
 	string header = "Dungeon!  Room:"+room->name;
 	mvwprintwCenterBold(headerWindow,0,header.c_str());
 
-	int lineCount = 1;
-
-	string desc = room->description;
-	mvwprintw(mainWindow,lineCount,0,desc.c_str());
-
-	lineCount++;
+		
+	addToBuffer(&room->description);
+		
 	for(auto o : room->objects)
 	{
-		lineCount++;
-		mvwprintw(mainWindow,lineCount,0,o->description.c_str());
+		addToBuffer(&o->description);		
 	}
 
-	lineCount++;
-	lineCount++;
 	for(auto exit : room->exits)
 	{
-		lineCount++;
-		mvwprintw(mainWindow,lineCount,0,exit->description.c_str());
+		addToBuffer(&exit->description);		
 	}
+
+	pos = textBuffer.size();
 
 	refresh();
 	wrefresh(headerWindow);
@@ -101,10 +102,20 @@ void DungeonEngine::resetWindows()
 
 }
 
+void DungeonEngine::render(unsigned int start, unsigned int end)
+{
+	for(auto line : textBuffer)
+	{
+		//line = line + "\n";
+		wprintw(mainWindow,line.c_str());
+	}
+}
+
 void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 {
 	player = _player;
 	room = _room;
+	pos = 0;
 	cmdMap[STR_EXIT] = &DungeonEngine::exit;
 	cmdMap[STR_USE] = &DungeonEngine::use;
 	cmdMap[STR_TAKE] = &DungeonEngine::take;
@@ -134,6 +145,7 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 	vector<string> cmd;
 	while(true) {
 		cmd = cmdW.command(commandWindow,STR_PROMPT);
+		render(0,textBuffer.size());
 		if(cmd.size() > 0) {
 			toLower(&cmd[0]);
 			cmdFound = cmdMap.count(cmd[0]) > 0;
