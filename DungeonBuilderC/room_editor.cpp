@@ -17,14 +17,14 @@ string RoomEditor::set(vector<string> args)
 	if(args.size() < 3) {
 		return "Please supply the value directly in the command";
 	}
-	string editNoun = args[1];
-	toLower(&editNoun);
-	if(editNoun == STR_NAME)
+	string setNoun = args[1];
+	toLower(&setNoun);
+	if(setNoun == STR_NAME)
 	{
 		string newname = join(2,args," ");
 		room->name = newname;
 	}
-	else if(editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
+	else if(setNoun == STR_DESCRIPTION || setNoun == STR_DESC)
 	{
 		string desc = join(2,args," ");
 		vector<string> descVector;
@@ -153,7 +153,8 @@ void RoomEditor::resetWindows()
 	mvwprintw(mainWindow,lineCount,0,nameRow.c_str());
 
 	lineCount++;
-	string descRow = STR_MENU_DESCRIPTION + room->description[0] + STR_ELLIPSES;
+	string desc = room->description.size() > 0 ? room->description[0] + STR_ELLIPSES : "";
+	string descRow = STR_MENU_DESCRIPTION + desc;
 	mvwprintw(mainWindow,lineCount,0,descRow.c_str());
 
 	lineCount++;

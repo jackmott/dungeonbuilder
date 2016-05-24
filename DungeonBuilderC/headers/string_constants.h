@@ -36,6 +36,7 @@
 #define STR_FALSE "f"
 #define STR_TAKEABLE "takeable"
 #define STR_TAKE "take"
+#define STR_LOOK "look"
 
 
 #define STR_ARROW "->"

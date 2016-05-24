@@ -10,6 +10,34 @@ vector<string> &split(const string &s,char delim,vector<string> &elems) {
 	return elems;
 }
 
+vector<string> removeArticles(vector<string> words)
+{
+	vector<string> result;
+	for(auto word: words)
+	{
+		string lowerWord = word;
+		toLower(&lowerWord);
+
+		if(lowerWord != "a" && lowerWord != "the")
+		{
+			result.push_back(word);
+		}
+	}
+	return result;
+}
+
+bool containsWith(vector<string> words)
+{
+	
+	for(auto word: words)
+	{
+		string lowerWord = word;
+		toLower(&lowerWord);
+		if (lowerWord == "with") return true;		
+	}
+	return false;
+}
+
 
 vector<string> split(const string &s,char delim) {
 	vector<string> elems;

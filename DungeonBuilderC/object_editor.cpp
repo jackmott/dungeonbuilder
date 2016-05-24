@@ -157,7 +157,8 @@ void ObjectEditor::resetWindows()
 	mvwprintw(mainWindow,lineCount,0,nameRow.c_str());
 
 	lineCount++;
-	string descRow = STR_MENU_DESCRIPTION + object->description[0] + STR_ELLIPSES;
+	string desc = object->description.size() > 0 ? object->description[0] + STR_ELLIPSES : "";
+	string descRow = STR_MENU_DESCRIPTION + desc;
 	mvwprintw(mainWindow,lineCount,0,descRow.c_str());
 
 	lineCount++;

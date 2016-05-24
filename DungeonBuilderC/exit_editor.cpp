@@ -109,7 +109,8 @@ void ExitEditor::resetWindows()
 	setcolor(mainWindow,2,COLOR_WHITE);
 	string nameRow = STR_MENU_NAME + dungeonExit->name;
 	mvwprintw(mainWindow,3,0,nameRow.c_str());
-	string descRow = STR_MENU_DESCRIPTION + dungeonExit->description[0] + STR_ELLIPSES;
+	string desc = dungeonExit->description.size() > 0 ? dungeonExit->description[0] + STR_ELLIPSES : "";
+	string descRow = STR_MENU_DESCRIPTION + desc;
 	mvwprintw(mainWindow,4,0,descRow.c_str());
 	string roomRow = STR_MENU_ROOM + dungeonExit->room->name;
 	mvwprintw(mainWindow,5,0,roomRow.c_str());

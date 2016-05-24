@@ -7,8 +7,6 @@ using namespace std;
 DungeonRoom::DungeonRoom()
 {
 	name = "";
-	description.push_back("");
-
 }
 
 DungeonRoom::~DungeonRoom()
@@ -45,8 +43,7 @@ string DungeonRoom::toJSON()
 
 DungeonExit::DungeonExit()
 {
-	name = "";
-	description.push_back("");
+	name = "";	
 }
 
 DungeonExit::~DungeonExit()
@@ -65,11 +62,7 @@ string DungeonExit::toJSON()
 DungeonObject::DungeonObject()
 {
 	name="";
-	description.push_back("");
-	hitMessages.push_back("");
-	missMessages.push_back("");
-	useAliases.push_back("");
-
+	
 	damage = 0;
 	mass =0;
 	size=0;
@@ -100,9 +93,14 @@ string DungeonObject::toJSON()
 
 DungeonCreature::DungeonCreature()
 {
-	description.push_back("");
+	hitpoints = 100;
 }
-
+string DungeonCreature::attack(DungeonObject *weapon, DungeonPlayer *player)
+{
+	hitpoints = hitpoints - weapon->damage;
+	if (hitpoints <= 0) return "You have killed the "+name+"!";
+	return "You hit the " + name;
+}
 DungeonCreature::~DungeonCreature()
 {
 }

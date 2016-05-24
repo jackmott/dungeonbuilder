@@ -90,18 +90,6 @@ struct DungeonObject
 	string toJSON();
 };
 
-struct DungeonCreature
-{
-	DungeonCreature();
-	~DungeonCreature();
-	string name;
-	vector<string> description;
-	int hitpoints;
-	int alignment;
-
-	string toJSON();
-};
-
 struct DungeonPlayer
 {
 	DungeonPlayer();
@@ -113,3 +101,19 @@ struct DungeonPlayer
 	vector<DungeonObject*> objects;
 	DungeonRoom* location;
 };
+
+struct DungeonCreature
+{
+	DungeonCreature();
+	~DungeonCreature();
+	string name;
+	vector<string> description;
+	int hitpoints;
+	int alignment;
+	
+	string attack(DungeonObject *weapon, DungeonPlayer *player);
+	
+	
+	string toJSON();
+};
+

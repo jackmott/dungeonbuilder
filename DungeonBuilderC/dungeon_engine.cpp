@@ -28,9 +28,7 @@ string DungeonEngine::take(vector<string> args)
 		}
 	}
 	if(match != nullptr) {
-		room->objects.erase(room->objects.begin()+i);
-		clearWindows();
-		resetWindows();
+		room->objects.erase(room->objects.begin()+i);		
 		return "You take the " + args[1];
 	}
 	else
@@ -41,22 +39,77 @@ string DungeonEngine::take(vector<string> args)
 }
 string DungeonEngine::use(vector<string> args)
 {
+	args = removeArticles(args);
 	if(args.size() < 2) {
 		return "What do you want to use?";
 	}
-
-	if(args.size() < 3)
+	
+	string thingToUse = "";
+	string subject = "";
+	if(containsWith(args))
 	{
-		return "What do you want to use " + args[1] + " on?";
+		if(args.size() < 3)
+		{
+			return "What do you want to do that with?";
+		}
+		thingToUse = args[3];
+		subject = args[1];
 	}
-	string useNoun = args[1];
-	toLower(&useNoun);
-
-	string subject = args[2];
+	else
+	{
+		if(args.size() < 3)
+		{
+			return "What do you want to use that on?";
+		}
+		thingToUse = args[1];
+		subject = args[2];
+	}
+	
+	toLower(&thingToUse);
 	toLower(&subject);
+	
+	DungeonObject* objectToUse = nullptr;
+	for(auto o : player->objects)
+	{
+		if(o->name == thingToUse)
+		{
+			objectToUse = o;
+		}
+	}
+
+	DungeonCreature* creatureToAffect = nullptr;
+	int creatureIndex = 0;
+	for(auto creature : room->creatures)
+	{
+		if(creature->name == subject)
+		{
+			creatureToAffect = creature;
+		}
+		creatureIndex++;
+	}
+
+	if(objectToUse != nullptr && creatureToAffect != nullptr)
+	{
+		string response = creatureToAffect->attack(objectToUse,player);
+		if(creatureToAffect->hitpoints <= 0)
+		{
+			room->creatures.erase(room->creatures.begin()+creatureIndex-1);
+		}
+		return response;
+	} 
+	else
+	{
+		return "I don't understand what you are asking me to do.";
+	}
 
 	return "";
 
+}
+
+string DungeonEngine::lookCmd(vector<string> args)
+{
+	look();
+	return "";
 }
 
 
@@ -85,9 +138,23 @@ void DungeonEngine::resetWindows()
 	string header = "Dungeon!  Room:"+room->name;
 	mvwprintwCenterBold(headerWindow,0,header.c_str());
 
+	look();
 
+	refresh();
+	wrefresh(headerWindow);
+	wrefresh(commandWindow);	
+	wrefresh(mainWindow);
+
+}
+
+void DungeonEngine::look()
+{
 	addToBuffer(&room->description);
 
+	for(auto creature : room->creatures)
+	{
+		addToBuffer(&creature->description);
+	}
 	for(auto o : room->objects)
 	{
 		addToBuffer(&o->description);
@@ -97,12 +164,6 @@ void DungeonEngine::resetWindows()
 	{
 		addToBuffer(&exit->description);
 	}
-
-
-	refresh();
-	wrefresh(headerWindow);
-	wrefresh(commandWindow);	
-	wrefresh(mainWindow);
 
 }
 
@@ -120,15 +181,12 @@ void DungeonEngine::render(unsigned int start,unsigned int end)
 
 }
 
-void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
+void DungeonEngine::updateCmdMap()
 {
-	player = _player;
-	room = _room;
-	renderPos = 0;
 	cmdMap[STR_EXIT] = &DungeonEngine::exit;
 	cmdMap[STR_USE] = &DungeonEngine::use;
 	cmdMap[STR_TAKE] = &DungeonEngine::take;
-
+	cmdMap[STR_LOOK] = &DungeonEngine::lookCmd;
 	//iterate over players inventory and add all
 	//aliases for the verb 'use' to the cmdMap
 	for(auto o : player->objects)
@@ -139,6 +197,14 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 		}
 	}
 
+}
+
+void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
+{
+	player = _player;
+	room = _room;
+	renderPos = 0;
+	
 	//create a map of exit names to move to
 	for(auto e : room->exits)
 	{
@@ -153,7 +219,7 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 	bool cmdFound = false;
 	vector<string> cmd;
 	while(true) {
-
+		updateCmdMap();
 		render(renderPos,textBuffer.size());
 		cmd = cmdW.command(commandWindow,STR_PROMPT);
 		string cmdString = STR_PROMPT + join(0,cmd," ");

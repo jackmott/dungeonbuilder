@@ -110,7 +110,8 @@ void CreatureEditor::resetWindows()
 	setcolor(mainWindow,2,COLOR_WHITE);
 	string nameRow = STR_MENU_NAME + creature->name;
 	mvwprintw(mainWindow,3,0,nameRow.c_str());
-	string descRow = STR_MENU_DESCRIPTION + creature->description[0] + STR_ELLIPSES;
+	string desc = creature->description.size() > 0 ? creature->description[0] + STR_ELLIPSES : "";
+	string descRow = STR_MENU_DESCRIPTION + desc;
 	mvwprintw(mainWindow,4,0,descRow.c_str());
 	string hitpointsRow = STR_MENU_HITPOINTS + to_string(creature->hitpoints);
 	mvwprintw(mainWindow,5,0,hitpointsRow.c_str());

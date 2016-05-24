@@ -28,7 +28,6 @@ struct DungeonEngine
 
 	vector<string> textBuffer;
 	
-
 	DungeonRoom *room;
 	DungeonPlayer *player;
 
@@ -39,7 +38,8 @@ struct DungeonEngine
 	int w,h;
 	
 	int renderPos;
-	
+	void updateCmdMap();
+	void look();
 	void clearWindows();
 	void resetWindows();
 	void load(DungeonRoom *_room, DungeonPlayer *_player);
@@ -50,6 +50,7 @@ struct DungeonEngine
 	string take(vector<string> args);
 	string exit(vector<string> args);
 	string use(vector<string> args);
+	string lookCmd(vector<string> args);
 
 };
 
