@@ -161,9 +161,13 @@ void DungeonEngine::resetWindows()
 	mainWindow = newwin(LINES-2,COLS,1,0);
 	scrollok(mainWindow,TRUE);
 	getmaxyx(stdscr,h,w); // this doesn't work in windows
-
-	string header = "Dungeon!  Room:"+room->name;
-	mvwprintwCenterBold(headerWindow,0,header.c_str());
+	
+	init_pair(1,COLOR_BLACK,COLOR_RED);
+	wbkgd(headerWindow,COLOR_PAIR(1));
+	//setcolors(headerWindow,1,COLOR_BLACK,COLOR_RED);
+	//wclrtoeol(headerWindow);
+	mvwprintw(headerWindow,0,0,"Dungeon Builder");
+	mvwprintwCenter(headerWindow,0,room->name.c_str());
 
 	look();
 
