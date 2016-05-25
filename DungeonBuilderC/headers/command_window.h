@@ -22,7 +22,8 @@ struct CommandWindow
 	string prompt;
 				
 	void reset();	
-	vector<string> command(WINDOW* _window,string prompt);				
+	vector<string> getCommand(WINDOW* _window,string prompt);				
+	string getCommandAsString(WINDOW* _window,string prompt);				
 	void moveLeft();
 	void moveRight();			
 	bool handleInput(int c);

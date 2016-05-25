@@ -10,8 +10,8 @@ void CommandWindow::reset(){
 
 }
 
-vector<string> CommandWindow::command(WINDOW* _window,string _prompt) {
 
+string CommandWindow::getCommandAsString(WINDOW* _window,string _prompt) {
 	input = "";
 	prompt = _prompt;
 	window = _window;
@@ -27,7 +27,12 @@ vector<string> CommandWindow::command(WINDOW* _window,string _prompt) {
 		done = handleInput(c);
 	}
 	reset();
+	return input;
+}
 
+vector<string> CommandWindow::getCommand(WINDOW* _window,string _prompt) {
+
+	string input = getCommandAsString(_window,_prompt);
 	vector<string> result = split(input,' ');
 
 	return result;

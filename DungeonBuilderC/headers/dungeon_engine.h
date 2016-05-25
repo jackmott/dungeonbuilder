@@ -16,7 +16,7 @@ extern vector<DungeonRoom*> g_roomList;
 
 struct DungeonEngine
 {
-	typedef string (DungeonEngine::*commandFunction) (vector<string>);			
+	typedef string (DungeonEngine::*commandFunction) (string);			
 
 	
 	map<string,commandFunction> cmdMap;
@@ -42,13 +42,13 @@ struct DungeonEngine
 	void render(unsigned int start, unsigned int end);
 	void showContents(DungeonObject * o);
 	void addToBuffer(vector<string> *v);
-	void addToBuffer(string s);
+	
 
-	string open(vector<string> args);
-	string take(vector<string> args);
-	string exit(vector<string> args);
-	string use(vector<string> args);
-	string lookCmd(vector<string> args);
+	string open(string args);
+	string take(string args);
+	string exit(string args);
+	string use(string args);
+	string lookCmd(string args);
 
 };
 

@@ -7,111 +7,76 @@
 
 using namespace std;
 
-string DungeonEngine::exit(vector<string> args)
+string DungeonEngine::exit(string args)
 {
 	return STR_EXIT;
 }
 
-string DungeonEngine::take(vector<string> args)
+string DungeonEngine::take(string args)
 {
-	if(args.size() < 2) {
-		return "What do you want to take?";
-	}
-	string takeNoun = args[1];
-	toLower(&takeNoun);
+	DungeonObject* takenObject = extractAndRemoveObject(&room->objects,&args);
 
-	auto i = 0u;
-	DungeonObject *match = nullptr;
-	for(i = 0u; i < room->objects.size(); i++)
+	if(takenObject == nullptr)
 	{
-		DungeonObject *o = room->objects[i];
-		if(o->name == takeNoun && o->canTake)
-		{
-			match = o;
-			player->objects.push_back(o);
-			break;
-		}
+		return "You try to take it, but it seems futile";
 	}
-	if(match != nullptr) {
-		room->objects.erase(room->objects.begin()+i);
-		return "You take the " + args[1];
-	}
-	else
-	{
-		return "I don't see that here";
+	else {
+		player->objects.push_back(takenObject);
+		return takenObject->name + " taken.";
 	}
 
 }
-string DungeonEngine::use(vector<string> args)
+string DungeonEngine::use(string args)
 {
-	args = removeArticles(args);
-	if(args.size() < 2) {
-		return "What do you want to use?";
-	}
+	DungeonObject* roomObject = extractObject(&room->objects,&args);
+	DungeonObject* playerObject = extractObject(&player->objects,&args);
+	DungeonCreature* creature = extractCreature(&room->creatures,&args);
 
-	string thingToUse = "";
-	string subject = "";
-	if(containsWith(args))
-	{
-		if(args.size() < 3)
+	if(playerObject != nullptr && creature != nullptr) {
+		string response = creature->attack(playerObject,player);
+		if(creature->hitpoints <= 0)
 		{
-			return "What do you want to do that with?";
-		}
-		thingToUse = args[3];
-		subject = args[1];
-	}
-	else
-	{
-		if(args.size() < 3)
-		{
-			return "What do you want to use that on?";
-		}
-		thingToUse = args[1];
-		subject = args[2];
-	}
-
-	toLower(&thingToUse);
-	toLower(&subject);
-
-	DungeonObject* objectToUse = nullptr;
-	for(auto o : player->objects)
-	{
-		if(o->name == thingToUse)
-		{
-			objectToUse = o;
-		}
-	}
-
-	DungeonCreature* creatureToAffect = nullptr;
-	int creatureIndex = 0;
-	for(auto creature : room->creatures)
-	{
-		if(creature->name == subject)
-		{
-			creatureToAffect = creature;
-		}
-		creatureIndex++;
-	}
-
-	if(objectToUse != nullptr && creatureToAffect != nullptr)
-	{
-		string response = creatureToAffect->attack(objectToUse,player);
-		if(creatureToAffect->hitpoints <= 0)
-		{
-			room->creatures.erase(room->creatures.begin()+creatureIndex-1);
+			for(vector<DungeonCreature*>::iterator it = room->creatures.begin(); it != room->creatures.end(); ++it)
+			{
+				if(*it == creature)
+				{
+					room->creatures.erase(it);
+					break;
+				}
+			}
 		}
 		return response;
 	}
 	else
 	{
-		return "I don't understand what you are asking me to do.";
+		return "Your attempt amounts to nothing.";
 	}
-
-	return "";
 
 }
 
-string DungeonEngine::lookCmd(vector<string> args)
+string DungeonEngine::open(string args)
+{
+	DungeonObject* thingToOpen = extractObject(&room->objects,&args);
+	if(thingToOpen == nullptr)
+	{
+		thingToOpen = extractObject(&player->objects,&args);
+	}
+
+
+	if(thingToOpen->canOpen == true && thingToOpen->isOpen == false)
+	{
+		thingToOpen->isOpen = true;
+		textBuffer.push_back("You open the "+thingToOpen->name+", inside you see");
+		showContents(thingToOpen);
+		return "";
+	}
+
+
+	return "You can't open that";
+}
+
+
+string DungeonEngine::lookCmd(string args)
 {
 	look();
 	return "";
@@ -153,48 +118,6 @@ void DungeonEngine::resetWindows()
 
 }
 
-string DungeonEngine::open(vector<string> args)
-{
-	args = removeArticles(args);
-	if(args.size() < 2) {
-		textBuffer.push_back("What do you want to open?");
-	}
-
-	string thingToOpen = args[1];
-	toLower(&thingToOpen);
-
-
-	vector<DungeonObject*> allObjects;
-	allObjects.insert(allObjects.end(),player->objects.begin(),player->objects.end());
-	allObjects.insert(allObjects.end(),room->objects.begin(),room->objects.end());
-	for(auto o : allObjects)
-	{
-		if(o->name == thingToOpen)
-		{
-			if(o->canOpen == true && o->isOpen == false)
-			{
-				o->isOpen = true;
-				textBuffer.push_back("You open the "+o->name+", inside you see");
-				showContents(o);
-				return "";
-			}
-			
-		}
-	}
-
-	return "You can't open that";
-}
-
-void DungeonEngine::showContents(DungeonObject* o)
-{
-
-	for(auto content: o->contents)
-	{
-		textBuffer.push_back("  "+a_an(content->name));
-	}
-
-}
-
 
 void DungeonEngine::look()
 {
@@ -202,12 +125,12 @@ void DungeonEngine::look()
 
 	for(auto creature : room->creatures)
 	{
-		addToBuffer(&creature->description);
+		textBuffer.push_back(thereIsA(creature->name));
 	}
 
 	for(auto o : room->objects)
 	{
-		addToBuffer(&o->description);
+		textBuffer.push_back(thereIsA(o->name));
 		if(o->isOpen && o->contents.size() > 0) {
 			textBuffer.push_back("Inside the "+ o->name + " you see");
 			showContents(o);
@@ -221,13 +144,21 @@ void DungeonEngine::look()
 
 }
 
+void DungeonEngine::showContents(DungeonObject* o)
+{
+
+	for(auto content: o->contents)
+	{
+		textBuffer.push_back("  "+a_an(content->name));
+	}
+
+}
+
 void DungeonEngine::render(unsigned int start,unsigned int end)
 {
 	for(auto i = start; i < end; i++)
 	{
-		string line = textBuffer[i];
-		line = line + "\n";
-		wprintw(mainWindow,line.c_str());
+		wprintw(mainWindow,(textBuffer[i]+"\n").c_str());
 		wrefresh(mainWindow);
 		renderPos++;
 		Sleep(200);
@@ -245,6 +176,14 @@ void DungeonEngine::updateCmdMap()
 	//iterate over players inventory and add all
 	//aliases for the verb 'use' to the cmdMap
 	for(auto o : player->objects)
+	{
+		for(auto alias : o->useAliases)
+		{
+			cmdMap[alias] = &DungeonEngine::use;
+		}
+	}
+
+	for(auto o : room->objects)
 	{
 		for(auto alias : o->useAliases)
 		{
@@ -272,36 +211,47 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 
 	CommandWindow cmdW;
 	bool cmdFound = false;
-	vector<string> cmd;
+
 	while(true) {
 		updateCmdMap();
 		render(renderPos,textBuffer.size());
-		cmd = cmdW.command(commandWindow,STR_PROMPT);
-		string cmdString = STR_PROMPT + join(0,cmd," ");
-		textBuffer.push_back(cmdString);
-		if(cmd.size() > 0) {
-			toLower(&cmd[0]);
-			cmdFound = cmdMap.count(cmd[0]) > 0;
+		string userInput = cmdW.getCommandAsString(commandWindow,STR_PROMPT);
+		textBuffer.push_back(STR_PROMPT+userInput);
 
-			if(!cmdFound) {
-				bool moveFound = moveMap.count(cmd[0]) > 0;
-				if(!moveFound) {
-					cmd.clear();
+		if(userInput.length() > 0) {
+
+
+			vector<string> verbs;
+			for(map<string,commandFunction>::iterator it = cmdMap.begin(); it != cmdMap.end(); ++it) {
+				verbs.push_back(it->first);
+			}
+
+			string verb = extractPhrase(&verbs,&userInput);
+
+			if(verb == "") {
+				vector<string> directions;
+				for(map<string,DungeonRoom*>::iterator it = moveMap.begin(); it != moveMap.end(); ++it) {
+					directions.push_back(it->first);
+				}
+
+				string move = extractPhrase(&directions,&userInput);
+				
+				if(move == "") {					
 					textBuffer.push_back("What are you doing, dave?");
 				}
 				else
 				{
-					DungeonRoom *newRoom = moveMap[cmd[0]];
+					DungeonRoom *newRoom = moveMap[move];
 					room = newRoom;
+					look();
 				}
 			}
 			else
 			{
-				if(cmd[0] == STR_EXIT) break;
-				commandFunction cmdFunc = cmdMap[cmd[0]];
-				string response = (this->*cmdFunc)(cmd);
+				if(verb == STR_EXIT) break;
+				commandFunction cmdFunc = cmdMap[verb];
+				string response = (this->*cmdFunc)(userInput);
 				if(response.length() > 1) {
-					cmd.clear();
 					textBuffer.push_back(response);
 				}
 			}

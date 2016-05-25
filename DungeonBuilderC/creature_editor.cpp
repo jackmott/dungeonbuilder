@@ -143,7 +143,7 @@ void CreatureEditor::load(DungeonCreature *_creature)
 	bool cmdFound = false;
 	vector<string> cmd;
 	while(true) {
-		cmd = cmdW.command(commandWindow,STR_PROMPT);
+		cmd = cmdW.getCommand(commandWindow,STR_PROMPT);
 		if(cmd.size() > 0) {
 			toLower(&cmd[0]);
 			cmdFound = cmdMap.count(cmd[0]) > 0;
