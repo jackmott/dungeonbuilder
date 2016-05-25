@@ -12,6 +12,33 @@ string DungeonEngine::exit(string args)
 	return STR_EXIT;
 }
 
+string DungeonEngine::put(string args)
+{
+	DungeonObject* putObject = extractAndRemoveObject(&player->objects,&args);
+	if(putObject == nullptr)
+	{
+		putObject = extractAndRemoveObject (&room->objects,&args);
+	}
+	if(putObject != nullptr)
+	{
+		DungeonObject* containerObject =  extractObject(&player->objects,&args); 
+		if (containerObject == nullptr )		
+		{
+			containerObject = extractObject(&room->objects,&args);			
+		}
+		if (containerObject != nullptr && containerObject->isOpen)
+		{
+			containerObject->contents.push_back(putObject);
+			return "You put the "+ putObject->name + " in the " + containerObject->name + ".";			
+		} else
+		{
+			return "You try to but you can't put that there.";
+		}
+	}
+
+	return "You flounder about, with no success.";
+}
+
 string DungeonEngine::take(string args)
 {
 	DungeonObject* takenObject = extractAndRemoveObject(&room->objects,&args);
@@ -202,6 +229,9 @@ void DungeonEngine::updateCmdMap()
 	cmdMap[STR_TAKE] = &DungeonEngine::take;
 	cmdMap[STR_LOOK] = &DungeonEngine::lookCmd;
 	cmdMap[STR_OPEN] = &DungeonEngine::open;
+	cmdMap[STR_PUT] = &DungeonEngine::put;
+	cmdMap[STR_PLACE] = &DungeonEngine::put;
+
 	//iterate over players inventory and add all
 	//aliases for the verb 'use' to the cmdMap
 	for(auto o : player->objects)

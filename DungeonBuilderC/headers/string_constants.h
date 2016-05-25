@@ -41,6 +41,8 @@
 #define STR_TAKE "take"
 #define STR_LOOK "look"
 #define STR_OPEN "open"
+#define STR_PUT "put"
+#define STR_PLACE "place"
 
 
 #define STR_TAB  "    "
