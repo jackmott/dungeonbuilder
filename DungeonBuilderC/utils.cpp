@@ -231,9 +231,6 @@ DungeonCreature* extractCreature(vector<DungeonCreature*> creatures ,string *use
 string extractPhrase(vector<string> phrasesToFind, string *userInput)
 {
 
-	//Find if anything in phrasesToFind exist in userInput, case insensitive
-	//Remove the matches from userInput
-	//return the match
 	strlensort(&phrasesToFind);
 	string lcaseInput = " " + toLower(*userInput) + " ";
 	for(auto phrase : phrasesToFind)

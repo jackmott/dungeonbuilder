@@ -12,6 +12,18 @@ string DungeonEngine::exit(string args)
 	return STR_EXIT;
 }
 
+string DungeonEngine::drop(string args)
+{
+	DungeonObject *thing = extractObject(player->objects,&args);
+	if(thing != nullptr) {
+		removeObject(&player->objects,thing);
+		room->objects.push_back(thing);
+		return "You drop the " + thing->name +".";
+	}
+	else {
+		return "You don't have that.";
+	}
+}
 string DungeonEngine::examine(string args)
 {
 	DungeonObject* thing = extractObject(room->objects,&args);
@@ -292,6 +304,7 @@ void DungeonEngine::updateCmdMap()
 	cmdMap[STR_PUT] = &DungeonEngine::put;
 	cmdMap[STR_PLACE] = &DungeonEngine::put;	
 	cmdMap[STR_EXAMINE] = &DungeonEngine::examine;
+	cmdMap[STR_DROP] = &DungeonEngine::drop;
 
 	//iterate over players inventory and add all
 	//aliases for the verb 'use' to the cmdMap

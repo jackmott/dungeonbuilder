@@ -43,6 +43,7 @@ struct DungeonEngine
 	void showContents(DungeonObject * o);
 	void addToBuffer(vector<string> *v);
 	
+	string drop(string args);
 	string put(string args);
 	string open(string args);
 	string take(string args);
