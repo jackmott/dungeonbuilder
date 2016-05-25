@@ -14,23 +14,36 @@ string DungeonEngine::exit(string args)
 
 string DungeonEngine::put(string args)
 {
-	DungeonObject* putObject = extractAndRemoveObject(&player->objects,&args);
-	if(putObject == nullptr)
+	unsigned int inLocation = args.find(" in ");
+	if(inLocation == string::npos)
 	{
-		putObject = extractAndRemoveObject (&room->objects,&args);
+		return "Your fumble about, but it doesn't work.";
 	}
-	if(putObject != nullptr)
+
+	string firstHalf = args.substr(0,inLocation);
+	string secondHalf = args.substr(inLocation+4,args.size()-(inLocation+4));
+
+
+	DungeonObject* containerObject =  extractObject(&player->objects,&secondHalf);
+	if(containerObject == nullptr)
 	{
-		DungeonObject* containerObject =  extractObject(&player->objects,&args); 
-		if (containerObject == nullptr )		
+		containerObject = extractObject(&room->objects,&secondHalf);
+	}
+
+	if (containerObject != nullptr && containerObject->isOpen) 
+	{
+		DungeonObject* putObject = extractAndRemoveObject(&player->objects,&firstHalf);
+		if(putObject == nullptr)
 		{
-			containerObject = extractObject(&room->objects,&args);			
+			putObject = extractAndRemoveObject (&room->objects,&firstHalf);
 		}
-		if (containerObject != nullptr && containerObject->isOpen)
+
+		if(putObject != nullptr)
 		{
 			containerObject->contents.push_back(putObject);
-			return "You put the "+ putObject->name + " in the " + containerObject->name + ".";			
-		} else
+			return "You put the "+ putObject->name + " in the " + containerObject->name + ".";
+		}
+		else
 		{
 			return "You try to but you can't put that there.";
 		}
@@ -161,7 +174,7 @@ void DungeonEngine::resetWindows()
 	mainWindow = newwin(LINES-2,COLS,1,0);
 	scrollok(mainWindow,TRUE);
 	getmaxyx(stdscr,h,w); // this doesn't work in windows
-	
+
 	init_pair(1,COLOR_BLACK,COLOR_RED);
 	wbkgd(headerWindow,COLOR_PAIR(1));
 	//setcolors(headerWindow,1,COLOR_BLACK,COLOR_RED);
