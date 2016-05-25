@@ -18,11 +18,26 @@ string DungeonEngine::take(string args)
 
 	if(takenObject == nullptr)
 	{
-		return "You try to take it, but it seems futile";
+		for(auto o : room->objects)
+		{
+			if(o->isOpen) {
+				takenObject = extractAndRemoveObject(&o->contents,&args);
+				if(takenObject != nullptr)
+				{
+					break;
+				}
+			}
+		}
 	}
-	else {
+
+	if(takenObject != nullptr)
+	{
 		player->objects.push_back(takenObject);
 		return takenObject->name + " taken.";
+	}
+	else
+	{
+		return "You try to take it, but it seems futile";
 	}
 
 }
@@ -235,8 +250,8 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 				}
 
 				string move = extractPhrase(&directions,&userInput);
-				
-				if(move == "") {					
+
+				if(move == "") {
 					textBuffer.push_back("What are you doing, dave?");
 				}
 				else

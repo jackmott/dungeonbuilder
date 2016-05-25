@@ -157,7 +157,7 @@ DungeonObject * extractAndRemoveObject(vector<DungeonObject*> *objects ,string *
 	{
 		string lcaseName = toLower(o->name);
 		size_t pos = lcaseInput.find(lcaseName);
-		if(pos != string::npos)
+		if(pos != string::npos && o->canTake)
 		{
 			userInput->erase(pos,o->name.length());
 			objects->erase(objects->begin()+i);
