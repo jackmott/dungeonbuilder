@@ -12,8 +12,49 @@ string DungeonEngine::exit(string args)
 	return STR_EXIT;
 }
 
+string DungeonEngine::examine(string args)
+{
+	DungeonObject* thing = extractObject(room->objects,&args);
+	if(thing == nullptr)
+	{
+		thing = extractObject(player->objects,&args);
+	}
+
+
+	if(thing != nullptr && thing->description.size() == 0)
+	{
+		return "You see no further detail.";
+		
+	} else if (thing != nullptr)
+	{		
+		addToBuffer(&thing->description);		
+		return "";
+	}
+	else {
+		DungeonCreature *gal = extractCreature(room->creatures,&args);
+		if(gal != nullptr)
+		{
+			if(gal->description.size() == 0)
+			{
+				"There is nothing more to see.";
+			} else {
+				addToBuffer(&gal->description);
+				return "";
+			}
+		}
+		else
+		{
+				  return "You don't see that here.";
+		}
+	}
+
+	return "investigate examine function more";
+	
+}
+
 string DungeonEngine::put(string args)
 {
+	//get the string before and after the word "in" to clarify what is being put where
 	unsigned int inLocation = args.find(" in ");
 	if(inLocation == string::npos)
 	{
@@ -24,22 +65,24 @@ string DungeonEngine::put(string args)
 	string secondHalf = args.substr(inLocation+4,args.size()-(inLocation+4));
 
 
-	DungeonObject* containerObject =  extractObject(&player->objects,&secondHalf);
+	DungeonObject* containerObject =  extractObject(player->objects,&secondHalf);
 	if(containerObject == nullptr)
 	{
-		containerObject = extractObject(&room->objects,&secondHalf);
+		containerObject = extractObject(room->objects,&secondHalf);
 	}
 
 	if (containerObject != nullptr && containerObject->isOpen) 
 	{
-		DungeonObject* putObject = extractAndRemoveObject(&player->objects,&firstHalf);
+		DungeonObject* putObject = extractObject(player->objects,&firstHalf);
 		if(putObject == nullptr)
 		{
-			putObject = extractAndRemoveObject (&room->objects,&firstHalf);
+			putObject = extractObject (room->objects,&firstHalf);
 		}
 
 		if(putObject != nullptr)
 		{
+			removeObject(&room->objects, putObject);
+			removeObject(&player->objects, putObject);
 			containerObject->contents.push_back(putObject);
 			return "You put the "+ putObject->name + " in the " + containerObject->name + ".";
 		}
@@ -54,16 +97,21 @@ string DungeonEngine::put(string args)
 
 string DungeonEngine::take(string args)
 {
-	DungeonObject* takenObject = extractAndRemoveObject(&room->objects,&args);
+	DungeonObject* takenObject = extractObject(room->objects,&args);
+	if(takenObject != nullptr)
+	{
+		removeObject(&room->objects,takenObject);
+	}
 
 	if(takenObject == nullptr)
 	{
 		for(auto o : room->objects)
 		{
 			if(o->isOpen) {
-				takenObject = extractAndRemoveObject(&o->contents,&args);
+				takenObject = extractObject(o->contents,&args);
 				if(takenObject != nullptr)
 				{
+					removeObject(&o->contents,takenObject);
 					break;
 				}
 			}
@@ -74,9 +122,10 @@ string DungeonEngine::take(string args)
 			for(auto o : player->objects)
 			{
 				if(o->isOpen) {
-					takenObject = extractAndRemoveObject(&o->contents,&args);
+					takenObject = extractObject(o->contents,&args);
 					if(takenObject != nullptr)
 					{
+						removeObject(&o->contents,takenObject);
 						break;
 					}
 				}
@@ -97,22 +146,15 @@ string DungeonEngine::take(string args)
 }
 string DungeonEngine::use(string args)
 {
-	DungeonObject* roomObject = extractObject(&room->objects,&args);
-	DungeonObject* playerObject = extractObject(&player->objects,&args);
-	DungeonCreature* creature = extractCreature(&room->creatures,&args);
+	DungeonObject* roomObject = extractObject(room->objects,&args);
+	DungeonObject* playerObject = extractObject(player->objects,&args);
+	DungeonCreature* creature = extractCreature(room->creatures,&args);
 
 	if(playerObject != nullptr && creature != nullptr) {
 		string response = creature->attack(playerObject,player);
 		if(creature->hitpoints <= 0)
 		{
-			for(vector<DungeonCreature*>::iterator it = room->creatures.begin(); it != room->creatures.end(); ++it)
-			{
-				if(*it == creature)
-				{
-					room->creatures.erase(it);
-					break;
-				}
-			}
+			removeCreature(&room->creatures,creature);
 		}
 		return response;
 	}
@@ -125,10 +167,10 @@ string DungeonEngine::use(string args)
 
 string DungeonEngine::open(string args)
 {
-	DungeonObject* thingToOpen = extractObject(&room->objects,&args);
+	DungeonObject* thingToOpen = extractObject(room->objects,&args);
 	if(thingToOpen == nullptr)
 	{
-		thingToOpen = extractObject(&player->objects,&args);
+		thingToOpen = extractObject(player->objects,&args);
 	}
 
 
@@ -243,11 +285,13 @@ void DungeonEngine::updateCmdMap()
 {
 	cmdMap[STR_EXIT] = &DungeonEngine::exit;
 	cmdMap[STR_USE] = &DungeonEngine::use;
+	cmdMap[STR_LOOK_AT] = &DungeonEngine::examine;
 	cmdMap[STR_TAKE] = &DungeonEngine::take;
 	cmdMap[STR_LOOK] = &DungeonEngine::lookCmd;
 	cmdMap[STR_OPEN] = &DungeonEngine::open;
 	cmdMap[STR_PUT] = &DungeonEngine::put;
-	cmdMap[STR_PLACE] = &DungeonEngine::put;
+	cmdMap[STR_PLACE] = &DungeonEngine::put;	
+	cmdMap[STR_EXAMINE] = &DungeonEngine::examine;
 
 	//iterate over players inventory and add all
 	//aliases for the verb 'use' to the cmdMap
@@ -301,16 +345,16 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 			for(map<string,commandFunction>::iterator it = cmdMap.begin(); it != cmdMap.end(); ++it) {
 				verbs.push_back(it->first);
 			}
-
-			string verb = extractPhrase(&verbs,&userInput);
+			
+			string verb = extractPhrase(verbs,&userInput);
 
 			if(verb == "") {
 				vector<string> directions;
 				for(map<string,DungeonRoom*>::iterator it = moveMap.begin(); it != moveMap.end(); ++it) {
 					directions.push_back(it->first);
 				}
-
-				string move = extractPhrase(&directions,&userInput);
+			
+				string move = extractPhrase(directions,&userInput);
 
 				if(move == "") {
 					textBuffer.push_back("What are you doing, dave?");

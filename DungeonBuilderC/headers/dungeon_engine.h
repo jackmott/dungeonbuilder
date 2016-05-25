@@ -49,6 +49,7 @@ struct DungeonEngine
 	string exit(string args);
 	string use(string args);
 	string lookCmd(string args);
+	string examine(string args);
 
 };
 

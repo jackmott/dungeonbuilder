@@ -43,7 +43,8 @@
 #define STR_OPEN "open"
 #define STR_PUT "put"
 #define STR_PLACE "place"
-
+#define STR_LOOK_AT "look at"
+#define STR_EXAMINE "examine"
 
 #define STR_TAB  "    "
 #define STR_ARROW "->"

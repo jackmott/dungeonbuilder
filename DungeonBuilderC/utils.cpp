@@ -101,6 +101,53 @@ void toLower(string *s)
 }
 
 
+
+struct strlencmp {
+	bool operator()(const string&first,const string& second)
+	{
+		return first.size() > second.size();
+	}
+};
+
+void strlensort(vector<string> *v)
+{
+	strlencmp scmp;
+	sort(v->begin(),v->end(),scmp);
+}
+
+
+struct dobjcmp {
+	bool operator()(const DungeonObject*first,const DungeonObject* second)
+	{
+		return first->name.size() > second->name.size();
+	}
+};
+
+void objsort(vector<DungeonObject*> *v)
+{
+	dobjcmp ocmp;
+	sort(v->begin(),v->end(),ocmp);
+}
+
+
+struct dcreaturecmp {
+	bool operator()(const DungeonCreature*first,const DungeonCreature* second)
+	{
+		return first->name.size() > second->name.size();
+	}
+};
+
+
+void creaturesort(vector<DungeonCreature*> *v)
+{
+	dcreaturecmp ccmp;
+	sort(v->begin(),v->end(),ccmp);
+}
+
+
+//sort strings from longest to shortest
+
+
 bool isAffirmative(string s)
 {
 	string l = s;
@@ -116,10 +163,27 @@ string thereIsA(string thing)
 }
 
 
-DungeonObject * extractObject(vector<DungeonObject*> *objects ,string *userInput)
+
+void removeObject(vector<DungeonObject*> *objects,DungeonObject *object)
 {
-	string lcaseInput = " " + toLower(*userInput) + " ";
+	int i = 0;
 	for(auto o : *objects)
+	{
+		if(o == object)
+		{
+			objects->erase(objects->begin()+i);
+			return;
+		}
+		i++;
+	}
+
+}
+
+DungeonObject * extractObject(vector<DungeonObject*> objects ,string *userInput)
+{
+	objsort(&objects);
+	string lcaseInput = " " + toLower(*userInput) + " ";
+	for(auto o : objects)
 	{
 		string lcaseName =" " + toLower(o->name) + " " ;
 		size_t pos = lcaseInput.find(lcaseName);
@@ -132,71 +196,49 @@ DungeonObject * extractObject(vector<DungeonObject*> *objects ,string *userInput
 	return nullptr;
 }
 
-DungeonCreature* extractCreature(vector<DungeonCreature*> *creatures ,string *userInput)
+void removeCreature(vector<DungeonCreature*> *creatures, DungeonCreature *creature)
 {
-	string lcaseInput = toLower(*userInput);
-	for(auto creature : *creatures)
-	{
-		string lcaseName = toLower(creature->name);
-		size_t pos = lcaseInput.find(lcaseName);
-		if(pos != string::npos)
-		{
-			userInput->erase(pos,creature->name.length());
-			return creature;
-		}
-	}
-	return nullptr;
-}
-
-
-DungeonObject * extractAndRemoveObject(vector<DungeonObject*> *objects ,string *userInput)
-{
-	string lcaseInput = " " + toLower(*userInput) + " ";
 	int i = 0;
-	for(auto o : *objects)
+	for(auto c : *creatures)
 	{
-		string lcaseName =" " + toLower(o->name) + " ";
-		size_t pos = lcaseInput.find(lcaseName);
-		if(pos != string::npos && o->canTake)
+		if(c == creature)
 		{
-			userInput->erase(pos,o->name.length());
-			objects->erase(objects->begin()+i);
-			return o;
-		}
-		i++;
-	}
-	return nullptr;
-}
-
-DungeonCreature* extractAndRemoveCreature(vector<DungeonCreature*> *creatures ,string *userInput)
-{
-	string lcaseInput = toLower(*userInput);
-	int i = 0;
-	for(auto creature : *creatures)
-	{
-		string lcaseName = toLower(creature->name);
-		size_t pos = lcaseInput.find(lcaseName);
-		if(pos != string::npos)
-		{
-			userInput->erase(pos,creature->name.length());
 			creatures->erase(creatures->begin()+i);
-			return creature;
+			return;
 		}
 		i++;
+	}
+}
+
+DungeonCreature* extractCreature(vector<DungeonCreature*> creatures ,string *userInput)
+{
+	creaturesort(&creatures);
+	string lcaseInput = toLower(*userInput);
+	for(auto creature : creatures)
+	{
+		string lcaseName = toLower(creature->name);
+		size_t pos = lcaseInput.find(lcaseName);
+		if(pos != string::npos)
+		{
+			userInput->erase(pos,creature->name.length());
+			return creature;
+		}
 	}
 	return nullptr;
 }
 
-string extractPhrase(vector<string> *phrasesToFind, string *userInput)
+
+string extractPhrase(vector<string> phrasesToFind, string *userInput)
 {
 
 	//Find if anything in phrasesToFind exist in userInput, case insensitive
 	//Remove the matches from userInput
 	//return the match
-	string lcaseInput = toLower(*userInput);
-	for(auto phrase : *phrasesToFind)
+	strlensort(&phrasesToFind);
+	string lcaseInput = " " + toLower(*userInput) + " ";
+	for(auto phrase : phrasesToFind)
 	{
-		string lcasePhrase = toLower(phrase);
+		string lcasePhrase = " " + toLower(phrase) + " ";
 		size_t pos = lcaseInput.find(lcasePhrase);
 		if(pos != string::npos)
 		{
