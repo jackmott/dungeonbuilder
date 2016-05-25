@@ -118,10 +118,10 @@ string thereIsA(string thing)
 
 DungeonObject * extractObject(vector<DungeonObject*> *objects ,string *userInput)
 {
-	string lcaseInput = toLower(*userInput);
+	string lcaseInput = " " + toLower(*userInput) + " ";
 	for(auto o : *objects)
 	{
-		string lcaseName = toLower(o->name);
+		string lcaseName =" " + toLower(o->name) + " " ;
 		size_t pos = lcaseInput.find(lcaseName);
 		if(pos != string::npos)
 		{
@@ -151,11 +151,11 @@ DungeonCreature* extractCreature(vector<DungeonCreature*> *creatures ,string *us
 
 DungeonObject * extractAndRemoveObject(vector<DungeonObject*> *objects ,string *userInput)
 {
-	string lcaseInput = toLower(*userInput);
+	string lcaseInput = " " + toLower(*userInput) + " ";
 	int i = 0;
 	for(auto o : *objects)
 	{
-		string lcaseName = toLower(o->name);
+		string lcaseName =" " + toLower(o->name) + " ";
 		size_t pos = lcaseInput.find(lcaseName);
 		if(pos != string::npos && o->canTake)
 		{

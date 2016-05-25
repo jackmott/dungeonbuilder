@@ -28,6 +28,20 @@ string DungeonEngine::take(string args)
 				}
 			}
 		}
+
+		if(takenObject == nullptr)
+		{
+			for(auto o : player->objects)
+			{
+				if(o->isOpen) {
+					takenObject = extractAndRemoveObject(&o->contents,&args);
+					if(takenObject != nullptr)
+					{
+						break;
+					}
+				}
+			}
+		}
 	}
 
 	if(takenObject != nullptr)
