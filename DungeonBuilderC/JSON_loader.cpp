@@ -4,27 +4,18 @@ using namespace std;
 
 vector<DungeonRoom*> JSONLoader::loadMap(ifstream& fin)
 {
-
-	string word;
-	char ch;
-	stack<char> symStack;
+	char ch = ' ';
 	vector<DungeonRoom*> roomList;
 
-	while (word != "\"Rooms\":")
-		fin >> word;
-	fin >> ch;
-	symStack.push('}');
-	symStack.push(']');
-	int numRooms = 0;
-	string curr;
-	while (!symStack.empty()) 
+	while (ch != ',')
 	{
-		fin >> ch;
-		curr.push_back(ch);
-		if (ch == '{')
+		string entry[2];
+		getJSONEntry(fin, ch, entry);
+
+		if (entry[0] == "Rooms")
 			roomList.push_back(loadRoom(fin, ch, roomList));
-		else
-			symStack.pop();
+
+		fin >> ch;
 	}
 
 	return roomList;
@@ -49,6 +40,8 @@ DungeonRoom* JSONLoader::loadRoom(ifstream& fin, char & ch, vector<DungeonRoom*>
 			room->creatures.push_back(loadCreature(fin, ch));
 		else
 			break;
+
+		fin >> ch;
 	}
 
 	return room;
@@ -85,13 +78,13 @@ DungeonCreature* JSONLoader::loadCreature(ifstream & fin, char & ch)
 		if (entry[0] == "Name")
 			creature->name = entry[1];
 		else if (entry[0] == "Description")
-			creature->description == entry[1];
+			creature->description = entry[1];
 		else if (entry[0] == "hitpoints")
-			creature->hitpoints == atoi(entry[1].c_str());
+			creature->hitpoints = atoi(entry[1].c_str());
 		else if (entry[0] == "Alignment")
-			creature->hitpoints == atoi(entry[1].c_str());
+			creature->alignment = atoi(entry[1].c_str());
 
-		fin >> noskipws >> ch;
+		fin >> ch;
 	}
 
 	return creature;
@@ -99,19 +92,21 @@ DungeonCreature* JSONLoader::loadCreature(ifstream & fin, char & ch)
 
 DungeonExit* JSONLoader::loadExit(ifstream & fin, char & ch, vector<DungeonRoom*> roomList)
 {
-	string curr;
 	DungeonExit* exit = new DungeonExit;
 
-	while (fin >> curr && curr != "],")
+	while (ch != ',')
 	{
 		string entry[2];
-		split(curr, entry);
+		getJSONEntry(fin, ch, entry);
+
 		if (entry[0] == "Name")
 			exit->name = entry[1];
 		else if (entry[0] == "Description")
-			exit->description == entry[1];
+			exit->description = entry[1];
 		else if (entry[0] == "links")
-			exit->room == roomList[atoi(entry[1].c_str())];
+			exit->room = roomList[atoi(entry[1].c_str())];
+
+		fin >> ch;
 	}
 
 	return exit;
