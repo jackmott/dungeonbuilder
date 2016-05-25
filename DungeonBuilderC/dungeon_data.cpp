@@ -7,19 +7,19 @@ using namespace std;
 string DungeonRoom::toJSON()
 {
 	ostringstream sout;
-	sout << TAB << TAB << TAB << "\"ID\":\"" << uid << "\"," << endl;
+	sout << TAB << TAB << TAB << "\"ID\":" << uid << "," << endl;
 	sout << TAB << TAB << TAB << "\"Name\":\"" << name << "\"," << endl;
 	sout << TAB << TAB << TAB << "\"Description\":\"" << description << "\"," << endl;
 
 	sout << TAB << TAB << TAB << "\"Objects\":[" << endl;
 	for (auto i = 0u; i < objects.size(); i++) {
-		sout << TAB << TAB << TAB << TAB << "{ " << objects[i]->toJSON() << "}," << endl;
+		sout << TAB << TAB << TAB << TAB << "{" << objects[i]->toJSON() << "}," << endl;
 	}
 	sout << TAB << TAB << TAB << "]," << endl;
 
 	sout << TAB << TAB << TAB << "\"Creatures\":[" << endl;
 	for (auto i = 0u; i < creatures.size(); i++) {
-		sout << TAB << TAB << TAB << TAB << "{ " << creatures[i]->toJSON() << "}," << endl;
+		sout << TAB << TAB << TAB << TAB << "{" << creatures[i]->toJSON() << "}," << endl;
 	}
 	sout << TAB << TAB << TAB << "]," << endl;
 

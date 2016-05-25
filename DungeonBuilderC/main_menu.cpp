@@ -126,7 +126,8 @@ void MainMenu::resetWindows()
 	mvwprintwBold(mainWindow,5,0,"[Create] a Dungeon");
 	mvwprintwBold(mainWindow,6,0,"[Enter] Dungeon");
 	mvwprintwBold(mainWindow,7,0,"[Save] this map");
-	mvwprintwBold(mainWindow,8,0,"[Exit] this world");
+	mvwprintwBold(mainWindow,8,0,"[Load] a map");
+	mvwprintwBold(mainWindow,9,0,"[Exit] this world");
 	wrefresh(mainWindow);
 
 
@@ -138,6 +139,7 @@ void MainMenu::load()
 	cmdMap[STR_EXIT] = &MainMenu::exitMenu;
 	cmdMap[STR_ENTER] = &MainMenu::play;
 	cmdMap[STR_SAVE] = &MainMenu::saveMap;
+	cmdMap[STR_LOAD] = &MainMenu::loadMap;
 
 	resetWindows();
 

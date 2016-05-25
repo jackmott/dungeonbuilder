@@ -8,9 +8,11 @@ using namespace std;
 
 struct JSONLoader {
 	vector<DungeonRoom*> loadMap(ifstream&);
-	DungeonRoom* loadRoom(ifstream&, vector<DungeonRoom*> roomList);
-	DungeonObject* loadObjects(ifstream& fin);
-	DungeonCreature* loadCreatures(ifstream& fin);
-	DungeonExit* loadExits(ifstream& fin, vector<DungeonRoom*> roomList);
+	DungeonRoom* loadRoom(ifstream&, char& ,vector<DungeonRoom*> roomList);
+	DungeonObject* loadObject(ifstream&, char&);
+	DungeonCreature* loadCreature(ifstream&, char&);
+	DungeonExit* loadExit(ifstream&, char&, vector<DungeonRoom*> roomList);
+	void getJSONEntry(ifstream&, char&, string[2]);
+	
 	void split(string, string[2]);
 };
