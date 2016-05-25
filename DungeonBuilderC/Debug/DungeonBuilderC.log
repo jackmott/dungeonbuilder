@@ -1,0 +1,5 @@
+﻿  dungeon_engine.cpp
+c:\program files (x86)\windows kits\8.1\include\um\wincon.h(118): warning C4005: 'MOUSE_MOVED': macro redefinition
+  c:\projects\dungeonbuilder\dungeonbuilderc\headers\pdcurses.h(155): note: see previous definition of 'MOUSE_MOVED'
+  DungeonBuilderC.vcxproj -> C:\projects\dungeonbuilder\Debug\DungeonBuilderC.exe
+  DungeonBuilderC.vcxproj -> C:\projects\dungeonbuilder\Debug\DungeonBuilderC.pdb (Partial PDB)
