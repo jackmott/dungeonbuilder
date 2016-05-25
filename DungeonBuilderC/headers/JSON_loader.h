@@ -7,12 +7,19 @@
 using namespace std;
 
 struct JSONLoader {
-	vector<DungeonRoom*> loadMap(ifstream&);
-	DungeonRoom* loadRoom(ifstream&, char& ,vector<DungeonRoom*> roomList);
-	DungeonObject* loadObject(ifstream&, char&);
-	DungeonCreature* loadCreature(ifstream&, char&);
-	DungeonExit* loadExit(ifstream&, char&, vector<DungeonRoom*> roomList);
-	void getJSONEntry(ifstream&, char&, string[2]);
+	char ch;
+	ifstream fin;
+	string currEntry[2];
+	bool open;
 	
-	void split(string, string[2]);
+	JSONLoader(string);
+	~JSONLoader();
+	vector<DungeonRoom*> loadMap();
+	DungeonRoom* loadRoom(vector<DungeonRoom*> roomList);
+	DungeonObject* loadObject();
+	DungeonCreature* loadCreature();
+	DungeonExit* loadExit( vector<DungeonRoom*> roomList);
+	bool getJSONEntry();
+	
+	void split(string);
 };

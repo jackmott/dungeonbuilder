@@ -61,7 +61,7 @@ void MainMenu::saveMap(vector<string> args)
 	{
 		ofstream fout(args[1].c_str());
 		fout << "{" << endl;
-		fout << TAB << "\"Rooms\": [" << endl;
+		fout << TAB << "\"rooms\": [" << endl;
 		for (auto i = 0u; i < g_roomList.size(); i++) 
 		{
 			fout << TAB << TAB << "{" << endl;
@@ -86,15 +86,14 @@ void MainMenu::loadMap(vector<string> args)
 	}
 	else
 	{
-		ifstream fin(args[1].c_str());
-		if (!fin)
+		JSONLoader loader(args[1].c_str());
+		if (!loader.open)
 		{
 			mvwprintw(responseWindow, 0, 0, "Could not open that file");
 		}
 		else
 		{
-			JSONLoader loader;
-			g_roomList = loader.loadMap(fin);
+			g_roomList = loader.loadMap();
 			g_startRoom = g_roomList[0];
 		}
 	}

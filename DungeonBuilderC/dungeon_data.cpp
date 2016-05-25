@@ -7,23 +7,23 @@ using namespace std;
 string DungeonRoom::toJSON()
 {
 	ostringstream sout;
-	sout << TAB << TAB << TAB << "\"ID\":" << uid << "," << endl;
-	sout << TAB << TAB << TAB << "\"Name\":\"" << name << "\"," << endl;
-	sout << TAB << TAB << TAB << "\"Description\":\"" << description << "\"," << endl;
+	sout << TAB << TAB << TAB << "\"uid\":" << uid << "," << endl;
+	sout << TAB << TAB << TAB << "\"name\":\"" << name << "\"," << endl;
+	sout << TAB << TAB << TAB << "\"description\":\"" << description << "\"," << endl;
 
-	sout << TAB << TAB << TAB << "\"Objects\":[" << endl;
+	sout << TAB << TAB << TAB << "\"objects\":[" << endl;
 	for (auto i = 0u; i < objects.size(); i++) {
 		sout << TAB << TAB << TAB << TAB << "{" << objects[i]->toJSON() << "}," << endl;
 	}
 	sout << TAB << TAB << TAB << "]," << endl;
 
-	sout << TAB << TAB << TAB << "\"Creatures\":[" << endl;
+	sout << TAB << TAB << TAB << "\"creatures\":[" << endl;
 	for (auto i = 0u; i < creatures.size(); i++) {
 		sout << TAB << TAB << TAB << TAB << "{" << creatures[i]->toJSON() << "}," << endl;
 	}
 	sout << TAB << TAB << TAB << "]," << endl;
 
-	sout << TAB << TAB << TAB << "\"Exits\":[" << endl;
+	sout << TAB << TAB << TAB << "\"exits\":[" << endl;
 	for (auto i = 0u; i < exits.size(); i++) {
 		sout << TAB << TAB << TAB << TAB << "{ " << exits[i]->toJSON() << "}," << endl;
 	}
@@ -33,20 +33,20 @@ string DungeonRoom::toJSON()
 string DungeonExit::toJSON()
 {
 	ostringstream sout;
-	sout << "\"Name\":\"" << name << "\", \"Description\":\"" << description 
+	sout << "\"name\":\"" << name << "\", \"description\":\"" << description 
 		 << "\", \"links\":" << room->uid;
 	return sout.str();
 }
 string DungeonObject::toJSON()
 {
 	ostringstream sout;
-	sout << "\"Name\":\"" << name << "\", \"Description\":\"" << description << "\"";
+	sout << "\"name\":\"" << name << "\", \"description\":\"" << description << "\"";
 	return sout.str();
 }
 string DungeonCreature::toJSON()
 {
 	ostringstream sout;
-	sout << "\"Name\":\"" << name << "\", \"Description\":\"" << description
-		 << "\", \"hitpoints\":" << hitpoints << ", \"Alignment\":" << alignment;
+	sout << "\"name\":\"" << name << "\", \"description\":\"" << description
+		 << "\", \"hitpoints\":" << hitpoints << ", \"alignment\":" << alignment;
 	return sout.str();
 }
