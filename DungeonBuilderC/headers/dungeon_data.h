@@ -36,6 +36,8 @@ struct DungeonExit
 	bool isDoor;   // or window, or pile of rocks, whatever	
 	bool isOpen;   //or whatever
 
+	int distance;
+
 	string openText;
 	string closedText;
 

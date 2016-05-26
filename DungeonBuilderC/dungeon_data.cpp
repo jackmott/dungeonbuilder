@@ -50,6 +50,7 @@ DungeonExit::DungeonExit()
 	isOpen = false; //has no meaning when not a door
 	openText =" is open";
 	closedText = " is closed";
+	distance = 1;
 
 }
 

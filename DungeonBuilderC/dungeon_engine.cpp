@@ -203,11 +203,14 @@ void DungeonEngine::move(DungeonExit *dungeonExit)
 	//if this is not a logical door, of it is open, go!
 	if(! dungeonExit->isDoor || dungeonExit->isOpen)
 	{
-		room = dungeonExit->room;
-		
+		room = dungeonExit->room;		
 		look();
-
 	}
+	else if(dungeonExit->isDoor && !dungeonExit->isOpen)
+	{
+		textBuffer.push_back(dungeonExit->closedText);
+	} 
+
 }
 
 
@@ -273,8 +276,20 @@ void DungeonEngine::look()
 	}
 
 	for(auto exit : room->exits)
-	{
+	{		
 		addToBuffer(&exit->description);
+		if (exit->isDoor)
+		{
+			if(exit->isOpen)
+			{
+				textBuffer.push_back(exit->openText);
+			}
+			else
+			{
+				textBuffer.push_back(exit->closedText);
+			}
+		}
+
 	}
 
 }

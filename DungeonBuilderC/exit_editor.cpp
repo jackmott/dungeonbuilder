@@ -16,6 +16,56 @@ string ExitEditor::exit(vector<string> args)
 	return STR_EXIT;
 }
 
+
+string ExitEditor::set(vector<string> args)
+{
+	if(args.size() < 2)
+	{
+		return "What do you want to set?";
+	}
+	if(args.size() < 3) {
+		return "Please supply the value directly in the command";
+	}
+	string editNoun = args[1];
+	toLower(&editNoun);
+	if(editNoun ==STR_NAME)
+	{
+		string newname = join(2,args," ");
+		dungeonExit->name = newname;
+	}
+	else if(editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
+	{
+		string desc = join(2,args," ");
+		vector<string> descVector;
+		descVector.push_back(desc);
+		dungeonExit->description = descVector;
+	}
+	else if(editNoun == STR_DOOR)
+	{
+		dungeonExit->isDoor = isAffirmative(args[2]);
+	}
+	else if(editNoun == STR_OPEN)
+	{
+		dungeonExit->isOpen = isAffirmative(args[2]);
+	} 
+	else if(editNoun == STR_OPEN_TEXT)
+	{
+		dungeonExit->openText = join(2,args," ");
+	}
+	else if(editNoun == STR_CLOSED_TEXT)
+	{
+		dungeonExit->closedText = join(2,args," ");
+	}
+
+	else {
+		return "I don't know how to set that";
+	}
+	clearWindows();
+	resetWindows();
+	return "";
+}
+
+
 string ExitEditor::edit(vector<string> args)
 {
 	if(args.size() < 2)
@@ -27,18 +77,7 @@ string ExitEditor::edit(vector<string> args)
 
 	if(editNoun == STR_NAME)
 	{
-		//set it directly or go to editor
-		if(args.size() < 3) {
-			return "Please supply the name directly in the command";
-		}
-		else
-		{
-			string newname = join(2,args," ");
-			dungeonExit->name = newname;
-			clearWindows();
-			resetWindows();
-			return "";
-		}
+		return set(args);
 
 	}
 	else if (editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
@@ -112,16 +151,45 @@ void ExitEditor::resetWindows()
 	int done = false;
 	string command;
 
+	int lineCount = 3;
 	setcolors(mainWindow,1,COLOR_RED,COLOR_BLACK);
 	mvwprintwCenterBold(mainWindow,1,"Exit Editor");
 	setcolor(mainWindow,2,COLOR_WHITE);
+
+
 	string nameRow = STR_MENU_NAME + dungeonExit->name;
-	mvwprintw(mainWindow,3,0,nameRow.c_str());
+	mvwprintw(mainWindow,lineCount,0,nameRow.c_str());
+
+	lineCount++;
 	string desc = dungeonExit->description.size() > 0 ? dungeonExit->description[0] + STR_ELLIPSES : "";
 	string descRow = STR_MENU_DESCRIPTION + desc;
-	mvwprintw(mainWindow,4,0,descRow.c_str());
+	mvwprintw(mainWindow,lineCount,0,descRow.c_str());
+
+	lineCount++;
 	string roomRow = STR_MENU_ROOM + dungeonExit->room->name;
-	mvwprintw(mainWindow,5,0,roomRow.c_str());
+	mvwprintw(mainWindow,lineCount,0,roomRow.c_str());
+
+	lineCount++;
+	string torf = dungeonExit->isDoor ? STR_TRUE : STR_FALSE;
+	string doorRow = STR_MENU_IS_DOOR + torf;
+	mvwprintw(mainWindow,lineCount,0,doorRow.c_str());
+
+	if (dungeonExit->isDoor) {
+		lineCount++;
+		torf = dungeonExit->isOpen ? STR_TRUE : STR_FALSE;
+		string openRow = STR_MENU_IS_OPEN + torf;
+		mvwprintw(mainWindow,lineCount,0,openRow.c_str());
+
+		lineCount++;
+		string openTextRow = STR_MENU_OPENTEXT + dungeonExit->openText;
+		mvwprintw(mainWindow,lineCount,0,openTextRow.c_str());
+
+		lineCount++;
+		string closedTextRow = STR_MENU_CLOSEDTEXT + dungeonExit->closedText;
+		mvwprintw(mainWindow,lineCount,0,closedTextRow.c_str());
+
+	}
+
 
 
 	wrefresh(mainWindow);
@@ -135,6 +203,7 @@ DungeonRoom* ExitEditor::load(DungeonExit *_dungeonExit, DungeonRoom *_fromRoom)
 	cmdMap[STR_EDIT] = &ExitEditor::edit;
 	cmdMap[STR_EXIT] = &ExitEditor::exit;
 	cmdMap[STR_CREATE] = &ExitEditor::create;
+	cmdMap[STR_SET] = &ExitEditor::set;
 
 	resetWindows();
 
