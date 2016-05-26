@@ -5,10 +5,12 @@ JSONLoader::JSONLoader(string filename)
 {
 	char ch = ' ';
 	filename.append(".json");
+	this->filename = filename;
 	fin.open(filename.c_str());
 	if (fin)
 		open = true;
 	else open = false;
+	donePass = false;
 }
 JSONLoader::~JSONLoader()
 {
@@ -18,12 +20,15 @@ JSONLoader::~JSONLoader()
 vector<DungeonRoom*> JSONLoader::loadMap()
 {
 	vector<DungeonRoom*> roomList;
-	while (getJSONEntry())
+	if (getJSONEntry())
 	{
 		if (currEntry[0] == "rooms")
-			roomList.push_back(loadRoom(roomList));
-		fin >> ch;
-	}
+			while (getJSONEntry())
+				roomList.push_back(loadRoom(roomList));
+	} 
+	donePass = true;
+	fin.seekg(0, ios::beg);
+	getExits(roomList);
 
 	return roomList;
 }
@@ -46,8 +51,8 @@ DungeonRoom* JSONLoader::loadRoom( vector<DungeonRoom*> roomList)
 			while (getJSONEntry())
 				room->creatures.push_back(loadCreature());
 		else if (currEntry[0]=="exits")
-			while (getJSONEntry())
-				room->exits.push_back(loadExit(roomList));
+				while (getJSONEntry())
+					loadExit(roomList);
 	} while (ch != '}' && getJSONEntry());
 
 	return room;
@@ -74,6 +79,7 @@ DungeonCreature* JSONLoader::loadCreature()
 
 	do
 	{
+
 		if (currEntry[0] == "name")
 			creature->name = currEntry[1];
 		else if (currEntry[0] == "description")
@@ -87,18 +93,36 @@ DungeonCreature* JSONLoader::loadCreature()
 	return creature;
 }
 
+void JSONLoader::getExits(vector<DungeonRoom*> roomList)
+{
+	for (DungeonRoom* room : roomList)
+	{	
+		getJSONEntry();
+		while (currEntry[0] != "exits")
+			getJSONEntry();
+		while (getJSONEntry())
+		{
+			room->exits.push_back(loadExit(roomList));
+		}
+		getJSONEntry();
+	}
+}
+
 DungeonExit* JSONLoader::loadExit( vector<DungeonRoom*> roomList)
 {
 	DungeonExit* exit = new DungeonExit;
 
 	do
 	{
-		if (currEntry[0] == "Name")
-			exit->name = currEntry[1];
-		else if (currEntry[0] == "Description")
-			exit->description = currEntry[1];
-		else if (currEntry[0] == "links")
-			exit->room = roomList[atoi(currEntry[1].c_str())];
+		if (donePass)
+		{
+			if (currEntry[0] == "name")
+				exit->name = currEntry[1];
+			else if (currEntry[0] == "description")
+				exit->description = currEntry[1];
+			else if (currEntry[0] == "links")
+				exit->room = roomList[atoi(currEntry[1].c_str())];
+		}
 	} while (ch != '}' && getJSONEntry());
 
 	return exit;
@@ -160,7 +184,7 @@ bool JSONLoader::getJSONEntry()
 			fin >> noskipws >> ch;
 			if (ch == '\"' && prev != '\\')
 				inQuote = inQuote ? false : true;
-			if (inQuote || ch != ' ')
+			if (inQuote || ch != ' ' && ch!= '}')
 				curr.push_back(ch);
 
 			prev = ch;

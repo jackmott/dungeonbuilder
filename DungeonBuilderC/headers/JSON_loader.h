@@ -9,7 +9,9 @@ using namespace std;
 struct JSONLoader {
 	char ch;
 	ifstream fin;
+	string filename;
 	string currEntry[2];
+	bool donePass;
 	bool open;
 	
 	JSONLoader(string);
@@ -18,6 +20,8 @@ struct JSONLoader {
 	DungeonRoom* loadRoom(vector<DungeonRoom*> roomList);
 	DungeonObject* loadObject();
 	DungeonCreature* loadCreature();
+
+	void getExits(vector<DungeonRoom*> roomList);
 	DungeonExit* loadExit( vector<DungeonRoom*> roomList);
 	bool getJSONEntry();
 	

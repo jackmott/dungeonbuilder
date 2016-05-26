@@ -59,7 +59,7 @@ void MainMenu::saveMap(vector<string> args)
 		mvwprintw(responseWindow, 0, 0, "Must make a room first");
 	else 
 	{
-		ofstream fout(args[1].c_str());
+		ofstream fout((args[1].append(".json")).c_str());
 		fout << "{" << endl;
 		fout << TAB << "\"rooms\": [" << endl;
 		for (auto i = 0u; i < g_roomList.size(); i++) 
