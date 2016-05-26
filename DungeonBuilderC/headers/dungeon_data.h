@@ -63,22 +63,16 @@ struct DungeonObject
 	vector<string> description;
 	
 	int damage;  //0 if not a weapon
-	vector<string> hitMessages;
-	vector<string> missMessages;
-
+	
 	int mass;
 	int size;
 	
 	bool canOpen;
 	bool isOpen;
 	vector<DungeonObject*> contents;	
-	string openMessage;
-	string closeMessage;
 	
 	bool canTake;
-	string takeMessage;
-	string dropMessage;
-
+	
 	vector<string> useAliases;
 
 	USE_EFFECT selfEffect;

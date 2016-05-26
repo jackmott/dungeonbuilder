@@ -73,8 +73,6 @@ DungeonObject::DungeonObject()
 	isOpen = false;
 	canTake = true;
 
-	takeMessage = "";
-	dropMessage= "";
 
 	selfEffect = USE_EFFECT::NONE;
 	creatureEffect = USE_EFFECT::NONE;
