@@ -50,8 +50,10 @@ bool CommandWindow::handleInput(int c){
 	case KEY_BACKSPACE:
 	case 8:  //backspace
 		if(input.length() > 0)
+		{ 
 			input.pop_back();
-		x--;
+			x--;
+		}
 		break;
 	case KEY_ENTER:
 	case 10:

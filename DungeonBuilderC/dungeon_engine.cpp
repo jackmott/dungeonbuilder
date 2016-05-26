@@ -198,6 +198,18 @@ string DungeonEngine::open(string args)
 	return "You can't open that";
 }
 
+void DungeonEngine::move(DungeonExit *dungeonExit)
+{
+	//if this is not a logical door, of it is open, go!
+	if(! dungeonExit->isDoor || dungeonExit->isOpen)
+	{
+		room = dungeonExit->room;
+		
+		look();
+
+	}
+}
+
 
 string DungeonEngine::lookCmd(string args)
 {
@@ -230,12 +242,8 @@ void DungeonEngine::resetWindows()
 	getmaxyx(stdscr,h,w); // this doesn't work in windows
 
 	init_pair(1,COLOR_BLACK,COLOR_RED);
-	wbkgd(headerWindow,COLOR_PAIR(1));
-	//setcolors(headerWindow,1,COLOR_BLACK,COLOR_RED);
-	//wclrtoeol(headerWindow);
-	mvwprintw(headerWindow,0,0,"Dungeon Builder");
-	mvwprintwCenter(headerWindow,0,room->name.c_str());
-
+	wbkgd(headerWindow,COLOR_PAIR(1));	
+	
 	look();
 
 	refresh();
@@ -259,7 +267,7 @@ void DungeonEngine::look()
 	{
 		textBuffer.push_back(thereIsA(o->name));
 		if(o->isOpen && o->contents.size() > 0) {
-			textBuffer.push_back("Inside the "+ o->name + " you see");
+			textBuffer.push_back("Inside the "+ o->name + " you see ");
 			showContents(o);
 		}
 	}
@@ -337,7 +345,7 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 	{
 		string name = e->name;
 		toLower(&name);
-		moveMap[name] = e->room;
+		moveMap[name] = e;
 	}
 
 	resetWindows();
@@ -347,6 +355,11 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 
 	while(true) {
 		updateCmdMap();
+		wmove(headerWindow,0,0);
+		wclrtoeol(headerWindow);
+		mvwprintw(headerWindow,0,0,"Dungeon Builder");
+		mvwprintwCenter(headerWindow,0,room->name.c_str());
+		wrefresh(headerWindow);
 		render(renderPos,textBuffer.size());
 		string userInput = cmdW.getCommandAsString(commandWindow,STR_PROMPT);
 		textBuffer.push_back(STR_PROMPT+userInput);
@@ -363,20 +376,18 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 
 			if(verb == "") {
 				vector<string> directions;
-				for(map<string,DungeonRoom*>::iterator it = moveMap.begin(); it != moveMap.end(); ++it) {
+				for(map<string,DungeonExit*>::iterator it = moveMap.begin(); it != moveMap.end(); ++it) {
 					directions.push_back(it->first);
 				}
 			
-				string move = extractPhrase(directions,&userInput);
+				string moveStr = extractPhrase(directions,&userInput);
 
-				if(move == "") {
+				if(moveStr == "") {
 					textBuffer.push_back("What are you doing, dave?");
 				}
 				else
 				{
-					DungeonRoom *newRoom = moveMap[move];
-					room = newRoom;
-					look();
+					move(moveMap[moveStr]);					
 				}
 			}
 			else

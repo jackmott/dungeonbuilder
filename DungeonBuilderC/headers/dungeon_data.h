@@ -32,6 +32,14 @@ struct DungeonExit
 
 	string name;
 	vector<string> description;	
+
+	bool isDoor;   // or window, or pile of rocks, whatever	
+	bool isOpen;   //or whatever
+
+	string openText;
+	string closedText;
+
+
 	DungeonRoom* room;
 
 	string toJSON();
@@ -69,6 +77,7 @@ struct DungeonObject
 	
 	bool canOpen;
 	bool isOpen;
+	
 	vector<DungeonObject*> contents;	
 	
 	bool canTake;

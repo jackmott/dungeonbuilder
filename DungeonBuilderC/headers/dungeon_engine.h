@@ -20,7 +20,7 @@ struct DungeonEngine
 
 	
 	map<string,commandFunction> cmdMap;
-	map<string,DungeonRoom*> moveMap;
+	map<string,DungeonExit*> moveMap;
 
 	vector<string> textBuffer;
 	
@@ -52,6 +52,7 @@ struct DungeonEngine
 	string lookCmd(string args);
 	string examine(string args);
 
+	void DungeonEngine::move(DungeonExit *dungeonExit);
 };
 
 #endif

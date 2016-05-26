@@ -8,7 +8,7 @@ using namespace std;
 
 DungeonRoom::DungeonRoom()
 {
-	name = "";
+	name = "";	
 }
 
 DungeonRoom::~DungeonRoom()
@@ -46,6 +46,11 @@ string DungeonRoom::toJSON()
 DungeonExit::DungeonExit()
 {
 	name = "";	
+	isDoor = false;
+	isOpen = false; //has no meaning when not a door
+	openText =" is open";
+	closedText = " is closed";
+
 }
 
 DungeonExit::~DungeonExit()
