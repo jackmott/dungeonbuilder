@@ -93,7 +93,10 @@ DungeonObject::~DungeonObject()
 string DungeonObject::toJSON()
 {
 	ostringstream sout;
-	sout << "\"name\":\"" << name << "\", \"description\":\"" << join(0,description,"\n") << "\"";
+	sout << "\"name\":\"" << name << "\", \"description\":\"" << join(0,description,"\n") << "\",";
+	sout << " \"damage\":" << damage << ",\"mass\":" << mass << ", \"size\":" << size << ",";
+	sout << " \"canOpen\":" << canOpen << ",\"canTake\":" << canTake << ", \"isOpen\":" << isOpen;
+
 	return sout.str();
 }
 

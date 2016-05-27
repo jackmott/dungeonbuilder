@@ -68,6 +68,18 @@ DungeonObject* JSONLoader::loadObject()
 			object->name = currEntry[1];
 		else if (currEntry[0] == "description")
 			object->description.push_back(currEntry[1]);
+		else if (currEntry[0] == "damage")
+			object->damage = atoi(currEntry[1].c_str());
+		else if (currEntry[0] == "mass")
+			object->mass = atoi(currEntry[1].c_str());
+		else if (currEntry[0] == "size")
+			object->size = atoi(currEntry[1].c_str());
+		else if (currEntry[0] == "canOpen")
+			object->canOpen = atoi(currEntry[1].c_str());
+		else if (currEntry[0] == "canTake")
+			object->canTake = atoi(currEntry[1].c_str());
+		else if (currEntry[0] == "isOpen")
+			object->isOpen = atoi(currEntry[1].c_str());
 	} while (ch != '}' && getJSONEntry());
 	
 	return object;
