@@ -79,22 +79,22 @@ string RoomEditor::edit(vector<string> args)
 
 }
 
-string RoomEditor::create(vector<string> args)
+string RoomEditor::add(vector<string> args)
 {
 	if(args.size() < 2) {
-		return "What do you want to create?";
+		return "What do you want to add?";
 	}
 
 	if(args.size() < 3)
 	{
 		return "Provide name for the " + args[1];
 	}
-	string createNoun = args[1];
+	string addNoun = args[1];
 
-	toLower(&createNoun);
+	toLower(&addNoun);
 
 
-	if(createNoun == STR_CREATURE)
+	if(addNoun == STR_CREATURE)
 	{
 		CreatureEditor editor;
 		DungeonCreature* creature = new DungeonCreature();
@@ -105,7 +105,7 @@ string RoomEditor::create(vector<string> args)
 		resetWindows();
 		return "";
 	}
-	else if(createNoun == STR_OBJECT)
+	else if(addNoun == STR_OBJECT)
 	{
 		ObjectEditor oe;
 		DungeonObject* o = new DungeonObject();
@@ -117,7 +117,7 @@ string RoomEditor::create(vector<string> args)
 
 		return "";
 	}
-	else if(createNoun == STR_EXIT)
+	else if(addNoun == STR_EXIT)
 	{
 		ExitEditor editor;
 		DungeonExit * e = new DungeonExit();
@@ -210,7 +210,7 @@ void RoomEditor::load(DungeonRoom *_room)
 	cmdMap[STR_EDIT] = &RoomEditor::edit;
 	cmdMap[STR_SET] = &RoomEditor::set;
 	cmdMap[STR_EXIT] = &RoomEditor::exit;
-	cmdMap[STR_CREATE] = &RoomEditor::create;
+	cmdMap[STR_ADD] = &RoomEditor::add;
 
 	resetWindows();
 

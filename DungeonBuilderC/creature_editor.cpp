@@ -109,10 +109,6 @@ string CreatureEditor::edit(vector<string> args)
     }
 }
 
-string CreatureEditor::create(vector<string> args)
-{
-	return "Create not implemented";
-}
 
 void CreatureEditor::clearWindows()
 {
@@ -155,9 +151,8 @@ void CreatureEditor::load(DungeonCreature *_creature)
 	creature = _creature;
 	cmdMap[STR_EDIT] = &CreatureEditor::edit;
 	cmdMap[STR_EXIT] = &CreatureEditor::exit;
-	cmdMap[STR_CREATE] = &CreatureEditor::create;
-	cmdMap[STR_SET] = &CreatureEditor::set;
 	cmdMap[STR_ADD] = &CreatureEditor::add;
+	cmdMap[STR_SET] = &CreatureEditor::set;	
 	resetWindows();
 
 	CommandWindow cmdW;

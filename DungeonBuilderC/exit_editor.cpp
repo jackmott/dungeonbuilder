@@ -84,6 +84,16 @@ string ExitEditor::add(vector<string> args)
 		string name = join(2,args," ");
 		dungeonExit->addName(name);		
 	}	
+	else if(addNoun == STR_ROOM)
+	{
+		DungeonRoom* newRoom = new DungeonRoom();		
+		newRoom->addName(join(2,args," "));
+		dungeonExit->room = newRoom;
+		g_roomList.push_back(newRoom);
+		clearWindows();
+		resetWindows();		
+		return "";
+	}
 	else
 	{
 		return "I don't know how to add that";
@@ -126,35 +136,6 @@ string ExitEditor::edit(vector<string> args)
 		return "I don't know how to edit that";
 	}
 
-}
-
-string ExitEditor::create(vector<string> args)
-{
-	if(args.size() < 2) {
-		return "What do you want to create?";
-	}
-
-	if(args.size() < 3)
-	{
-		return "Provide name for the " + args[1];
-	}
-	string createNoun = args[1];
-
-	toLower(&createNoun);
-
-	if(createNoun == STR_ROOM)
-	{
-		DungeonRoom* newRoom = new DungeonRoom();		
-		newRoom->addName(join(2,args," "));
-		dungeonExit->room = newRoom;
-		g_roomList.push_back(newRoom);
-		clearWindows();
-		resetWindows();		
-		return "";
-	}
-	else {
-		return "I don't know how to create that";
-	}
 }
 
 
@@ -237,8 +218,7 @@ DungeonRoom* ExitEditor::load(DungeonExit *_dungeonExit, DungeonRoom *_fromRoom)
 	dungeonExit = _dungeonExit;
 	fromRoom = _fromRoom;
 	cmdMap[STR_EDIT] = &ExitEditor::edit;
-	cmdMap[STR_EXIT] = &ExitEditor::exit;
-	cmdMap[STR_CREATE] = &ExitEditor::create;
+	cmdMap[STR_EXIT] = &ExitEditor::exit;	
 	cmdMap[STR_SET] = &ExitEditor::set;
 	cmdMap[STR_ADD] = &ExitEditor::add;
 

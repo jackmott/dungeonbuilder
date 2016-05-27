@@ -28,7 +28,6 @@ struct ObjectEditor
 
 	string edit(vector<string> args);
 	string exit(vector<string> args);
-	string create(vector<string> args);
 	string add(vector<string> args);
 	string set(vector<string> args);
 };

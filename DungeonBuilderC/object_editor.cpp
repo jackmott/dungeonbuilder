@@ -125,31 +125,7 @@ string ObjectEditor::add(vector<string> args)
 		string name = join(2,args," ");
 		object->addName(name);		
 	}	
-	else
-	{
-		return "I don't know how to add that";
-	}
-	clearWindows();
-	resetWindows();
-	return "";
-}
-
-string ObjectEditor::create(vector<string> args)
-{
-	if(args.size() < 2) {
-		return "What do you want to create?";
-	}
-
-	if(args.size() < 3)
-	{
-		return "Provide name for the " + args[1];
-	}
-	string createNoun = args[1];
-
-	toLower(&createNoun);
-
-
-	if(createNoun == STR_OBJECT)
+	else if(addNoun == STR_OBJECT)
 	{
 		ObjectEditor oe;
 		DungeonObject* o = new DungeonObject();
@@ -160,9 +136,15 @@ string ObjectEditor::create(vector<string> args)
 		resetWindows();
 		return "";
 	}
-
-	return "I don't know how to create that";
+	else
+	{
+		return "I don't know how to add that";
+	}
+	clearWindows();
+	resetWindows();
+	return "";
 }
+
 
 void ObjectEditor::clearWindows()
 {
@@ -245,8 +227,7 @@ void ObjectEditor::load(DungeonObject *_object)
 {
 	object = _object;
 	cmdMap[STR_EDIT] = &ObjectEditor::edit;
-	cmdMap[STR_EXIT] = &ObjectEditor::exit;
-	cmdMap[STR_CREATE] = &ObjectEditor::create;
+	cmdMap[STR_EXIT] = &ObjectEditor::exit;	
 	cmdMap[STR_ADD] = &ObjectEditor::add;
 	cmdMap[STR_SET] = &ObjectEditor::set;
 	resetWindows();
