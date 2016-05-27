@@ -36,7 +36,7 @@ void MainMenu::create(vector<string> args)
 	g_startRoom = new DungeonRoom();
 	g_roomList.push_back(g_startRoom);
 	g_startRoom->uid = getUID();
-	g_startRoom->name = "Default Name";
+	g_startRoom->getName() = "Default Name";
 	vector<string> defDesc;
 	defDesc.push_back("Default Description");
 	g_startRoom->description = defDesc;

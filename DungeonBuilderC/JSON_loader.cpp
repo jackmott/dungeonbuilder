@@ -43,7 +43,7 @@ DungeonRoom* JSONLoader::loadRoom( vector<DungeonRoom*> roomList)
 		if (currEntry[0] == "uid")
 			room->uid = atoi(currEntry[1].c_str());
 		else if (currEntry[0] == "name")
-			room->name = currEntry[1];
+			room->setName(currEntry[1]);
 		else if (currEntry[0] == "description")
 			room->description.push_back(currEntry[1]);
 		else if (currEntry[0] == "objects")
@@ -67,7 +67,7 @@ DungeonObject* JSONLoader::loadObject()
 	do
 	{
 		if (currEntry[0] == "name")
-			object->name = currEntry[1];
+			object->setName(currEntry[1]);
 		else if (currEntry[0] == "description")
 			object->description.push_back(currEntry[1]);
 		else if (currEntry[0] == "damage")
@@ -95,7 +95,7 @@ DungeonCreature* JSONLoader::loadCreature()
 	{
 
 		if (currEntry[0] == "name")
-			creature->name = currEntry[1];
+			creature->setName(currEntry[1]);
 		else if (currEntry[0] == "description")
 			creature->description.push_back(currEntry[1]);
 		else if (currEntry[0] == "hitpoints")
@@ -131,7 +131,7 @@ DungeonExit* JSONLoader::loadExit( vector<DungeonRoom*> roomList)
 		if (donePass)
 		{
 			if (currEntry[0] == "name")
-				exit->name = currEntry[1];
+				exit->setName(currEntry[1]);
 			else if (currEntry[0] == "description")
 				exit->description.push_back(currEntry[1]);
 			else if (currEntry[0] == "links")

@@ -12,10 +12,13 @@ struct DungeonCreature;
 
 struct DungeonEntity
 {
-	string name;
-	string lcasename;
-
-	virtual void setName(string _name);
+private:
+	string _name;
+	string _lcasename;
+public:
+	virtual void setName(string name);
+	virtual string getName() const;
+	virtual string getLcaseName() const;
 	
 };
 

@@ -5,14 +5,26 @@
 
 using namespace std;
 
-void DungeonEntity::setName(string _name)
+void DungeonEntity::setName(string name)
 {
-	name = _name;
-	lcasename = toLower(name);
+	_name = name;
+	_lcasename = toLower(name);
 }
+
+string DungeonEntity::getName() const
+{
+	return _name;
+}
+
+string DungeonEntity::getLcaseName() const
+{
+	return _lcasename;
+}
+
+
 DungeonRoom::DungeonRoom()
 {
-	name = "";
+	
 }
 
 DungeonRoom::~DungeonRoom()
@@ -24,7 +36,7 @@ string DungeonRoom::toJSON()
 {
 	ostringstream sout;
 	sout << STR_TAB << STR_TAB << STR_TAB << "\"uid\":\"" << uid << "\"," << endl;
-	sout << STR_TAB << STR_TAB << STR_TAB << "\"name\":\"" << name << "\"," << endl;
+	sout << STR_TAB << STR_TAB << STR_TAB << "\"name\":\"" << getName() << "\"," << endl;
 	sout << STR_TAB << STR_TAB << STR_TAB << "\"description\":\"" << join(0,description,"\n") << "\"," << endl;
 
 
@@ -51,8 +63,7 @@ string DungeonRoom::toJSON()
 }
 
 DungeonExit::DungeonExit()
-{
-	name = "";
+{	
 	isDoor = false;
 	isOpen = false; //has no meaning when not a door
 	openText ="is open";
@@ -70,7 +81,7 @@ string DungeonExit::toJSON()
 {
 	ostringstream sout;
 
-	sout << "\"name\":\"" << name << "\", \"description\":\"" << join(0,description,"\n")
+	sout << "\"name\":\"" << getName() << "\", \"description\":\"" << join(0,description,"\n")
 		 << "\", \"links\":" << room->uid;
 
 	return sout.str();
@@ -78,7 +89,6 @@ string DungeonExit::toJSON()
 
 DungeonObject::DungeonObject()
 {
-	name="";
 
 	damage = 0;
 	mass =0;
@@ -102,7 +112,7 @@ DungeonObject::~DungeonObject()
 string DungeonObject::toJSON()
 {
 	ostringstream sout;
-	sout << "\"name\":\"" << name << "\", \"description\":\"" << join(0,description,"\n") << "\",";
+	sout << "\"name\":\"" << getName() << "\", \"description\":\"" << join(0,description,"\n") << "\",";
 	sout << " \"damage\":" << damage << ",\"mass\":" << mass << ", \"size\":" << size << ",";
 	sout << " \"canOpen\":" << canOpen << ",\"canTake\":" << canTake << ", \"isOpen\":" << isOpen;
 
@@ -116,8 +126,8 @@ DungeonCreature::DungeonCreature()
 string DungeonCreature::attack(DungeonObject *weapon,DungeonPlayer *player)
 {
 	hitpoints = hitpoints - weapon->damage;
-	if(hitpoints <= 0) return "You have killed the "+name+"!";
-	return "You hit the " + name;
+	if(hitpoints <= 0) return "You have killed the "+getName()+"!";
+	return "You hit the " + getName();
 }
 DungeonCreature::~DungeonCreature()
 {
@@ -126,7 +136,7 @@ string DungeonCreature::toJSON()
 {
 	ostringstream sout;
 
-	sout << "\"name\":\"" << name << "\", \"description\":\"" << join(0,description,"\n")
+	sout << "\"name\":\"" << getName() << "\", \"description\":\"" << join(0,description,"\n")
 		 << "\", \"hitpoints\":" << hitpoints << ", \"alignment\":" << alignment;
 	return sout.str();
 }

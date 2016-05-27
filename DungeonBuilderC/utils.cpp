@@ -119,7 +119,7 @@ void strlensort(vector<string> *v)
 struct entitycmp {
 	bool operator()(const DungeonEntity*first,const DungeonEntity* second)
 	{
-		return first->name.size() > second->name.size();
+		return first->getName().size() > second->getName().size();
 	}
 };
 
@@ -185,14 +185,21 @@ void removeCreature(vector<DungeonCreature*> *creatures, DungeonCreature *creatu
 DungeonEntity* extractEntity(void * _entities ,string *userInput)
 {
 	vector<DungeonEntity*> *entities = (vector<DungeonEntity*> *)_entities;
-	entitysort(entities);
-	string lcaseInput = toLower(*userInput);
-	for(auto e : *entities)
+	vector<DungeonEntity*> sortedEntities;
+
+	for(auto e: *entities)
 	{
-		size_t pos = lcaseInput.find(e->lcasename);
+		sortedEntities.push_back(e);
+	}
+
+	entitysort(&sortedEntities);
+	string lcaseInput = toLower(*userInput);
+	for(auto e : sortedEntities)
+	{
+		size_t pos = lcaseInput.find(e->getLcaseName());
 		if(pos != string::npos)
 		{
-			userInput->erase(pos,e->name.length());
+			userInput->erase(pos,e->getLcaseName().length());
 			return e;
 		}
 	}
