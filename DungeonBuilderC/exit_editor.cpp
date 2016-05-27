@@ -17,6 +17,7 @@ string ExitEditor::exit(vector<string> args)
 }
 
 
+
 string ExitEditor::set(vector<string> args)
 {
 	if(args.size() < 2)
@@ -31,7 +32,7 @@ string ExitEditor::set(vector<string> args)
 	if(editNoun ==STR_NAME)
 	{
 		string newname = join(2,args," ");
-		dungeonExit->addName(newname);
+		dungeonExit->setPrimaryName(newname);
 	}
 	else if(editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
 	{
@@ -64,6 +65,34 @@ string ExitEditor::set(vector<string> args)
 	resetWindows();
 	return "";
 }
+
+string ExitEditor::add(vector<string> args)
+{
+	if(args.size() < 2)
+	{
+		return "What do you want to add?";
+	}
+	string addNoun = args[1];
+	toLower(&addNoun);
+
+	if(addNoun == STR_NAME)
+	{
+		if(args.size() < 3)
+		{
+			return "Provide a name to add please.";
+		}
+		string name = join(2,args," ");
+		dungeonExit->addName(name);		
+	}	
+	else
+	{
+		return "I don't know how to add that";
+	}
+	clearWindows();
+	resetWindows();
+	return "";
+}
+
 
 
 string ExitEditor::edit(vector<string> args)
@@ -211,6 +240,7 @@ DungeonRoom* ExitEditor::load(DungeonExit *_dungeonExit, DungeonRoom *_fromRoom)
 	cmdMap[STR_EXIT] = &ExitEditor::exit;
 	cmdMap[STR_CREATE] = &ExitEditor::create;
 	cmdMap[STR_SET] = &ExitEditor::set;
+	cmdMap[STR_ADD] = &ExitEditor::add;
 
 	resetWindows();
 

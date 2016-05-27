@@ -32,7 +32,7 @@ string ObjectEditor::set(vector<string> args)
 	if(editNoun == STR_NAME)
 	{
 		string newname = join(2,args," ");
-		object->addName(newname);
+		object->setPrimaryName(newname);
 	}
 	else if(editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
 	{
@@ -111,19 +111,27 @@ string ObjectEditor::add(vector<string> args)
 		//TODO - check if use alias is already used for summin else
 		if(args.size() < 3)
 		{
-			return "Provide a string to alias the verb 'use'";
+			return "Provide a string to alias the verb 'use'.";
 		}
 		string alias = args[2];
-		object->useAliases.push_back(alias);
-		clearWindows();
-		resetWindows();
-		return "";
+		object->useAliases.push_back(alias);				
 	}
-	
+	else if(addNoun == STR_NAME)
+	{
+		if(args.size() < 3)
+		{
+			return "Provide a name to add please.";
+		}
+		string name = join(2,args," ");
+		object->addName(name);		
+	}	
 	else
 	{
 		return "I don't know how to add that";
 	}
+	clearWindows();
+	resetWindows();
+	return "";
 }
 
 string ObjectEditor::create(vector<string> args)

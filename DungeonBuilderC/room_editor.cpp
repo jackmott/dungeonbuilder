@@ -34,7 +34,7 @@ string RoomEditor::set(vector<string> args)
 	if(setNoun == STR_NAME)
 	{
 		string newname = join(2,args," ");
-		room->addName(newname);
+		room->setPrimaryName(newname);
 	}
 	else if(setNoun == STR_DESCRIPTION || setNoun == STR_DESC)
 	{

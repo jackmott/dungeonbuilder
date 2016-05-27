@@ -29,6 +29,7 @@ struct ExitEditor
 	DungeonRoom* load(DungeonExit *_dungeonExit,DungeonRoom *_fromRoom);
 
 	string set(vector<string> args);
+	string add(vector<string> args);
 	string edit(vector<string> args);
 	string exit(vector<string> args);
 	string create(vector<string> args);

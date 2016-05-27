@@ -30,7 +30,7 @@ string CreatureEditor::set(vector<string> args)
 	if(editNoun ==STR_NAME)
 	{
 		string newname = join(2,args," ");
-		creature->addName(newname);
+		creature->setPrimaryName(newname);
 	}
 	else if(editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
 	{
@@ -47,6 +47,33 @@ string CreatureEditor::set(vector<string> args)
 	}
 	else {
 		return "I don't know how to set that";
+	}
+	clearWindows();
+	resetWindows();
+	return "";
+}
+
+string CreatureEditor::add(vector<string> args)
+{
+	if(args.size() < 2)
+	{
+		return "What do you want to add?";
+	}
+	string addNoun = args[1];
+	toLower(&addNoun);
+
+	if(addNoun == STR_NAME)
+	{
+		if(args.size() < 3)
+		{
+			return "Provide a name to add please.";
+		}
+		string name = join(2,args," ");
+		creature->addName(name);		
+	}	
+	else
+	{
+		return "I don't know how to add that";
 	}
 	clearWindows();
 	resetWindows();
@@ -130,7 +157,7 @@ void CreatureEditor::load(DungeonCreature *_creature)
 	cmdMap[STR_EXIT] = &CreatureEditor::exit;
 	cmdMap[STR_CREATE] = &CreatureEditor::create;
 	cmdMap[STR_SET] = &CreatureEditor::set;
-
+	cmdMap[STR_ADD] = &CreatureEditor::add;
 	resetWindows();
 
 	CommandWindow cmdW;
