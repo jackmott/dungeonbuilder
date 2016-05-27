@@ -50,6 +50,16 @@ string ExitEditor::set(vector<string> args)
 	{
 		dungeonExit->closedText = join(2,args," ");
 	}
+	else if(editNoun == STR_CLOSING_TEXT)
+	{
+		dungeonExit->closingText = join(2,args," ");
+	}
+	else if(editNoun == STR_OPENING_TEXT)
+	{
+		dungeonExit->openingText = join(2,args," ");
+	}
+
+
 
 	else {
 		return "I don't know how to set that";
@@ -186,8 +196,6 @@ void ExitEditor::resetWindows()
 		mvwprintw(mainWindow,lineCount,0,closingTextRow.c_str());
 
 	}
-
-
 
 	wrefresh(mainWindow);
 

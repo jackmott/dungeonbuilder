@@ -25,6 +25,8 @@
 #define STR_CREATE "create"
 #define STR_OPEN_TEXT "opentext"
 #define STR_CLOSED_TEXT "closedtext"
+#define STR_OPENING_TEXT "openingtext"
+#define STR_CLOSING_TEXT "closingtext"
 #define STR_DOOR "door"
 #define STR_EXIT "exit"
 #define STR_SET "set"
