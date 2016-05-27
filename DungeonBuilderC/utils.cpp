@@ -197,11 +197,16 @@ DungeonEntity* extractEntity(void * _entities ,string *userInput)
 	string lcaseInput = toLower(*userInput);
 	for(auto e : sortedEntities)
 	{
-		size_t pos = lcaseInput.find(e->getLcaseName());
-		if(pos != string::npos)
+		vector<string> lcaseNames = e->getLcaseNames();
+		strlensort(&lcaseNames);
+		for (auto s : lcaseNames)
 		{
-			userInput->erase(pos,e->getLcaseName().length());
-			return e;
+			size_t pos = lcaseInput.find(s);
+			if(pos != string::npos)
+			{
+				userInput->erase(pos,s.length());
+				return e;
+			}
 		}
 	}
 	return nullptr;

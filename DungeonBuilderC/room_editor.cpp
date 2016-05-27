@@ -34,7 +34,7 @@ string RoomEditor::set(vector<string> args)
 	if(setNoun == STR_NAME)
 	{
 		string newname = join(2,args," ");
-		room->setName(newname);
+		room->addName(newname);
 	}
 	else if(setNoun == STR_DESCRIPTION || setNoun == STR_DESC)
 	{
@@ -98,7 +98,7 @@ string RoomEditor::create(vector<string> args)
 	{
 		CreatureEditor editor;
 		DungeonCreature* creature = new DungeonCreature();
-		creature->setName(join(2,args," "));
+		creature->addName(join(2,args," "));
 		clearWindows();
 		editor.load(creature);
 		room->creatures.push_back(creature);
@@ -109,7 +109,7 @@ string RoomEditor::create(vector<string> args)
 	{
 		ObjectEditor oe;
 		DungeonObject* o = new DungeonObject();
-		o->setName(join(2,args," "));
+		o->addName(join(2,args," "));
 		clearWindows();
 		oe.load(o);
 		room->objects.push_back(o);
@@ -122,7 +122,7 @@ string RoomEditor::create(vector<string> args)
 		ExitEditor editor;
 		DungeonExit * e = new DungeonExit();
 		e->room = g_startRoom;
-		e->setName(join(2,args," "));
+		e->addName(join(2,args," "));
 		clearWindows();
 		DungeonRoom* newRoom = editor.load(e,room);
 		room->exits.push_back(e);

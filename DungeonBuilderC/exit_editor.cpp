@@ -31,7 +31,7 @@ string ExitEditor::set(vector<string> args)
 	if(editNoun ==STR_NAME)
 	{
 		string newname = join(2,args," ");
-		dungeonExit->setName(newname);
+		dungeonExit->addName(newname);
 	}
 	else if(editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
 	{
@@ -116,7 +116,7 @@ string ExitEditor::create(vector<string> args)
 	if(createNoun == STR_ROOM)
 	{
 		DungeonRoom* newRoom = new DungeonRoom();		
-		newRoom->setName(join(2,args," "));
+		newRoom->addName(join(2,args," "));
 		dungeonExit->room = newRoom;
 		g_roomList.push_back(newRoom);
 		clearWindows();

@@ -13,13 +13,14 @@ struct DungeonCreature;
 struct DungeonEntity
 {
 private:
-	string _name;
-	string _lcasename;
-public:
-	virtual void setName(string name);
-	virtual string getName() const;
-	virtual string getLcaseName() const;
+	vector <string> names;
 	
+public:
+	virtual void addName(string name);
+	virtual vector<string> getNames() const;
+	virtual string getName() const;
+	virtual vector<string> getLcaseNames() const;
+	virtual string vectorStringToJSON(vector<string> *v) const;
 };
 
 struct DungeonRoom : DungeonEntity

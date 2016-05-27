@@ -30,7 +30,7 @@ string CreatureEditor::set(vector<string> args)
 	if(editNoun ==STR_NAME)
 	{
 		string newname = join(2,args," ");
-		creature->setName(newname);
+		creature->addName(newname);
 	}
 	else if(editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
 	{

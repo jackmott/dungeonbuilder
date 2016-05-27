@@ -32,7 +32,7 @@ string ObjectEditor::set(vector<string> args)
 	if(editNoun == STR_NAME)
 	{
 		string newname = join(2,args," ");
-		object->setName(newname);
+		object->addName(newname);
 	}
 	else if(editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
 	{
@@ -145,7 +145,7 @@ string ObjectEditor::create(vector<string> args)
 	{
 		ObjectEditor oe;
 		DungeonObject* o = new DungeonObject();
-		o->setName(join(2,args," ")); 
+		o->addName(join(2,args," ")); 
 		clearWindows();
 		oe.load(o);
 		object->contents.push_back(o);
