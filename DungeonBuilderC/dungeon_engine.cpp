@@ -191,8 +191,7 @@ string DungeonEngine::open(string args)
 	if(thingToOpen != nullptr && thingToOpen->canOpen == true && thingToOpen->isOpen == false)
 	{
 		thingToOpen->isOpen = true;
-		textBuffer.push_back("You open the "+thingToOpen->getPrimaryName()+", inside you see");
-		showContents(thingToOpen);
+		textBuffer.push_back("You open the "+thingToOpen->getPrimaryName()+", inside you see " + showContents(thingToOpen));		
 		return "";
 	}
 	else if(thingToOpen != nullptr)
@@ -274,6 +273,30 @@ void DungeonEngine::resetWindows()
 }
 
 
+string DungeonEngine::showContents(DungeonObject *o)
+{
+
+	string stuffInside;
+	if(o->contents.size() == 1)
+	{
+		stuffInside += a_an(o->contents[0]->getPrimaryName()) +".";
+	}
+	else
+	{
+		for(unsigned int i = 0; i < o->contents.size(); i++)
+		{
+
+			if(i < o->contents.size()-1) {
+				stuffInside += a_an(o->contents[i]->getPrimaryName()) + ", ";
+			}
+			else {
+				stuffInside += "and "+a_an(o->contents[i]->getPrimaryName()) + ".";
+			}
+		}
+	}
+	return stuffInside;
+
+}
 void DungeonEngine::look()
 {
 	addToBuffer(&room->description);
@@ -285,16 +308,19 @@ void DungeonEngine::look()
 
 	for(auto o : room->objects)
 	{
-		textBuffer.push_back(thereIsA(o->getPrimaryName()));
+		string objString = thereIsA(o->getPrimaryName())+".";
 		if(o->isOpen && o->contents.size() > 0) {
-			textBuffer.push_back("Inside the "+ o->getPrimaryName() + " you see ");
-			showContents(o);
+			objString += " Inside it you see ";
+			objString += showContents(o);
 		}
+
+		textBuffer.push_back(objString);
+
 	}
 
 	for(auto exit : room->exits)
 	{
-		addToBuffer(&exit->description);
+		
 		if(exit->isDoor)
 		{
 			if(exit->isOpen)
@@ -306,20 +332,15 @@ void DungeonEngine::look()
 				textBuffer.push_back(exit->closedText);
 			}
 		}
+		else {
+			textBuffer.push_back(exit->openText);
+		}
 
 	}
 
 }
 
-void DungeonEngine::showContents(DungeonObject* o)
-{
 
-	for(auto content: o->contents)
-	{
-		textBuffer.push_back("  "+a_an(content->getPrimaryName()));
-	}
-
-}
 
 void DungeonEngine::render(unsigned long start,unsigned long end)
 {
@@ -343,10 +364,10 @@ void DungeonEngine::render(unsigned long start,unsigned long end)
 				wprintw(mainWindow,s.c_str());
 				x = s.length();
 			}
-		}		
+		}
 		wprintw(mainWindow,"\n");
 		renderPos++;
-		wrefresh(mainWindow);		
+		wrefresh(mainWindow);
 		dbsleep(200);
 	}
 }

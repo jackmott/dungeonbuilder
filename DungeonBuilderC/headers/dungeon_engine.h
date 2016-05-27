@@ -36,7 +36,7 @@ struct DungeonEngine
 	void resetWindows();
 	void load(DungeonRoom *_room, DungeonPlayer *_player);
 	void render(unsigned long start, unsigned long end);
-	void showContents(DungeonObject * o);
+	string showContents(DungeonObject * o);
 	void addToBuffer(vector<string> *v);
 	
 	string drop(string args);

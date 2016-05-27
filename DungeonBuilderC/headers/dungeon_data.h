@@ -44,8 +44,7 @@ struct DungeonExit : DungeonEntity
 	DungeonExit();
 	~DungeonExit();
 	
-	vector<string> description;	
-
+	
 	bool isDoor;   // or window, or pile of rocks, whatever	
 	bool isOpen;   //or whatever
 

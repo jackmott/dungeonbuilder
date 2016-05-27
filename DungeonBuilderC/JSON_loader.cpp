@@ -138,10 +138,7 @@ DungeonExit* JSONLoader::loadExit( vector<DungeonRoom*> roomList)
 		{
 			if (currEntry[0] == "name")
 				while( getJSONEntry() )
-					exit->addName(currEntry[1]);
-			else if (currEntry[0] == "description")
-				while( getJSONEntry() )
-					exit->description.push_back(currEntry[1]);
+					exit->addName(currEntry[1]);			
 			else if (currEntry[0] == "links")
 				exit->room = roomList[atoi(currEntry[1].c_str())];
 		}

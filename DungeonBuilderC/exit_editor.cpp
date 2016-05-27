@@ -33,14 +33,7 @@ string ExitEditor::set(vector<string> args)
 	{
 		string newname = join(2,args," ");
 		dungeonExit->setPrimaryName(newname);
-	}
-	else if(editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
-	{
-		string desc = join(2,args," ");
-		vector<string> descVector;
-		descVector.push_back(desc);
-		dungeonExit->description = descVector;
-	}
+	}	
 	else if(editNoun == STR_DOOR)
 	{
 		dungeonExit->isDoor = isAffirmative(args[2]);
@@ -49,7 +42,7 @@ string ExitEditor::set(vector<string> args)
 	{
 		dungeonExit->isOpen = isAffirmative(args[2]);
 	} 
-	else if(editNoun == STR_OPEN_TEXT)
+	else if(editNoun == STR_OPEN_TEXT || editNoun == STR_DESC)
 	{
 		dungeonExit->openText = join(2,args," ");
 	}
@@ -118,15 +111,7 @@ string ExitEditor::edit(vector<string> args)
 	{
 		return set(args);
 
-	}
-	else if (editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
-	{
-		TextEditor ed;		
-		dungeonExit->description = ed.edit("Editing Description For Object:"+dungeonExit->getPrimaryName(),dungeonExit->description);
-		clearWindows();
-		resetWindows();
-		return "";
-	}
+	}	
 	else if(editNoun == STR_ROOM)
 	{
 		return STR_ROOM;
@@ -170,9 +155,8 @@ void ExitEditor::resetWindows()
 	mvwprintw(mainWindow,lineCount,0,nameRow.c_str());
 
 	lineCount++;
-	string desc = dungeonExit->description.size() > 0 ? dungeonExit->description[0] + STR_ELLIPSES : "";
-	string descRow = STR_MENU_DESCRIPTION + desc;
-	mvwprintw(mainWindow,lineCount,0,descRow.c_str());
+	string openTextRow = STR_MENU_OPENTEXT + dungeonExit->openText;
+	mvwprintw(mainWindow,lineCount,0,openTextRow.c_str());
 
 	lineCount++;
 	string roomRow = STR_MENU_ROOM + dungeonExit->room->getPrimaryName();
@@ -188,11 +172,7 @@ void ExitEditor::resetWindows()
 		torf = dungeonExit->isOpen ? STR_TRUE : STR_FALSE;
 		string openRow = STR_MENU_IS_OPEN + torf;
 		mvwprintw(mainWindow,lineCount,0,openRow.c_str());
-
-		lineCount++;
-		string openTextRow = STR_MENU_OPENTEXT + dungeonExit->openText;
-		mvwprintw(mainWindow,lineCount,0,openTextRow.c_str());
-
+		
 		lineCount++;
 		string closedTextRow = STR_MENU_CLOSEDTEXT + dungeonExit->closedText;
 		mvwprintw(mainWindow,lineCount,0,closedTextRow.c_str());

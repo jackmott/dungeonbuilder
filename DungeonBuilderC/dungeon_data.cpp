@@ -106,11 +106,8 @@ string DungeonRoom::toJSON()
 DungeonExit::DungeonExit()
 {
 	isDoor = false;
-	isOpen = false; //has no meaning when not a door
-	openText ="is open";
-	closedText = "is closed";
+	isOpen = true; 	
 	distance = 1;
-
 }
 
 DungeonExit::~DungeonExit()
@@ -122,7 +119,7 @@ string DungeonExit::toJSON()
 {
 	ostringstream sout;
 
-	sout << "\"name\":" << vectorStringToJSON(&getNames()) << ", \"description\":" << vectorStringToJSON(&description)
+	sout << "\"name\":" << vectorStringToJSON(&getNames()) 
 		<< ", \"links\":" << room->uid;
 
 	return sout.str();
