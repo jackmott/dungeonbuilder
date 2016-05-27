@@ -13,11 +13,11 @@ string DungeonEngine::exit(string args)
 
 string DungeonEngine::drop(string args)
 {
-	DungeonObject *thing = extractObject(player->objects,&args);
+	DungeonObject *thing = (DungeonObject*)extractEntity(&player->objects,&args);
 	if(thing != nullptr) {
 		removeObject(&player->objects,thing);
 		room->objects.push_back(thing);
-		return "You drop the " + thing->name +".";
+		return "You drop the " + thing->getName() +".";
 	}
 	else {
 		return "You don't have that.";
@@ -26,41 +26,40 @@ string DungeonEngine::drop(string args)
 
 string DungeonEngine::examine(string args)
 {
-    DungeonObject* thing = extractObject(room->objects,&args);
-    if(thing == nullptr)
-    {
-        thing = extractObject(player->objects,&args);
-    }
-    
-    
-    if(thing != nullptr && thing->description.size() == 0)
-    {
-        return "You see no further detail.";
-        
-    } else if (thing != nullptr)
-    {
-        addToBuffer(&thing->description);
-        return "";
-    }
-    else {
-        DungeonCreature *gal = extractCreature(room->creatures,&args);
-        if(gal != nullptr)
-        {
-            if(gal->description.size() == 0)
-            {
-                return "There is nothing more to see.";
-            } else {
-                addToBuffer(&gal->description);
-                return "";
-            }
-        }
-        else
-        {
+	DungeonObject* thing =(DungeonObject*)extractEntity(&room->objects,&args);
+	if(thing == nullptr)
+	{
+		thing = (DungeonObject*)extractEntity(&player->objects,&args);
+	}
+
+	if(thing != nullptr && thing->description.size() == 0)
+	{
+		return "You see no further detail.";
+		
+	} else if (thing != nullptr)
+	{		
+		addToBuffer(&thing->description);		
+		return "";
+	}
+	else {
+		DungeonCreature *gal = (DungeonCreature*)extractEntity(&room->creatures,&args);
+		if(gal != nullptr)
+		{
+			if(gal->description.size() == 0)
+			{
+				return "There is nothing more to see.";
+			} else {
+				addToBuffer(&gal->description);
+				return "";
+			}
+		}
+		else
+		{
             return "You don't see that here.";
-        }
-    }
-    
-    return "investigate examine function more";
+		}
+	}
+
+	return "investigate examine function more";
 }
 
 string DungeonEngine::put(string args)
@@ -76,18 +75,18 @@ string DungeonEngine::put(string args)
 	string secondHalf = args.substr(inLocation+4,args.size()-(inLocation+4));
 
 
-	DungeonObject* containerObject =  extractObject(player->objects,&secondHalf);
+	DungeonObject* containerObject =  (DungeonObject*)extractEntity(&player->objects,&secondHalf);
 	if(containerObject == nullptr)
 	{
-		containerObject = extractObject(room->objects,&secondHalf);
+		containerObject = (DungeonObject*)extractEntity(&room->objects,&secondHalf);
 	}
 
 	if (containerObject != nullptr && containerObject->isOpen) 
 	{
-		DungeonObject* putObject = extractObject(player->objects,&firstHalf);
+		DungeonObject* putObject = (DungeonObject*)extractEntity(&player->objects,&firstHalf);
 		if(putObject == nullptr)
 		{
-			putObject = extractObject (room->objects,&firstHalf);
+			putObject = (DungeonObject*)extractEntity(&room->objects,&firstHalf);
 		}
 
 		if(putObject != nullptr)
@@ -95,7 +94,7 @@ string DungeonEngine::put(string args)
 			removeObject(&room->objects, putObject);
 			removeObject(&player->objects, putObject);
 			containerObject->contents.push_back(putObject);
-			return "You put the "+ putObject->name + " in the " + containerObject->name + ".";
+			return "You put the "+ putObject->getName() + " in the " + containerObject->getName() + ".";
 		}
 		else
 		{
@@ -108,7 +107,7 @@ string DungeonEngine::put(string args)
 
 string DungeonEngine::take(string args)
 {
-	DungeonObject* takenObject = extractObject(room->objects,&args);
+	DungeonObject* takenObject = (DungeonObject*)extractEntity(&room->objects,&args);
 	if(takenObject != nullptr)
 	{
 		removeObject(&room->objects,takenObject);
@@ -119,7 +118,7 @@ string DungeonEngine::take(string args)
 		for(auto o : room->objects)
 		{
 			if(o->isOpen) {
-				takenObject = extractObject(o->contents,&args);
+				takenObject = (DungeonObject*)extractEntity(&o->contents,&args);
 				if(takenObject != nullptr)
 				{
 					removeObject(&o->contents,takenObject);
@@ -133,7 +132,7 @@ string DungeonEngine::take(string args)
 			for(auto o : player->objects)
 			{
 				if(o->isOpen) {
-					takenObject = extractObject(o->contents,&args);
+					takenObject = (DungeonObject*)extractEntity(&o->contents,&args);
 					if(takenObject != nullptr)
 					{
 						removeObject(&o->contents,takenObject);
@@ -147,7 +146,7 @@ string DungeonEngine::take(string args)
 	if(takenObject != nullptr)
 	{
 		player->objects.push_back(takenObject);
-		return takenObject->name + " taken.";
+		return takenObject->getName() + " taken.";
 	}
 	else
 	{
@@ -157,9 +156,9 @@ string DungeonEngine::take(string args)
 }
 string DungeonEngine::use(string args)
 {
-	//DungeonObject* roomObject = extractObject(room->objects,&args);
-	DungeonObject* playerObject = extractObject(player->objects,&args);
-	DungeonCreature* creature = extractCreature(room->creatures,&args);
+	//DungeonObject* roomObject = (DungeonObject*)extractEntity(&room->objects,&args);
+	DungeonObject* playerObject = (DungeonObject*)extractEntity(&player->objects,&args);
+	DungeonCreature* creature = (DungeonCreature*)extractEntity(&room->creatures,&args);
 
 	if(playerObject != nullptr && creature != nullptr) {
 		string response = creature->attack(playerObject,player);
@@ -178,23 +177,40 @@ string DungeonEngine::use(string args)
 
 string DungeonEngine::open(string args)
 {
-	DungeonObject* thingToOpen = extractObject(room->objects,&args);
+
+	//chceck for objects to open in the room
+	DungeonObject* thingToOpen = (DungeonObject*)extractEntity(&room->objects,&args);
+	//failing that, check for them on the player
 	if(thingToOpen == nullptr)
 	{
-		thingToOpen = extractObject(player->objects,&args);
+		thingToOpen = (DungeonObject*)extractEntity(&player->objects,&args);
 	}
-
-
-	if(thingToOpen->canOpen == true && thingToOpen->isOpen == false)
+	//If it is an openable thing, that is not already open, open it!
+	if(thingToOpen != nullptr && thingToOpen->canOpen == true && thingToOpen->isOpen == false)
 	{
 		thingToOpen->isOpen = true;
-		textBuffer.push_back("You open the "+thingToOpen->name+", inside you see");
+		textBuffer.push_back("You open the "+thingToOpen->getName()+", inside you see");
 		showContents(thingToOpen);
 		return "";
 	}
+	else if (thingToOpen != nullptr)
+	{
+		return "You can't open that";
+	}
 
+	//Now check for 'doors' to open
+	DungeonExit * exitToOpen = (DungeonExit*)extractEntity(&room->exits,&args);
+	if(exitToOpen != nullptr && exitToOpen->isDoor && !exitToOpen->isOpen)
+	{
+		exitToOpen->isOpen = true;
+		textBuffer.push_back(exitToOpen->openingText);
+	}
+	else if(exitToOpen != nullptr)
+	{
+		return "You try but fail.";
+	}
 
-	return "You can't open that";
+	return "You don't see that here.";	
 }
 
 void DungeonEngine::move(DungeonExit *dungeonExit)
@@ -262,14 +278,14 @@ void DungeonEngine::look()
 
 	for(auto creature : room->creatures)
 	{
-		textBuffer.push_back(thereIsA(creature->name));
+		textBuffer.push_back(thereIsA(creature->getName()));
 	}
 
 	for(auto o : room->objects)
 	{
-		textBuffer.push_back(thereIsA(o->name));
+		textBuffer.push_back(thereIsA(o->getName()));
 		if(o->isOpen && o->contents.size() > 0) {
-			textBuffer.push_back("Inside the "+ o->name + " you see ");
+			textBuffer.push_back("Inside the "+ o->getName() + " you see ");
 			showContents(o);
 		}
 	}
@@ -298,7 +314,7 @@ void DungeonEngine::showContents(DungeonObject* o)
 
 	for(auto content: o->contents)
 	{
-		textBuffer.push_back("  "+a_an(content->name));
+		textBuffer.push_back("  "+a_an(content->getName()));
 	}
 
 }
@@ -356,7 +372,7 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 	//create a map of exit names to move to
 	for(auto e : room->exits)
 	{
-		string name = e->name;
+		string name = e->getName();
 		toLower(&name);
 		moveMap[name] = e;
 	}
@@ -370,7 +386,7 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 		wmove(headerWindow,0,0);
 		wclrtoeol(headerWindow);
 		mvwprintw(headerWindow,0,0,"Dungeon Builder");
-		mvwprintwCenter(headerWindow,0,room->name.c_str());
+		mvwprintwCenter(headerWindow,0,room->getName().c_str());
 		wrefresh(headerWindow);
 		render(renderPos, textBuffer.size());
 		string userInput = cmdW.getCommandAsString(commandWindow,STR_PROMPT);

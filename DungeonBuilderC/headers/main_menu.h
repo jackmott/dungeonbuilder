@@ -7,6 +7,7 @@
 #include <map>
 #include "dungeon_data.h"
 #include "lib.h"
+#include "JSON_loader.h"
 
 using namespace std;
 

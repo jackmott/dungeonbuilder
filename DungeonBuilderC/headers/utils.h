@@ -20,13 +20,11 @@ bool isVowel(char c);
 string a_an (string s);
 bool isAffirmative(string s);
 string thereIsA(string thing);
-DungeonObject* extractObject(vector<DungeonObject*> objects, string *userInput);
-DungeonCreature* extractCreature(vector<DungeonCreature*> creatures, string *userInput);
+DungeonEntity* extractEntity(void* _entities ,string *userInput);
 void removeObject(vector<DungeonObject*> *objects,DungeonObject *object);
 void removeCreature(vector<DungeonCreature*> *creatures,DungeonCreature *creature);
 void strlensort(vector<string>* v);
-void objsort(vector<DungeonObject*>* v);
-void creaturesort(vector<DungeonCreature*>* v);
+void entitysort(vector<DungeonEntity*> *v);
 string extractPhrase(vector<string> phrasesToFind, string *userInput);
 void dbsleep(unsigned int milliseconds);
 

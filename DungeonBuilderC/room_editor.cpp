@@ -34,7 +34,7 @@ string RoomEditor::set(vector<string> args)
 	if(setNoun == STR_NAME)
 	{
 		string newname = join(2,args," ");
-		room->name = newname;
+		room->setName(newname);
 	}
 	else if(setNoun == STR_DESCRIPTION || setNoun == STR_DESC)
 	{
@@ -68,7 +68,7 @@ string RoomEditor::edit(vector<string> args)
 	{
 		TextEditor ed;
 		clearWindows();		
-		room->description = ed.edit("Editing Description For Room:"+room->name,room->description);
+		room->description = ed.edit("Editing Description For Room:"+room->getName(),room->description);
 		resetWindows();
 		return "";
 	}
@@ -98,7 +98,7 @@ string RoomEditor::create(vector<string> args)
 	{
 		CreatureEditor editor;
 		DungeonCreature* creature = new DungeonCreature();
-		creature->name = join(2,args," ");
+		creature->setName(join(2,args," "));
 		clearWindows();
 		editor.load(creature);
 		room->creatures.push_back(creature);
@@ -109,7 +109,7 @@ string RoomEditor::create(vector<string> args)
 	{
 		ObjectEditor oe;
 		DungeonObject* o = new DungeonObject();
-		o->name = join(2,args," ");
+		o->setName(join(2,args," "));
 		clearWindows();
 		oe.load(o);
 		room->objects.push_back(o);
@@ -122,7 +122,7 @@ string RoomEditor::create(vector<string> args)
 		ExitEditor editor;
 		DungeonExit * e = new DungeonExit();
 		e->room = g_startRoom;
-		e->name = join(2,args," ");
+		e->setName(join(2,args," "));
 		clearWindows();
 		DungeonRoom* newRoom = editor.load(e,room);
 		room->exits.push_back(e);
@@ -161,7 +161,7 @@ void RoomEditor::resetWindows()
 	setcolors(mainWindow,1,COLOR_RED,COLOR_BLACK);
 	mvwprintwCenterBold(mainWindow,1,"Room Editor");
 	setcolor(mainWindow,2,COLOR_WHITE);
-	string nameRow = STR_MENU_NAME + room->name;
+	string nameRow = STR_MENU_NAME + room->getName();
 	mvwprintw(mainWindow,lineCount,0,nameRow.c_str());
 
 	lineCount++;
@@ -175,7 +175,7 @@ void RoomEditor::resetWindows()
 	for(auto o : room->objects)
 	{
 		lineCount++;
-		string row = o->name;
+		string row = o->getName();
 		mvwprintw(mainWindow,lineCount,2,row.c_str());
 	}
 
@@ -184,7 +184,7 @@ void RoomEditor::resetWindows()
 	for(auto creature : room->creatures)
 	{
 		lineCount++;
-		string row = creature->name;
+		string row = creature->getName();
 		mvwprintw(mainWindow,lineCount,2,row.c_str());
 	}
 
@@ -193,7 +193,7 @@ void RoomEditor::resetWindows()
 	for(auto e : room->exits)
 	{
 		lineCount++;
-		string row = e->name + STR_ARROW + e->room->name;
+		string row = e->getName() + STR_ARROW + e->room->getName();
 		mvwprintw(mainWindow,lineCount,2,row.c_str());
 	}
 

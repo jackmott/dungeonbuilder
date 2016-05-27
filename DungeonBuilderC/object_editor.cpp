@@ -32,7 +32,7 @@ string ObjectEditor::set(vector<string> args)
 	if(editNoun == STR_NAME)
 	{
 		string newname = join(2,args," ");
-		object->name = newname;
+		object->setName(newname);
 	}
 	else if(editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
 	{
@@ -86,7 +86,7 @@ string ObjectEditor::edit(vector<string> args)
 	else if(editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
 	{
 		TextEditor ed;		
-		object->description = ed.edit("Editing Description For Object:"+object->name,object->description);
+		object->description = ed.edit("Editing Description For Object:"+object->getName(),object->description);
 	}
 	else
 	{
@@ -145,7 +145,7 @@ string ObjectEditor::create(vector<string> args)
 	{
 		ObjectEditor oe;
 		DungeonObject* o = new DungeonObject();
-		o->name = join(2,args," ");
+		o->setName(join(2,args," ")); 
 		clearWindows();
 		oe.load(o);
 		object->contents.push_back(o);
@@ -184,7 +184,7 @@ void ObjectEditor::resetWindows()
 	lineCount++;
 	lineCount++;
 	setcolor(mainWindow,2,COLOR_WHITE);
-	string nameRow = STR_MENU_NAME + object->name;
+	string nameRow = STR_MENU_NAME + object->getName();
 	mvwprintw(mainWindow,lineCount,0,nameRow.c_str());
 
 	lineCount++;
@@ -198,7 +198,7 @@ void ObjectEditor::resetWindows()
 	for(auto o : object->contents)
 	{
 		lineCount++;
-		string row = o->name;
+		string row = o->getName();
 		mvwprintw(mainWindow,lineCount,2,row.c_str());
 	}
 

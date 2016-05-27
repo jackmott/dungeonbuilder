@@ -31,7 +31,7 @@ string ExitEditor::set(vector<string> args)
 	if(editNoun ==STR_NAME)
 	{
 		string newname = join(2,args," ");
-		dungeonExit->name = newname;
+		dungeonExit->setName(newname);
 	}
 	else if(editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
 	{
@@ -83,7 +83,7 @@ string ExitEditor::edit(vector<string> args)
 	else if (editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
 	{
 		TextEditor ed;		
-		dungeonExit->description = ed.edit("Editing Description For Object:"+dungeonExit->name,dungeonExit->description);
+		dungeonExit->description = ed.edit("Editing Description For Object:"+dungeonExit->getName(),dungeonExit->description);
 		clearWindows();
 		resetWindows();
 		return "";
@@ -116,7 +116,7 @@ string ExitEditor::create(vector<string> args)
 	if(createNoun == STR_ROOM)
 	{
 		DungeonRoom* newRoom = new DungeonRoom();		
-		newRoom->name = join(2,args," ");
+		newRoom->setName(join(2,args," "));
 		dungeonExit->room = newRoom;
 		g_roomList.push_back(newRoom);
 		clearWindows();
@@ -156,7 +156,7 @@ void ExitEditor::resetWindows()
 	setcolor(mainWindow,2,COLOR_WHITE);
 
 
-	string nameRow = STR_MENU_NAME + dungeonExit->name;
+	string nameRow = STR_MENU_NAME + dungeonExit->getName();
 	mvwprintw(mainWindow,lineCount,0,nameRow.c_str());
 
 	lineCount++;
@@ -165,7 +165,7 @@ void ExitEditor::resetWindows()
 	mvwprintw(mainWindow,lineCount,0,descRow.c_str());
 
 	lineCount++;
-	string roomRow = STR_MENU_ROOM + dungeonExit->room->name;
+	string roomRow = STR_MENU_ROOM + dungeonExit->room->getName();
 	mvwprintw(mainWindow,lineCount,0,roomRow.c_str());
 
 	lineCount++;
@@ -186,6 +186,14 @@ void ExitEditor::resetWindows()
 		lineCount++;
 		string closedTextRow = STR_MENU_CLOSEDTEXT + dungeonExit->closedText;
 		mvwprintw(mainWindow,lineCount,0,closedTextRow.c_str());
+
+		lineCount++;
+		string openingTextRow = STR_MENU_OPENINGTEXT + dungeonExit->openingText;
+		mvwprintw(mainWindow,lineCount,0,openingTextRow.c_str());
+
+		lineCount++;
+		string closingTextRow = STR_MENU_CLOSINGTEXT + dungeonExit->closingText;
+		mvwprintw(mainWindow,lineCount,0,closingTextRow.c_str());
 
 	}
 

@@ -117,33 +117,20 @@ void strlensort(vector<string> *v)
 }
 
 
-struct dobjcmp {
-	bool operator()(const DungeonObject*first,const DungeonObject* second)
+struct entitycmp {
+	bool operator()(const DungeonEntity*first,const DungeonEntity* second)
 	{
-		return first->name.size() > second->name.size();
-	}
-};
-
-void objsort(vector<DungeonObject*> *v)
-{
-	dobjcmp ocmp;
-	sort(v->begin(),v->end(),ocmp);
-}
-
-
-struct dcreaturecmp {
-	bool operator()(const DungeonCreature*first,const DungeonCreature* second)
-	{
-		return first->name.size() > second->name.size();
+		return first->getName().size() > second->getName().size();
 	}
 };
 
 
-void creaturesort(vector<DungeonCreature*> *v)
+void entitysort(vector<DungeonEntity*> *v)
 {
-	dcreaturecmp ccmp;
+	entitycmp ccmp;
 	sort(v->begin(),v->end(),ccmp);
 }
+
 
 
 //sort strings from longest to shortest
@@ -180,23 +167,6 @@ void removeObject(vector<DungeonObject*> *objects,DungeonObject *object)
 
 }
 
-DungeonObject * extractObject(vector<DungeonObject*> objects ,string *userInput)
-{
-	objsort(&objects);
-	string lcaseInput = " " + toLower(*userInput) + " ";
-	for(auto o : objects)
-	{
-		string lcaseName =" " + toLower(o->name) + " " ;
-		size_t pos = lcaseInput.find(lcaseName);
-		if(pos != string::npos)
-		{
-			userInput->erase(pos,o->name.length());
-			return o;
-		}
-	}
-	return nullptr;
-}
-
 void removeCreature(vector<DungeonCreature*> *creatures, DungeonCreature *creature)
 {
 	int i = 0;
@@ -211,22 +181,32 @@ void removeCreature(vector<DungeonCreature*> *creatures, DungeonCreature *creatu
 	}
 }
 
-DungeonCreature* extractCreature(vector<DungeonCreature*> creatures ,string *userInput)
+
+// void* considered harmful. living dangerously.
+DungeonEntity* extractEntity(void * _entities ,string *userInput)
 {
-	creaturesort(&creatures);
-	string lcaseInput = toLower(*userInput);
-	for(auto creature : creatures)
+	vector<DungeonEntity*> *entities = (vector<DungeonEntity*> *)_entities;
+	vector<DungeonEntity*> sortedEntities;
+
+	for(auto e: *entities)
 	{
-		string lcaseName = toLower(creature->name);
-		size_t pos = lcaseInput.find(lcaseName);
+		sortedEntities.push_back(e);
+	}
+
+	entitysort(&sortedEntities);
+	string lcaseInput = toLower(*userInput);
+	for(auto e : sortedEntities)
+	{
+		size_t pos = lcaseInput.find(e->getLcaseName());
 		if(pos != string::npos)
 		{
-			userInput->erase(pos,creature->name.length());
-			return creature;
+			userInput->erase(pos,e->getLcaseName().length());
+			return e;
 		}
 	}
 	return nullptr;
 }
+
 
 
 string extractPhrase(vector<string> phrasesToFind, string *userInput)

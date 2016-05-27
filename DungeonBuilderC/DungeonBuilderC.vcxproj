@@ -23,6 +23,7 @@
     <ClCompile Include="dungeon_display.cpp" />
     <ClCompile Include="dungeon_data.cpp" />
     <ClCompile Include="dungeon_engine.cpp" />
+    <ClCompile Include="JSON_loader.cpp" />
     <ClCompile Include="text_editor.cpp">
     </ClCompile>
     <ClCompile Include="exit_editor.cpp" />
@@ -34,6 +35,7 @@
     <ClInclude Include="headers\dungeon_data.h" />
     <ClInclude Include="headers\exit_editor.h" />
     <ClInclude Include="headers\dungeon_display.h" />
+    <ClInclude Include="headers\JSON_loader.h" />
     <ClInclude Include="headers\main_menu.h" />
     <ClCompile Include="command_window.cpp" />
     <ClCompile Include="printutils.cpp" />

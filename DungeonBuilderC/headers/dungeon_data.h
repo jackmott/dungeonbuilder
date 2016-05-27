@@ -10,13 +10,24 @@ struct DungeonExit;
 struct DungeonObject;
 struct DungeonCreature;
 
-struct DungeonRoom
+struct DungeonEntity
+{
+private:
+	string _name;
+	string _lcasename;
+public:
+	virtual void setName(string name);
+	virtual string getName() const;
+	virtual string getLcaseName() const;
+	
+};
+
+struct DungeonRoom : DungeonEntity
 {
 	DungeonRoom();
 	~DungeonRoom();
 
-	int uid;
-	string name;
+	int uid;	
 	vector<string> description;
 	vector<DungeonExit*> exits;
 	vector<DungeonObject*> objects;
@@ -26,18 +37,20 @@ struct DungeonRoom
 
 };
 
-struct DungeonExit
+struct DungeonExit : DungeonEntity
 {
 	DungeonExit();
 	~DungeonExit();
-
-	string name;
+	
 	vector<string> description;	
 
 	bool isDoor;   // or window, or pile of rocks, whatever	
 	bool isOpen;   //or whatever
 
 	int distance;
+
+	string openingText;
+	string closingText;
 
 	string openText;
 	string closedText;
@@ -66,11 +79,11 @@ enum class USE_EFFECT
 	NOT_ALLOWED
 };
 
-struct DungeonObject
+struct DungeonObject : DungeonEntity
 {
 	DungeonObject();
 	~DungeonObject();
-	string name;
+	
 	vector<string> description;
 	
 	int damage;  //0 if not a weapon
@@ -95,11 +108,11 @@ struct DungeonObject
 	string toJSON();
 };
 
-struct DungeonPlayer
+struct DungeonPlayer : DungeonEntity
 {
 	DungeonPlayer();
 	~DungeonPlayer();
-	string name;
+
 	vector<string> description;
 	int hitpoints;
 	int score;
@@ -107,11 +120,11 @@ struct DungeonPlayer
 	DungeonRoom* location;
 };
 
-struct DungeonCreature
+struct DungeonCreature : DungeonEntity
 {
 	DungeonCreature();
 	~DungeonCreature();
-	string name;
+	
 	vector<string> description;
 	int hitpoints;
 	int alignment;
