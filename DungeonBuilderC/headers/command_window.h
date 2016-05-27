@@ -2,14 +2,10 @@
 #ifndef COMMAND_WINDOW
 #define COMMAND_WINDOW
 
-#ifdef _WIN32
-#include "pdcurses.h"
-#else
-#include <ncurses.h>
-#endif
-
 #include <string>
 #include <vector>
+#include "lib.h"
+
 using namespace std;
 
 struct CommandWindow
@@ -28,8 +24,7 @@ struct CommandWindow
 	void moveRight();			
 	bool handleInput(int c);
 	void print();
-	
-
+    void backspace();
 };
 
 

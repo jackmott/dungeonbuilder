@@ -1,15 +1,10 @@
 #pragma once
 
-#ifdef _WIN32
-#include "pdcurses.h"
-#else
-#include <ncurses.h>
-#endif
 #include <vector>
 #include <map>
 #include <string>
 #include "dungeon_data.h"
-
+#include "lib.h"
 
 
 

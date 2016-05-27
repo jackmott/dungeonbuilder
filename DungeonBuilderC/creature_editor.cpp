@@ -1,4 +1,3 @@
-
 #include "creature_editor.h"
 #include <sstream>
 #include <algorithm>
@@ -80,17 +79,13 @@ string CreatureEditor::edit(vector<string> args)
 	else
 	{
 		return "I don't know how to edit that";
-	}
-
-
-
+    }
 }
 
 string CreatureEditor::create(vector<string> args)
 {
 	return "Create not implemented";
 }
-
 
 void CreatureEditor::clearWindows()
 {
@@ -111,7 +106,6 @@ void CreatureEditor::resetWindows()
 	wrefresh(responseWindow);
 	wrefresh(mainWindow);
 
-	int done = false;
 	string command;
 
 	setcolors(mainWindow,1,COLOR_RED,COLOR_BLACK);

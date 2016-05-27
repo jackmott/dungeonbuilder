@@ -28,5 +28,6 @@ void strlensort(vector<string>* v);
 void objsort(vector<DungeonObject*>* v);
 void creaturesort(vector<DungeonCreature*>* v);
 string extractPhrase(vector<string> phrasesToFind, string *userInput);
+void dbsleep(unsigned int milliseconds);
 
 #endif

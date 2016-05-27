@@ -62,7 +62,6 @@ void MainMenu::clearWindows()
 
 void MainMenu::saveMap(vector<string> args) 
 {
-
 	if (args.size() < 1)
 		mvwprintw(responseWindow, 0, 0, "Oops you need a file");
 	else if(!g_startRoom)
@@ -102,7 +101,6 @@ void MainMenu::resetWindows()
 	wrefresh(responseWindow);
 	wrefresh(mainWindow);
 
-	int done = false;
 	string command;
 
 	setcolor(mainWindow,1,COLOR_RED);
@@ -114,8 +112,6 @@ void MainMenu::resetWindows()
 	mvwprintwBold(mainWindow,7,0,"[Save] this map");
 	mvwprintwBold(mainWindow,8,0,"[Exit] this world");
 	wrefresh(mainWindow);
-
-
 }
 
 void MainMenu::load()
@@ -130,12 +126,14 @@ void MainMenu::load()
 	CommandWindow cmdW;
 	bool cmdFound = false;
 	vector<string> cmd;
+    
 	while(true) {
 		cmd = cmdW.getCommand(commandWindow,STR_PROMPT);
 		if(cmd.size() > 0) {
 			toLower(&cmd[0]);
 			cmdFound = cmdMap.count(cmd[0]) > 0;
 		}
+        
 		if(!cmdFound) {
 			cmd.clear();
 			mvwprintw(responseWindow,0,0,"What are you doing, dave?");
@@ -147,10 +145,6 @@ void MainMenu::load()
 			(this->*cmdFunc)(cmd);
 		}
 	}
-
-
-
-	clearWindows();
 }
 
 

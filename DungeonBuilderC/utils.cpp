@@ -1,6 +1,7 @@
 #include "utils.h"
 #include <sstream>
 #include <algorithm>
+#include "lib.h"
 
 vector<string> &split(const string &s,char delim,vector<string> &elems) {
 	stringstream ss(s);
@@ -245,3 +246,17 @@ string extractPhrase(vector<string> phrasesToFind, string *userInput)
 	}
 	return "";
 }
+
+#ifdef _WIN32
+void dbsleep(unsigned int milliseconds)
+{
+    Sleep(milliseconds);
+}
+#else
+void dbsleep(unsigned int milliseconds)
+{
+    usleep(milliseconds * 1000); // takes microseconds
+}
+#endif
+
+

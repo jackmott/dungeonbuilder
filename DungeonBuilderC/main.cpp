@@ -1,11 +1,8 @@
-#ifdef _WIN32
-#include "pdcurses.h"
-#else
-#include <ncurses.h>
-#endif
+
+
 #include <string>
-//#include "text_editor.h"
 #include "main_menu.h"
+#include "lib.h"
 
 using namespace std;
 
@@ -21,12 +18,10 @@ void curses_init()
 int main(int argc,char* argv[])
 {
 	curses_init();
-			
 	
 	MainMenu mm;
 	mm.load();
 
 	endwin();
 	return 0;
-
 }
