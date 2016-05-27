@@ -11,6 +11,18 @@ string DungeonEngine::exit(string args)
 	return STR_EXIT;
 }
 
+string DungeonEngine::pageUp(string args)
+{
+	renderPos = max(0,renderPos - 25);
+	return "";
+}
+
+string DungeonEngine::pageDown(string args)
+{
+	renderPos = min(renderPos+25,textBuffer.size());
+	return "";
+}
+
 string DungeonEngine::drop(string args)
 {
 	DungeonObject *thing = (DungeonObject*)extractEntity(&player->objects,&args);
@@ -191,7 +203,7 @@ string DungeonEngine::open(string args)
 	if(thingToOpen != nullptr && thingToOpen->canOpen == true && thingToOpen->isOpen == false)
 	{
 		thingToOpen->isOpen = true;
-		textBuffer.push_back("You open the "+thingToOpen->getPrimaryName()+", inside you see " + showContents(thingToOpen));		
+		textBuffer.push_back("You open the "+thingToOpen->getPrimaryName()+", inside you see " + showContents(thingToOpen));
 		return "";
 	}
 	else if(thingToOpen != nullptr)
@@ -256,6 +268,8 @@ void DungeonEngine::resetWindows()
 {
 	headerWindow = newwin(1,getCols(),0,0);
 	commandWindow = newwin(1,getCols(),LINES-1,0);
+	keypad(commandWindow,true);
+
 	mainWindow = newwin(LINES-2,getCols(),1,0);
 	scrollok(mainWindow,TRUE);
 	getmaxyx(stdscr,h,w); // this doesn't work in windows
@@ -320,7 +334,7 @@ void DungeonEngine::look()
 
 	for(auto exit : room->exits)
 	{
-		
+
 		if(exit->isDoor)
 		{
 			if(exit->isOpen)
@@ -375,6 +389,8 @@ void DungeonEngine::render(unsigned long start,unsigned long end)
 void DungeonEngine::updateCmdMap()
 {
 	cmdMap[STR_EXIT] = &DungeonEngine::exit;
+	cmdMap[STR_PAGE_UP] = &DungeonEngine::pageUp;
+	cmdMap[STR_PAGE_DOWN] = &DungeonEngine::pageDown;
 	cmdMap[STR_USE] = &DungeonEngine::use;
 	cmdMap[STR_LOOK_AT] = &DungeonEngine::examine;
 	cmdMap[STR_TAKE] = &DungeonEngine::take;
@@ -463,12 +479,13 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 			}
 			else
 			{
-				if(verb == STR_EXIT) break;
+				if (verb == STR_EXIT) break;
 				commandFunction cmdFunc = cmdMap[verb];
 				string response = (this->*cmdFunc)(userInput);
 				if(response.length() > 1) {
 					textBuffer.push_back(response);
 				}
+
 			}
 		}
 

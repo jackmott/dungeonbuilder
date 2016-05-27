@@ -44,6 +44,8 @@ struct DungeonEngine
 	string open(string args);
 	string take(string args);
 	string exit(string args);
+	string pageDown(string args);
+	string pageUp(string args);
 	string use(string args);
 	string lookCmd(string args);
 	string examine(string args);

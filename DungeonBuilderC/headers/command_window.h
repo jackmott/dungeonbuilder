@@ -18,6 +18,7 @@ struct CommandWindow
 	string prompt;
 				
 	void reset();	
+	vector<string> commandBuffer;
 	vector<string> getCommand(WINDOW* _window,string prompt);				
 	string getCommandAsString(WINDOW* _window,string prompt);				
 	void moveLeft();

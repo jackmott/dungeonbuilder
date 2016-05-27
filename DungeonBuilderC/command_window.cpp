@@ -3,6 +3,7 @@
 #include <sstream>
 #include "utils.h"
 #include "printutils.h"
+#include "string_constants.h"
 
 using namespace std;
 
@@ -26,14 +27,14 @@ string CommandWindow::getCommandAsString(WINDOW* _window,string _prompt) {
 		done = handleInput(c);
 	}
 	reset();
-    
+    commandBuffer.push_back(input);
 	return input;
 }
 
 vector<string> CommandWindow::getCommand(WINDOW* _window,string _prompt) {
 	string input = getCommandAsString(_window,_prompt);
+	commandBuffer.push_back(input);
 	vector<string> result = split(input,' ');
-
 	return result;
 }
 
@@ -57,11 +58,28 @@ bool CommandWindow::handleInput(int c) {
             x--;
 		}
 		break;
+	case KEY_UP:
+		if (commandBuffer.size() > 0)
+		{
+			input = commandBuffer[commandBuffer.size()-1];
+			commandBuffer.pop_back();
+			x = input.size();
+		}
+		
+		break;
+	case KEY_PPAGE: //page up
+		input = STR_PAGE_UP;
+		return true;
+		break;
+	case KEY_NPAGE: //page down
+		input = STR_PAGE_DOWN;
+		return true;
+		break;
 	case KEY_ENTER:
 	case 10:
 		return true;
 	case 27:  //escape key
-		input = "exit";
+		input = STR_EXIT;;
 		return true;
 	default:
 		if(input.size() < (unsigned int)(getCols() -2))
