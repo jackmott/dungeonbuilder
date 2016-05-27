@@ -188,6 +188,14 @@ void ExitEditor::resetWindows()
 		string closedTextRow = STR_MENU_CLOSEDTEXT + dungeonExit->closedText;
 		mvwprintw(mainWindow,lineCount,0,closedTextRow.c_str());
 
+		lineCount++;
+		string openingTextRow = STR_MENU_OPENINGTEXT + dungeonExit->openingText;
+		mvwprintw(mainWindow,lineCount,0,openingTextRow.c_str());
+
+		lineCount++;
+		string closingTextRow = STR_MENU_CLOSINGTEXT + dungeonExit->closingText;
+		mvwprintw(mainWindow,lineCount,0,closingTextRow.c_str());
+
 	}
 
 

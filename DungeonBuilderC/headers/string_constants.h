@@ -18,6 +18,8 @@
 #define STR_MENU_IS_DOOR "[Set](Door)[T/F]:"
 #define STR_MENU_OPENTEXT "[Set](OpenText):"
 #define STR_MENU_CLOSEDTEXT "[Set](ClosedText):"
+#define STR_MENU_OPENINGTEXT "[Set](OpeningText):"
+#define STR_MENU_CLOSINGTEXT "[Set](ClosingText):"
 
 #define STR_OPEN_TEXT "opentext"
 #define STR_CLOSED_TEXT "closedtext"
