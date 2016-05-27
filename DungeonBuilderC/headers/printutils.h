@@ -2,12 +2,9 @@
 #ifndef PRINT_UTILS
 #define PRINT_UTILS
 
-#ifdef _WIN32
-#include "pdcurses.h"
-#else
-#include <ncurses.h>
-#endif
 #include <string>
+#include "lib.h"
+
 using namespace std;
 
 #define MAX_EDITOR_PRINT_WIDTH 60
@@ -17,7 +14,5 @@ void mvwprintwCenterBold (WINDOW * window,int row, string text);
 void mvwprintwBold (WINDOW * window,int row,int col, string text);
 void setcolor (WINDOW* window, int group, int fore);
 void setcolors(WINDOW* window, int group, int fore,int back);
-
-
 
 #endif

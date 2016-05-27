@@ -1,14 +1,10 @@
 
-#ifndef ROOM_PLAYER
-#define ROOM_PLAYER
+#ifndef DUNGEON_ENGINE
+#define DUNGEON_ENGINE
 
-#ifdef _WIN32
-#include "pdcurses.h"
-#else
-#include <ncurses.h>
-#endif
-#include "dungeon_data.h"
 #include <map>
+#include "dungeon_data.h"
+#include "lib.h"
 
 
 extern DungeonRoom *g_startRoom;
@@ -33,13 +29,13 @@ struct DungeonEngine
 
 	int w,h;
 	
-	int renderPos;
+	unsigned long renderPos;
 	void updateCmdMap();
 	void look();
 	void clearWindows();
 	void resetWindows();
 	void load(DungeonRoom *_room, DungeonPlayer *_player);
-	void render(unsigned int start, unsigned int end);
+	void render(unsigned long start, unsigned long end);
 	void showContents(DungeonObject * o);
 	void addToBuffer(vector<string> *v);
 	
@@ -52,7 +48,7 @@ struct DungeonEngine
 	string lookCmd(string args);
 	string examine(string args);
 
-	void DungeonEngine::move(DungeonExit *dungeonExit);
+	void move(DungeonExit *dungeonExit);
 };
 
 #endif

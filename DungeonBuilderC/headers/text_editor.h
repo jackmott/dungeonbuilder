@@ -2,19 +2,14 @@
 #ifndef TEXT_EDITOR
 #define TEXT_EDITOR
 
-#ifdef _WIN32
-#include "pdcurses.h"
-#else
-#include <ncurses.h>
-#endif
 #include <vector>
 #include <string>
+#include "lib.h"
 
 using namespace std;
 
 struct TextEditor
 {
-
 	unsigned int x,y;	
 	vector<string> lines;
 	int done = 0;

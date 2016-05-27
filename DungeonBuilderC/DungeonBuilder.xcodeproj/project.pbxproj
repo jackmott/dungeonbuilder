@@ -1,0 +1,365 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		715240F91CF7BE5600B59635 /* command_window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 715240D01CF7BDB900B59635 /* command_window.cpp */; };
+		715240FA1CF7BE5600B59635 /* creature_editor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 715240D11CF7BDB900B59635 /* creature_editor.cpp */; };
+		715240FB1CF7BE5600B59635 /* dungeon_data.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 715240D21CF7BDB900B59635 /* dungeon_data.cpp */; };
+		715240FC1CF7BE5600B59635 /* dungeon_display.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 715240D31CF7BDB900B59635 /* dungeon_display.cpp */; };
+		715240FD1CF7BE5600B59635 /* dungeon_engine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 715240D41CF7BDB900B59635 /* dungeon_engine.cpp */; };
+		715240FE1CF7BE5600B59635 /* exit_editor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 715240D51CF7BDB900B59635 /* exit_editor.cpp */; };
+		715240FF1CF7BE5600B59635 /* main_menu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 715240D61CF7BDB900B59635 /* main_menu.cpp */; };
+		715241001CF7BE5600B59635 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 715240D71CF7BDB900B59635 /* main.cpp */; };
+		715241011CF7BE5600B59635 /* object_editor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 715240D81CF7BDB900B59635 /* object_editor.cpp */; };
+		715241021CF7BE5600B59635 /* printutils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 715240D91CF7BDB900B59635 /* printutils.cpp */; };
+		715241031CF7BE5600B59635 /* room_editor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 715240DA1CF7BDB900B59635 /* room_editor.cpp */; };
+		715241041CF7BE5600B59635 /* text_editor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 715240DB1CF7BDB900B59635 /* text_editor.cpp */; };
+		715241051CF7BE5600B59635 /* utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 715240DC1CF7BDB900B59635 /* utils.cpp */; };
+		7152410A1CF7F98400B59635 /* libncurses.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 715241091CF7F98400B59635 /* libncurses.tbd */; };
+		7152410E1CF886EC00B59635 /* JSON_loader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7152410D1CF886EC00B59635 /* JSON_loader.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		715240EF1CF7BE4E00B59635 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		715240D01CF7BDB900B59635 /* command_window.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = command_window.cpp; sourceTree = "<group>"; };
+		715240D11CF7BDB900B59635 /* creature_editor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = creature_editor.cpp; sourceTree = "<group>"; };
+		715240D21CF7BDB900B59635 /* dungeon_data.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = dungeon_data.cpp; sourceTree = "<group>"; };
+		715240D31CF7BDB900B59635 /* dungeon_display.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = dungeon_display.cpp; sourceTree = "<group>"; };
+		715240D41CF7BDB900B59635 /* dungeon_engine.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = dungeon_engine.cpp; sourceTree = "<group>"; };
+		715240D51CF7BDB900B59635 /* exit_editor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = exit_editor.cpp; sourceTree = "<group>"; };
+		715240D61CF7BDB900B59635 /* main_menu.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main_menu.cpp; sourceTree = "<group>"; };
+		715240D71CF7BDB900B59635 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		715240D81CF7BDB900B59635 /* object_editor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = object_editor.cpp; sourceTree = "<group>"; };
+		715240D91CF7BDB900B59635 /* printutils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = printutils.cpp; sourceTree = "<group>"; };
+		715240DA1CF7BDB900B59635 /* room_editor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = room_editor.cpp; sourceTree = "<group>"; };
+		715240DB1CF7BDB900B59635 /* text_editor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = text_editor.cpp; sourceTree = "<group>"; };
+		715240DC1CF7BDB900B59635 /* utils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = utils.cpp; sourceTree = "<group>"; };
+		715240DD1CF7BDC100B59635 /* command_window.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = command_window.h; path = headers/command_window.h; sourceTree = "<group>"; };
+		715240DE1CF7BDC100B59635 /* creature_editor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = creature_editor.h; path = headers/creature_editor.h; sourceTree = "<group>"; };
+		715240DF1CF7BDC100B59635 /* dungeon_data.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = dungeon_data.h; path = headers/dungeon_data.h; sourceTree = "<group>"; };
+		715240E01CF7BDC100B59635 /* dungeon_display.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = dungeon_display.h; path = headers/dungeon_display.h; sourceTree = "<group>"; };
+		715240E11CF7BDC100B59635 /* dungeon_engine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = dungeon_engine.h; path = headers/dungeon_engine.h; sourceTree = "<group>"; };
+		715240E21CF7BDC100B59635 /* exit_editor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = exit_editor.h; path = headers/exit_editor.h; sourceTree = "<group>"; };
+		715240E31CF7BDC100B59635 /* main_menu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = main_menu.h; path = headers/main_menu.h; sourceTree = "<group>"; };
+		715240E41CF7BDC100B59635 /* object_editor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = object_editor.h; path = headers/object_editor.h; sourceTree = "<group>"; };
+		715240E51CF7BDC100B59635 /* panel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = panel.h; path = headers/panel.h; sourceTree = "<group>"; };
+		715240E61CF7BDC100B59635 /* pdcurses.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = pdcurses.h; path = headers/pdcurses.h; sourceTree = "<group>"; };
+		715240E71CF7BDC100B59635 /* printutils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = printutils.h; path = headers/printutils.h; sourceTree = "<group>"; };
+		715240E81CF7BDC100B59635 /* room_editor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = room_editor.h; path = headers/room_editor.h; sourceTree = "<group>"; };
+		715240E91CF7BDC100B59635 /* string_constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = string_constants.h; path = headers/string_constants.h; sourceTree = "<group>"; };
+		715240EA1CF7BDC100B59635 /* text_editor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = text_editor.h; path = headers/text_editor.h; sourceTree = "<group>"; };
+		715240EB1CF7BDC100B59635 /* utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = utils.h; path = headers/utils.h; sourceTree = "<group>"; };
+		715240EC1CF7BDC700B59635 /* pdcurses.lib */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = pdcurses.lib; path = lib/pdcurses.lib; sourceTree = "<group>"; };
+		715240F11CF7BE4E00B59635 /* DungeonBuilder */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = DungeonBuilder; sourceTree = BUILT_PRODUCTS_DIR; };
+		715241071CF7F35D00B59635 /* lib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = lib.h; sourceTree = "<group>"; };
+		715241091CF7F98400B59635 /* libncurses.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libncurses.tbd; path = usr/lib/libncurses.tbd; sourceTree = SDKROOT; };
+		7152410D1CF886EC00B59635 /* JSON_loader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JSON_loader.cpp; sourceTree = "<group>"; };
+		7152410F1CF8870000B59635 /* JSON_loader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = JSON_loader.h; path = headers/JSON_loader.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		715240EE1CF7BE4E00B59635 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7152410A1CF7F98400B59635 /* libncurses.tbd in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		715240C91CF7BD8800B59635 = {
+			isa = PBXGroup;
+			children = (
+				7152410B1CF7FB2400B59635 /* Headers */,
+				7152410C1CF7FB2800B59635 /* Sources */,
+				715241081CF7F48800B59635 /* Libraries */,
+				715240F21CF7BE4E00B59635 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		715240F21CF7BE4E00B59635 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				715240F11CF7BE4E00B59635 /* DungeonBuilder */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		715241081CF7F48800B59635 /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				715240E61CF7BDC100B59635 /* pdcurses.h */,
+				715240EC1CF7BDC700B59635 /* pdcurses.lib */,
+				715241091CF7F98400B59635 /* libncurses.tbd */,
+			);
+			name = Libraries;
+			sourceTree = "<group>";
+		};
+		7152410B1CF7FB2400B59635 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				715240DD1CF7BDC100B59635 /* command_window.h */,
+				715240DE1CF7BDC100B59635 /* creature_editor.h */,
+				715240DF1CF7BDC100B59635 /* dungeon_data.h */,
+				715240E01CF7BDC100B59635 /* dungeon_display.h */,
+				715240E11CF7BDC100B59635 /* dungeon_engine.h */,
+				715240E21CF7BDC100B59635 /* exit_editor.h */,
+				715240E31CF7BDC100B59635 /* main_menu.h */,
+				715240E41CF7BDC100B59635 /* object_editor.h */,
+				715240E71CF7BDC100B59635 /* printutils.h */,
+				715240E81CF7BDC100B59635 /* room_editor.h */,
+				715240EA1CF7BDC100B59635 /* text_editor.h */,
+				715240EB1CF7BDC100B59635 /* utils.h */,
+				715240E51CF7BDC100B59635 /* panel.h */,
+				715240E91CF7BDC100B59635 /* string_constants.h */,
+				715241071CF7F35D00B59635 /* lib.h */,
+				7152410F1CF8870000B59635 /* JSON_loader.h */,
+			);
+			name = Headers;
+			sourceTree = "<group>";
+		};
+		7152410C1CF7FB2800B59635 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				715240D01CF7BDB900B59635 /* command_window.cpp */,
+				715240D11CF7BDB900B59635 /* creature_editor.cpp */,
+				715240D21CF7BDB900B59635 /* dungeon_data.cpp */,
+				715240D31CF7BDB900B59635 /* dungeon_display.cpp */,
+				715240D41CF7BDB900B59635 /* dungeon_engine.cpp */,
+				715240D51CF7BDB900B59635 /* exit_editor.cpp */,
+				715240D61CF7BDB900B59635 /* main_menu.cpp */,
+				715240D71CF7BDB900B59635 /* main.cpp */,
+				715240D81CF7BDB900B59635 /* object_editor.cpp */,
+				715240D91CF7BDB900B59635 /* printutils.cpp */,
+				715240DA1CF7BDB900B59635 /* room_editor.cpp */,
+				715240DB1CF7BDB900B59635 /* text_editor.cpp */,
+				715240DC1CF7BDB900B59635 /* utils.cpp */,
+				7152410D1CF886EC00B59635 /* JSON_loader.cpp */,
+			);
+			name = Sources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		715240F01CF7BE4E00B59635 /* DungeonBuilder */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 715240F61CF7BE4E00B59635 /* Build configuration list for PBXNativeTarget "DungeonBuilder" */;
+			buildPhases = (
+				715240ED1CF7BE4E00B59635 /* Sources */,
+				715240EE1CF7BE4E00B59635 /* Frameworks */,
+				715240EF1CF7BE4E00B59635 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DungeonBuilder;
+			productName = DungeonBuilder;
+			productReference = 715240F11CF7BE4E00B59635 /* DungeonBuilder */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		715240CA1CF7BD8800B59635 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0730;
+				TargetAttributes = {
+					715240F01CF7BE4E00B59635 = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+				};
+			};
+			buildConfigurationList = 715240CD1CF7BD8800B59635 /* Build configuration list for PBXProject "DungeonBuilder" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 715240C91CF7BD8800B59635;
+			productRefGroup = 715240F21CF7BE4E00B59635 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				715240F01CF7BE4E00B59635 /* DungeonBuilder */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		715240ED1CF7BE4E00B59635 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				715240FC1CF7BE5600B59635 /* dungeon_display.cpp in Sources */,
+				715241001CF7BE5600B59635 /* main.cpp in Sources */,
+				715240FE1CF7BE5600B59635 /* exit_editor.cpp in Sources */,
+				715240F91CF7BE5600B59635 /* command_window.cpp in Sources */,
+				715241011CF7BE5600B59635 /* object_editor.cpp in Sources */,
+				715240FB1CF7BE5600B59635 /* dungeon_data.cpp in Sources */,
+				715241031CF7BE5600B59635 /* room_editor.cpp in Sources */,
+				715240FD1CF7BE5600B59635 /* dungeon_engine.cpp in Sources */,
+				715240FA1CF7BE5600B59635 /* creature_editor.cpp in Sources */,
+				715240FF1CF7BE5600B59635 /* main_menu.cpp in Sources */,
+				7152410E1CF886EC00B59635 /* JSON_loader.cpp in Sources */,
+				715241041CF7BE5600B59635 /* text_editor.cpp in Sources */,
+				715241021CF7BE5600B59635 /* printutils.cpp in Sources */,
+				715241051CF7BE5600B59635 /* utils.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		715240CE1CF7BD8800B59635 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				ONLY_ACTIVE_ARCH = YES;
+			};
+			name = Debug;
+		};
+		715240CF1CF7BD8800B59635 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+			};
+			name = Release;
+		};
+		715240F71CF7BE4E00B59635 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/lib",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		715240F81CF7BE4E00B59635 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/lib",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		715240CD1CF7BD8800B59635 /* Build configuration list for PBXProject "DungeonBuilder" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				715240CE1CF7BD8800B59635 /* Debug */,
+				715240CF1CF7BD8800B59635 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		715240F61CF7BE4E00B59635 /* Build configuration list for PBXNativeTarget "DungeonBuilder" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				715240F71CF7BE4E00B59635 /* Debug */,
+				715240F81CF7BE4E00B59635 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 715240CA1CF7BD8800B59635 /* Project object */;
+}

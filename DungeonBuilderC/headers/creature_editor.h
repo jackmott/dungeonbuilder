@@ -1,14 +1,12 @@
 #pragma once
+#ifndef CREATURE_EDITOR
+#define CREATURE_EDITOR
 
-#ifdef _WIN32
-#include "pdcurses.h"
-#else
-#include <ncurses.h>
-#endif
 #include <vector>
 #include <string>
 #include <map>
 #include "dungeon_data.h"
+#include "lib.h"
 
 using namespace std;
 
@@ -36,3 +34,4 @@ struct CreatureEditor
 	string create(vector<string> args);
 };
 
+#endif

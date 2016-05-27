@@ -156,7 +156,6 @@ string ObjectEditor::create(vector<string> args)
 	return "I don't know how to create that";
 }
 
-
 void ObjectEditor::clearWindows()
 {
 	delwin(commandWindow);
@@ -176,7 +175,6 @@ void ObjectEditor::resetWindows()
 	wrefresh(responseWindow);
 	wrefresh(mainWindow);
 
-	int done = false;
 	string command;
 
 	int lineCount = 1;

@@ -148,7 +148,6 @@ void ExitEditor::resetWindows()
 	wrefresh(responseWindow);
 	wrefresh(mainWindow);
 
-	int done = false;
 	string command;
 
 	int lineCount = 3;
@@ -218,12 +217,14 @@ DungeonRoom* ExitEditor::load(DungeonExit *_dungeonExit, DungeonRoom *_fromRoom)
 	CommandWindow cmdW;
 	bool cmdFound = false;
 	vector<string> cmd;
-	while(true) {
+
+    while(true) {
 		cmd = cmdW.getCommand(commandWindow,STR_PROMPT);
 		if(cmd.size() > 0) {
 			toLower(&cmd[0]);
 			cmdFound = cmdMap.count(cmd[0]) > 0;
 		}
+        
 		if(!cmdFound) {
 			cmd.clear();
 			mvwprintw(responseWindow,0,0,"What are you doing, dave?");
@@ -232,7 +233,6 @@ DungeonRoom* ExitEditor::load(DungeonExit *_dungeonExit, DungeonRoom *_fromRoom)
 		}
 		else
 		{
-
 			commandFunction cmdFunc = cmdMap[cmd[0]];
 			string response = (this->*cmdFunc)(cmd);
 			if(response == STR_ROOM)
@@ -243,6 +243,7 @@ DungeonRoom* ExitEditor::load(DungeonExit *_dungeonExit, DungeonRoom *_fromRoom)
 			{
 				return fromRoom;
 			}
+            
 			if(response.length() > 0) {
 				cmd.clear();
 				mvwprintw(responseWindow,0,0,response.c_str());
@@ -251,9 +252,6 @@ DungeonRoom* ExitEditor::load(DungeonExit *_dungeonExit, DungeonRoom *_fromRoom)
 			}
 		}
 	}
-
-
-	clearWindows();
 }
 
 

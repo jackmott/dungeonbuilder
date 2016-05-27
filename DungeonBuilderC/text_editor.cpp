@@ -127,9 +127,9 @@ void TextEditor::handleInput(int c) {
 	case 27: //escape key
 		done = 1;
 		break;
-	case 127:
-	case KEY_BACKSPACE:
-	case 8:  //KEY_BACKSPACE:
+    case KEY_BACKSPACE:
+    case 127: // Mac OSX delete key
+    case 8:  // backspace
 		// The Backspace key
 		if(x == 0 && y > 0)
 		{
@@ -143,9 +143,9 @@ void TextEditor::handleInput(int c) {
 		else
 		{
 			// Removes a character
-			if(x>0 || y>0)
+            if(x>0 || y>0) {
 				lines[y].erase(--x,1);
-
+            }
 		}
 		break;
 	case KEY_DC:
@@ -198,11 +198,10 @@ void TextEditor::handleInput(int c) {
 		else {
 			//nope
 		}
-		
-
 		break;
 	}
 }
+
 void TextEditor::printBuff() {
 	for(auto i = 0u; i < lines.size(); i++)
 	{
@@ -217,20 +216,19 @@ void TextEditor::printBuff() {
 		}
 		wclrtoeol(mainWindow);
 	}
+    
 	int maxY = getmaxy(mainWindow);
+    
     if (y > (unsigned int)maxY-1) {
 		scroll(mainWindow);
 	}
 	wmove(mainWindow,y,x);
-	
 }
+
 void TextEditor::printStatusLine() {
-
-
 	setcolors(headerWindow,3,COLOR_BLACK,COLOR_RED);
 	wclear(headerWindow);
 	mvwprintwCenterBold(headerWindow,0,header);
 	wclrtoeol(headerWindow);
-
 }
 

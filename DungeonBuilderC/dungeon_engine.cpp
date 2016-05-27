@@ -1,5 +1,4 @@
 #include "dungeon_engine.h"
-#include <Windows.h>
 #include "printutils.h"
 #include "utils.h"
 #include "command_window.h"
@@ -24,9 +23,9 @@ string DungeonEngine::drop(string args)
 		return "You don't have that.";
 	}
 }
+
 string DungeonEngine::examine(string args)
 {
-	
 	DungeonObject* thing =(DungeonObject*)extractEntity(&room->objects,&args);
 	if(thing == nullptr)
 	{
@@ -48,7 +47,7 @@ string DungeonEngine::examine(string args)
 		{
 			if(gal->description.size() == 0)
 			{
-				"There is nothing more to see.";
+				return "There is nothing more to see.";
 			} else {
 				addToBuffer(&gal->description);
 				return "";
@@ -56,18 +55,17 @@ string DungeonEngine::examine(string args)
 		}
 		else
 		{
-				  return "You don't see that here.";
+            return "You don't see that here.";
 		}
 	}
 
 	return "investigate examine function more";
-	
 }
 
 string DungeonEngine::put(string args)
 {
 	//get the string before and after the word "in" to clarify what is being put where
-	unsigned int inLocation = args.find(" in ");
+	unsigned long inLocation = args.find(" in ");
 	if(inLocation == string::npos)
 	{
 		return "Your fumble about, but it doesn't work.";
@@ -158,7 +156,7 @@ string DungeonEngine::take(string args)
 }
 string DungeonEngine::use(string args)
 {
-	DungeonObject* roomObject = (DungeonObject*)extractEntity(&room->objects,&args);
+	//DungeonObject* roomObject = (DungeonObject*)extractEntity(&room->objects,&args);
 	DungeonObject* playerObject = (DungeonObject*)extractEntity(&player->objects,&args);
 	DungeonCreature* creature = (DungeonCreature*)extractEntity(&room->creatures,&args);
 
@@ -321,16 +319,15 @@ void DungeonEngine::showContents(DungeonObject* o)
 
 }
 
-void DungeonEngine::render(unsigned int start,unsigned int end)
+void DungeonEngine::render(unsigned long start, unsigned long end)
 {
 	for(auto i = start; i < end; i++)
 	{
 		wprintw(mainWindow,(textBuffer[i]+"\n").c_str());
 		wrefresh(mainWindow);
 		renderPos++;
-		Sleep(200);
+        dbsleep(200);
 	}
-
 }
 
 void DungeonEngine::updateCmdMap()
@@ -383,7 +380,6 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 	resetWindows();
 
 	CommandWindow cmdW;
-	bool cmdFound = false;
 
 	while(true) {
 		updateCmdMap();
@@ -392,7 +388,7 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 		mvwprintw(headerWindow,0,0,"Dungeon Builder");
 		mvwprintwCenter(headerWindow,0,room->getName().c_str());
 		wrefresh(headerWindow);
-		render(renderPos,textBuffer.size());
+		render(renderPos, textBuffer.size());
 		string userInput = cmdW.getCommandAsString(commandWindow,STR_PROMPT);
 		textBuffer.push_back(STR_PROMPT+userInput);
 

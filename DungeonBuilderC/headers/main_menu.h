@@ -2,15 +2,11 @@
 #ifndef MAIN_MENU_H
 #define MAIN_MENU_H
 
-#ifdef _WIN32
-#include "pdcurses.h"
-#else
-#include <ncurses.h>
-#endif
 #include <vector>
 #include <string>
 #include <map>
 #include "dungeon_data.h"
+#include "lib.h"
 #include "JSON_loader.h"
 
 using namespace std;

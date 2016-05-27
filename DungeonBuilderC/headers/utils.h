@@ -26,5 +26,6 @@ void removeCreature(vector<DungeonCreature*> *creatures,DungeonCreature *creatur
 void strlensort(vector<string>* v);
 void entitysort(vector<DungeonEntity*> *v);
 string extractPhrase(vector<string> phrasesToFind, string *userInput);
+void dbsleep(unsigned int milliseconds);
 
 #endif

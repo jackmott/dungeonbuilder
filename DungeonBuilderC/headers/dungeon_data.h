@@ -36,6 +36,7 @@ struct DungeonRoom : DungeonEntity
 	string toJSON();
 
 };
+
 struct DungeonExit : DungeonEntity
 {
 	DungeonExit();
