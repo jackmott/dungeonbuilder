@@ -1,4 +1,6 @@
-#include "headers/JSON_loader.h"
+#include "JSON_loader.h"
+#include "string_constants.h"
+
 
 using namespace std;
 JSONLoader::JSONLoader(string filename)
@@ -75,11 +77,11 @@ DungeonObject* JSONLoader::loadObject()
 		else if (currEntry[0] == "size")
 			object->size = atoi(currEntry[1].c_str());
 		else if (currEntry[0] == "canOpen")
-			object->canOpen = atoi(currEntry[1].c_str());
+			object->canOpen = currEntry[1].c_str() == STR_JSON_TRUE;
 		else if (currEntry[0] == "canTake")
-			object->canTake = atoi(currEntry[1].c_str());
+			object->canTake = currEntry[1].c_str() == STR_JSON_TRUE;
 		else if (currEntry[0] == "isOpen")
-			object->isOpen = atoi(currEntry[1].c_str());
+			object->isOpen = currEntry[1].c_str() == STR_JSON_TRUE;
 	} while (ch != '}' && getJSONEntry());
 	
 	return object;
@@ -145,7 +147,7 @@ DungeonExit* JSONLoader::loadExit( vector<DungeonRoom*> roomList)
 */
 void JSONLoader::split(string entryString)
 {
-	int i = 0;
+	unsigned int i = 0;
 	while (entryString[i] != ':')
 	{
 		if(entryString[i] != '\"')

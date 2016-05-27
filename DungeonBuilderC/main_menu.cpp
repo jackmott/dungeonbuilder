@@ -63,8 +63,8 @@ void MainMenu::clearWindows()
 void MainMenu::saveMap(vector<string> args) 
 {
 
-	if (args.size() < 1)
-		mvwprintw(responseWindow, 0, 0, "Oops you need a file");
+	if (args.size() < 2)
+		mvwprintw(responseWindow, 0, 0, "Save to what filename?");
 	else if(!g_startRoom)
 		mvwprintw(responseWindow, 0, 0, "Must make a room first");
 	else 

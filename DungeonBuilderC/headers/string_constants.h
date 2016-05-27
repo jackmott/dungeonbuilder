@@ -61,4 +61,6 @@
 #define STR_JOINER ","
 #define STR_PROMPT ">"
 #define STR_ELLIPSES "..."
+
+#define STR_JSON_TRUE "1"
 #endif
