@@ -67,10 +67,11 @@ void MainMenu::saveMap(vector<string> args)
 		mvwprintw(responseWindow, 0, 0, "Oops you need a file");
 	else if(!g_startRoom)
 		mvwprintw(responseWindow, 0, 0, "Must make a room first");
-	else {
-		ofstream fout(args[1].c_str());
+	else 
+	{
+		ofstream fout((args[1].append(".json")).c_str());
 		fout << "{" << endl;
-		fout << STR_TAB << "\"Rooms\": [" << endl;
+		fout << STR_TAB << "\"rooms\": [" << endl;
 		for (auto i = 0u; i < g_roomList.size(); i++) {
 			fout << STR_TAB << STR_TAB << "{" << endl;
 			fout << g_roomList[i]->toJSON();
@@ -87,7 +88,28 @@ void MainMenu::saveMap(vector<string> args)
 }
 
 void MainMenu::loadMap(vector<string> args)
-{}
+{
+	if (args.size() != 2) 
+	{
+		mvwprintw(responseWindow, 0, 0, "Requires single filename to load");
+	}
+	else
+	{
+		JSONLoader loader(args[1].c_str());
+		if (!loader.open)
+		{
+			mvwprintw(responseWindow, 0, 0, "Could not open that file");
+		}
+		else
+		{
+			g_roomList = loader.loadMap();
+			g_startRoom = g_roomList[0];
+		}
+	}
+
+	wclrtoeol(responseWindow);
+	wrefresh(responseWindow);
+}
 
 void MainMenu::resetWindows()
 {
@@ -112,7 +134,8 @@ void MainMenu::resetWindows()
 	mvwprintwBold(mainWindow,5,0,"[Create] a Dungeon");
 	mvwprintwBold(mainWindow,6,0,"[Enter] Dungeon");
 	mvwprintwBold(mainWindow,7,0,"[Save] this map");
-	mvwprintwBold(mainWindow,8,0,"[Exit] this world");
+	mvwprintwBold(mainWindow,8,0,"[Load] a map");
+	mvwprintwBold(mainWindow,9,0,"[Exit] this world");
 	wrefresh(mainWindow);
 
 
@@ -124,6 +147,7 @@ void MainMenu::load()
 	cmdMap[STR_EXIT] = &MainMenu::exitMenu;
 	cmdMap[STR_ENTER] = &MainMenu::play;
 	cmdMap[STR_SAVE] = &MainMenu::saveMap;
+	cmdMap[STR_LOAD] = &MainMenu::loadMap;
 
 	resetWindows();
 

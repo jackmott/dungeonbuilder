@@ -11,7 +11,7 @@
 #include <string>
 #include <map>
 #include "dungeon_data.h"
-
+#include "JSON_loader.h"
 
 using namespace std;
 
