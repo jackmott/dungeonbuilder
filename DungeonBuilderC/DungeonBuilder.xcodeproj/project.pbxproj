@@ -21,6 +21,7 @@
 		715241041CF7BE5600B59635 /* text_editor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 715240DB1CF7BDB900B59635 /* text_editor.cpp */; };
 		715241051CF7BE5600B59635 /* utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 715240DC1CF7BDB900B59635 /* utils.cpp */; };
 		7152410A1CF7F98400B59635 /* libncurses.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 715241091CF7F98400B59635 /* libncurses.tbd */; };
+		7152410E1CF886EC00B59635 /* JSON_loader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7152410D1CF886EC00B59635 /* JSON_loader.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -68,6 +69,8 @@
 		715240F11CF7BE4E00B59635 /* DungeonBuilder */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = DungeonBuilder; sourceTree = BUILT_PRODUCTS_DIR; };
 		715241071CF7F35D00B59635 /* lib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = lib.h; sourceTree = "<group>"; };
 		715241091CF7F98400B59635 /* libncurses.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libncurses.tbd; path = usr/lib/libncurses.tbd; sourceTree = SDKROOT; };
+		7152410D1CF886EC00B59635 /* JSON_loader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JSON_loader.cpp; sourceTree = "<group>"; };
+		7152410F1CF8870000B59635 /* JSON_loader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = JSON_loader.h; path = headers/JSON_loader.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +131,7 @@
 				715240E51CF7BDC100B59635 /* panel.h */,
 				715240E91CF7BDC100B59635 /* string_constants.h */,
 				715241071CF7F35D00B59635 /* lib.h */,
+				7152410F1CF8870000B59635 /* JSON_loader.h */,
 			);
 			name = Headers;
 			sourceTree = "<group>";
@@ -148,6 +152,7 @@
 				715240DA1CF7BDB900B59635 /* room_editor.cpp */,
 				715240DB1CF7BDB900B59635 /* text_editor.cpp */,
 				715240DC1CF7BDB900B59635 /* utils.cpp */,
+				7152410D1CF886EC00B59635 /* JSON_loader.cpp */,
 			);
 			name = Sources;
 			sourceTree = "<group>";
@@ -217,6 +222,7 @@
 				715240FD1CF7BE5600B59635 /* dungeon_engine.cpp in Sources */,
 				715240FA1CF7BE5600B59635 /* creature_editor.cpp in Sources */,
 				715240FF1CF7BE5600B59635 /* main_menu.cpp in Sources */,
+				7152410E1CF886EC00B59635 /* JSON_loader.cpp in Sources */,
 				715241041CF7BE5600B59635 /* text_editor.cpp in Sources */,
 				715241021CF7BE5600B59635 /* printutils.cpp in Sources */,
 				715241051CF7BE5600B59635 /* utils.cpp in Sources */,
