@@ -86,7 +86,7 @@ string ObjectEditor::edit(vector<string> args)
 	else if(editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
 	{
 		TextEditor ed;		
-		object->description = ed.edit("Editing Description For Object:"+object->getName(),object->description);
+		object->description = ed.edit("Editing Description For Object:"+object->getPrimaryName(),object->description);
 	}
 	else
 	{
@@ -184,7 +184,7 @@ void ObjectEditor::resetWindows()
 	lineCount++;
 	lineCount++;
 	setcolor(mainWindow,2,COLOR_WHITE);
-	string nameRow = STR_MENU_NAME + object->getName();
+	string nameRow = STR_MENU_NAME + join(0,object->getNames(),",");
 	mvwprintw(mainWindow,lineCount,0,nameRow.c_str());
 
 	lineCount++;
@@ -198,7 +198,7 @@ void ObjectEditor::resetWindows()
 	for(auto o : object->contents)
 	{
 		lineCount++;
-		string row = o->getName();
+		string row = o->getPrimaryName();
 		mvwprintw(mainWindow,lineCount,2,row.c_str());
 	}
 

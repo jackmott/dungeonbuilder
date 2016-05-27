@@ -15,7 +15,19 @@ vector<string> DungeonEntity::getNames() const
 	return names;
 }
 
-string DungeonEntity::getName() const
+void DungeonEntity::setPrimaryName(string name)
+{
+	if(names.size() > 0)
+	{
+		names[0] = name;
+	}
+	else
+	{
+		names.push_back(name);
+	}
+}
+
+string DungeonEntity::getPrimaryName() const
 {
 	if(names.size() > 0)
 	{
@@ -155,8 +167,8 @@ DungeonCreature::DungeonCreature()
 string DungeonCreature::attack(DungeonObject *weapon,DungeonPlayer *player)
 {
 	hitpoints = hitpoints - weapon->damage;
-	if(hitpoints <= 0) return "You have killed the "+getName()+"!";
-	return "You hit the " + getName();
+	if(hitpoints <= 0) return "You have killed the "+getPrimaryName()+"!";
+	return "You hit the " + getPrimaryName();
 }
 DungeonCreature::~DungeonCreature()
 {

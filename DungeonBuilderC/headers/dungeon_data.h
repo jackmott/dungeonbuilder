@@ -17,8 +17,9 @@ private:
 	
 public:
 	virtual void addName(string name);
+	virtual void setPrimaryName(string name);
 	virtual vector<string> getNames() const;
-	virtual string getName() const;
+	virtual string getPrimaryName() const;
 	virtual vector<string> getLcaseNames() const;
 	virtual string vectorStringToJSON(vector<string> *v) const;
 };

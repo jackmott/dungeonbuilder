@@ -3,7 +3,8 @@
 
 
 
-#define STR_MENU_NAME "[Set](Name):"
+#define STR_MENU_ROOM_NAME "[Set](Name):"
+#define STR_MENU_NAME "[Set/Add/Remove](Name):"
 #define STR_MENU_DESCRIPTION "[Set/Edit](Desc):"
 #define STR_MENU_OBJECT "[Create/Delete/Edit](Object):"
 #define STR_MENU_CREATURE "[Create/Delete/Edit](Creature):"

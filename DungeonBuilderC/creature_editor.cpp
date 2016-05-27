@@ -71,7 +71,7 @@ string CreatureEditor::edit(vector<string> args)
 	else if(editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
 	{
 		TextEditor ed;		
-		creature->description = ed.edit("Editing Description For Creature:"+creature->getName(),creature->description);
+		creature->description = ed.edit("Editing Description For Creature:"+creature->getPrimaryName(),creature->description);
 		clearWindows();
 		resetWindows();
 		return "";
@@ -111,7 +111,7 @@ void CreatureEditor::resetWindows()
 	setcolors(mainWindow,1,COLOR_RED,COLOR_BLACK);
 	mvwprintwCenterBold(mainWindow,1,"Creature Editor");
 	setcolor(mainWindow,2,COLOR_WHITE);
-	string nameRow = STR_MENU_NAME + creature->getName();
+	string nameRow = STR_MENU_NAME + join(0,creature->getNames(),",");
 	mvwprintw(mainWindow,3,0,nameRow.c_str());
 	string desc = creature->description.size() > 0 ? creature->description[0] + STR_ELLIPSES : "";
 	string descRow = STR_MENU_DESCRIPTION + desc;

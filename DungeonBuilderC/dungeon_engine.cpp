@@ -17,7 +17,7 @@ string DungeonEngine::drop(string args)
 	if(thing != nullptr) {
 		removeObject(&player->objects,thing);
 		room->objects.push_back(thing);
-		return "You drop the " + thing->getName() +".";
+		return "You drop the " + thing->getPrimaryName() +".";
 	}
 	else {
 		return "You don't have that.";
@@ -35,10 +35,11 @@ string DungeonEngine::examine(string args)
 	if(thing != nullptr && thing->description.size() == 0)
 	{
 		return "You see no further detail.";
-		
-	} else if (thing != nullptr)
-	{		
-		addToBuffer(&thing->description);		
+
+	}
+	else if(thing != nullptr)
+	{
+		addToBuffer(&thing->description);
 		return "";
 	}
 	else {
@@ -48,14 +49,15 @@ string DungeonEngine::examine(string args)
 			if(gal->description.size() == 0)
 			{
 				return "There is nothing more to see.";
-			} else {
+			}
+			else {
 				addToBuffer(&gal->description);
 				return "";
 			}
 		}
 		else
 		{
-            return "You don't see that here.";
+			return "You don't see that here.";
 		}
 	}
 
@@ -81,7 +83,7 @@ string DungeonEngine::put(string args)
 		containerObject = (DungeonObject*)extractEntity(&room->objects,&secondHalf);
 	}
 
-	if (containerObject != nullptr && containerObject->isOpen) 
+	if(containerObject != nullptr && containerObject->isOpen)
 	{
 		DungeonObject* putObject = (DungeonObject*)extractEntity(&player->objects,&firstHalf);
 		if(putObject == nullptr)
@@ -91,10 +93,10 @@ string DungeonEngine::put(string args)
 
 		if(putObject != nullptr)
 		{
-			removeObject(&room->objects, putObject);
-			removeObject(&player->objects, putObject);
+			removeObject(&room->objects,putObject);
+			removeObject(&player->objects,putObject);
 			containerObject->contents.push_back(putObject);
-			return "You put the "+ putObject->getName() + " in the " + containerObject->getName() + ".";
+			return "You put the "+ putObject->getPrimaryName() + " in the " + containerObject->getPrimaryName() + ".";
 		}
 		else
 		{
@@ -146,7 +148,7 @@ string DungeonEngine::take(string args)
 	if(takenObject != nullptr)
 	{
 		player->objects.push_back(takenObject);
-		return takenObject->getName() + " taken.";
+		return takenObject->getPrimaryName() + " taken.";
 	}
 	else
 	{
@@ -189,11 +191,11 @@ string DungeonEngine::open(string args)
 	if(thingToOpen != nullptr && thingToOpen->canOpen == true && thingToOpen->isOpen == false)
 	{
 		thingToOpen->isOpen = true;
-		textBuffer.push_back("You open the "+thingToOpen->getName()+", inside you see");
+		textBuffer.push_back("You open the "+thingToOpen->getPrimaryName()+", inside you see");
 		showContents(thingToOpen);
 		return "";
 	}
-	else if (thingToOpen != nullptr)
+	else if(thingToOpen != nullptr)
 	{
 		return "You can't open that";
 	}
@@ -210,7 +212,7 @@ string DungeonEngine::open(string args)
 		return "You try but fail.";
 	}
 
-	return "You don't see that here.";	
+	return "You don't see that here.";
 }
 
 void DungeonEngine::move(DungeonExit *dungeonExit)
@@ -218,13 +220,13 @@ void DungeonEngine::move(DungeonExit *dungeonExit)
 	//if this is not a logical door, of it is open, go!
 	if(! dungeonExit->isDoor || dungeonExit->isOpen)
 	{
-		room = dungeonExit->room;		
+		room = dungeonExit->room;
 		look();
 	}
 	else if(dungeonExit->isDoor && !dungeonExit->isOpen)
 	{
 		textBuffer.push_back(dungeonExit->closedText);
-	} 
+	}
 
 }
 
@@ -260,8 +262,8 @@ void DungeonEngine::resetWindows()
 	getmaxyx(stdscr,h,w); // this doesn't work in windows
 
 	init_pair(1,COLOR_BLACK,COLOR_RED);
-	wbkgd(headerWindow,COLOR_PAIR(1));	
-	
+	wbkgd(headerWindow,COLOR_PAIR(1));
+
 	look();
 
 	refresh();
@@ -278,22 +280,22 @@ void DungeonEngine::look()
 
 	for(auto creature : room->creatures)
 	{
-		textBuffer.push_back(thereIsA(creature->getName()));
+		textBuffer.push_back(thereIsA(creature->getPrimaryName()));
 	}
 
 	for(auto o : room->objects)
 	{
-		textBuffer.push_back(thereIsA(o->getName()));
+		textBuffer.push_back(thereIsA(o->getPrimaryName()));
 		if(o->isOpen && o->contents.size() > 0) {
-			textBuffer.push_back("Inside the "+ o->getName() + " you see ");
+			textBuffer.push_back("Inside the "+ o->getPrimaryName() + " you see ");
 			showContents(o);
 		}
 	}
 
 	for(auto exit : room->exits)
-	{		
+	{
 		addToBuffer(&exit->description);
-		if (exit->isDoor)
+		if(exit->isDoor)
 		{
 			if(exit->isOpen)
 			{
@@ -314,19 +316,19 @@ void DungeonEngine::showContents(DungeonObject* o)
 
 	for(auto content: o->contents)
 	{
-		textBuffer.push_back("  "+a_an(content->getName()));
+		textBuffer.push_back("  "+a_an(content->getPrimaryName()));
 	}
 
 }
 
-void DungeonEngine::render(unsigned long start, unsigned long end)
+void DungeonEngine::render(unsigned long start,unsigned long end)
 {
 	for(auto i = start; i < end; i++)
 	{
 		wprintw(mainWindow,(textBuffer[i]+"\n").c_str());
 		wrefresh(mainWindow);
 		renderPos++;
-        dbsleep(200);
+		dbsleep(200);
 	}
 }
 
@@ -339,7 +341,7 @@ void DungeonEngine::updateCmdMap()
 	cmdMap[STR_LOOK] = &DungeonEngine::lookCmd;
 	cmdMap[STR_OPEN] = &DungeonEngine::open;
 	cmdMap[STR_PUT] = &DungeonEngine::put;
-	cmdMap[STR_PLACE] = &DungeonEngine::put;	
+	cmdMap[STR_PLACE] = &DungeonEngine::put;
 	cmdMap[STR_EXAMINE] = &DungeonEngine::examine;
 	cmdMap[STR_DROP] = &DungeonEngine::drop;
 
@@ -372,9 +374,10 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 	//create a map of exit names to move to
 	for(auto e : room->exits)
 	{
-		string name = e->getName();
-		toLower(&name);
-		moveMap[name] = e;
+		for(auto s : e->getLcaseNames())
+		{
+			moveMap[s] = e;
+		}
 	}
 
 	resetWindows();
@@ -386,9 +389,9 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 		wmove(headerWindow,0,0);
 		wclrtoeol(headerWindow);
 		mvwprintw(headerWindow,0,0,"Dungeon Builder");
-		mvwprintwCenter(headerWindow,0,room->getName().c_str());
+		mvwprintwCenter(headerWindow,0,room->getPrimaryName().c_str());
 		wrefresh(headerWindow);
-		render(renderPos, textBuffer.size());
+		render(renderPos,textBuffer.size());
 		string userInput = cmdW.getCommandAsString(commandWindow,STR_PROMPT);
 		textBuffer.push_back(STR_PROMPT+userInput);
 
@@ -399,7 +402,7 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 			for(map<string,commandFunction>::iterator it = cmdMap.begin(); it != cmdMap.end(); ++it) {
 				verbs.push_back(it->first);
 			}
-			
+
 			string verb = extractPhrase(verbs,&userInput);
 
 			if(verb == "") {
@@ -407,7 +410,7 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 				for(map<string,DungeonExit*>::iterator it = moveMap.begin(); it != moveMap.end(); ++it) {
 					directions.push_back(it->first);
 				}
-			
+
 				string moveStr = extractPhrase(directions,&userInput);
 
 				if(moveStr == "") {
@@ -415,7 +418,7 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 				}
 				else
 				{
-					move(moveMap[moveStr]);					
+					move(moveMap[moveStr]);
 				}
 			}
 			else

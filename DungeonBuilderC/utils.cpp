@@ -120,7 +120,7 @@ void strlensort(vector<string> *v)
 struct entitycmp {
 	bool operator()(const DungeonEntity*first,const DungeonEntity* second)
 	{
-		return first->getName().size() > second->getName().size();
+		return first->getPrimaryName().size() > second->getPrimaryName().size();
 	}
 };
 
@@ -198,7 +198,7 @@ DungeonEntity* extractEntity(void * _entities ,string *userInput)
 	for(auto e : sortedEntities)
 	{
 		vector<string> lcaseNames = e->getLcaseNames();
-		strlensort(&lcaseNames);
+		//strlensort(&lcaseNames);
 		for (auto s : lcaseNames)
 		{
 			size_t pos = lcaseInput.find(s);

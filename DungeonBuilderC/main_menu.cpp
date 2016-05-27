@@ -35,10 +35,8 @@ void MainMenu::create(vector<string> args)
 	RoomEditor ed;
 	g_startRoom = new DungeonRoom();
 	g_roomList.push_back(g_startRoom);
-	g_startRoom->uid = getUID();
-	g_startRoom->getName() = "Default Name";
-	vector<string> defDesc;
-	defDesc.push_back("Default Description");
+	g_startRoom->uid = getUID();	;
+	vector<string> defDesc;	
 	g_startRoom->description = defDesc;
 	clearWindows();
 	ed.load(g_startRoom);

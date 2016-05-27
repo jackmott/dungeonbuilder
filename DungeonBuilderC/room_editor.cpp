@@ -68,7 +68,7 @@ string RoomEditor::edit(vector<string> args)
 	{
 		TextEditor ed;
 		clearWindows();		
-		room->description = ed.edit("Editing Description For Room:"+room->getName(),room->description);
+		room->description = ed.edit("Editing Description For Room:"+room->getPrimaryName(),room->description);
 		resetWindows();
 		return "";
 	}
@@ -161,7 +161,7 @@ void RoomEditor::resetWindows()
 	setcolors(mainWindow,1,COLOR_RED,COLOR_BLACK);
 	mvwprintwCenterBold(mainWindow,1,"Room Editor");
 	setcolor(mainWindow,2,COLOR_WHITE);
-	string nameRow = STR_MENU_NAME + room->getName();
+	string nameRow = STR_MENU_ROOM_NAME + room->getPrimaryName();
 	mvwprintw(mainWindow,lineCount,0,nameRow.c_str());
 
 	lineCount++;
@@ -175,7 +175,7 @@ void RoomEditor::resetWindows()
 	for(auto o : room->objects)
 	{
 		lineCount++;
-		string row = o->getName();
+		string row = o->getPrimaryName();
 		mvwprintw(mainWindow,lineCount,2,row.c_str());
 	}
 
@@ -184,7 +184,7 @@ void RoomEditor::resetWindows()
 	for(auto creature : room->creatures)
 	{
 		lineCount++;
-		string row = creature->getName();
+		string row = creature->getPrimaryName();
 		mvwprintw(mainWindow,lineCount,2,row.c_str());
 	}
 
@@ -193,7 +193,7 @@ void RoomEditor::resetWindows()
 	for(auto e : room->exits)
 	{
 		lineCount++;
-		string row = e->getName() + STR_ARROW + e->room->getName();
+		string row = e->getPrimaryName() + STR_ARROW + e->room->getPrimaryName();
 		mvwprintw(mainWindow,lineCount,2,row.c_str());
 	}
 
