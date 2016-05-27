@@ -43,9 +43,11 @@ DungeonRoom* JSONLoader::loadRoom( vector<DungeonRoom*> roomList)
 		if (currEntry[0] == "uid")
 			room->uid = atoi(currEntry[1].c_str());
 		else if (currEntry[0] == "name")
-			room->addName(currEntry[1]);
+			while( getJSONEntry() )
+				room->addName(currEntry[1]);
 		else if (currEntry[0] == "description")
-			room->description.push_back(currEntry[1]);
+			while( getJSONEntry() )
+				room->description.push_back(currEntry[1]);
 		else if (currEntry[0] == "objects")
 			while( getJSONEntry() )
 				room->objects.push_back(loadObject());
@@ -67,9 +69,11 @@ DungeonObject* JSONLoader::loadObject()
 	do
 	{
 		if (currEntry[0] == "name")
-			object->addName(currEntry[1]);
+			while( getJSONEntry() )
+				object->addName(currEntry[1]);
 		else if (currEntry[0] == "description")
-			object->description.push_back(currEntry[1]);
+			while( getJSONEntry() )
+				object->description.push_back(currEntry[1]);
 		else if (currEntry[0] == "damage")
 			object->damage = atoi(currEntry[1].c_str());
 		else if (currEntry[0] == "mass")
@@ -95,9 +99,11 @@ DungeonCreature* JSONLoader::loadCreature()
 	{
 
 		if (currEntry[0] == "name")
-			creature->addName(currEntry[1]);
+			while( getJSONEntry() )
+				creature->addName(currEntry[1]);
 		else if (currEntry[0] == "description")
-			creature->description.push_back(currEntry[1]);
+			while( getJSONEntry() )
+				creature->description.push_back(currEntry[1]);
 		else if (currEntry[0] == "hitpoints")
 			creature->hitpoints = atoi(currEntry[1].c_str());
 		else if (currEntry[0] == "alignment")
@@ -131,9 +137,11 @@ DungeonExit* JSONLoader::loadExit( vector<DungeonRoom*> roomList)
 		if (donePass)
 		{
 			if (currEntry[0] == "name")
-				exit->addName(currEntry[1]);
+				while( getJSONEntry() )
+					exit->addName(currEntry[1]);
 			else if (currEntry[0] == "description")
-				exit->description.push_back(currEntry[1]);
+				while( getJSONEntry() )
+					exit->description.push_back(currEntry[1]);
 			else if (currEntry[0] == "links")
 				exit->room = roomList[atoi(currEntry[1].c_str())];
 		}
