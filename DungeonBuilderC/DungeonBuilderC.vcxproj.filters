@@ -33,6 +33,7 @@
     <ClInclude Include="headers\JSON_loader.h" />
     <ClInclude Include="headers\dungeon_engine.h" />
     <ClInclude Include="headers\pdcurses.h" />
+    <ClInclude Include="headers\lib.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\pdcurses.lib" />

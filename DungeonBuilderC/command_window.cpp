@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <sstream>
 #include "utils.h"
+#include "printutils.h"
 
 using namespace std;
 
@@ -63,7 +64,7 @@ bool CommandWindow::handleInput(int c) {
 		input = "exit";
 		return true;
 	default:
-		if(input.size() < (unsigned int)(COLS -2))
+		if(input.size() < (unsigned int)(getCols() -2))
 		{
 			input.push_back((char)c);
 			x++;

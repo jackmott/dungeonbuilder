@@ -23,8 +23,8 @@ vector<string> TextEditor::edit(string _header,vector<string> startText)
 	x = 0;
 	y = 0;
 	appendLine("");
-	headerWindow = newwin(1,COLS,0,0);
-	mainWindow = newwin(LINES-1,COLS,1,0);
+	headerWindow = newwin(1,getCols(),0,0);
+	mainWindow = newwin(LINES-1,getCols(),1,0);
 	scrollok(mainWindow,true);
 	keypad(mainWindow,true);   //turns on arrows and f keys
 	w = getmaxx(stdscr); // this doesn't work in windows
@@ -118,8 +118,7 @@ void TextEditor::handleInput(int c) {
 		moveRight();
 		break;
 	case KEY_UP:
-		//moveUp();
-		scroll(mainWindow);
+		moveUp();		
 		break;
 	case KEY_DOWN:
 		moveDown();
@@ -191,12 +190,12 @@ void TextEditor::handleInput(int c) {
 		break;
 	default:
 		// Any other character insert
-		if(x < (unsigned int)COLS) {
+		if(x < (unsigned int)getCols()) {
 			lines[y].insert(x,1,char(c));
 			x++;
 		}
 		else {
-			//nope
+			
 		}
 		break;
 	}

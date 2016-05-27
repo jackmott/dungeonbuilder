@@ -14,5 +14,7 @@ void mvwprintwCenterBold (WINDOW * window,int row, string text);
 void mvwprintwBold (WINDOW * window,int row,int col, string text);
 void setcolor (WINDOW* window, int group, int fore);
 void setcolors(WINDOW* window, int group, int fore,int back);
+unsigned int getCols();
+unsigned int getRows();
 
 #endif

@@ -36,6 +36,7 @@
     <ClInclude Include="headers\exit_editor.h" />
     <ClInclude Include="headers\dungeon_display.h" />
     <ClInclude Include="headers\JSON_loader.h" />
+    <ClInclude Include="headers\lib.h" />
     <ClInclude Include="headers\main_menu.h" />
     <ClCompile Include="command_window.cpp" />
     <ClCompile Include="printutils.cpp" />
