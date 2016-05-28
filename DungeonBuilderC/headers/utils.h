@@ -24,6 +24,7 @@ DungeonEntity* extractEntity(void* _entities ,string *userInput);
 void removeObject(vector<DungeonObject*> *objects,DungeonObject *object);
 void removeCreature(vector<DungeonCreature*> *creatures,DungeonCreature *creature);
 void removeExit(vector<DungeonExit*> *exits,DungeonExit *e);
+bool removeStr(vector<string> *strs,string str);
 void strlensort(vector<string>* v);
 void entitysort(vector<DungeonEntity*> *v);
 string extractPhrase(vector<string> phrasesToFind, string *userInput);

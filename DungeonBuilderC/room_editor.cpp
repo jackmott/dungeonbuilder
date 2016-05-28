@@ -151,12 +151,8 @@ string RoomEditor::del(vector<string> args)
 	string delNoun = args[1];
 	toLower(&delNoun);
 
-	if(delNoun == STR_NAME)
-	{
-		//del name
-		return "DELETE NOT IMPLEMENTED YET";
-	}	
-	else if(delNoun == STR_OBJECT)
+	
+	if(delNoun == STR_OBJECT)
 	{
 		if(args.size() <3)
 		{
