@@ -151,6 +151,20 @@ string thereIsA(string thing)
 }
 
 
+void removeExit(vector<DungeonExit*> *exits,DungeonExit *ext)
+{
+	int i = 0;
+	for(auto e : *exits)
+	{
+		if(e == ext)
+		{
+			exits->erase(exits->begin()+i);
+			return;
+		}
+		i++;
+	}
+
+}
 
 void removeObject(vector<DungeonObject*> *objects,DungeonObject *object)
 {

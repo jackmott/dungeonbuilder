@@ -28,6 +28,7 @@ struct RoomEditor
 	void load(DungeonRoom *_room);
 
 	string edit(vector<string> args);
+	string del(vector<string> args);
 	string set(vector<string> args);
 	string exit(vector<string> args);
 	string add(vector<string> args);

@@ -72,9 +72,159 @@ string RoomEditor::edit(vector<string> args)
 		resetWindows();
 		return "";
 	}
+	else if(editNoun == STR_OBJECT)
+	{
+		if(args.size() <3)
+		{
+			return "Which object do you want to edit?";
+		}
+		string objStr = join(2,args," ");
+		DungeonObject *o = (DungeonObject*)extractEntity(&room->objects,&objStr);
+		if(o != nullptr)
+		{
+			ObjectEditor ed;
+			clearWindows();
+			ed.load(o);
+			resetWindows();
+			return "";
+		}
+		else
+		{
+			return "I don't see that here.";
+		}
+	}
+	else if(editNoun == STR_CREATURE)
+	{
+		if(args.size() <3)
+		{
+			return "Which creature do you want to edit?";
+		}
+		string creatureStr = join(2,args," ");
+		DungeonCreature *c = (DungeonCreature*)extractEntity(&room->creatures,&creatureStr);
+		if(c != nullptr)
+		{
+			CreatureEditor ed;
+			clearWindows();
+			ed.load(c);
+			resetWindows();
+			return "";
+		}
+		else
+		{
+			return "I don't see that here.";
+		}
+	}
+	else if(editNoun == STR_EXIT)
+	{
+		if(args.size() <3)
+		{
+			return "Which exit do you want to edit?";
+		}
+		string exitStr = join(2,args," ");
+		DungeonExit *e = (DungeonExit*)extractEntity(&room->exits,&exitStr);
+		if(e != nullptr)
+		{
+			ExitEditor ed;
+			clearWindows();
+			ed.load(e,room);
+			resetWindows();
+			return "";
+		}
+		else
+		{
+			return "I don't see that here.";
+		}
+	}
 	else
 	{
 		return "I don't know how to edit that";
+	}
+
+}
+
+string RoomEditor::del(vector<string> args)
+{
+	if(args.size() < 2)
+	{
+		return "What do you want to edit?";
+	}
+	string delNoun = args[1];
+	toLower(&delNoun);
+
+	if(delNoun == STR_NAME)
+	{
+		//del name
+		return "DELETE NOT IMPLEMENTED YET";
+	}	
+	else if(delNoun == STR_OBJECT)
+	{
+		if(args.size() <3)
+		{
+			return "Which object do you want to delete?";
+		}
+		string objStr = join(2,args," ");
+		DungeonObject *o = (DungeonObject*)extractEntity(&room->objects,&objStr);		
+		if(o != nullptr)
+		{
+			removeObject(&room->objects,o);		
+			delete o;
+			resetWindows();
+			return "";
+		}
+		else
+		{
+			return "I don't see that here.";
+		}
+	}
+	else if(delNoun == STR_CREATURE)
+	{
+		if(args.size() <3)
+		{
+			return "Which creature do you want to delete?";
+		}
+		string creatureStr = join(2,args," ");
+		DungeonCreature *c = (DungeonCreature*)extractEntity(&room->creatures,&creatureStr);
+		if(c != nullptr)
+		{
+			removeCreature(&room->creatures,c);
+			delete c;
+			resetWindows();
+			return "";
+		}
+		else
+		{
+			return "I don't see that here.";
+		}
+	}
+	else if(delNoun == STR_EXIT)
+	{
+		if(args.size() <3)
+		{
+			return "Which exit do you want to delete?";
+		}
+		string exitStr = join(2,args," ");
+		DungeonExit *e = (DungeonExit*)extractEntity(&room->exits,&exitStr);
+		if(e != nullptr)
+		{
+			if(e->room == nullptr)
+			{
+				removeExit(&room->exits,e);
+				delete e;
+				resetWindows();
+				return "";
+			} else {
+				return "Can't delete exit till you delete it's room";
+			}
+			
+		}
+		else
+		{
+			return "I don't see that here.";
+		}
+	}
+	else
+	{
+		return "I don't know how to delete that";
 	}
 
 }
@@ -211,6 +361,7 @@ void RoomEditor::load(DungeonRoom *_room)
 	cmdMap[STR_SET] = &RoomEditor::set;
 	cmdMap[STR_EXIT] = &RoomEditor::exit;
 	cmdMap[STR_ADD] = &RoomEditor::add;
+	cmdMap[STR_DELETE] = &RoomEditor::del;
 
 	resetWindows();
 

@@ -23,6 +23,7 @@ string thereIsA(string thing);
 DungeonEntity* extractEntity(void* _entities ,string *userInput);
 void removeObject(vector<DungeonObject*> *objects,DungeonObject *object);
 void removeCreature(vector<DungeonCreature*> *creatures,DungeonCreature *creature);
+void removeExit(vector<DungeonExit*> *exits,DungeonExit *e);
 void strlensort(vector<string>* v);
 void entitysort(vector<DungeonEntity*> *v);
 string extractPhrase(vector<string> phrasesToFind, string *userInput);
