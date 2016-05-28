@@ -359,8 +359,9 @@ void DungeonEngine::look()
 void DungeonEngine::render(unsigned long offset)
 {
 	wclear(mainWindow);	
-	
-
+	//todo implement for real
+	int start = 0;
+	int end = textBuffer.size();
 	for(auto i = start; i < end; i++)
 	{
 		string entry = textBuffer[i];
