@@ -13,13 +13,13 @@ string DungeonEngine::exit(string args)
 
 string DungeonEngine::pageUp(string args)
 {
-	renderPos = max(0,renderPos - 25);
+	renderOffset = min(renderOffset+25,textBuffer.size());
 	return "";
 }
 
 string DungeonEngine::pageDown(string args)
 {
-	renderPos = min(renderPos+25,textBuffer.size());
+	renderOffset = max(0,renderOffset - 25);	
 	return "";
 }
 
@@ -356,8 +356,11 @@ void DungeonEngine::look()
 
 
 
-void DungeonEngine::render(unsigned long start,unsigned long end)
+void DungeonEngine::render(unsigned long offset)
 {
+	wclear(mainWindow);	
+	
+
 	for(auto i = start; i < end; i++)
 	{
 		string entry = textBuffer[i];
@@ -374,16 +377,17 @@ void DungeonEngine::render(unsigned long start,unsigned long end)
 			}
 			else {
 				wprintw(mainWindow,"\n");
-				renderPos++;
+	
 				wprintw(mainWindow,s.c_str());
 				x = s.length();
 			}
 		}
 		wprintw(mainWindow,"\n");
-		renderPos++;
-		wrefresh(mainWindow);
-		dbsleep(200);
+	
+		
+		//dbsleep(200);
 	}
+	wrefresh(mainWindow);
 }
 
 void DungeonEngine::updateCmdMap()
@@ -425,7 +429,8 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 {
 	player = _player;
 	room = _room;
-	renderPos = 0;
+	renderOffset = 0;
+	pageSize = LINES - 3;
 
 	//create a map of exit names to move to
 	for(auto e : room->exits)
@@ -439,7 +444,7 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 	resetWindows();
 
 	CommandWindow cmdW;
-
+	
 	while(true) {
 		updateCmdMap();
 		wmove(headerWindow,0,0);
@@ -447,7 +452,7 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 		mvwprintw(headerWindow,0,0,"Dungeon Builder");
 		mvwprintwCenter(headerWindow,0,room->getPrimaryName().c_str());
 		wrefresh(headerWindow);
-		render(renderPos,textBuffer.size());
+		render(renderOffset);
 		string userInput = cmdW.getCommandAsString(commandWindow,STR_PROMPT);
 		textBuffer.push_back(STR_PROMPT+userInput);
 

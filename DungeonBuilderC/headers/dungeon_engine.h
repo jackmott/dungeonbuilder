@@ -29,13 +29,15 @@ struct DungeonEngine
 
 	int w,h;
 	
-	unsigned long renderPos;
+	unsigned long renderOffset;
+	unsigned long pageSize;
+
 	void updateCmdMap();
 	void look();
 	void clearWindows();
 	void resetWindows();
 	void load(DungeonRoom *_room, DungeonPlayer *_player);
-	void render(unsigned long start, unsigned long end);
+	void render(unsigned long offset);
 	string showContents(DungeonObject * o);
 	void addToBuffer(vector<string> *v);
 	
