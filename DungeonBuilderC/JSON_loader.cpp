@@ -46,7 +46,7 @@ DungeonRoom* JSONLoader::loadRoom( vector<DungeonRoom*> roomList)
 			while( getJSONEntry() )
 				room->addName(currEntry[1]);
 		else if (currEntry[0] == "description")
-			while( getJSONEntry() )
+			while( getJSONEntry(true) )
 				room->description.push_back(currEntry[1]);
 		else if (currEntry[0] == "objects")
 			while( getJSONEntry() )
@@ -72,7 +72,7 @@ DungeonObject* JSONLoader::loadObject()
 			while( getJSONEntry() )
 				object->addName(currEntry[1]);
 		else if (currEntry[0] == "description")
-			while( getJSONEntry() )
+			while( getJSONEntry(true) )
 				object->description.push_back(currEntry[1]);
 		else if (currEntry[0] == "damage")
 			object->damage = atoi(currEntry[1].c_str());
@@ -102,7 +102,7 @@ DungeonCreature* JSONLoader::loadCreature()
 			while( getJSONEntry() )
 				creature->addName(currEntry[1]);
 		else if (currEntry[0] == "description")
-			while( getJSONEntry() )
+			while( getJSONEntry(true) )
 				creature->description.push_back(currEntry[1]);
 		else if (currEntry[0] == "hitpoints")
 			creature->hitpoints = atoi(currEntry[1].c_str());
@@ -185,17 +185,21 @@ void JSONLoader::split(string entryString)
  @param ch     char&     - charachter which stores current char in file
  @return  bool  returns true if there was an entry before end of current brackets
  */
-bool JSONLoader::getJSONEntry() 
+bool JSONLoader::getJSONEntry(bool single)
 {	
 	string curr;
 	if (ch == '}' || ch == ']')
 		fin >> ch;
-	while (ch != '\"' && (ch != '}' && ch != ']'))
-		fin >> ch;
+	if (!single)
+		while (ch != '\"' && (ch != '}' && ch != ']'))
+			fin >> ch;
+	else
+		while ((ch != '\"' || !isdigit(ch)) && (ch != '}' && ch != ']'))
+			fin >> ch;
 	curr.push_back(ch);
 
 	char prev = ch;
-	if (ch != '}' && ch != ']')
+	if (!single && ch != '}' && ch != ']')
 	{
 		bool inQuote = true;
 		while (inQuote || (ch != ',' && ch != '}' && ch != '['))
@@ -210,6 +214,18 @@ bool JSONLoader::getJSONEntry()
 		}
 		currEntry[0] = currEntry[1] = "";
 		split(curr);
+		return true;
+	}
+	else if (single && ch != '}' && ch != ']')
+	{
+		while (ch != ',' && ch != '}' && ch != '[')
+		{
+			fin >> noskipws >> ch;
+			if (ch != '}')
+				curr.push_back(ch);
+		}
+		currEntry[0] = currEntry[1] = "";
+		currEntry[1] = curr;
 		return true;
 	}
 

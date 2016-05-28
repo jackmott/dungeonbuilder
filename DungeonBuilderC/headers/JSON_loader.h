@@ -23,7 +23,7 @@ struct JSONLoader {
 
 	void getExits(vector<DungeonRoom*> roomList);
 	DungeonExit* loadExit( vector<DungeonRoom*> roomList);
-	bool getJSONEntry();
+	bool getJSONEntry(bool=false);
 	
 	void split(string);
 };
