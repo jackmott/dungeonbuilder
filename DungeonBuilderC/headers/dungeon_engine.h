@@ -29,8 +29,8 @@ struct DungeonEngine
 
 	int w,h;
 	
-	unsigned long renderOffset;
-	unsigned long pageSize;
+	int renderOffset;
+	int pageSize;
 
 	void updateCmdMap();
 	void look();

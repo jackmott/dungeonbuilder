@@ -13,13 +13,13 @@ string DungeonEngine::exit(string args)
 
 string DungeonEngine::pageUp(string args)
 {
-	renderOffset = min(renderOffset+25,textBuffer.size());
+	renderOffset = min(renderOffset+pageSize,textBuffer.size()-pageSize);
 	return "";
 }
 
 string DungeonEngine::pageDown(string args)
 {
-	renderOffset = max(0,renderOffset - 25);	
+	renderOffset = max(0,renderOffset - pageSize);	
 	return "";
 }
 
@@ -359,9 +359,13 @@ void DungeonEngine::look()
 void DungeonEngine::render(unsigned long offset)
 {
 	wclear(mainWindow);	
-	//todo implement for real
-	int start = 0;
-	int end = textBuffer.size();
+	
+	
+	int bufferSize = (int)textBuffer.size();
+	int end = max(0,bufferSize - offset);
+	int start = max(0,end-LINES);
+
+
 	for(auto i = start; i < end; i++)
 	{
 		string entry = textBuffer[i];
@@ -431,7 +435,7 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 	player = _player;
 	room = _room;
 	renderOffset = 0;
-	pageSize = LINES - 3;
+	pageSize = LINES - 5;
 
 	//create a map of exit names to move to
 	for(auto e : room->exits)
@@ -455,7 +459,11 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 		wrefresh(headerWindow);
 		render(renderOffset);
 		string userInput = cmdW.getCommandAsString(commandWindow,STR_PROMPT);
-		textBuffer.push_back(STR_PROMPT+userInput);
+
+		if (userInput != STR_PAGE_DOWN && userInput != STR_PAGE_UP)
+		{
+			textBuffer.push_back(STR_PROMPT+userInput);
+		}
 
 		if(userInput.length() > 0) {
 

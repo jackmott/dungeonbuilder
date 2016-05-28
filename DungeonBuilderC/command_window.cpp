@@ -32,8 +32,7 @@ string CommandWindow::getCommandAsString(WINDOW* _window,string _prompt) {
 }
 
 vector<string> CommandWindow::getCommand(WINDOW* _window,string _prompt) {
-	string input = getCommandAsString(_window,_prompt);
-	commandBuffer.push_back(input);
+	string input = getCommandAsString(_window,_prompt);	
 	vector<string> result = split(input,' ');
 	return result;
 }
