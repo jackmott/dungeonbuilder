@@ -69,6 +69,33 @@ string ExitEditor::set(vector<string> args)
 	return "";
 }
 
+string ExitEditor::del(vector<string> args)
+{
+	if(args.size() < 2)
+	{
+		return "What do you want to delete?";
+	}
+	string delNoun = args[1];
+	toLower(&delNoun);
+
+	if(delNoun == STR_NAME)
+	{
+		if(args.size() < 3)
+		{
+			return "Provide a name to delete.";
+		}
+		string name = join(2,args," ");
+		if(!dungeonExit->removeName(name)) {
+			return "You can't.";
+		}
+
+	}
+	clearWindows();
+	resetWindows();
+	return "";
+}
+
+
 string ExitEditor::add(vector<string> args)
 {
 	if(args.size() < 2)
@@ -209,6 +236,7 @@ DungeonRoom* ExitEditor::load(DungeonExit *_dungeonExit, DungeonRoom *_fromRoom)
 	cmdMap[STR_EXIT] = &ExitEditor::exit;	
 	cmdMap[STR_SET] = &ExitEditor::set;
 	cmdMap[STR_ADD] = &ExitEditor::add;
+	cmdMap[STR_DELETE] = &ExitEditor::del;
 
 	resetWindows();
 

@@ -18,10 +18,11 @@ private:
 public:
 	virtual void addName(string name);
 	virtual void setPrimaryName(string name);
-	virtual vector<string> getNames() const;
 	virtual string getPrimaryName() const;
-	virtual vector<string> getLcaseNames() const;
+	virtual vector<string> getNames() const;	
+	virtual vector<string> getLcaseNames() const;	
 	virtual string vectorStringToJSON(vector<string> *v) const;
+	bool removeName(string name);
 };
 
 struct DungeonRoom : DungeonEntity

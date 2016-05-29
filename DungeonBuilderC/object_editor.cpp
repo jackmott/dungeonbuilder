@@ -17,6 +17,67 @@ string ObjectEditor::exit(vector<string> args)
 	return STR_EXIT;
 }
 
+string ObjectEditor::del(vector<string> args)
+{
+	if(args.size() < 2)
+	{
+		return "What do you want to delete?";
+	}
+	string delNoun = args[1];
+	toLower(&delNoun);
+
+	if(delNoun == STR_USE_ALIAS) {
+
+		//TODO - check if use alias is already used for summin else
+		if(args.size() < 3)
+		{
+			return "Provide an alias to delete.";
+		}
+		string alias = join(2,args," ");		
+		string r = extractPhrase(object->useAliases,&alias);
+		if(!removeStr(&object->useAliases,r))
+		{
+			return "That doesn't seem to exit.";
+		}
+		
+	}
+	else if(delNoun == STR_NAME)
+	{
+		if(args.size() < 3)
+		{
+			return "Provide a name to delete.";
+		}
+		string name = join(2,args," ");				
+		if(!object->removeName(name)) {
+			return "You can't.";
+		}				
+	}
+	else if(delNoun == STR_OBJECT)
+	{
+		if(args.size() <3)
+		{
+			return "Which object do you want to delete?";
+		}
+		string objStr = join(2,args," ");
+		DungeonObject *o = (DungeonObject*)extractEntity(&object->contents,&objStr);
+		if(o != nullptr)
+		{
+			removeObject(&object->contents,o);
+			delete o;		
+		}
+		else
+		{
+			return "I don't see that here.";
+		}
+	}
+
+	else
+	{
+		return "I don't know how to add that.";
+	}	
+	resetWindows();
+	return "";
+}
 
 string ObjectEditor::set(vector<string> args)
 {
@@ -25,7 +86,7 @@ string ObjectEditor::set(vector<string> args)
 		return "What do you want to set?";
 	}
 	if(args.size() < 3) {
-		return "Please supply the value directly in the command";
+		return "Please supply the value directly in the command.";
 	}
 	string editNoun = args[1];
 	toLower(&editNoun);
@@ -48,22 +109,21 @@ string ObjectEditor::set(vector<string> args)
 		object->damage = dmg;
 	}
 	else if(editNoun == STR_TAKEABLE)
-	{				
-		object->canTake = isAffirmative(args[2]);		
+	{
+		object->canTake = isAffirmative(args[2]);
 	}
 	else if(editNoun == STR_OPENABLE)
 	{
-			object->canOpen = isAffirmative(args[2]);		
+		object->canOpen = isAffirmative(args[2]);
 	}
 	else if(editNoun == STR_OPEN)
 	{
-			object->isOpen = isAffirmative(args[2]);		
+		object->isOpen = isAffirmative(args[2]);
 	}
 	else {
-		return "I don't know how to set that";
+		return "I don't know how to set that.";
 	}
-
-	clearWindows();
+	
 	resetWindows();
 	return "";
 }
@@ -85,12 +145,30 @@ string ObjectEditor::edit(vector<string> args)
 	}
 	else if(editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
 	{
-		TextEditor ed;		
+		TextEditor ed;
 		object->description = ed.edit("Editing Description For Object:"+object->getPrimaryName(),object->description);
+	}
+	else if(editNoun == STR_OBJECT)
+	{
+		if(args.size() <3)
+		{
+			return "Which object do you want to edit?";
+		}
+		string objStr = join(2,args," ");
+		DungeonObject *o = (DungeonObject*)extractEntity(&object->contents,&objStr);
+		if(o != nullptr)
+		{
+			ObjectEditor ed;			
+			ed.load(o);			
+		}
+		else
+		{
+			return "I don't see that here.";
+		}
 	}
 	else
 	{
-		return "I don't know how to edit that";
+		return "I don't know how to edit that.";
 	}
 	clearWindows();
 	resetWindows();
@@ -113,8 +191,8 @@ string ObjectEditor::add(vector<string> args)
 		{
 			return "Provide a string to alias the verb 'use'.";
 		}
-		string alias = args[2];
-		object->useAliases.push_back(alias);				
+		string alias = join(2,args," ");
+		object->useAliases.push_back(alias);
 	}
 	else if(addNoun == STR_NAME)
 	{
@@ -123,18 +201,15 @@ string ObjectEditor::add(vector<string> args)
 			return "Provide a name to add please.";
 		}
 		string name = join(2,args," ");
-		object->addName(name);		
-	}	
+		object->addName(name);
+	}
 	else if(addNoun == STR_OBJECT)
 	{
 		ObjectEditor oe;
 		DungeonObject* o = new DungeonObject();
-		o->addName(join(2,args," ")); 
-		clearWindows();
+		o->addName(join(2,args," "));		
 		oe.load(o);
-		object->contents.push_back(o);
-		resetWindows();
-		return "";
+		object->contents.push_back(o);				
 	}
 	else
 	{
@@ -182,7 +257,7 @@ void ObjectEditor::resetWindows()
 	string descRow = STR_MENU_DESCRIPTION + desc;
 	mvwprintw(mainWindow,lineCount,0,descRow.c_str());
 
-	
+
 	lineCount++;
 	mvwprintw(mainWindow,lineCount,0,STR_MENU_OBJECT);
 	for(auto o : object->contents)
@@ -192,7 +267,7 @@ void ObjectEditor::resetWindows()
 		mvwprintw(mainWindow,lineCount,2,row.c_str());
 	}
 
-	
+
 	lineCount++;
 	string aliasRow = STR_MENU_USE_ALIAS;
 	aliasRow += join(0,object->useAliases,STR_JOINER);
@@ -227,9 +302,10 @@ void ObjectEditor::load(DungeonObject *_object)
 {
 	object = _object;
 	cmdMap[STR_EDIT] = &ObjectEditor::edit;
-	cmdMap[STR_EXIT] = &ObjectEditor::exit;	
+	cmdMap[STR_EXIT] = &ObjectEditor::exit;
 	cmdMap[STR_ADD] = &ObjectEditor::add;
 	cmdMap[STR_SET] = &ObjectEditor::set;
+	cmdMap[STR_DELETE] = &ObjectEditor::del;
 	resetWindows();
 
 	CommandWindow cmdW;

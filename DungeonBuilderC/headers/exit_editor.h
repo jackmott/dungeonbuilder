@@ -30,6 +30,7 @@ struct ExitEditor
 
 	string set(vector<string> args);
 	string add(vector<string> args);
+	string del(vector<string> args);
 	string edit(vector<string> args);
 	string exit(vector<string> args);	
 };

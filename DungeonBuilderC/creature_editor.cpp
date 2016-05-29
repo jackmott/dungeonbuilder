@@ -43,10 +43,36 @@ string CreatureEditor::set(vector<string> args)
 	{
 		string hitstring = args[2];
 		int hitpoints = stoi(hitstring,nullptr,10);
-		creature->hitpoints = hitpoints;		
+		creature->hitpoints = hitpoints;
 	}
 	else {
 		return "I don't know how to set that";
+	}
+	clearWindows();
+	resetWindows();
+	return "";
+}
+
+string CreatureEditor::del(vector<string> args)
+{
+	if(args.size() < 2)
+	{
+		return "What do you want to delete?";
+	}
+	string delNoun = args[1];
+	toLower(&delNoun);
+
+	if(delNoun == STR_NAME)
+	{
+		if(args.size() < 3)
+		{
+			return "Provide a name to delete.";
+		}
+		string name = join(2,args," ");
+		if(!creature->removeName(name)) {
+			return "You can't.";
+		}
+
 	}
 	clearWindows();
 	resetWindows();
@@ -69,8 +95,8 @@ string CreatureEditor::add(vector<string> args)
 			return "Provide a name to add please.";
 		}
 		string name = join(2,args," ");
-		creature->addName(name);		
-	}	
+		creature->addName(name);
+	}
 	else
 	{
 		return "I don't know how to add that";
@@ -97,7 +123,7 @@ string CreatureEditor::edit(vector<string> args)
 	}
 	else if(editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
 	{
-		TextEditor ed;		
+		TextEditor ed;
 		creature->description = ed.edit("Editing Description For Creature:"+creature->getPrimaryName(),creature->description);
 		clearWindows();
 		resetWindows();
@@ -106,7 +132,7 @@ string CreatureEditor::edit(vector<string> args)
 	else
 	{
 		return "I don't know how to edit that";
-    }
+	}
 }
 
 
@@ -152,7 +178,8 @@ void CreatureEditor::load(DungeonCreature *_creature)
 	cmdMap[STR_EDIT] = &CreatureEditor::edit;
 	cmdMap[STR_EXIT] = &CreatureEditor::exit;
 	cmdMap[STR_ADD] = &CreatureEditor::add;
-	cmdMap[STR_SET] = &CreatureEditor::set;	
+	cmdMap[STR_SET] = &CreatureEditor::set;
+	cmdMap[STR_DELETE] = &CreatureEditor::del;
 	resetWindows();
 
 	CommandWindow cmdW;

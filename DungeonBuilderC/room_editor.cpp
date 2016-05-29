@@ -67,10 +67,7 @@ string RoomEditor::edit(vector<string> args)
 	else if(editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
 	{
 		TextEditor ed;
-		clearWindows();		
-		room->description = ed.edit("Editing Description For Room:"+room->getPrimaryName(),room->description);
-		resetWindows();
-		return "";
+		room->description = ed.edit("Editing Description For Room:"+room->getPrimaryName(),room->description);				
 	}
 	else if(editNoun == STR_OBJECT)
 	{
@@ -82,11 +79,8 @@ string RoomEditor::edit(vector<string> args)
 		DungeonObject *o = (DungeonObject*)extractEntity(&room->objects,&objStr);
 		if(o != nullptr)
 		{
-			ObjectEditor ed;
-			clearWindows();
-			ed.load(o);
-			resetWindows();
-			return "";
+			ObjectEditor ed;			
+			ed.load(o);			
 		}
 		else
 		{
@@ -103,11 +97,8 @@ string RoomEditor::edit(vector<string> args)
 		DungeonCreature *c = (DungeonCreature*)extractEntity(&room->creatures,&creatureStr);
 		if(c != nullptr)
 		{
-			CreatureEditor ed;
-			clearWindows();
-			ed.load(c);
-			resetWindows();
-			return "";
+			CreatureEditor ed;			
+			ed.load(c);			
 		}
 		else
 		{
@@ -124,11 +115,8 @@ string RoomEditor::edit(vector<string> args)
 		DungeonExit *e = (DungeonExit*)extractEntity(&room->exits,&exitStr);
 		if(e != nullptr)
 		{
-			ExitEditor ed;
-			clearWindows();
-			ed.load(e,room);
-			resetWindows();
-			return "";
+			ExitEditor ed;			
+			ed.load(e,room);			
 		}
 		else
 		{
@@ -139,7 +127,9 @@ string RoomEditor::edit(vector<string> args)
 	{
 		return "I don't know how to edit that";
 	}
-
+	clearWindows();
+	resetWindows();
+	return "";
 }
 
 string RoomEditor::del(vector<string> args)

@@ -10,10 +10,32 @@ void DungeonEntity::addName(string name)
 	names.push_back(name);
 }
 
+bool DungeonEntity::removeName(string name)
+{
+	if(names.size() > 1) {
+		string r = extractPhrase(names,&name);
+		return removeStr(&names,r);
+	}
+	else {
+		return false;
+	}
+}
+
 vector<string> DungeonEntity::getNames() const
 {
 	return names;
 }
+
+vector<string> DungeonEntity::getLcaseNames() const
+{
+	vector<string> lcasenames;
+	for(auto s : names)
+	{
+		lcasenames.push_back(toLower(s));
+	}
+	return lcasenames;
+}
+
 
 void DungeonEntity::setPrimaryName(string name)
 {
@@ -38,15 +60,6 @@ string DungeonEntity::getPrimaryName() const
 	}
 }
 
-vector<string> DungeonEntity::getLcaseNames() const
-{
-	vector<string> lcasenames;
-	for(auto s : names)
-	{
-		lcasenames.push_back(toLower(s));
-	}
-	return lcasenames;
-}
 
 string DungeonEntity::vectorStringToJSON(vector<string> *v) const
 {
@@ -106,7 +119,7 @@ string DungeonRoom::toJSON()
 DungeonExit::DungeonExit()
 {
 	isDoor = false;
-	isOpen = true; 	
+	isOpen = true;
 	distance = 1;
 }
 
@@ -119,7 +132,7 @@ string DungeonExit::toJSON()
 {
 	ostringstream sout;
 
-	sout << "\"name\":" << vectorStringToJSON(&getNames()) 
+	sout << "\"name\":" << vectorStringToJSON(&getNames())
 		<< ", \"links\":" << room->uid;
 
 	return sout.str();
