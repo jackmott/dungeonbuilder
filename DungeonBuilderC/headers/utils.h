@@ -21,6 +21,8 @@ string a_an (string s);
 bool isAffirmative(string s);
 string thereIsA(string thing);
 DungeonEntity* extractEntity(void* _entities ,string *userInput);
+DungeonObject* extractObject(vector<DungeonObject*> * objects,string *userInput);
+DungeonObject* extractAndRemoveObject(vector<DungeonObject*> * objects,string *userInput);
 void removeObject(vector<DungeonObject*> *objects,DungeonObject *object);
 void removeCreature(vector<DungeonCreature*> *creatures,DungeonCreature *creature);
 void removeExit(vector<DungeonExit*> *exits,DungeonExit *e);

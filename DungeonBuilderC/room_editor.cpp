@@ -20,6 +20,7 @@ string RoomEditor::exit(vector<string> args)
 	return STR_EXIT;
 }
 
+
 string RoomEditor::set(vector<string> args)
 {
 	if(args.size() < 2)
@@ -348,6 +349,7 @@ void RoomEditor::load(DungeonRoom *_room)
 	cmdMap[STR_EXIT] = &RoomEditor::exit;
 	cmdMap[STR_ADD] = &RoomEditor::add;
 	cmdMap[STR_DELETE] = &RoomEditor::del;
+
 
 	resetWindows();
 

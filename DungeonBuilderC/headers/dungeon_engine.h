@@ -38,10 +38,11 @@ struct DungeonEngine
 	void resetWindows();
 	void load(DungeonRoom *_room, DungeonPlayer *_player);
 	void render(unsigned long offset);
-	string showContents(DungeonObject * o);
+	void showContents(vector<DungeonObject*> * o, int depth = 0);
 	void addToBuffer(vector<string> *v);
 	
 	string drop(string args);
+	string inventory(string args);
 	string put(string args);
 	string open(string args);
 	string take(string args);

@@ -19,8 +19,23 @@ string DungeonEngine::pageUp(string args)
 
 string DungeonEngine::pageDown(string args)
 {
-	renderOffset = max(0,renderOffset - pageSize);	
+	renderOffset = max(0,renderOffset - pageSize);
 	return "";
+}
+
+string DungeonEngine::inventory(string args)
+{
+	if(player->objects.size() == 0)
+	{
+		return "You are empty handed.";
+	}
+
+	textBuffer.push_back("You are carrying");
+	vector<DungeonObject*> *objects = &player->objects;
+	showContents(objects);
+
+	return "";
+
 }
 
 string DungeonEngine::drop(string args)
@@ -89,30 +104,33 @@ string DungeonEngine::put(string args)
 	string secondHalf = args.substr(inLocation+4,args.size()-(inLocation+4));
 
 
-	DungeonObject* containerObject =  (DungeonObject*)extractEntity(&player->objects,&secondHalf);
+	DungeonObject* containerObject =  extractObject(&player->objects,&secondHalf);
 	if(containerObject == nullptr)
 	{
-		containerObject = (DungeonObject*)extractEntity(&room->objects,&secondHalf);
+		containerObject = extractObject(&room->objects,&secondHalf);
+	}
+
+	if(containerObject != nullptr && !containerObject->isOpen)
+	{
+		return "It isn't open.";
 	}
 
 	if(containerObject != nullptr && containerObject->isOpen)
 	{
-		DungeonObject* putObject = (DungeonObject*)extractEntity(&player->objects,&firstHalf);
+		DungeonObject* putObject = extractAndRemoveObject(&player->objects,&firstHalf);
 		if(putObject == nullptr)
 		{
-			putObject = (DungeonObject*)extractEntity(&room->objects,&firstHalf);
+			putObject = extractAndRemoveObject(&room->objects,&firstHalf);
 		}
 
 		if(putObject != nullptr)
 		{
-			removeObject(&room->objects,putObject);
-			removeObject(&player->objects,putObject);
 			containerObject->contents.push_back(putObject);
 			return "You put the "+ putObject->getPrimaryName() + " in the " + containerObject->getPrimaryName() + ".";
 		}
 		else
 		{
-			return "You try to but you can't put that there.";
+			return "You don't have that.";
 		}
 	}
 
@@ -121,37 +139,20 @@ string DungeonEngine::put(string args)
 
 string DungeonEngine::take(string args)
 {
-	DungeonObject* takenObject = (DungeonObject*)extractEntity(&room->objects,&args);
-	if(takenObject != nullptr)
-	{
-		removeObject(&room->objects,takenObject);
-	}
+	DungeonObject* takenObject = extractAndRemoveObject(&room->objects,&args);
 
 	if(takenObject == nullptr)
 	{
-		for(auto o : room->objects)
-		{
-			if(o->isOpen) {
-				takenObject = (DungeonObject*)extractEntity(&o->contents,&args);
-				if(takenObject != nullptr)
-				{
-					removeObject(&o->contents,takenObject);
-					break;
-				}
-			}
+		takenObject = (DungeonObject*)extractEntity(&player->objects,&args);
+		if(takenObject != nullptr) {
+			return "You already have that.";
 		}
-
-		if(takenObject == nullptr)
-		{
+		else {
 			for(auto o : player->objects)
 			{
-				if(o->isOpen) {
-					takenObject = (DungeonObject*)extractEntity(&o->contents,&args);
-					if(takenObject != nullptr)
-					{
-						removeObject(&o->contents,takenObject);
-						break;
-					}
+				if(o->isOpen && o->contents.size() > 0) {
+					takenObject = extractAndRemoveObject(&o->contents,&args);
+					break;
 				}
 			}
 		}
@@ -193,17 +194,22 @@ string DungeonEngine::open(string args)
 {
 
 	//chceck for objects to open in the room
-	DungeonObject* thingToOpen = (DungeonObject*)extractEntity(&room->objects,&args);
+	DungeonObject* thingToOpen = extractObject(&room->objects,&args);
 	//failing that, check for them on the player
 	if(thingToOpen == nullptr)
 	{
-		thingToOpen = (DungeonObject*)extractEntity(&player->objects,&args);
+		thingToOpen = extractObject(&player->objects,&args);
 	}
 	//If it is an openable thing, that is not already open, open it!
 	if(thingToOpen != nullptr && thingToOpen->canOpen == true && thingToOpen->isOpen == false)
 	{
 		thingToOpen->isOpen = true;
-		textBuffer.push_back("You open the "+thingToOpen->getPrimaryName()+", inside you see " + showContents(thingToOpen));
+		if(thingToOpen->contents.size() == 0) {
+			textBuffer.push_back("You open the "+thingToOpen->getPrimaryName()+", it is empty.");		
+		} else {
+			textBuffer.push_back("You open the "+thingToOpen->getPrimaryName()+", inside you see");		
+			showContents(&thingToOpen->contents);
+		}
 		return "";
 	}
 	else if(thingToOpen != nullptr)
@@ -287,28 +293,25 @@ void DungeonEngine::resetWindows()
 }
 
 
-string DungeonEngine::showContents(DungeonObject *o)
+void DungeonEngine::showContents(vector<DungeonObject*> *objects,int depth)
 {
-
-	string stuffInside;
-	if(o->contents.size() == 1)
+	string indent = "  ";
+	for(int i = 0; i < depth; i++)
 	{
-		stuffInside += a_an(o->contents[0]->getPrimaryName()) +".";
+		indent += "  ";
 	}
-	else
-	{
-		for(unsigned int i = 0; i < o->contents.size(); i++)
+	for(auto o: *objects){
+		if(o->isOpen && o->contents.size() > 0)
 		{
-
-			if(i < o->contents.size()-1) {
-				stuffInside += a_an(o->contents[i]->getPrimaryName()) + ", ";
-			}
-			else {
-				stuffInside += "and "+a_an(o->contents[i]->getPrimaryName()) + ".";
-			}
+			textBuffer.push_back(indent+a_an(o->getPrimaryName())+ " which contains ");
+			showContents(&o->contents,depth+1);
 		}
+		else {
+			textBuffer.push_back(indent + a_an(o->getPrimaryName()));
+		}
+
 	}
-	return stuffInside;
+
 
 }
 void DungeonEngine::look()
@@ -325,10 +328,12 @@ void DungeonEngine::look()
 		string objString = thereIsA(o->getPrimaryName())+".";
 		if(o->isOpen && o->contents.size() > 0) {
 			objString += " Inside it you see ";
-			objString += showContents(o);
+			textBuffer.push_back(objString);
+			showContents(&o->contents);
 		}
-
-		textBuffer.push_back(objString);
+		else {
+			textBuffer.push_back(objString);
+		}
 
 	}
 
@@ -358,9 +363,9 @@ void DungeonEngine::look()
 
 void DungeonEngine::render(unsigned long offset)
 {
-	wclear(mainWindow);	
-	
-	
+	wclear(mainWindow);
+
+
 	int bufferSize = (int)textBuffer.size();
 	int end = max(0,bufferSize - offset);
 	int start = max(0,end-LINES);
@@ -382,14 +387,14 @@ void DungeonEngine::render(unsigned long offset)
 			}
 			else {
 				wprintw(mainWindow,"\n");
-	
+
 				wprintw(mainWindow,s.c_str());
 				x = s.length();
 			}
 		}
 		wprintw(mainWindow,"\n");
-	
-		
+
+
 		//dbsleep(200);
 	}
 	wrefresh(mainWindow);
@@ -409,6 +414,9 @@ void DungeonEngine::updateCmdMap()
 	cmdMap[STR_PLACE] = &DungeonEngine::put;
 	cmdMap[STR_EXAMINE] = &DungeonEngine::examine;
 	cmdMap[STR_DROP] = &DungeonEngine::drop;
+	cmdMap[STR_INVENTORY] = &DungeonEngine::inventory;
+	cmdMap[STR_I] = &DungeonEngine::inventory;
+
 
 	//iterate over players inventory and add all
 	//aliases for the verb 'use' to the cmdMap
@@ -449,7 +457,7 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 	resetWindows();
 
 	CommandWindow cmdW;
-	
+
 	while(true) {
 		updateCmdMap();
 		wmove(headerWindow,0,0);
@@ -460,7 +468,7 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 		render(renderOffset);
 		string userInput = cmdW.getCommandAsString(commandWindow,STR_PROMPT);
 
-		if (userInput != STR_PAGE_DOWN && userInput != STR_PAGE_UP)
+		if(userInput != STR_PAGE_DOWN && userInput != STR_PAGE_UP)
 		{
 			textBuffer.push_back(STR_PROMPT+userInput);
 		}
@@ -493,7 +501,7 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 			}
 			else
 			{
-				if (verb == STR_EXIT) break;
+				if(verb == STR_EXIT) break;
 				commandFunction cmdFunc = cmdMap[verb];
 				string response = (this->*cmdFunc)(userInput);
 				if(response.length() > 1) {

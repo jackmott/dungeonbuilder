@@ -22,6 +22,8 @@
 #define STR_MENU_OPENINGTEXT "[Set](OpeningText):"
 #define STR_MENU_CLOSINGTEXT "[Set](ClosingText):"
 
+#define STR_INVENTORY "inventory"
+#define STR_I "i"
 #define STR_CREATE "create"
 #define STR_OPEN_TEXT "opentext"
 #define STR_CLOSED_TEXT "closedtext"

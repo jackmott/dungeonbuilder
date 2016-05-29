@@ -98,7 +98,7 @@ string toLower(string s)
 
 void toLower(string *s)
 {
-	transform(s->begin(),s->end(),s->begin(),::tolower);	
+	transform(s->begin(),s->end(),s->begin(),::tolower);
 }
 
 
@@ -141,7 +141,7 @@ bool isAffirmative(string s)
 	string l = s;
 	toLower(&l);
 
-	if (l == "t" || l=="y" || l=="yes" || l == "true") return true;
+	if(l == "t" || l=="y" || l=="yes" || l == "true") return true;
 	return false;
 }
 
@@ -196,7 +196,7 @@ void removeObject(vector<DungeonObject*> *objects,DungeonObject *object)
 
 }
 
-void removeCreature(vector<DungeonCreature*> *creatures, DungeonCreature *creature)
+void removeCreature(vector<DungeonCreature*> *creatures,DungeonCreature *creature)
 {
 	int i = 0;
 	for(auto c : *creatures)
@@ -212,7 +212,7 @@ void removeCreature(vector<DungeonCreature*> *creatures, DungeonCreature *creatu
 
 
 // void* considered harmful. living dangerously.
-DungeonEntity* extractEntity(void * _entities ,string *userInput)
+DungeonEntity* extractEntity(void * _entities,string *userInput)
 {
 	vector<DungeonEntity*> *entities = (vector<DungeonEntity*> *)_entities;
 	vector<DungeonEntity*> sortedEntities;
@@ -228,12 +228,10 @@ DungeonEntity* extractEntity(void * _entities ,string *userInput)
 	{
 		vector<string> lcaseNames = e->getLcaseNames();
 		//strlensort(&lcaseNames);
-		for (auto s : lcaseNames)
-		{
-			size_t pos = lcaseInput.find(s);
-			if(pos != string::npos)
-			{
-				userInput->erase(pos,s.length());
+		for(auto s : lcaseNames)
+		{			
+			if(lcaseInput.compare(s) == 0)
+			{				
 				return e;
 			}
 		}
@@ -241,9 +239,60 @@ DungeonEntity* extractEntity(void * _entities ,string *userInput)
 	return nullptr;
 }
 
+DungeonObject* extractAndRemoveObject(vector<DungeonObject*> * objects,string *userInput)
+{
+	DungeonObject* result = (DungeonObject*)extractEntity(objects,userInput);
+	if(result != nullptr) {
+		removeObject(objects,result);
+		return result;
+	}
+	for(auto o : *objects)
+	{
+
+		if(o->isOpen && o->contents.size() > 0)
+		{
+			result = extractAndRemoveObject(&o->contents,userInput);
+			if (result != nullptr) {
+				removeObject(&o->contents,result);
+				return result;
+			}
+
+		}
+	}
+	return nullptr;
+}
 
 
-string extractPhrase(vector<string> phrasesToFind, string *userInput)
+DungeonObject* extractObject(vector<DungeonObject*> * objects,string *userInput)
+{
+	DungeonObject* result = (DungeonObject*)extractEntity(objects,userInput);
+	if(result != nullptr) {
+		return result;
+	}
+	for(auto o : *objects)
+	{
+
+		if(o->isOpen && o->contents.size() > 0)
+		{
+			result = extractObject(&o->contents,userInput);
+			if (result != nullptr) return result;
+
+		}
+	}
+	return nullptr;
+}
+
+void trim(string* str)
+{
+  str->erase(str->begin(), find_if(str->begin(), str->end(),
+    [](char& ch)->bool { return !isspace(ch); }));
+  str->erase(find_if(str->rbegin(), str->rend(),
+    [](char& ch)->bool { return !isspace(ch); }).base(), str->end());
+  ;
+}  
+
+
+string extractPhrase(vector<string> phrasesToFind,string *userInput)
 {
 
 	strlensort(&phrasesToFind);
@@ -255,6 +304,7 @@ string extractPhrase(vector<string> phrasesToFind, string *userInput)
 		if(pos != string::npos)
 		{
 			userInput->erase(pos,phrase.length());
+			trim(userInput);
 			return phrase;
 		}
 	}
@@ -264,12 +314,12 @@ string extractPhrase(vector<string> phrasesToFind, string *userInput)
 #ifdef _WIN32
 void dbsleep(unsigned int milliseconds)
 {
-    Sleep(milliseconds);
+	Sleep(milliseconds);
 }
 #else
 void dbsleep(unsigned int milliseconds)
 {
-    usleep(milliseconds * 1000); // takes microseconds
+	usleep(milliseconds * 1000); // takes microseconds
 }
 #endif
 
