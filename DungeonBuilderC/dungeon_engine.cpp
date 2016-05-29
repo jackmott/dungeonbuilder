@@ -53,10 +53,10 @@ string DungeonEngine::drop(string args)
 
 string DungeonEngine::examine(string args)
 {
-	DungeonObject* thing =(DungeonObject*)extractEntity(&room->objects,&args);
+	DungeonObject* thing =extractObject(&room->objects,&args);
 	if(thing == nullptr)
 	{
-		thing = (DungeonObject*)extractEntity(&player->objects,&args);
+		thing = extractObject(&player->objects,&args);
 	}
 
 	if(thing != nullptr && thing->description.size() == 0)
@@ -172,7 +172,7 @@ string DungeonEngine::take(string args)
 string DungeonEngine::use(string args)
 {
 	//DungeonObject* roomObject = (DungeonObject*)extractEntity(&room->objects,&args);
-	DungeonObject* playerObject = (DungeonObject*)extractEntity(&player->objects,&args);
+	DungeonObject* playerObject = extractObject(&player->objects,&args);
 	DungeonCreature* creature = (DungeonCreature*)extractEntity(&room->creatures,&args);
 
 	if(playerObject != nullptr && creature != nullptr) {
