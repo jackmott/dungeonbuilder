@@ -13,6 +13,7 @@ struct JSONLoader {
 	string currEntry[2];
 	bool donePass;
 	bool open;
+	bool single;
 	
 	JSONLoader(string);
 	~JSONLoader();
@@ -23,7 +24,7 @@ struct JSONLoader {
 
 	void getExits(vector<DungeonRoom*> roomList);
 	DungeonExit* loadExit( vector<DungeonRoom*> roomList);
-	bool getJSONEntry(bool=false);
+	bool getJSONEntry();
 	
 	void split(string);
 };

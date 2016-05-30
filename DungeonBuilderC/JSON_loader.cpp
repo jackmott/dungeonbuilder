@@ -1,16 +1,17 @@
 #include "JSON_loader.h"
 #include "string_constants.h"
 
-
 using namespace std;
 JSONLoader::JSONLoader(string filename)
 {
-	char ch = ' ';
+	
 	filename.append(".json");
 	this->filename = filename;
 	fin.open(filename.c_str());
-	if (fin)
+	if (fin) {
 		open = true;
+		fin >> ch;
+	}
 	else open = false;
 	donePass = false;
 }
@@ -22,10 +23,10 @@ JSONLoader::~JSONLoader()
 vector<DungeonRoom*> JSONLoader::loadMap()
 {
 	vector<DungeonRoom*> roomList;
-	if (getJSONEntry())
+	if (getJSONEntry( ))
 	{
 		if (currEntry[0] == "rooms")
-			while (getJSONEntry())
+			while (getJSONEntry( ))
 				roomList.push_back(loadRoom(roomList));
 	} 
 	donePass = true;
@@ -43,21 +44,21 @@ DungeonRoom* JSONLoader::loadRoom( vector<DungeonRoom*> roomList)
 		if (currEntry[0] == "uid")
 			room->uid = atoi(currEntry[1].c_str());
 		else if (currEntry[0] == "name")
-			while( getJSONEntry() )
+			while( ch != ']' &&  getJSONEntry( ))
 				room->addName(currEntry[1]);
 		else if (currEntry[0] == "description")
-			while( getJSONEntry(true) )
+			while (ch != ']' &&  getJSONEntry( ))
 				room->description.push_back(currEntry[1]);
 		else if (currEntry[0] == "objects")
-			while( getJSONEntry() )
+			while( getJSONEntry( ) )
 				room->objects.push_back(loadObject());
 		else if (currEntry[0] == "creatures")
-			while (getJSONEntry())
+			while (getJSONEntry( ))
 				room->creatures.push_back(loadCreature());
 		else if (currEntry[0]=="exits")
-				while (getJSONEntry())
-					loadExit(roomList);
-	} while (ch != '}' && getJSONEntry());
+			while (getJSONEntry( ))
+				loadExit(roomList);
+	} while (ch != '}' && getJSONEntry( ));
 
 	return room;
 }
@@ -69,10 +70,10 @@ DungeonObject* JSONLoader::loadObject()
 	do
 	{
 		if (currEntry[0] == "name")
-			while( getJSONEntry() )
+			while (ch != ']' &&  getJSONEntry( ))
 				object->addName(currEntry[1]);
 		else if (currEntry[0] == "description")
-			while( getJSONEntry(true) )
+			while (ch != ']' &&  getJSONEntry( ))
 				object->description.push_back(currEntry[1]);
 		else if (currEntry[0] == "damage")
 			object->damage = atoi(currEntry[1].c_str());
@@ -86,7 +87,13 @@ DungeonObject* JSONLoader::loadObject()
 			object->canTake = currEntry[1].c_str() == STR_JSON_TRUE;
 		else if (currEntry[0] == "isOpen")
 			object->isOpen = currEntry[1].c_str() == STR_JSON_TRUE;
-	} while (ch != '}' && getJSONEntry());
+		else if (currEntry[0] == "useAliases")
+			while (ch != ']' &&  getJSONEntry())
+				object->useAliases.push_back(currEntry[1]);
+		else if (currEntry[0] == "contents")
+			while (getJSONEntry())
+				object->contents.push_back(loadObject());
+	} while (ch != '}' && getJSONEntry( ));
 	
 	return object;
 }
@@ -99,16 +106,16 @@ DungeonCreature* JSONLoader::loadCreature()
 	{
 
 		if (currEntry[0] == "name")
-			while( getJSONEntry() )
+			while (ch != ']' &&  getJSONEntry( ))
 				creature->addName(currEntry[1]);
 		else if (currEntry[0] == "description")
-			while( getJSONEntry(true) )
+			while (ch != ']' &&  getJSONEntry( ))
 				creature->description.push_back(currEntry[1]);
 		else if (currEntry[0] == "hitpoints")
 			creature->hitpoints = atoi(currEntry[1].c_str());
 		else if (currEntry[0] == "alignment")
 			creature->alignment = atoi(currEntry[1].c_str());
-	} while (ch != '}' && getJSONEntry());
+	} while (ch != '}' && getJSONEntry( ));
 
 	return creature;
 }
@@ -117,14 +124,14 @@ void JSONLoader::getExits(vector<DungeonRoom*> roomList)
 {
 	for (DungeonRoom* room : roomList)
 	{	
-		getJSONEntry();
+		getJSONEntry( );
 		while (currEntry[0] != "exits")
-			getJSONEntry();
-		while (getJSONEntry())
+			getJSONEntry( );
+		while (getJSONEntry( ))
 		{
 			room->exits.push_back(loadExit(roomList));
 		}
-		getJSONEntry();
+		getJSONEntry( );
 	}
 }
 
@@ -137,12 +144,26 @@ DungeonExit* JSONLoader::loadExit( vector<DungeonRoom*> roomList)
 		if (donePass)
 		{
 			if (currEntry[0] == "name")
-				while( getJSONEntry() )
+				while (ch != ']' &&  getJSONEntry( ))
 					exit->addName(currEntry[1]);			
 			else if (currEntry[0] == "links")
 				exit->room = roomList[atoi(currEntry[1].c_str())];
+			else if (currEntry[0] == "isDoor")
+				exit->isDoor = atoi(currEntry[1].c_str());
+			else if (currEntry[0] == "isOpen")
+				exit->isOpen = atoi(currEntry[1].c_str());
+			else if (currEntry[0] == "distance")
+				exit->distance = atoi(currEntry[1].c_str());
+			else if (currEntry[0] == "openingText")
+				exit->openingText = currEntry[1];
+			else if (currEntry[0] == "closingText")
+				exit->closingText = currEntry[1];
+			else if (currEntry[0] == "openText")
+				exit->openText = currEntry[1];
+			else if (currEntry[0] == "closedText")
+				exit->closedText = currEntry[1];
 		}
-	} while (ch != '}' && getJSONEntry());
+	} while (ch != '}' && getJSONEntry( ));
 
 	return exit;
 }
@@ -155,27 +176,14 @@ void JSONLoader::split(string entryString)
 	unsigned int i = 0;
 	while (entryString[i] != ':')
 	{
-		if(entryString[i] != '\"')
-			currEntry[0].push_back(entryString[i]);
+		currEntry[0].push_back(entryString[i]);
 		++i;
 	}
 	i += 1;
-	if (entryString[i] == '\"')
+	while ( i < entryString.length() )
 	{
+		currEntry[1].push_back(entryString[i]);
 		++i;
-		while (entryString[i] != '\"')
-		{
-			currEntry[1].push_back(entryString[i]);
-			++i;
-		}
-	}
-	else
-	{
-		while ( i < entryString.length() )
-		{
-			currEntry[1].push_back(entryString[i]);
-			++i;
-		}
 	}
 }
 
@@ -185,47 +193,39 @@ void JSONLoader::split(string entryString)
  @param ch     char&     - charachter which stores current char in file
  @return  bool  returns true if there was an entry before end of current brackets
  */
-bool JSONLoader::getJSONEntry(bool single)
+bool JSONLoader::getJSONEntry()
 {	
 	string curr;
-	if (ch == '}' || ch == ']')
+	if (!ch || ch == '}' || ch == ']')
 		fin >> ch;
-	if (!single)
-		while (ch != '\"' && (ch != '}' && ch != ']'))
-			fin >> ch;
-	else
-		while ((ch != '\"' || !isdigit(ch)) && (ch != '}' && ch != ']'))
-			fin >> ch;
-	curr.push_back(ch);
+	while (ch != '\"' && !isdigit(ch) && (ch != '}' && ch != ']'))
+		fin >> ch;
+	if (ch != '\"')
+		curr.push_back(ch);
 
+	bool inQuote = ch == '\"' ? true : false;
 	char prev = ch;
-	if (!single && ch != '}' && ch != ']')
+	bool single = true;
+	if ( ch != '}' && ch != ']')
 	{
-		bool inQuote = true;
-		while (inQuote || (ch != ',' && ch != '}' && ch != '['))
+		while (inQuote || (ch != ',' && ch != '}' && ch != '[' && ch != ']'))
 		{
 			fin >> noskipws >> ch;
 			if (ch == '\"' && prev != '\\')
 				inQuote = inQuote ? false : true;
-			if (inQuote || ch != ' ' && ch!= '}')
+			else if (inQuote || (ch != ',' && ch != ' ' && ch != '}' && ch != ']') )
+			{
 				curr.push_back(ch);
-
+				if (ch == ':')
+					single = false;
+			}
 			prev = ch;
 		}
 		currEntry[0] = currEntry[1] = "";
-		split(curr);
-		return true;
-	}
-	else if (single && ch != '}' && ch != ']')
-	{
-		while (ch != ',' && ch != '}' && ch != '[')
-		{
-			fin >> noskipws >> ch;
-			if (ch != '}')
-				curr.push_back(ch);
-		}
-		currEntry[0] = currEntry[1] = "";
-		currEntry[1] = curr;
+		if (!single)
+			split(curr);
+		else
+			currEntry[1] = curr;
 		return true;
 	}
 
