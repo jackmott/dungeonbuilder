@@ -12,7 +12,7 @@
 
 using namespace std;
 
-DungeonRoom *g_startRoom;
+DungeonRoom *g_startRoom = nullptr;
 DungeonPlayer *g_player;
 vector<DungeonRoom*> g_roomList;
 unsigned long global_id = 0;
@@ -32,11 +32,11 @@ void MainMenu::create(vector<string> args)
 	//Add the room to the global room list
 	//Edit the room
 	RoomEditor ed;
-	g_startRoom = new DungeonRoom();
-	g_roomList.push_back(g_startRoom);
-	g_startRoom->uid = getUID();	;
-	vector<string> defDesc;	
-	g_startRoom->description = defDesc;
+	if (g_startRoom == nullptr)
+	{
+		g_startRoom = new DungeonRoom();
+		g_roomList.push_back(g_startRoom);
+	}		
 	clearWindows();
 	ed.load(g_startRoom);
 	resetWindows();

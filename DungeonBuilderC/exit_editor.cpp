@@ -8,6 +8,7 @@
 #include "printutils.h"
 #include "utils.h"
 #include "string_constants.h"
+#include "dungeon_list.h"
 
 using namespace std;
 
@@ -29,7 +30,13 @@ string ExitEditor::set(vector<string> args)
 	}
 	string editNoun = args[1];
 	toLower(&editNoun);
-	if(editNoun ==STR_NAME)
+
+	if(editNoun == STR_ROOM)
+	{
+		DungeonList dl;
+		dl.load(&g_roomList);
+	}
+	else if(editNoun ==STR_NAME)
 	{
 		string newname = join(2,args," ");
 		dungeonExit->setPrimaryName(newname);
@@ -237,6 +244,7 @@ DungeonRoom* ExitEditor::load(DungeonExit *_dungeonExit, DungeonRoom *_fromRoom)
 	cmdMap[STR_SET] = &ExitEditor::set;
 	cmdMap[STR_ADD] = &ExitEditor::add;
 	cmdMap[STR_DELETE] = &ExitEditor::del;
+	
 
 	resetWindows();
 
