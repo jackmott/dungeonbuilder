@@ -1,9 +1,12 @@
-#pragma once
+#ifndef DUNGEON_DATA
+#define DUNGEON_DATA
 
 #include <string>
 #include <vector>
 
+
 using namespace std;
+
 
 
 struct DungeonExit;
@@ -40,6 +43,8 @@ struct DungeonRoom: DungeonEntity
 	string toJSON();
 
 };
+
+extern vector<DungeonRoom*> g_roomList;
 
 struct DungeonExit: DungeonEntity
 {
@@ -131,3 +136,4 @@ struct DungeonCreature: DungeonEntity
 	string toJSON();
 };
 
+#endif

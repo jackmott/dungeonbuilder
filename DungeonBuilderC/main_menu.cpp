@@ -35,7 +35,7 @@ void MainMenu::create(vector<string> args)
 	if (g_startRoom == nullptr)
 	{
 		g_startRoom = new DungeonRoom();
-		g_roomList.push_back(g_startRoom);
+		g_startRoom->setPrimaryName("Start Room");		
 	}		
 	clearWindows();
 	ed.load(g_startRoom);

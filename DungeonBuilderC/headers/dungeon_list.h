@@ -9,18 +9,18 @@
 
 using namespace std;
 
-struct DungeonList
+struct DungeonRoomList
 {
-	typedef string (DungeonList::*commandFunction) (vector<string>);			
+	typedef DungeonRoom* (DungeonRoomList::*commandFunction) (vector<string>);			
 	map<string,commandFunction> cmdMap;
 
-	DungeonObject *object;
+	
 
 	WINDOW *responseWindow;
 	WINDOW *commandWindow;
 	WINDOW *mainWindow;
 
-	vector<DungeonEntity*> *entities;
+	vector<DungeonRoom*> rooms;
 
 	int w,h;
 
@@ -29,7 +29,10 @@ struct DungeonList
 	void resetWindows();
 
 	//display these entities in a list and let user choose one
-	DungeonEntity* load(void* _entities);
+	DungeonRoom* load(vector<DungeonRoom*> _rooms);
+	DungeonRoom* pickRoom(int id);
+	DungeonRoom* newRoom(vector<string> args);
+
 
 };
 

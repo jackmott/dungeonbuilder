@@ -33,8 +33,8 @@ string ExitEditor::set(vector<string> args)
 
 	if(editNoun == STR_ROOM)
 	{
-		DungeonList dl;
-		dl.load(&g_roomList);
+		DungeonRoomList dl;
+		dl.load(g_roomList);
 	}
 	else if(editNoun ==STR_NAME)
 	{
@@ -120,17 +120,7 @@ string ExitEditor::add(vector<string> args)
 		}
 		string name = join(2,args," ");
 		dungeonExit->addName(name);		
-	}	
-	else if(addNoun == STR_ROOM)
-	{
-		DungeonRoom* newRoom = new DungeonRoom();		
-		newRoom->addName(join(2,args," "));
-		dungeonExit->room = newRoom;
-		g_roomList.push_back(newRoom);
-		clearWindows();
-		resetWindows();		
-		return "";
-	}
+	}		
 	else
 	{
 		return "I don't know how to add that";
@@ -275,7 +265,7 @@ DungeonRoom* ExitEditor::load(DungeonExit *_dungeonExit, DungeonRoom *_fromRoom)
 			}
 			else if(response == STR_EXIT)
 			{
-				return fromRoom;
+				return nullptr;
 			}
             
 			if(response.length() > 0) {

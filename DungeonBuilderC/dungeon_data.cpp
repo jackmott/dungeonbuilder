@@ -77,13 +77,14 @@ string DungeonEntity::vectorStringToJSON(vector<string> *v) const
 
 
 DungeonRoom::DungeonRoom()
-{
+{	
 	uid = getUID();
+	g_roomList.push_back(this);
 }
 
 DungeonRoom::~DungeonRoom()
 {
-
+	//todo remove from roomlist
 }
 
 string DungeonRoom::toJSON()
@@ -121,6 +122,7 @@ DungeonExit::DungeonExit()
 	isDoor = false;
 	isOpen = true;
 	distance = 1;
+	room = nullptr;
 }
 
 DungeonExit::~DungeonExit()

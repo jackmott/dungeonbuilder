@@ -12,6 +12,7 @@
 #include "printutils.h"
 #include "utils.h"
 #include "string_constants.h"
+#include "dungeon_list.h"
 
 using namespace std;
 
@@ -68,7 +69,7 @@ string RoomEditor::edit(vector<string> args)
 	else if(editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
 	{
 		TextEditor ed;
-		room->description = ed.edit("Editing Description For Room:"+room->getPrimaryName(),room->description);				
+		room->description = ed.edit("Editing Description For Room:"+room->getPrimaryName(),room->description);
 	}
 	else if(editNoun == STR_OBJECT)
 	{
@@ -80,8 +81,8 @@ string RoomEditor::edit(vector<string> args)
 		DungeonObject *o = (DungeonObject*)extractEntity(&room->objects,&objStr);
 		if(o != nullptr)
 		{
-			ObjectEditor ed;			
-			ed.load(o);			
+			ObjectEditor ed;
+			ed.load(o);
 		}
 		else
 		{
@@ -98,8 +99,8 @@ string RoomEditor::edit(vector<string> args)
 		DungeonCreature *c = (DungeonCreature*)extractEntity(&room->creatures,&creatureStr);
 		if(c != nullptr)
 		{
-			CreatureEditor ed;			
-			ed.load(c);			
+			CreatureEditor ed;
+			ed.load(c);
 		}
 		else
 		{
@@ -116,8 +117,12 @@ string RoomEditor::edit(vector<string> args)
 		DungeonExit *e = (DungeonExit*)extractEntity(&room->exits,&exitStr);
 		if(e != nullptr)
 		{
-			ExitEditor ed;			
-			ed.load(e,room);			
+			ExitEditor ed;
+			DungeonRoom* newRoom = ed.load(e,room);
+			if(newRoom != nullptr)
+			{
+				room = newRoom;								
+			}
 		}
 		else
 		{
@@ -142,7 +147,7 @@ string RoomEditor::del(vector<string> args)
 	string delNoun = args[1];
 	toLower(&delNoun);
 
-	
+
 	if(delNoun == STR_OBJECT)
 	{
 		if(args.size() <3)
@@ -150,10 +155,10 @@ string RoomEditor::del(vector<string> args)
 			return "Which object do you want to delete?";
 		}
 		string objStr = join(2,args," ");
-		DungeonObject *o = (DungeonObject*)extractEntity(&room->objects,&objStr);		
+		DungeonObject *o = (DungeonObject*)extractEntity(&room->objects,&objStr);
 		if(o != nullptr)
 		{
-			removeObject(&room->objects,o);		
+			removeObject(&room->objects,o);
 			delete o;
 			resetWindows();
 			return "";
@@ -193,16 +198,10 @@ string RoomEditor::del(vector<string> args)
 		DungeonExit *e = (DungeonExit*)extractEntity(&room->exits,&exitStr);
 		if(e != nullptr)
 		{
-			if(e->room == nullptr)
-			{
-				removeExit(&room->exits,e);
-				delete e;
-				resetWindows();
-				return "";
-			} else {
-				return "Can't delete exit till you delete it's room";
-			}
-			
+			removeExit(&room->exits,e);
+			delete e;
+			resetWindows();
+			return "";
 		}
 		else
 		{
@@ -256,16 +255,33 @@ string RoomEditor::add(vector<string> args)
 	}
 	else if(addNoun == STR_EXIT)
 	{
-		ExitEditor editor;
+
+		//Make a a new exit, add it to the room's list of exits
 		DungeonExit * e = new DungeonExit();
-		e->room = g_startRoom;
 		e->addName(join(2,args," "));
-		clearWindows();
-		DungeonRoom* newRoom = editor.load(e,room);
 		room->exits.push_back(e);
-		if(newRoom != NULL)
+
+		//Fire up the list picker with a list of rooms
+		DungeonRoomList listPicker;
+		clearWindows();
+		DungeonRoom *newRoom = listPicker.load(g_roomList);
+
+		//Once a room is picked, fire up the exit editor with the room
+		if(newRoom != nullptr)
 		{
-			room = newRoom;
+			e->room = newRoom;
+			ExitEditor ed;
+			newRoom = ed.load(e,room);
+			if(newRoom != nullptr)
+			{
+				//If a new room is returned, go to it
+				room = newRoom;
+			}
+
+		}
+		else
+		{
+			return "something has gone wrong.";
 		}
 		resetWindows();
 		return "";

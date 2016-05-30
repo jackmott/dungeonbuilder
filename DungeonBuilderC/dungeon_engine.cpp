@@ -238,6 +238,7 @@ void DungeonEngine::move(DungeonExit *dungeonExit)
 	if(! dungeonExit->isDoor || dungeonExit->isOpen)
 	{
 		room = dungeonExit->room;
+		updateCmdMap();
 		look();
 	}
 	else if(dungeonExit->isDoor && !dungeonExit->isOpen)
@@ -402,6 +403,8 @@ void DungeonEngine::render(unsigned long offset)
 
 void DungeonEngine::updateCmdMap()
 {
+	cmdMap.clear();
+
 	cmdMap[STR_EXIT] = &DungeonEngine::exit;
 	cmdMap[STR_PAGE_UP] = &DungeonEngine::pageUp;
 	cmdMap[STR_PAGE_DOWN] = &DungeonEngine::pageDown;
@@ -416,6 +419,17 @@ void DungeonEngine::updateCmdMap()
 	cmdMap[STR_DROP] = &DungeonEngine::drop;
 	cmdMap[STR_INVENTORY] = &DungeonEngine::inventory;
 	cmdMap[STR_I] = &DungeonEngine::inventory;
+
+	//update movemap
+	moveMap.clear();
+	for(auto e : room->exits)
+	{
+		for(auto s : e->getLcaseNames())
+		{
+			moveMap[s] = e;
+		}
+	}
+
 
 
 	//iterate over players inventory and add all
@@ -446,14 +460,7 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 	pageSize = LINES - 5;
 
 	//create a map of exit names to move to
-	for(auto e : room->exits)
-	{
-		for(auto s : e->getLcaseNames())
-		{
-			moveMap[s] = e;
-		}
-	}
-
+	
 	resetWindows();
 
 	CommandWindow cmdW;
