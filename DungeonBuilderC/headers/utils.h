@@ -7,8 +7,9 @@
 #include "dungeon_data.h"
 
 using namespace std;
+extern unsigned long global_id;
 
-
+unsigned long getUID();
 vector<string> &split(const string &s, char delim, vector<string> &elems);
 vector<string> split(const string &s, char delim);
 string join(unsigned int offset, vector<string> &v, string delim);

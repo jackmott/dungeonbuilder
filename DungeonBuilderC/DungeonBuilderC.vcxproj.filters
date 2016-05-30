@@ -12,9 +12,9 @@
     <ClCompile Include="creature_editor.cpp" />
     <ClCompile Include="text_editor.cpp" />
     <ClCompile Include="dungeon_data.cpp" />
-    <ClCompile Include="dungeon_display.cpp" />
     <ClCompile Include="dungeon_engine.cpp" />
     <ClCompile Include="JSON_loader.cpp" />
+    <ClCompile Include="dungeon_list.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\panel.h" />
@@ -28,12 +28,12 @@
     <ClInclude Include="headers\exit_editor.h" />
     <ClInclude Include="headers\creature_editor.h" />
     <ClInclude Include="headers\text_editor.h" />
-    <ClInclude Include="headers\dungeon_display.h" />
     <ClInclude Include="headers\string_constants.h" />
     <ClInclude Include="headers\JSON_loader.h" />
     <ClInclude Include="headers\dungeon_engine.h" />
     <ClInclude Include="headers\pdcurses.h" />
     <ClInclude Include="headers\lib.h" />
+    <ClInclude Include="headers\dungeon_list.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\pdcurses.lib" />

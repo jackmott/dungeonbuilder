@@ -3,6 +3,9 @@
 #include <algorithm>
 #include "lib.h"
 
+
+unsigned long getUID() { return global_id++; }
+
 vector<string> &split(const string &s,char delim,vector<string> &elems) {
 	stringstream ss(s);
 	string item;

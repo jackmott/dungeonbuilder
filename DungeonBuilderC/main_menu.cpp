@@ -15,8 +15,8 @@ using namespace std;
 DungeonRoom *g_startRoom;
 DungeonPlayer *g_player;
 vector<DungeonRoom*> g_roomList;
-int global_id = 0;
-int getUID() { return global_id++; }
+unsigned long global_id = 0;
+
 
 
 void MainMenu::exitMenu(vector<string> args)

@@ -14,23 +14,24 @@ struct DungeonEntity
 {
 private:
 	vector <string> names;
-	
+
 public:
+	unsigned long uid;	
 	virtual void addName(string name);
 	virtual void setPrimaryName(string name);
 	virtual string getPrimaryName() const;
-	virtual vector<string> getNames() const;	
-	virtual vector<string> getLcaseNames() const;	
+	virtual vector<string> getNames() const;
+	virtual vector<string> getLcaseNames() const;
 	virtual string vectorStringToJSON(vector<string> *v) const;
 	bool removeName(string name);
 };
 
-struct DungeonRoom : DungeonEntity
+struct DungeonRoom: DungeonEntity
 {
 	DungeonRoom();
 	~DungeonRoom();
 
-	int uid;	
+	
 	vector<string> description;
 	vector<DungeonExit*> exits;
 	vector<DungeonObject*> objects;
@@ -40,12 +41,12 @@ struct DungeonRoom : DungeonEntity
 
 };
 
-struct DungeonExit : DungeonEntity
+struct DungeonExit: DungeonEntity
 {
 	DungeonExit();
 	~DungeonExit();
-	
-	
+
+
 	bool isDoor;   // or window, or pile of rocks, whatever	
 	bool isOpen;   //or whatever
 
@@ -81,36 +82,29 @@ enum class USE_EFFECT
 	NOT_ALLOWED
 };
 
-struct DungeonObject : DungeonEntity
+
+struct DungeonObject: DungeonEntity
 {
 	DungeonObject();
 	~DungeonObject();
-	
+
 	vector<string> description;
-	
+
 	int damage;  //0 if not a weapon
-	
 	int mass;
 	int size;
-	
+
 	bool canOpen;
 	bool isOpen;
-	
-	vector<DungeonObject*> contents;	
-	
 	bool canTake;
-	
+
+	vector<DungeonObject*> contents;
 	vector<string> useAliases;
-
-	USE_EFFECT selfEffect;
-	USE_EFFECT creatureEffect;
-	USE_EFFECT objectEffect;
-
-
+	
 	string toJSON();
 };
 
-struct DungeonPlayer : DungeonEntity
+struct DungeonPlayer: DungeonEntity
 {
 	DungeonPlayer();
 	~DungeonPlayer();
@@ -122,18 +116,18 @@ struct DungeonPlayer : DungeonEntity
 	DungeonRoom* location;
 };
 
-struct DungeonCreature : DungeonEntity
+struct DungeonCreature: DungeonEntity
 {
 	DungeonCreature();
 	~DungeonCreature();
-	
+
 	vector<string> description;
 	int hitpoints;
 	int alignment;
-	
-	string attack(DungeonObject *weapon, DungeonPlayer *player);
-	
-	
+
+	string attack(DungeonObject *weapon,DungeonPlayer *player);
+
+
 	string toJSON();
 };
 

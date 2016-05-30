@@ -78,7 +78,7 @@ string DungeonEntity::vectorStringToJSON(vector<string> *v) const
 
 DungeonRoom::DungeonRoom()
 {
-
+	uid = getUID();
 }
 
 DungeonRoom::~DungeonRoom()
@@ -146,15 +146,10 @@ DungeonObject::DungeonObject()
 	damage = 0;
 	mass =0;
 	size=0;
-
+	uid = getUID();
 	canOpen = false;
 	isOpen = false;
 	canTake = true;
-
-
-	selfEffect = USE_EFFECT::NONE;
-	creatureEffect = USE_EFFECT::NONE;
-	objectEffect = USE_EFFECT::NONE;
 
 }
 
@@ -180,6 +175,7 @@ string DungeonObject::toJSON()
 
 DungeonCreature::DungeonCreature()
 {
+	uid = getUID();
 	hitpoints = 100;
 }
 string DungeonCreature::attack(DungeonObject *weapon,DungeonPlayer *player)
@@ -202,7 +198,8 @@ string DungeonCreature::toJSON()
 
 DungeonPlayer::DungeonPlayer()
 {
-
+	uid = getUID();
+	hitpoints = 100;
 }
 
 DungeonPlayer::~DungeonPlayer()
