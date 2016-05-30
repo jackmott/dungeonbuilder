@@ -30,7 +30,7 @@ DungeonRoom* DungeonRoomList::newRoom(vector<string> args)
 		return nullptr;
 	}
 
-	DungeonRoom *newRoom = new DungeonRoom();	
+	DungeonRoom *newRoom = new DungeonRoom();
 	newRoom->setPrimaryName(join(1,args," "));
 	return newRoom;
 }
@@ -57,18 +57,26 @@ void DungeonRoomList::resetWindows()
 	string command;
 
 	int lineCount = 1;
-	
-	string fromTxt = fromExit->fromRoom->getPrimaryName()+ " -> ";
-	string exitTxt = fromExit->getPrimaryName() + " -> ";
-	string endTxt = "Select or [New](Name)";
-	int w = getmaxx(mainWindow);
-	int startX = (w- (fromTxt.size()+exitTxt.size()+endTxt.size()))/2;
+
 	setcolor(mainWindow,1,COLOR_RED);
-	mvwprintw(mainWindow,lineCount,startX,fromTxt.c_str());
-	startX += fromTxt.size();
-	mvwprintwBold(mainWindow,lineCount,startX,exitTxt.c_str());
-	startX += exitTxt.size();
-	mvwprintw(mainWindow,lineCount,startX,endTxt.c_str());
+	if(fromExit != nullptr){
+		string fromTxt = fromExit->fromRoom->getPrimaryName()+ " -> ";
+		string exitTxt = fromExit->getPrimaryName() + " -> ";
+		string endTxt = "Select or [New](Name)";
+
+		int w = getmaxx(mainWindow);
+		int startX = (w- (fromTxt.size()+exitTxt.size()+endTxt.size()))/2;
+		
+		mvwprintw(mainWindow,lineCount,startX,fromTxt.c_str());
+		startX += fromTxt.size();
+		mvwprintwBold(mainWindow,lineCount,startX,exitTxt.c_str());
+		startX += exitTxt.size();
+		mvwprintw(mainWindow,lineCount,startX,endTxt.c_str());
+	}
+	else {
+		mvwprintwCenterBold(mainWindow,lineCount,"Select or [New](Name)");
+	}
+
 
 	setcolor(mainWindow,2,COLOR_WHITE);
 	int idWidth = 5;
@@ -97,7 +105,7 @@ void DungeonRoomList::resetWindows()
 
 }
 
-DungeonRoom* DungeonRoomList::load(vector<DungeonRoom *> _rooms, DungeonExit* _fromExit)
+DungeonRoom* DungeonRoomList::load(vector<DungeonRoom *> _rooms,DungeonExit* _fromExit)
 {
 
 	rooms = _rooms;
@@ -156,9 +164,9 @@ DungeonRoom* DungeonRoomList::load(vector<DungeonRoom *> _rooms, DungeonExit* _f
 				wclrtoeol(responseWindow);
 				wrefresh(responseWindow);
 			}
-			
-			
-			
+
+
+
 		}
 	}
 

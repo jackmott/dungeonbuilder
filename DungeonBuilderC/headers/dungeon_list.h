@@ -30,7 +30,7 @@ struct DungeonRoomList
 	void resetWindows();
 
 	//display these entities in a list and let user choose one
-	DungeonRoom* load(vector<DungeonRoom*> _rooms, DungeonExit* _fromExit);
+	DungeonRoom* load(vector<DungeonRoom*> _rooms, DungeonExit* _fromExit = nullptr);
 	DungeonRoom* pickRoom(int id);
 	DungeonRoom* newRoom(vector<string> args);
 

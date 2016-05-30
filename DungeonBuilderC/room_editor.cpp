@@ -21,6 +21,33 @@ string RoomEditor::exit(vector<string> args)
 	return STR_EXIT;
 }
 
+string RoomEditor::move(vector<string> args)
+{
+	if(args.size() < 2)
+	{
+		DungeonRoomList dl;
+		DungeonRoom* result = dl.load(g_roomList);
+		room = result;
+	}
+	else {
+
+		string exitStr = join(1,args," ");
+		DungeonExit *e = (DungeonExit*)extractEntity(&room->exits,&exitStr);
+		if(e != nullptr)
+		{
+			room = e->room;
+		}
+		else
+		{
+			return "I don't see that here.";
+		}
+	}
+
+	clearWindows();
+	resetWindows();
+	return "";
+
+}
 
 string RoomEditor::set(vector<string> args)
 {
@@ -121,7 +148,7 @@ string RoomEditor::edit(vector<string> args)
 			DungeonRoom* newRoom = ed.load(e,room);
 			if(newRoom != nullptr)
 			{
-				room = newRoom;								
+				room = newRoom;
 			}
 		}
 		else
@@ -350,6 +377,8 @@ void RoomEditor::resetWindows()
 		string row = e->getPrimaryName() + STR_ARROW + e->room->getPrimaryName();
 		mvwprintw(mainWindow,lineCount,2,row.c_str());
 	}
+	lineCount++;
+	mvwprintw(mainWindow,lineCount,0,STR_MENU_ROOM_MOVE);
 
 	refresh();
 	wrefresh(commandWindow);
@@ -366,7 +395,7 @@ void RoomEditor::load(DungeonRoom *_room)
 	cmdMap[STR_EXIT] = &RoomEditor::exit;
 	cmdMap[STR_ADD] = &RoomEditor::add;
 	cmdMap[STR_DELETE] = &RoomEditor::del;
-
+	cmdMap[STR_GO] = &RoomEditor::move;
 
 	resetWindows();
 
