@@ -148,6 +148,20 @@ DungeonExit* JSONLoader::loadExit( vector<DungeonRoom*> roomList)
 					exit->addName(currEntry[1]);			
 			else if (currEntry[0] == "links")
 				exit->room = roomList[atoi(currEntry[1].c_str())];
+			else if (currEntry[0] == "isDoor")
+				exit->isDoor = atoi(currEntry[1].c_str());
+			else if (currEntry[0] == "isOpen")
+				exit->isOpen = atoi(currEntry[1].c_str());
+			else if (currEntry[0] == "distance")
+				exit->distance = atoi(currEntry[1].c_str());
+			else if (currEntry[0] == "openingText")
+				exit->openingText = currEntry[1];
+			else if (currEntry[0] == "closingText")
+				exit->closingText = currEntry[1];
+			else if (currEntry[0] == "openText")
+				exit->openText = currEntry[1];
+			else if (currEntry[0] == "closedText")
+				exit->closedText = currEntry[1];
 		}
 	} while (ch != '}' && getJSONEntry( ));
 

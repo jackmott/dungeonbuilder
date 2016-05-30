@@ -132,8 +132,10 @@ string DungeonExit::toJSON()
 {
 	ostringstream sout;
 
-	sout << "\"name\":" << vectorStringToJSON(&getNames())
-		<< ", \"links\":" << room->uid;
+	sout << "\"name\":" << vectorStringToJSON(&getNames()) << ", \"isOpen\":" << isOpen
+		<< ", \"isDoor\":" << isDoor << ", \"distance\":" << distance << ", \"openingText\":\"" << openingText
+		<< "\", \"closingText\":\"" << closingText << "\", \"openText\":\"" << openText << "\", \"closedText\":\"" << closedText
+		<< "\", \"links\":" << room->uid;
 
 	return sout.str();
 }
