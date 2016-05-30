@@ -258,13 +258,14 @@ string RoomEditor::add(vector<string> args)
 
 		//Make a a new exit, add it to the room's list of exits
 		DungeonExit * e = new DungeonExit();
+		e->fromRoom = room;
 		e->addName(join(2,args," "));
 		room->exits.push_back(e);
 
 		//Fire up the list picker with a list of rooms
 		DungeonRoomList listPicker;
 		clearWindows();
-		DungeonRoom *newRoom = listPicker.load(g_roomList);
+		DungeonRoom *newRoom = listPicker.load(g_roomList,e);
 
 		//Once a room is picked, fire up the exit editor with the room
 		if(newRoom != nullptr)

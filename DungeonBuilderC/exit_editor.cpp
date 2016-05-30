@@ -34,7 +34,7 @@ string ExitEditor::set(vector<string> args)
 	if(editNoun == STR_ROOM)
 	{
 		DungeonRoomList dl;
-		dl.load(g_roomList);
+// TODO		dl.load(g_roomList);
 	}
 	else if(editNoun ==STR_NAME)
 	{

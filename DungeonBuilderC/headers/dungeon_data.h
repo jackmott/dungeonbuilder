@@ -65,6 +65,7 @@ struct DungeonExit: DungeonEntity
 
 
 	DungeonRoom* room;
+	DungeonRoom* fromRoom;
 
 	string toJSON();
 };

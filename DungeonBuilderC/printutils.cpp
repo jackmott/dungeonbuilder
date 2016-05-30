@@ -46,6 +46,7 @@ void mvwprintwCenter (WINDOW * window,int row, string text)
 	mvwprintw(window,row,(w-text.length())/2,text.c_str());
 }
 
+
 void mvwprintwBold (WINDOW *window,int row,int col,string text)
 {
 	wattron(window,A_BOLD);
