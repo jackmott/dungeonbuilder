@@ -38,13 +38,15 @@ public:
 	bool removeName(string name);
 };
 
-enum class EFFECT_TYPE
+enum class DUNGEON_EFFECT
 {
 	HEAL,
 	DAMAGE,
 	TELEPORT,
 	TEXT,
 	CREATE_OBJECT,
+	DESTROY_OBJECT,
+	OBJECT_TRANSFORM,
 	CREATE_CREATURE,
 	REMOVE,
 	SHRINK,
@@ -59,9 +61,10 @@ enum class EFFECT_TYPE
 
 struct DungeonEffect: DungeonEntity
 {
-	EFFECT_TYPE type;
+	DUNGEON_EFFECT type;
 	DungeonPlayer *player;
 	string output;
+	int magnitude;
 	void apply();
 };
 
@@ -143,9 +146,12 @@ struct DungeonPlayer: DungeonEntity
 
 	vector<string> description;
 	int hitpoints;
+	int maxhitpoints;
 	int score;
 	vector<DungeonObject*> objects;
 	DungeonRoom* location;
+
+	void heal(int amount);
 };
 
 struct DungeonCreature: DungeonEntity

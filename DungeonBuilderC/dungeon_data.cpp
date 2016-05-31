@@ -77,7 +77,7 @@ string DungeonEntity::vectorStringToJSON(vector<string> *v) const
 
 
 DungeonRoom::DungeonRoom()
-{	
+{
 	uid = getUID();
 	g_roomList.push_back(this);
 }
@@ -165,9 +165,9 @@ string DungeonObject::toJSON()
 	sout << "\"name\":" << vectorStringToJSON(&getNames()) << ", \"description\":" << vectorStringToJSON(&description) << ",";
 	sout << " \"damage\":" << damage << ",\"mass\":" << mass << ", \"size\":" << size << ",";
 	sout << " \"canOpen\":" << canOpen << ",\"canTake\":" << canTake << ", \"isOpen\":" << isOpen << ",";
-//	sout << "\"useAlias\":" << vectorStringToJSON(&useAliases) << ", ";   TODO useAlias replaced by actions
+	//	sout << "\"useAlias\":" << vectorStringToJSON(&useAliases) << ", ";   TODO useAlias replaced by actions
 	sout << "\"contents\":[";
-	for (auto i = 0u; i < contents.size(); i++) {
+	for(auto i = 0u; i < contents.size(); i++) {
 		sout << "{" << contents[i]->toJSON() << "}," << endl;
 	};
 	sout << "]" << endl;
@@ -206,5 +206,27 @@ DungeonPlayer::DungeonPlayer()
 
 DungeonPlayer::~DungeonPlayer()
 {
+
+}
+
+void DungeonPlayer::heal(int amount)
+{
+	hitpoints += amount;
+	if (hitpoints > maxhitpoints) hitpoints = maxhitpoints;
+}
+
+
+void DungeonEffect::apply()
+{
+	switch(type)
+	{
+	case DUNGEON_EFFECT::HEAL:
+		player->heal(magnitude);
+		break;
+	case DUNGEON_EFFECT::OBJECT_TRANSFORM:
+		//HAHA CALM DOWN BRO...soon
+		break;
+
+	}
 
 }

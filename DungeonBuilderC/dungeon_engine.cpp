@@ -169,19 +169,14 @@ string DungeonEngine::take(string args)
 	}
 
 }
-string DungeonEngine::use(string args)
+string DungeonEngine::action(string actionStr, string args)
 {
-	//DungeonObject* roomObject = (DungeonObject*)extractEntity(&room->objects,&args);
-	DungeonObject* playerObject = extractObject(&player->objects,&args);
-	DungeonCreature* creature = (DungeonCreature*)extractEntity(&room->creatures,&args);
 
-	if(playerObject != nullptr && creature != nullptr) {
-		string response = creature->attack(playerObject,player);
-		if(creature->hitpoints <= 0)
-		{
-			removePointer(&room->creatures,creature);
-		}
-		return response;
+	DungeonObject* playerObject = extractObject(&player->objects,&args);
+
+	DungeonAction* action = extractAction(&playerObject->actions,&args);
+	if(playerObject != nullptr) {
+
 	}
 	else
 	{
@@ -431,27 +426,16 @@ void DungeonEngine::updateCmdMap()
 	}
 
 
-
 	//iterate over players inventory and add all
 	//aliases for the verb 'use' to the cmdMap
+	actionMap.clear();
 	for(auto o : player->objects)
 	{
 		for(auto action : o->actions)
 		{
 			for (auto name : action->getLcaseNames())
 			{
-				cmdMap[name] = &DungeonEngine::use;
-			}
-		}
-	}
-
-	for(auto o : room->objects)
-	{
-		for(auto action : o->actions)
-		{
-			for (auto name : action->getLcaseNames())
-			{
-				cmdMap[name] = &DungeonEngine::use;
+				actionMap[name] = &DungeonEngine::action;
 			}
 		}
 	}

@@ -13,8 +13,9 @@ extern vector<DungeonRoom*> g_roomList;
 struct DungeonEngine
 {
 	typedef string (DungeonEngine::*commandFunction) (string);			
+	typedef string (DungeonEngine::*ActionFunction) (string,string);
 
-	
+	map<string,ActionFunction> actionMap;
 	map<string,commandFunction> cmdMap;
 	map<string,DungeonExit*> moveMap;
 
@@ -49,7 +50,7 @@ struct DungeonEngine
 	string exit(string args);
 	string pageDown(string args);
 	string pageUp(string args);
-	string use(string args);
+	string action(string, actionStr,string args);
 	string lookCmd(string args);
 	string examine(string args);
 
