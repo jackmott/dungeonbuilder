@@ -19,8 +19,8 @@ private:
 	vector <string> names;
 
 public:
-	DungeonEntity* parent;
-	unsigned long uid;	
+	DungeonEntity* parent = nullptr;
+	unsigned long uid = NULL;	
 	virtual void addName(string name);
 	virtual void setPrimaryName(string name);
 	virtual string getPrimaryName() const;
