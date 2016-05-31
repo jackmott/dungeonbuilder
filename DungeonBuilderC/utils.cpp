@@ -169,50 +169,21 @@ bool removeStr(vector<string> *strs,string str)
 	}
 	return false;
 }
-void removeExit(vector<DungeonExit*> *exits,DungeonExit *ext)
+
+void removePointer(void* _pointers,void* pointer)
 {
+	vector<void*> *pointers = (vector<void*>*)_pointers;
 	int i = 0;
-	for(auto e : *exits)
+	for(auto p : *pointers)
 	{
-		if(e == ext)
+		if(p == pointer)
 		{
-			exits->erase(exits->begin()+i);
-			return;
-		}
-		i++;
-	}
-
-}
-
-void removeObject(vector<DungeonObject*> *objects,DungeonObject *object)
-{
-	int i = 0;
-	for(auto o : *objects)
-	{
-		if(o == object)
-		{
-			objects->erase(objects->begin()+i);
-			return;
-		}
-		i++;
-	}
-
-}
-
-void removeCreature(vector<DungeonCreature*> *creatures,DungeonCreature *creature)
-{
-	int i = 0;
-	for(auto c : *creatures)
-	{
-		if(c == creature)
-		{
-			creatures->erase(creatures->begin()+i);
-			return;
+			pointers->erase(pointers->begin()+i);
+			break;
 		}
 		i++;
 	}
 }
-
 
 // void* considered harmful. living dangerously.
 DungeonEntity* extractEntity(void * _entities,string *userInput)
@@ -246,7 +217,7 @@ DungeonObject* extractAndRemoveObject(vector<DungeonObject*> * objects,string *u
 {
 	DungeonObject* result = (DungeonObject*)extractEntity(objects,userInput);
 	if(result != nullptr) {
-		removeObject(objects,result);
+		removePointer(objects,result);
 		return result;
 	}
 	for(auto o : *objects)
@@ -256,7 +227,7 @@ DungeonObject* extractAndRemoveObject(vector<DungeonObject*> * objects,string *u
 		{
 			result = extractAndRemoveObject(&o->contents,userInput);
 			if (result != nullptr) {
-				removeObject(&o->contents,result);
+				removePointer(&o->contents,result);
 				return result;
 			}
 

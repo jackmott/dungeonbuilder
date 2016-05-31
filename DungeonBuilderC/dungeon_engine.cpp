@@ -42,7 +42,7 @@ string DungeonEngine::drop(string args)
 {
 	DungeonObject *thing = (DungeonObject*)extractEntity(&player->objects,&args);
 	if(thing != nullptr) {
-		removeObject(&player->objects,thing);
+		removePointer(&player->objects,thing);
 		room->objects.push_back(thing);
 		return "You drop the " + thing->getPrimaryName() +".";
 	}
@@ -179,7 +179,7 @@ string DungeonEngine::use(string args)
 		string response = creature->attack(playerObject,player);
 		if(creature->hitpoints <= 0)
 		{
-			removeCreature(&room->creatures,creature);
+			removePointer(&room->creatures,creature);
 		}
 		return response;
 	}
@@ -436,17 +436,23 @@ void DungeonEngine::updateCmdMap()
 	//aliases for the verb 'use' to the cmdMap
 	for(auto o : player->objects)
 	{
-		for(auto alias : o->useAliases)
+		for(auto action : o->actions)
 		{
-			cmdMap[alias] = &DungeonEngine::use;
+			for (auto name : action->getLcaseNames())
+			{
+				cmdMap[name] = &DungeonEngine::use;
+			}
 		}
 	}
 
 	for(auto o : room->objects)
 	{
-		for(auto alias : o->useAliases)
+		for(auto action : o->actions)
 		{
-			cmdMap[alias] = &DungeonEngine::use;
+			for (auto name : action->getLcaseNames())
+			{
+				cmdMap[name] = &DungeonEngine::use;
+			}
 		}
 	}
 

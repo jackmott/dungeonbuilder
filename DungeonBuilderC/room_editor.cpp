@@ -185,7 +185,7 @@ string RoomEditor::del(vector<string> args)
 		DungeonObject *o = (DungeonObject*)extractEntity(&room->objects,&objStr);
 		if(o != nullptr)
 		{
-			removeObject(&room->objects,o);
+			removePointer(&room->objects,o);
 			delete o;
 			resetWindows();
 			return "";
@@ -205,7 +205,7 @@ string RoomEditor::del(vector<string> args)
 		DungeonCreature *c = (DungeonCreature*)extractEntity(&room->creatures,&creatureStr);
 		if(c != nullptr)
 		{
-			removeCreature(&room->creatures,c);
+			removePointer(&room->creatures,c);
 			delete c;
 			resetWindows();
 			return "";
@@ -225,7 +225,7 @@ string RoomEditor::del(vector<string> args)
 		DungeonExit *e = (DungeonExit*)extractEntity(&room->exits,&exitStr);
 		if(e != nullptr)
 		{
-			removeExit(&room->exits,e);
+			removePointer(&room->exits,e);
 			delete e;
 			resetWindows();
 			return "";
@@ -344,6 +344,8 @@ void RoomEditor::resetWindows()
 	printHeader(headerWindow,"ROOM:"+room->getPrimaryName());
 
 	int lineCount = 2;
+	string nameRow = STR_MENU_ROOM_NAME + room->getPrimaryName();
+	mvwprintw(mainWindow,lineCount,0,nameRow.c_str());
 	lineCount++;
 	string desc = room->description.size() > 0 ? room->description[0] + STR_ELLIPSES : "";
 	string descRow = STR_MENU_DESCRIPTION + desc;

@@ -26,18 +26,18 @@ string ObjectEditor::del(vector<string> args)
 	string delNoun = args[1];
 	toLower(&delNoun);
 
-	if(delNoun == STR_USE_ALIAS) {
+	if(delNoun == STR_ACTION) {
 
 		//TODO - check if use alias is already used for summin else
 		if(args.size() < 3)
 		{
 			return "Provide an alias to delete.";
 		}
-		string alias = join(2,args," ");		
-		string r = extractPhrase(object->useAliases,&alias);
-		if(!removeStr(&object->useAliases,r))
+		string actionStr = join(2,args," ");		
+		DungeonAction *a = (DungeonAction*) extractEntity(&object->actions,&actionStr);		
+		if(a == nullptr)
 		{
-			return "That doesn't seem to exit.";
+			return "That doesn't seem to exit.";	
 		}
 		
 	}
@@ -62,7 +62,7 @@ string ObjectEditor::del(vector<string> args)
 		DungeonObject *o = (DungeonObject*)extractEntity(&object->contents,&objStr);
 		if(o != nullptr)
 		{
-			removeObject(&object->contents,o);
+			removePointer(&object->contents,o);
 			delete o;		
 		}
 		else
@@ -184,15 +184,19 @@ string ObjectEditor::add(vector<string> args)
 	string addNoun = args[1];
 	toLower(&addNoun);
 
-	if(addNoun == STR_USE_ALIAS) {
+	if(addNoun == STR_ACTION) {
 
 		//TODO - check if use alias is already used for summin else
 		if(args.size() < 3)
 		{
-			return "Provide a string to alias the verb 'use'.";
+			return "Provide a string to name the action.";
 		}
-		string alias = join(2,args," ");
-		object->useAliases.push_back(alias);
+		string actionStr = join(2,args," ");
+		DungeonAction *action = new DungeonAction();
+		action->setPrimaryName(actionStr);
+		action->parent = object;
+		object->actions.push_back(action);
+		
 	}
 	else if(addNoun == STR_NAME)
 	{
@@ -285,10 +289,15 @@ void ObjectEditor::resetWindows()
 	}
 
 
-	lineCount++;
-	string aliasRow = STR_MENU_USE_ALIAS;
-	aliasRow += join(0,object->useAliases,STR_JOINER);
-	mvwprintw(mainWindow,lineCount,0,aliasRow.c_str());
+	lineCount++;	
+	mvwprintw(mainWindow,lineCount,0,STR_MENU_ACTIONS);
+	for(auto a : object->actions)
+	{
+		lineCount++;
+		string row = a->getPrimaryName();
+		mvwprintw(mainWindow,lineCount,2,row.c_str());
+	}
+
 
 	lineCount++;
 	string dmgRow = STR_MENU_DAMAGE + to_string(object->damage);

@@ -87,9 +87,9 @@ DungeonObject* JSONLoader::loadObject()
 			object->canTake = currEntry[1].c_str() == STR_JSON_TRUE;
 		else if (currEntry[0] == "isOpen")
 			object->isOpen = currEntry[1].c_str() == STR_JSON_TRUE;
-		else if (currEntry[0] == "useAliases")
+		/* else if (currEntry[0] == "useAliases")
 			while (ch != ']' &&  getJSONEntry())
-				object->useAliases.push_back(currEntry[1]);
+				object->useAliases.push_back(currEntry[1]);*/  //todo - usealias replaced by actions
 		else if (currEntry[0] == "contents")
 			while (getJSONEntry())
 				object->contents.push_back(loadObject());

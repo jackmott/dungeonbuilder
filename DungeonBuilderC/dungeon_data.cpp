@@ -165,7 +165,7 @@ string DungeonObject::toJSON()
 	sout << "\"name\":" << vectorStringToJSON(&getNames()) << ", \"description\":" << vectorStringToJSON(&description) << ",";
 	sout << " \"damage\":" << damage << ",\"mass\":" << mass << ", \"size\":" << size << ",";
 	sout << " \"canOpen\":" << canOpen << ",\"canTake\":" << canTake << ", \"isOpen\":" << isOpen << ",";
-	sout << "\"useAlias\":" << vectorStringToJSON(&useAliases) << ", ";
+//	sout << "\"useAlias\":" << vectorStringToJSON(&useAliases) << ", ";   TODO useAlias replaced by actions
 	sout << "\"contents\":[";
 	for (auto i = 0u; i < contents.size(); i++) {
 		sout << "{" << contents[i]->toJSON() << "}," << endl;

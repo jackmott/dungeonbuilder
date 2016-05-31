@@ -12,6 +12,14 @@ using namespace std;
 struct DungeonExit;
 struct DungeonObject;
 struct DungeonCreature;
+struct DungeonRoom;
+struct DungeonPlayer;
+
+
+
+extern vector<DungeonRoom*> g_roomList;
+
+
 
 struct DungeonEntity
 {
@@ -30,7 +38,39 @@ public:
 	bool removeName(string name);
 };
 
-struct DungeonRoom: DungeonEntity
+enum class EFFECT_TYPE
+{
+	HEAL,
+	DAMAGE,
+	TELEPORT,
+	TEXT,
+	CREATE_OBJECT,
+	CREATE_CREATURE,
+	REMOVE,
+	SHRINK,
+	GROW,
+	LIGHTER,
+	HEAVIER,
+	CHANGE,
+	NONE,
+	NOT_ALLOWED
+};
+
+
+struct DungeonEffect: DungeonEntity
+{
+	EFFECT_TYPE type;
+	DungeonPlayer *player;
+	string output;
+	void apply();
+};
+
+struct DungeonAction : DungeonEntity
+{
+	vector<DungeonEffect*> effects;
+};
+
+struct DungeonRoom : DungeonEntity
 {
 	DungeonRoom();
 	~DungeonRoom();
@@ -45,7 +85,7 @@ struct DungeonRoom: DungeonEntity
 
 };
 
-extern vector<DungeonRoom*> g_roomList;
+
 
 struct DungeonExit: DungeonEntity
 {
@@ -72,23 +112,6 @@ struct DungeonExit: DungeonEntity
 	string toJSON();
 };
 
-enum class USE_EFFECT
-{
-	HEAL,
-	DAMAGE,
-	TELEPORT,
-	TEXT,
-	CREATE_OBJECT,
-	CREATE_CREATURE,
-	REMOVE,
-	SHRINK,
-	GROW,
-	LIGHTER,
-	HEAVIER,
-	CHANGE,
-	NONE,
-	NOT_ALLOWED
-};
 
 
 struct DungeonObject: DungeonEntity
@@ -108,7 +131,7 @@ struct DungeonObject: DungeonEntity
 
 	
 	vector<DungeonObject*> contents;
-	vector<string> useAliases;
+	vector<DungeonAction*> actions;
 	
 	string toJSON();
 };
