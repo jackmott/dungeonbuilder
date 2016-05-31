@@ -66,7 +66,7 @@ void DungeonRoomList::resetWindows()
 	keypad(commandWindow,true);
 	responseWindow = newwin(1,getCols(),LINES-2,0);
 	headerWindow = newwin(1,getCols(),0,0);
-	mainWindow = newwin(LINES-3,getCols()-2,1,1);
+	mainWindow = newwin(LINES-3,getCols(),1,0);
 	
 	refresh();
 
@@ -81,7 +81,7 @@ void DungeonRoomList::resetWindows()
 
 	
 	if(fromExit != nullptr){
-		printHeader(headerWindow,fromExit->fromRoom->getPrimaryName(),"EXIT:"+fromExit->getPrimaryName(),STR_MENU_ID_OR_NEW);		
+		printHeader(headerWindow,fromExit->parent->getPrimaryName(),"EXIT:"+fromExit->getPrimaryName(),STR_MENU_ID_OR_NEW);		
 	}
 	else {
 		printHeader(headerWindow,STR_MENU_ID_OR_NEW);		

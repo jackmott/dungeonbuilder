@@ -96,7 +96,7 @@ string RoomEditor::edit(vector<string> args)
 	else if(editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
 	{
 		TextEditor ed;
-		room->description = ed.edit("Editing Description For Room:"+room->getPrimaryName(),room->description);
+		room->description = ed.edit("Description For Room:"+room->getPrimaryName(),room->description);
 	}
 	else if(editNoun == STR_OBJECT)
 	{
@@ -141,11 +141,11 @@ string RoomEditor::edit(vector<string> args)
 			return "Which exit do you want to edit?";
 		}
 		string exitStr = join(2,args," ");
-		DungeonExit *e = (DungeonExit*)extractEntity(&room->exits,&exitStr);
+		DungeonExit *e = (DungeonExit*)extractEntity(&room->exits,&exitStr);		
 		if(e != nullptr)
 		{
 			ExitEditor ed;
-			DungeonRoom* newRoom = ed.load(e,room);
+			DungeonRoom* newRoom = ed.load(e);
 			if(newRoom != nullptr)
 			{
 				room = newRoom;
@@ -261,6 +261,7 @@ string RoomEditor::add(vector<string> args)
 	{
 		CreatureEditor editor;
 		DungeonCreature* creature = new DungeonCreature();
+		creature->parent = room;
 		creature->addName(join(2,args," "));
 		clearWindows();
 		editor.load(creature);
@@ -272,6 +273,7 @@ string RoomEditor::add(vector<string> args)
 	{
 		ObjectEditor oe;
 		DungeonObject* o = new DungeonObject();
+		o->parent = room;
 		o->addName(join(2,args," "));
 		clearWindows();
 		oe.load(o);
@@ -285,7 +287,7 @@ string RoomEditor::add(vector<string> args)
 
 		//Make a a new exit, add it to the room's list of exits
 		DungeonExit * e = new DungeonExit();
-		e->fromRoom = room;
+		e->parent = room;
 		e->addName(join(2,args," "));
 		room->exits.push_back(e);
 
@@ -299,7 +301,7 @@ string RoomEditor::add(vector<string> args)
 		{
 			e->room = newRoom;
 			ExitEditor ed;			
-			newRoom = ed.load(e,room);
+			newRoom = ed.load(e);
 			if(newRoom != nullptr)
 			{
 				//If a new room is returned, go to it
@@ -325,6 +327,7 @@ void RoomEditor::clearWindows()
 	delwin(commandWindow);
 	delwin(responseWindow);
 	delwin(mainWindow);
+	delwin(headerWindow);
 	clear();
 }
 
@@ -332,19 +335,15 @@ void RoomEditor::resetWindows()
 {
 	commandWindow = newwin(1,getCols(),LINES-1,0);
 	responseWindow = newwin(1,getCols(),LINES-2,0);
-	mainWindow = newwin(LINES-2,getCols()-2,0,1);
+	mainWindow = newwin(LINES-3,getCols(),1,0);
+	headerWindow = newwin(1,getCols(),0,0);
 	scrollok(mainWindow,TRUE);
 	getmaxyx(stdscr,h,w); // this doesn't work in windows
 
-	int lineCount = 3;
+	
+	printHeader(headerWindow,"ROOM:"+room->getPrimaryName());
 
-
-	setcolors(mainWindow,1,COLOR_RED,COLOR_BLACK);
-	mvwprintwCenterBold(mainWindow,1,"Room Editor");
-	setcolor(mainWindow,2,COLOR_WHITE);
-	string nameRow = STR_MENU_ROOM_NAME + room->getPrimaryName();
-	mvwprintw(mainWindow,lineCount,0,nameRow.c_str());
-
+	int lineCount = 2;
 	lineCount++;
 	string desc = room->description.size() > 0 ? room->description[0] + STR_ELLIPSES : "";
 	string descRow = STR_MENU_DESCRIPTION + desc;
@@ -380,10 +379,11 @@ void RoomEditor::resetWindows()
 	lineCount++;
 	mvwprintw(mainWindow,lineCount,0,STR_MENU_ROOM_MOVE);
 
-	refresh();
+	
 	wrefresh(commandWindow);
 	wrefresh(responseWindow);
 	wrefresh(mainWindow);
+	
 
 }
 

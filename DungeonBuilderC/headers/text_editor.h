@@ -13,7 +13,7 @@ struct TextEditor
 	unsigned int x,y;	
 	vector<string> lines;
 	int done = 0;
-	string header;
+
 	WINDOW *headerWindow;
 	WINDOW *mainWindow;
 
@@ -44,7 +44,7 @@ struct TextEditor
 		
 	void handleInput(int c);
 	void printBuff();
-	void printStatusLine();
+
 
 };
 

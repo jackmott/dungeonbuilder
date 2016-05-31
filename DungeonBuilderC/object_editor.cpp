@@ -207,6 +207,7 @@ string ObjectEditor::add(vector<string> args)
 	{
 		ObjectEditor oe;
 		DungeonObject* o = new DungeonObject();
+		o->parent = object;
 		o->addName(join(2,args," "));		
 		oe.load(o);
 		object->contents.push_back(o);				
@@ -226,28 +227,44 @@ void ObjectEditor::clearWindows()
 	delwin(commandWindow);
 	delwin(responseWindow);
 	delwin(mainWindow);
+	delwin(headerWindow);
 }
 
 void ObjectEditor::resetWindows()
 {
 	commandWindow = newwin(1,getCols(),LINES-1,0);
 	responseWindow = newwin(1,getCols(),LINES-2,0);
-	mainWindow = newwin(LINES-2,getCols()-2,0,1);
+	mainWindow = newwin(LINES-3,getCols(),1,0);
+	headerWindow = newwin(1,getCols(),0,0);
+	
 	getmaxyx(stdscr,h,w); // this doesn't work in windows
 	refresh();
 
 	wrefresh(commandWindow);
 	wrefresh(responseWindow);
 	wrefresh(mainWindow);
+	wrefresh(headerWindow);
 
 	string command;
 
-	int lineCount = 1;
-	setcolors(mainWindow,lineCount,COLOR_RED,COLOR_BLACK);
-	mvwprintwCenterBold(mainWindow,1,"Object Editor");
-
-	lineCount++;
-	lineCount++;
+	
+	string childString;
+	if(object->contents.size() == 1)
+	{
+		childString = object->contents[0]->getPrimaryName();
+	}
+	else if(object->contents.size() > 1)
+	{		
+		childString = object->contents[0]->getPrimaryName() +" ...";
+	}
+	else
+	{
+		childString = "empty";	
+	}
+	printHeader(headerWindow,object->parent->getPrimaryName(),"OBJECT:"+object->getPrimaryName(),childString);
+	
+	int lineCount = 2;	
+	
 	setcolor(mainWindow,2,COLOR_WHITE);
 	string nameRow = STR_MENU_NAME + join(0,object->getNames(),",");
 	mvwprintw(mainWindow,lineCount,0,nameRow.c_str());

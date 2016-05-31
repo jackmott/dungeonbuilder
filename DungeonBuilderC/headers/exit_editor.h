@@ -15,7 +15,7 @@ struct ExitEditor
 	map<string,commandFunction> cmdMap;
 
 	DungeonExit *dungeonExit;
-	DungeonRoom *fromRoom;
+	
 
 	WINDOW *responseWindow;
 	WINDOW *commandWindow;
@@ -27,7 +27,7 @@ struct ExitEditor
 	
 	void clearWindows();
 	void resetWindows();
-	DungeonRoom* load(DungeonExit *_dungeonExit,DungeonRoom *_fromRoom);
+	DungeonRoom* load(DungeonExit *_dungeonExit);
 
 	string set(vector<string> args);
 	string add(vector<string> args);

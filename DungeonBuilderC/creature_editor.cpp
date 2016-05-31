@@ -141,13 +141,15 @@ void CreatureEditor::clearWindows()
 	delwin(commandWindow);
 	delwin(responseWindow);
 	delwin(mainWindow);
+	delwin(headerWindow);
 }
 
 void CreatureEditor::resetWindows()
 {
 	commandWindow = newwin(1,getCols(),LINES-1,0);
 	responseWindow = newwin(1,getCols(),LINES-2,0);
-	mainWindow = newwin(LINES-2,getCols()-2,0,1);
+	mainWindow = newwin(LINES-3,getCols(),1,0);
+	headerWindow = newwin(1,getCols(),0,0);
 	getmaxyx(stdscr,h,w); // this doesn't work in windows
 	refresh();
 
@@ -157,9 +159,9 @@ void CreatureEditor::resetWindows()
 
 	string command;
 
-	setcolors(mainWindow,1,COLOR_RED,COLOR_BLACK);
-	mvwprintwCenterBold(mainWindow,1,"Creature Editor");
-	setcolor(mainWindow,2,COLOR_WHITE);
+	printHeader(headerWindow,creature->parent->getPrimaryName(),"CREATURE:"+creature->getPrimaryName(),"");
+	
+	setcolor(mainWindow,1,COLOR_WHITE);
 	string nameRow = STR_MENU_NAME + join(0,creature->getNames(),",");
 	mvwprintw(mainWindow,3,0,nameRow.c_str());
 	string desc = creature->description.size() > 0 ? creature->description[0] + STR_ELLIPSES : "";

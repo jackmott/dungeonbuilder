@@ -10,21 +10,22 @@ void TextEditor::clearWindows()
 	x = 0;
 	y = 0;
 	done = 0;
-	header = "";	
 	delwin(headerWindow);
 	delwin(mainWindow);	
 	clear();
 }
 
-vector<string> TextEditor::edit(string _header,vector<string> startText)
-{	
-	header = _header;
+vector<string> TextEditor::edit(string header,vector<string> startText)
+{		
 	lines = startText;
 	x = 0;
 	y = 0;
 	appendLine("");
 	headerWindow = newwin(1,getCols(),0,0);
 	mainWindow = newwin(LINES-1,getCols(),1,0);
+
+	printHeader(headerWindow,header);
+
 	scrollok(mainWindow,true);
 	keypad(mainWindow,true);   //turns on arrows and f keys
 	w = getmaxx(stdscr); // this doesn't work in windows
@@ -35,9 +36,7 @@ vector<string> TextEditor::edit(string _header,vector<string> startText)
 	
 	while(!done)
 	{
-		printBuff();
-		printStatusLine();
-		wrefresh(headerWindow);
+		printBuff();				
 		int input = wgetch(mainWindow);
 		handleInput(input);
 	}
@@ -224,10 +223,4 @@ void TextEditor::printBuff() {
 	wmove(mainWindow,y,x);
 }
 
-void TextEditor::printStatusLine() {
-	setcolors(headerWindow,3,COLOR_BLACK,COLOR_RED);
-	wclear(headerWindow);
-	mvwprintwCenterBold(headerWindow,0,header);
-	wclrtoeol(headerWindow);
-}
 

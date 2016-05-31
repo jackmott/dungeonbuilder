@@ -19,6 +19,7 @@ private:
 	vector <string> names;
 
 public:
+	DungeonEntity* parent;
 	unsigned long uid;	
 	virtual void addName(string name);
 	virtual void setPrimaryName(string name);
@@ -51,6 +52,7 @@ struct DungeonExit: DungeonEntity
 	DungeonExit();
 	~DungeonExit();
 
+	
 
 	bool isDoor;   // or window, or pile of rocks, whatever	
 	bool isOpen;   //or whatever
@@ -65,7 +67,7 @@ struct DungeonExit: DungeonEntity
 
 
 	DungeonRoom* room;
-	DungeonRoom* fromRoom;
+	
 
 	string toJSON();
 };
@@ -104,6 +106,7 @@ struct DungeonObject: DungeonEntity
 	bool isOpen;
 	bool canTake;
 
+	
 	vector<DungeonObject*> contents;
 	vector<string> useAliases;
 	

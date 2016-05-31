@@ -173,7 +173,7 @@ void ExitEditor::resetWindows()
 	commandWindow = newwin(1,getCols(),LINES-1,0);
 	responseWindow = newwin(1,getCols(),LINES-2,0);
 	headerWindow = newwin(1,getCols(),0,0);
-	mainWindow = newwin(LINES-3,getCols()-2,1,1);
+	mainWindow = newwin(LINES-3,getCols(),1,0);
 	
 	refresh();
 
@@ -184,7 +184,7 @@ void ExitEditor::resetWindows()
 	string command;
 
 	
-	printHeader(headerWindow,dungeonExit->fromRoom->getPrimaryName(),"EXIT:"+dungeonExit->getPrimaryName(),dungeonExit->room->getPrimaryName());
+	printHeader(headerWindow,dungeonExit->parent->getPrimaryName(),"EXIT:"+dungeonExit->getPrimaryName(),dungeonExit->room->getPrimaryName());
 	
 	
 	int lineCount = 2;
@@ -231,10 +231,10 @@ void ExitEditor::resetWindows()
 
 }
 
-DungeonRoom* ExitEditor::load(DungeonExit *_dungeonExit,DungeonRoom *_fromRoom)
+DungeonRoom* ExitEditor::load(DungeonExit *_dungeonExit)
 {
 	dungeonExit = _dungeonExit;
-	fromRoom = _fromRoom;
+	
 	cmdMap[STR_EDIT] = &ExitEditor::edit;
 	cmdMap[STR_EXIT] = &ExitEditor::exit;
 	cmdMap[STR_SET] = &ExitEditor::set;

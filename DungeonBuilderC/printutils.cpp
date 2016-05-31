@@ -100,6 +100,22 @@ void printHeader(WINDOW *window,string leftText,string centerText,string rightTe
 	wrefresh(window);
 }
 
+void printHeader(WINDOW *window,string leftText,string rightText){
+	init_pair(10,DUNGEON_HEADER_FG,DUNGEON_HEADER_BG);
+	wbkgd(window,COLOR_PAIR(10));
+	wclrtoeol(window);
+	
+	rightText = STR_RIGHT_ARROW + rightText;
+	
+	int startX = (getCols() - (leftText.size()+rightText.size()))/2;
+	setcolors(window,11,DUNGEON_HEADER_FG,DUNGEON_HEADER_BG);
+	mvwprintw(window,0,startX,leftText.c_str());
+	startX += leftText.size();
+	setcolors(window,12,DUNGEON_HEADER_FG_BOLD,DUNGEON_HEADER_BG);
+	mvwprintwBold(window,0,startX,rightText.c_str());	
+	wrefresh(window);
+}
+
 void printHeader(WINDOW* window,string text)
 {
 	init_pair(10,DUNGEON_HEADER_FG_BOLD,DUNGEON_HEADER_BG);
@@ -107,5 +123,5 @@ void printHeader(WINDOW* window,string text)
 	wclrtoeol(window);
 
 	mvwprintwCenterBold(window,0,text.c_str());
-
+	wrefresh(window);
 }
