@@ -293,12 +293,12 @@ string RoomEditor::add(vector<string> args)
 		DungeonRoomList listPicker;
 		clearWindows();
 		DungeonRoom *newRoom = listPicker.load(g_roomList,e);
-
+		
 		//Once a room is picked, fire up the exit editor with the room
 		if(newRoom != nullptr)
 		{
 			e->room = newRoom;
-			ExitEditor ed;
+			ExitEditor ed;			
 			newRoom = ed.load(e,room);
 			if(newRoom != nullptr)
 			{
@@ -332,7 +332,7 @@ void RoomEditor::resetWindows()
 {
 	commandWindow = newwin(1,getCols(),LINES-1,0);
 	responseWindow = newwin(1,getCols(),LINES-2,0);
-	mainWindow = newwin(LINES-2,getCols()-8,0,4);
+	mainWindow = newwin(LINES-2,getCols()-2,0,1);
 	scrollok(mainWindow,TRUE);
 	getmaxyx(stdscr,h,w); // this doesn't work in windows
 
@@ -374,7 +374,7 @@ void RoomEditor::resetWindows()
 	for(auto e : room->exits)
 	{
 		lineCount++;
-		string row = e->getPrimaryName() + STR_ARROW + e->room->getPrimaryName();
+		string row = e->getPrimaryName() + STR_RIGHT_ARROW + e->room->getPrimaryName();
 		mvwprintw(mainWindow,lineCount,2,row.c_str());
 	}
 	lineCount++;

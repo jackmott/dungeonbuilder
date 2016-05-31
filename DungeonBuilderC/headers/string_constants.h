@@ -11,7 +11,7 @@
 #define STR_MENU_EXIT "[Add/Del/Edit](Exit):"
 #define STR_MENU_USE_ALIAS "[Add/Del](UseAlias):"
 #define STR_MENU_HITPOINTS "[Set](Hitpoints):"
-#define STR_MENU_ROOM "[Add/Del/Set/Edit](Room):"
+#define STR_MENU_EXIT_ROOM "[Set/Edit](Room):"
 #define STR_MENU_DAMAGE "[Set](Damage):"
 #define STR_MENU_TAKEABLE "[Set](Takeable)[T/F]:"
 #define STR_MENU_CAN_OPEN "[Set](Openable)[T/F]:"
@@ -71,7 +71,7 @@
 
 
 #define STR_TAB  "    "
-#define STR_ARROW "->"
+#define STR_RIGHT_ARROW " \xAF "
 #define STR_JOINER ","
 #define STR_PROMPT ">"
 #define STR_ELLIPSES "..."

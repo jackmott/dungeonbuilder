@@ -79,19 +79,25 @@ void DungeonRoomList::resetWindows()
 
 	
 
-	setcolor(headerWindow,1,COLOR_RED);
+	init_pair(1,COLOR_BLACK,COLOR_RED);
+	wbkgd(headerWindow,COLOR_PAIR(1));
+	wclrtoeol(headerWindow);
+	
 	if(fromExit != nullptr){
-		string fromTxt = fromExit->fromRoom->getPrimaryName()+ " -> ";
-		string exitTxt = fromExit->getPrimaryName() + " -> ";
-		string endTxt = "Select or [New](Name)";
+		string fromTxt = fromExit->fromRoom->getPrimaryName();
+		string exitTxt = STR_RIGHT_ARROW;
+		exitTxt += "EXIT:"+fromExit->getPrimaryName() + STR_RIGHT_ARROW;
+		string endTxt = "[#/New](Name)";
 
 		int w = getmaxx(headerWindow);
 		int startX = (w- (fromTxt.size()+exitTxt.size()+endTxt.size()))/2;
-		
+		setcolors(headerWindow,2,COLOR_BLACK,COLOR_RED);
 		mvwprintw(headerWindow,0,startX,fromTxt.c_str());
 		startX += fromTxt.size();
+		setcolors(headerWindow,3,COLOR_WHITE,COLOR_RED);
 		mvwprintwBold(headerWindow,0,startX,exitTxt.c_str());
 		startX += exitTxt.size();
+		setcolors(headerWindow,2,COLOR_BLACK,COLOR_RED);
 		mvwprintw(headerWindow,0,startX,endTxt.c_str());
 	}
 	else {
@@ -99,7 +105,7 @@ void DungeonRoomList::resetWindows()
 	}
 
 	int lineCount = 0;
-	setcolor(mainWindow,2,COLOR_WHITE);
+	setcolor(mainWindow,4,COLOR_WHITE);
 	int idWidth = 5;
 	int numRows = getRows()-5;
 	//print all the rooms
@@ -121,7 +127,7 @@ void DungeonRoomList::resetWindows()
 			if(e->room != nullptr)
 			{
 				lineCount++;
-				string row = e->getPrimaryName() +" -> "+ e->room->getPrimaryName();
+				string row = e->getPrimaryName() +STR_RIGHT_ARROW+ e->room->getPrimaryName();
 				mvwprintw(mainWindow,lineCount,idWidth+2,row.c_str());
 			}
 		}
@@ -163,6 +169,7 @@ DungeonRoom* DungeonRoomList::load(vector<DungeonRoom *> _rooms,DungeonExit* _fr
 			DungeonRoom* resultRoom = pickRoom(id);
 			if(resultRoom != nullptr)
 			{
+				clearWindows();
 				return resultRoom;
 			}
 			else {
@@ -190,6 +197,7 @@ DungeonRoom* DungeonRoomList::load(vector<DungeonRoom *> _rooms,DungeonExit* _fr
 			DungeonRoom* room = (this->*cmdFunc)(cmd);
 			if(room != nullptr)
 			{
+				clearWindows();
 				return room;
 			}
 			else {

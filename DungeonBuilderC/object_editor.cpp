@@ -232,7 +232,7 @@ void ObjectEditor::resetWindows()
 {
 	commandWindow = newwin(1,getCols(),LINES-1,0);
 	responseWindow = newwin(1,getCols(),LINES-2,0);
-	mainWindow = newwin(LINES-2,getCols()-8,0,4);
+	mainWindow = newwin(LINES-2,getCols()-2,0,1);
 	getmaxyx(stdscr,h,w); // this doesn't work in windows
 	refresh();
 

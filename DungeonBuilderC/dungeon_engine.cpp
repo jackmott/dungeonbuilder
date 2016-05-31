@@ -279,7 +279,7 @@ void DungeonEngine::resetWindows()
 
 	mainWindow = newwin(LINES-2,getCols(),1,0);
 	scrollok(mainWindow,TRUE);
-	getmaxyx(stdscr,h,w); // this doesn't work in windows
+	getmaxyx(stdscr,h,w);
 
 	init_pair(1,COLOR_BLACK,COLOR_RED);
 	wbkgd(headerWindow,COLOR_PAIR(1));

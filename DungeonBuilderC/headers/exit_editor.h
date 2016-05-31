@@ -20,8 +20,9 @@ struct ExitEditor
 	WINDOW *responseWindow;
 	WINDOW *commandWindow;
 	WINDOW *mainWindow;
+	WINDOW *headerWindow;
 
-	int w,h;
+	
 
 	
 	void clearWindows();
