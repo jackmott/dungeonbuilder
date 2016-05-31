@@ -11,6 +11,23 @@
 using namespace std;
 
 
+DungeonRoom* DungeonRoomList::pageUp(vector<string> args)
+{
+	pos -= 3;
+	if (pos < 0 ) pos = 0;
+	resetWindows();
+	return nullptr;
+}
+
+DungeonRoom* DungeonRoomList::pageDown(vector<string> args)
+{
+	pos += 3;
+	if (pos > rooms.size() - getRows() - 5) pos -= 3;
+	resetWindows();
+	return nullptr;
+}
+
+
 DungeonRoom* DungeonRoomList::pickRoom(int id)
 {
 	for(auto r : rooms)
@@ -40,54 +57,64 @@ void DungeonRoomList::clearWindows()
 	delwin(commandWindow);
 	delwin(responseWindow);
 	delwin(mainWindow);
+	delwin(headerWindow);
 }
 
 void DungeonRoomList::resetWindows()
 {
 	commandWindow = newwin(1,getCols(),LINES-1,0);
+	keypad(commandWindow,true);
 	responseWindow = newwin(1,getCols(),LINES-2,0);
-	mainWindow = newwin(LINES-2,getCols()-8,0,4);
-	getmaxyx(stdscr,h,w); // this doesn't work in windows
+	headerWindow = newwin(1,getCols(),0,0);
+	mainWindow = newwin(LINES-3,getCols()-2,1,1);
+	
 	refresh();
 
 	wrefresh(commandWindow);
 	wrefresh(responseWindow);
 	wrefresh(mainWindow);
+	wrefresh(headerWindow);
 
 	string command;
 
-	int lineCount = 1;
+	
 
-	setcolor(mainWindow,1,COLOR_RED);
+	setcolor(headerWindow,1,COLOR_RED);
 	if(fromExit != nullptr){
 		string fromTxt = fromExit->fromRoom->getPrimaryName()+ " -> ";
 		string exitTxt = fromExit->getPrimaryName() + " -> ";
 		string endTxt = "Select or [New](Name)";
 
-		int w = getmaxx(mainWindow);
+		int w = getmaxx(headerWindow);
 		int startX = (w- (fromTxt.size()+exitTxt.size()+endTxt.size()))/2;
 		
-		mvwprintw(mainWindow,lineCount,startX,fromTxt.c_str());
+		mvwprintw(headerWindow,0,startX,fromTxt.c_str());
 		startX += fromTxt.size();
-		mvwprintwBold(mainWindow,lineCount,startX,exitTxt.c_str());
+		mvwprintwBold(headerWindow,0,startX,exitTxt.c_str());
 		startX += exitTxt.size();
-		mvwprintw(mainWindow,lineCount,startX,endTxt.c_str());
+		mvwprintw(headerWindow,0,startX,endTxt.c_str());
 	}
 	else {
-		mvwprintwCenterBold(mainWindow,lineCount,"Select or [New](Name)");
+		mvwprintwCenterBold(headerWindow,0,"Select or [New](Name)");
 	}
 
-
+	int lineCount = 0;
 	setcolor(mainWindow,2,COLOR_WHITE);
 	int idWidth = 5;
+	int numRows = getRows()-5;
 	//print all the rooms
-	for(auto r : rooms)
+	for (int i = pos; i < numRows+pos; i++)
 	{
+		if(i >= rooms.size())
+		{
+			break;
+		}
+		DungeonRoom *r = rooms[i];
 		lineCount++;
 		string id = to_string(r->uid);
-		int spaces = idWidth - id.length();
+		
 		mvwprintwBold(mainWindow,lineCount,0,id.c_str());
-		mvwprintw(mainWindow,lineCount,spaces,r->getPrimaryName().c_str());
+		mvwprintw(mainWindow,lineCount,idWidth,r->getPrimaryName().c_str());
 		//print each rooms immediate exits
 		for(auto e : r->exits)
 		{
@@ -98,10 +125,14 @@ void DungeonRoomList::resetWindows()
 				mvwprintw(mainWindow,lineCount,idWidth+2,row.c_str());
 			}
 		}
+		
+	}
+	if(rooms.size() > numRows+pos) {
+		mvwprintwCenter(mainWindow,numRows+1,"PgDown For More");
 	}
 
-
 	wrefresh(mainWindow);
+	wrefresh(headerWindow);
 
 }
 
@@ -111,8 +142,11 @@ DungeonRoom* DungeonRoomList::load(vector<DungeonRoom *> _rooms,DungeonExit* _fr
 	rooms = _rooms;
 	fromExit = _fromExit;
 
-	cmdMap[STR_NEW] = &DungeonRoomList::newRoom;
+	pos = 0;
 
+	cmdMap[STR_NEW] = &DungeonRoomList::newRoom;
+	cmdMap[STR_PAGE_UP] = &DungeonRoomList::pageUp;
+	cmdMap[STR_PAGE_DOWN] = &DungeonRoomList::pageDown;
 	resetWindows();
 
 	CommandWindow cmdW;

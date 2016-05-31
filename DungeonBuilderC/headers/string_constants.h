@@ -65,8 +65,8 @@
 #define STR_LOOK_AT "look at"
 #define STR_EXAMINE "examine"
 #define STR_DROP "drop"
-#define STR_PAGE_UP "PAGE_UP"
-#define STR_PAGE_DOWN "PAGE_DOWN"
+#define STR_PAGE_UP "page_up"
+#define STR_PAGE_DOWN "page_down"
 
 
 

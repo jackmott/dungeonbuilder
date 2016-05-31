@@ -19,11 +19,12 @@ struct DungeonRoomList
 	WINDOW *responseWindow;
 	WINDOW *commandWindow;
 	WINDOW *mainWindow;
+	WINDOW *headerWindow;
 
 	vector<DungeonRoom*> rooms;
 	DungeonExit* fromExit;
-
-	int w,h;
+	
+	int pos;
 
 	
 	void clearWindows();
@@ -33,7 +34,8 @@ struct DungeonRoomList
 	DungeonRoom* load(vector<DungeonRoom*> _rooms, DungeonExit* _fromExit = nullptr);
 	DungeonRoom* pickRoom(int id);
 	DungeonRoom* newRoom(vector<string> args);
-
+	DungeonRoom* pageUp(vector<string> args);
+	DungeonRoom* pageDown(vector<string> args);
 
 };
 
