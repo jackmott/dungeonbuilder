@@ -14,7 +14,6 @@ contact me at jack.mott@theemailmanypeopleusethatgoogledoes
 - General C/C++ guidance 
 - Fixing *NIX specific issues 
 - Setting up a system where game state can be tranmitted via sockets - allowing multi-term/monitor support
-- An editor screen to list all creatures/rooms/objects with some sort of interface for selction by id?
 - Feature to save game transcript to a file
 - Enhance the in game text editor
 - A markup system for 'bold' and color
