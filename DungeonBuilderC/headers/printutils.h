@@ -16,5 +16,7 @@ void setcolor (WINDOW* window, int group, int fore);
 void setcolors(WINDOW* window, int group, int fore,int back);
 unsigned int getCols();
 unsigned int getRows();
+void printHeader(WINDOW *window,string leftText,string centerText,string rightText);
+void printHeader(WINDOW* window,string text);
 
 #endif

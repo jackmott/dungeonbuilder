@@ -173,7 +173,7 @@ void ExitEditor::resetWindows()
 	commandWindow = newwin(1,getCols(),LINES-1,0);
 	responseWindow = newwin(1,getCols(),LINES-2,0);
 	headerWindow = newwin(1,getCols(),0,0);
-	mainWindow = newwin(LINES-3,getCols()-2,0,1);
+	mainWindow = newwin(LINES-3,getCols()-2,1,1);
 	
 	refresh();
 
@@ -184,31 +184,11 @@ void ExitEditor::resetWindows()
 	string command;
 
 	
+	printHeader(headerWindow,dungeonExit->fromRoom->getPrimaryName(),"EXIT:"+dungeonExit->getPrimaryName(),dungeonExit->room->getPrimaryName());
 	
-	string fromTxt = dungeonExit->fromRoom->getPrimaryName();
 	
-	string exitTxt =  STR_RIGHT_ARROW;
-	exitTxt += "EXIT:" + dungeonExit->getPrimaryName()  + STR_RIGHT_ARROW;
-	string toTxt = dungeonExit->room->getPrimaryName();
-
-	int w = getCols();
-	int startX = (w- (fromTxt.size()+exitTxt.size()+toTxt.size()))/2;
-	init_pair(1,COLOR_BLACK,COLOR_RED);
-	wbkgd(headerWindow,COLOR_PAIR(1));
-	wclrtoeol(headerWindow);
-	
-	setcolors(headerWindow,2,COLOR_BLACK,COLOR_RED);	
-	mvwprintw(headerWindow,0,startX,fromTxt.c_str());
-	startX += fromTxt.size();
-	setcolors(headerWindow,3,COLOR_WHITE,COLOR_RED);
-	mvwprintw(headerWindow,0,startX,exitTxt.c_str());
-	startX += exitTxt.size();
-	setcolors(headerWindow,2,COLOR_BLACK,COLOR_RED);
-	mvwprintw(headerWindow,0,startX,toTxt.c_str());
-	wrefresh(headerWindow);
-
 	int lineCount = 2;
-	setcolor(mainWindow,4,COLOR_WHITE);
+	setcolor(mainWindow,1,COLOR_WHITE);
 
 
 	string nameRow = STR_MENU_NAME + join(0,dungeonExit->getNames(),",");

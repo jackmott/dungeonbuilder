@@ -22,7 +22,7 @@
 #define STR_MENU_OPENINGTEXT "[Set](OpeningText):"
 #define STR_MENU_CLOSINGTEXT "[Set](ClosingText):"
 #define STR_MENU_ROOM_MOVE "[Go](Exit/Blank)"
-
+#define STR_MENU_ID_OR_NEW "[#/New](Name)"
 
 #define STR_GO "go"
 #define STR_NEW "new"

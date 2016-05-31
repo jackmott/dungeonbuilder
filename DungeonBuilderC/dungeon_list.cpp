@@ -79,33 +79,16 @@ void DungeonRoomList::resetWindows()
 
 	
 
-	init_pair(1,COLOR_BLACK,COLOR_RED);
-	wbkgd(headerWindow,COLOR_PAIR(1));
-	wclrtoeol(headerWindow);
 	
 	if(fromExit != nullptr){
-		string fromTxt = fromExit->fromRoom->getPrimaryName();
-		string exitTxt = STR_RIGHT_ARROW;
-		exitTxt += "EXIT:"+fromExit->getPrimaryName() + STR_RIGHT_ARROW;
-		string endTxt = "[#/New](Name)";
-
-		int w = getmaxx(headerWindow);
-		int startX = (w- (fromTxt.size()+exitTxt.size()+endTxt.size()))/2;
-		setcolors(headerWindow,2,COLOR_BLACK,COLOR_RED);
-		mvwprintw(headerWindow,0,startX,fromTxt.c_str());
-		startX += fromTxt.size();
-		setcolors(headerWindow,3,COLOR_WHITE,COLOR_RED);
-		mvwprintwBold(headerWindow,0,startX,exitTxt.c_str());
-		startX += exitTxt.size();
-		setcolors(headerWindow,2,COLOR_BLACK,COLOR_RED);
-		mvwprintw(headerWindow,0,startX,endTxt.c_str());
+		printHeader(headerWindow,fromExit->fromRoom->getPrimaryName(),"EXIT:"+fromExit->getPrimaryName(),STR_MENU_ID_OR_NEW);		
 	}
 	else {
-		mvwprintwCenterBold(headerWindow,0,"Select or [New](Name)");
+		printHeader(headerWindow,STR_MENU_ID_OR_NEW);		
 	}
 
 	int lineCount = 0;
-	setcolor(mainWindow,4,COLOR_WHITE);
+	setcolor(mainWindow,1,COLOR_WHITE);
 	int idWidth = 5;
 	int numRows = getRows()-5;
 	//print all the rooms
