@@ -13,6 +13,7 @@ contact me at jack.mott@theemailmanypeopleusethatgoogledoes
 ### Things To Do
 - General C/C++ guidance 
 - Fixing *NIX specific issues 
+- Better handling of language. Accurate selection of articles "a / an / some", auto-plural forms etc.
 - Setting up a system where game state can be tranmitted via sockets - allowing multi-term/monitor support
 - Feature to save game transcript to a file
 - Enhance the in game text editor
