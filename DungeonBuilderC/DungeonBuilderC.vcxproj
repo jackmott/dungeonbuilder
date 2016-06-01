@@ -23,6 +23,7 @@
     <ClCompile Include="dungeon_list.cpp" />
     <ClCompile Include="dungeon_data.cpp" />
     <ClCompile Include="dungeon_engine.cpp" />
+    <ClCompile Include="effect_editor.cpp" />
     <ClCompile Include="JSON_loader.cpp" />
     <ClCompile Include="text_editor.cpp">
     </ClCompile>
@@ -33,6 +34,7 @@
     <ClInclude Include="headers\command_window.h" />
     <ClInclude Include="headers\creature_editor.h" />
     <ClInclude Include="headers\dungeon_data.h" />
+    <ClInclude Include="headers\effect_editor.h" />
     <ClInclude Include="headers\exit_editor.h" />
     <ClInclude Include="headers\dungeon_list.h" />
     <ClInclude Include="headers\JSON_loader.h" />
@@ -56,6 +58,9 @@
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\pdcurses.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="makefile" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{799C09B3-0B2C-4371-8D26-DDAA12EE6691}</ProjectGuid>

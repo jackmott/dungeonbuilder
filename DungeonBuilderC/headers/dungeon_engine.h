@@ -50,7 +50,7 @@ struct DungeonEngine
 	string exit(string args);
 	string pageDown(string args);
 	string pageUp(string args);
-	string action(string, actionStr,string args);
+	string action(string actionStr,string args);
 	string lookCmd(string args);
 	string examine(string args);
 

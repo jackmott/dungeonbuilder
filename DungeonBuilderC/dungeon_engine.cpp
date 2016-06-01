@@ -172,11 +172,19 @@ string DungeonEngine::take(string args)
 string DungeonEngine::action(string actionStr, string args)
 {
 
-	DungeonObject* playerObject = extractObject(&player->objects,&args);
+	int matchedName = -1;
+	DungeonObject* playerObject = extractObject(&player->objects,&args,&matchedName);
 
-	DungeonAction* action = extractAction(&playerObject->actions,&args);
+	
 	if(playerObject != nullptr) {
-
+		string name = playerObject->getNames()[matchedName];
+		int pos = args.find(name);
+		args.erase(pos,name.size());
+		DungeonAction* action = (DungeonAction*) extractEntity(&playerObject->actions,&args);
+		for(auto e : action->effects)
+		{
+			e->apply();
+		}
 	}
 	else
 	{
@@ -403,7 +411,6 @@ void DungeonEngine::updateCmdMap()
 	cmdMap[STR_EXIT] = &DungeonEngine::exit;
 	cmdMap[STR_PAGE_UP] = &DungeonEngine::pageUp;
 	cmdMap[STR_PAGE_DOWN] = &DungeonEngine::pageDown;
-	cmdMap[STR_USE] = &DungeonEngine::use;
 	cmdMap[STR_LOOK_AT] = &DungeonEngine::examine;
 	cmdMap[STR_TAKE] = &DungeonEngine::take;
 	cmdMap[STR_LOOK] = &DungeonEngine::lookCmd;
