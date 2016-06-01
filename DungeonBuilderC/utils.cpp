@@ -158,8 +158,11 @@ string thereIsA(string thing)
 bool removeStr(vector<string> *strs,string str)
 {
 	int i = 0;
+	str = toLower(str);
+
 	for(auto s : *strs)
 	{
+		s = toLower(s);
 		if(s == str)
 		{
 			strs->erase(strs->begin()+i);
@@ -186,7 +189,7 @@ void removePointer(void* _pointers,void* pointer)
 }
 
 // void* considered harmful. living dangerously.
-DungeonEntity* extractEntity(void * _entities,string *userInput)
+DungeonEntity* extractEntity(void * _entities,string *userInput, int* matchedName)
 {
 	vector<DungeonEntity*> *entities = (vector<DungeonEntity*> *)_entities;
 	vector<DungeonEntity*> sortedEntities;
@@ -202,12 +205,14 @@ DungeonEntity* extractEntity(void * _entities,string *userInput)
 	{
 		vector<string> lcaseNames = e->getLcaseNames();
 		//strlensort(&lcaseNames);
+		int i = 0;
 		for(auto s : lcaseNames)
 		{			
 			if(lcaseInput.compare(s) == 0)
-			{				
+			{	if (matchedName != nullptr) *matchedName = i;
 				return e;
 			}
+			i++;
 		}
 	}
 	return nullptr;
@@ -237,9 +242,9 @@ DungeonObject* extractAndRemoveObject(vector<DungeonObject*> * objects,string *u
 }
 
 
-DungeonObject* extractObject(vector<DungeonObject*> * objects,string *userInput)
+DungeonObject* extractObject(vector<DungeonObject*> * objects,string *userInput, int* matchedName)
 {
-	DungeonObject* result = (DungeonObject*)extractEntity(objects,userInput);
+	DungeonObject* result = (DungeonObject*)extractEntity(objects,userInput,matchedName);
 	if(result != nullptr) {
 		return result;
 	}
@@ -248,7 +253,7 @@ DungeonObject* extractObject(vector<DungeonObject*> * objects,string *userInput)
 
 		if(o->isOpen && o->contents.size() > 0)
 		{
-			result = extractObject(&o->contents,userInput);
+			result = extractObject(&o->contents,userInput,matchedName);
 			if (result != nullptr) return result;
 
 		}

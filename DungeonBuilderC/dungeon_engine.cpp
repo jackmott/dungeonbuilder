@@ -170,25 +170,29 @@ string DungeonEngine::take(string args)
 	}
 
 }
-string DungeonEngine::use(string args)
+string DungeonEngine::action(string actionStr, string args)
 {
-	//DungeonObject* roomObject = (DungeonObject*)extractEntity(&room->objects,&args);
-	DungeonObject* playerObject = extractObject(&player->objects,&args);
-	DungeonCreature* creature = (DungeonCreature*)extractEntity(&room->creatures,&args);
 
-	if(playerObject != nullptr && creature != nullptr) {
-		string response = creature->attack(playerObject,player);
-		if(creature->hitpoints <= 0)
+	int matchedName = -1;
+	DungeonObject* playerObject = extractObject(&player->objects,&args,&matchedName);
+
+	
+	if(playerObject != nullptr) {
+		string name = playerObject->getNames()[matchedName];
+		int pos = args.find(name);
+		args.erase(pos,name.size());
+		DungeonAction* action = (DungeonAction*) extractEntity(&playerObject->actions,&args);
+		for(auto e : action->effects)
 		{
-			removePointer(&room->creatures,creature);
+			e->apply();
 		}
-		return response;
 	}
 	else
 	{
 		return "Your attempt amounts to nothing.";
 	}
-
+	
+	return "";
 }
 
 string DungeonEngine::open(string args)
@@ -409,7 +413,6 @@ void DungeonEngine::updateCmdMap()
 	cmdMap[STR_EXIT] = &DungeonEngine::exit;
 	cmdMap[STR_PAGE_UP] = &DungeonEngine::pageUp;
 	cmdMap[STR_PAGE_DOWN] = &DungeonEngine::pageDown;
-	cmdMap[STR_USE] = &DungeonEngine::use;
 	cmdMap[STR_LOOK_AT] = &DungeonEngine::examine;
 	cmdMap[STR_TAKE] = &DungeonEngine::take;
 	cmdMap[STR_LOOK] = &DungeonEngine::lookCmd;
@@ -432,27 +435,16 @@ void DungeonEngine::updateCmdMap()
 	}
 
 
-
 	//iterate over players inventory and add all
 	//aliases for the verb 'use' to the cmdMap
+	actionMap.clear();
 	for(auto o : player->objects)
 	{
 		for(auto action : o->actions)
 		{
 			for (auto name : action->getLcaseNames())
 			{
-				cmdMap[name] = &DungeonEngine::use;
-			}
-		}
-	}
-
-	for(auto o : room->objects)
-	{
-		for(auto action : o->actions)
-		{
-			for (auto name : action->getLcaseNames())
-			{
-				cmdMap[name] = &DungeonEngine::use;
+				actionMap[name] = &DungeonEngine::action;
 			}
 		}
 	}

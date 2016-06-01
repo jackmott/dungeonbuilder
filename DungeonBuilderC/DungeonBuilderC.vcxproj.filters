@@ -15,6 +15,7 @@
     <ClCompile Include="dungeon_engine.cpp" />
     <ClCompile Include="JSON_loader.cpp" />
     <ClCompile Include="dungeon_list.cpp" />
+    <ClCompile Include="effect_editor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\panel.h" />
@@ -34,8 +35,12 @@
     <ClInclude Include="headers\pdcurses.h" />
     <ClInclude Include="headers\lib.h" />
     <ClInclude Include="headers\dungeon_list.h" />
+    <ClInclude Include="headers\effect_editor.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\pdcurses.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="makefile" />
   </ItemGroup>
 </Project>
