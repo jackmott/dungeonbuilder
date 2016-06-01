@@ -79,7 +79,7 @@ string a_an (string s)
 	}
 }
 
-string join(unsigned int offset,vector<string> &v,string delim)
+string join(unsigned int offset,vector<string> const &v,string delim)
 {
 	string result;
 	for(auto i = offset; i < v.size();i++)

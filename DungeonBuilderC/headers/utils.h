@@ -12,7 +12,7 @@ extern unsigned long global_id;
 unsigned long getUID();
 vector<string> &split(const string &s, char delim, vector<string> &elems);
 vector<string> split(const string &s, char delim);
-string join(unsigned int offset, vector<string> &v, string delim);
+string join(unsigned int offset, vector<string> const &v, string delim);
 vector<string> removeArticles(vector<string> words);
 bool containsWith(vector<string> word);
 string toLower(string s);

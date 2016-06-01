@@ -34,7 +34,7 @@ public:
 	virtual string getPrimaryName() const;
 	virtual vector<string> getNames() const;
 	virtual vector<string> getLcaseNames() const;
-	virtual string vectorStringToJSON(vector<string> *v) const;
+	virtual string vectorStringToJSON(vector<string> const &v) const;
 	bool removeName(string name);
 };
 

@@ -13,7 +13,8 @@ string DungeonEngine::exit(string args)
 
 string DungeonEngine::pageUp(string args)
 {
-	renderOffset = min(renderOffset+pageSize,textBuffer.size()-pageSize);
+    int bufferSize = (int)textBuffer.size() - pageSize;
+	renderOffset = min(renderOffset+pageSize,bufferSize);
 	return "";
 }
 
@@ -190,7 +191,8 @@ string DungeonEngine::action(string actionStr, string args)
 	{
 		return "Your attempt amounts to nothing.";
 	}
-
+	
+	return "";
 }
 
 string DungeonEngine::open(string args)
@@ -370,8 +372,8 @@ void DungeonEngine::render(unsigned long offset)
 	wclear(mainWindow);
 
 
-	int bufferSize = (int)textBuffer.size();
-	int end = max(0,bufferSize - offset);
+	int bufferSize = (int)textBuffer.size() - offset;
+	int end = max(0,bufferSize);
 	int start = max(0,end-LINES);
 
 
