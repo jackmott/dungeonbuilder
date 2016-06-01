@@ -61,13 +61,13 @@ string DungeonEntity::getPrimaryName() const
 }
 
 
-string DungeonEntity::vectorStringToJSON(vector<string> *v) const
+string DungeonEntity::vectorStringToJSON(vector<string> const &v) const
 {
 	string result = "[";
-	for(unsigned int i = 0; i < v->size(); i++)
+	for(unsigned int i = 0; i < v.size(); i++)
 	{
-		result += "\"" + (*v)[i] + "\"";
-		if(i != v->size()-1) {
+		result += "\"" + (v)[i] + "\"";
+		if(i != v.size()-1) {
 			result += ",";
 		}
 	}
@@ -91,8 +91,8 @@ string DungeonRoom::toJSON()
 {
 	ostringstream sout;
 	sout << STR_TAB << STR_TAB << STR_TAB << "\"uid\":" << uid << "," << endl;
-	sout << STR_TAB << STR_TAB << STR_TAB << "\"name\":" << vectorStringToJSON(&getNames()) << "," << endl;
-	sout << STR_TAB << STR_TAB << STR_TAB << "\"description\":" << vectorStringToJSON(&description) << "," << endl;
+	sout << STR_TAB << STR_TAB << STR_TAB << "\"name\":" << vectorStringToJSON(getNames()) << "," << endl;
+	sout << STR_TAB << STR_TAB << STR_TAB << "\"description\":" << vectorStringToJSON(description) << "," << endl;
 
 
 	sout << STR_TAB << STR_TAB << STR_TAB << "\"objects\":[" << endl;
@@ -134,7 +134,7 @@ string DungeonExit::toJSON()
 {
 	ostringstream sout;
 
-	sout << "\"name\":" << vectorStringToJSON(&getNames()) << ", \"isOpen\":" << isOpen
+	sout << "\"name\":" << vectorStringToJSON(getNames()) << ", \"isOpen\":" << isOpen
 		<< ", \"isDoor\":" << isDoor << ", \"distance\":" << distance << ", \"openingText\":\"" << openingText
 		<< "\", \"closingText\":\"" << closingText << "\", \"openText\":\"" << openText << "\", \"closedText\":\"" << closedText
 		<< "\", \"links\":" << room->uid;
@@ -162,10 +162,10 @@ DungeonObject::~DungeonObject()
 string DungeonObject::toJSON()
 {
 	ostringstream sout;
-	sout << "\"name\":" << vectorStringToJSON(&getNames()) << ", \"description\":" << vectorStringToJSON(&description) << ",";
+	sout << "\"name\":" << vectorStringToJSON(getNames()) << ", \"description\":" << vectorStringToJSON(description) << ",";
 	sout << " \"damage\":" << damage << ",\"mass\":" << mass << ", \"size\":" << size << ",";
 	sout << " \"canOpen\":" << canOpen << ",\"canTake\":" << canTake << ", \"isOpen\":" << isOpen << ",";
-//	sout << "\"useAlias\":" << vectorStringToJSON(&useAliases) << ", ";   TODO useAlias replaced by actions
+//	sout << "\"useAlias\":" << vectorStringToJSON(useAliases) << ", ";   TODO useAlias replaced by actions
 	sout << "\"contents\":[";
 	for (auto i = 0u; i < contents.size(); i++) {
 		sout << "{" << contents[i]->toJSON() << "}," << endl;
@@ -193,7 +193,7 @@ string DungeonCreature::toJSON()
 {
 	ostringstream sout;
 
-	sout << "\"name\":" << vectorStringToJSON(&getNames()) << ", \"description\":" << vectorStringToJSON(&description)
+	sout << "\"name\":" << vectorStringToJSON(getNames()) << ", \"description\":" << vectorStringToJSON(description)
 		<< ", \"hitpoints\":" << hitpoints << ", \"alignment\":" << alignment;
 	return sout.str();
 }
