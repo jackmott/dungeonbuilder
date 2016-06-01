@@ -13,7 +13,8 @@ string DungeonEngine::exit(string args)
 
 string DungeonEngine::pageUp(string args)
 {
-	renderOffset = min(renderOffset+pageSize,textBuffer.size()-pageSize);
+    int bufferSize = (int)textBuffer.size() - pageSize;
+	renderOffset = min(renderOffset+pageSize,bufferSize);
 	return "";
 }
 
@@ -367,8 +368,8 @@ void DungeonEngine::render(unsigned long offset)
 	wclear(mainWindow);
 
 
-	int bufferSize = (int)textBuffer.size();
-	int end = max(0,bufferSize - offset);
+	int bufferSize = (int)textBuffer.size() - offset;
+	int end = max(0,bufferSize);
 	int start = max(0,end-LINES);
 
 
