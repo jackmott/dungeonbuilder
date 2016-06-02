@@ -13,7 +13,7 @@ string DungeonEngine::exit(string args)
 
 string DungeonEngine::pageUp(string args)
 {
-    int bufferSize = (int)textBuffer.size() - pageSize;
+	int bufferSize = (int)textBuffer.size() - pageSize;
 	renderOffset = min(renderOffset+pageSize,bufferSize);
 	return "";
 }
@@ -170,28 +170,26 @@ string DungeonEngine::take(string args)
 	}
 
 }
-string DungeonEngine::action(string actionStr, string args)
+string DungeonEngine::action(string actionStr,string args)
 {
 
 	int matchedName = -1;
-	DungeonObject* playerObject = extractObject(&player->objects,&args,&matchedName);
+	DungeonObject* playerObject = extractObject(&player->objects,&args);
 
-	
 	if(playerObject != nullptr) {
-		string name = playerObject->getNames()[matchedName];
-		int pos = args.find(name);
-		args.erase(pos,name.size());
-		DungeonAction* action = (DungeonAction*) extractEntity(&playerObject->actions,&args);
+	
+		DungeonAction* action = (DungeonAction*)extractEntity(&playerObject->actions,&actionStr);
 		for(auto e : action->effects)
 		{
-			e->apply();
+			e->apply(player);
 		}
+		return action->output;
 	}
 	else
 	{
 		return "Your attempt amounts to nothing.";
 	}
-	
+
 	return "";
 }
 
@@ -210,9 +208,10 @@ string DungeonEngine::open(string args)
 	{
 		thingToOpen->isOpen = true;
 		if(thingToOpen->contents.size() == 0) {
-			textBuffer.push_back("You open the "+thingToOpen->getPrimaryName()+", it is empty.");		
-		} else {
-			textBuffer.push_back("You open the "+thingToOpen->getPrimaryName()+", inside you see");		
+			textBuffer.push_back("You open the "+thingToOpen->getPrimaryName()+", it is empty.");
+		}
+		else {
+			textBuffer.push_back("You open the "+thingToOpen->getPrimaryName()+", inside you see");
 			showContents(&thingToOpen->contents);
 		}
 		return "";
@@ -442,7 +441,7 @@ void DungeonEngine::updateCmdMap()
 	{
 		for(auto action : o->actions)
 		{
-			for (auto name : action->getLcaseNames())
+			for(auto name : action->getLcaseNames())
 			{
 				actionMap[name] = &DungeonEngine::action;
 			}
@@ -459,7 +458,7 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 	pageSize = LINES - 5;
 
 	//create a map of exit names to move to
-	
+
 	resetWindows();
 
 	CommandWindow cmdW;
@@ -498,7 +497,20 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 				string moveStr = extractPhrase(directions,&userInput);
 
 				if(moveStr == "") {
-					textBuffer.push_back("What are you doing, dave?");
+					vector<string> actions;
+					for(map<string,ActionFunction>::iterator it = actionMap.begin(); it != actionMap.end(); ++it) {
+						actions.push_back(it->first);
+					}
+
+					string actionStr = extractPhrase(actions,&userInput);
+					if(actionStr == ""){
+						textBuffer.push_back("What are you doing, dave?");
+					}
+					else {
+						ActionFunction actFunc = actionMap[actionStr];
+						string response = (this->*actFunc)(actionStr,userInput);
+						if (response.length() > 1) textBuffer.push_back(response);
+					}
 				}
 				else
 				{

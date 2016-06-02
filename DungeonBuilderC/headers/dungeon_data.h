@@ -47,10 +47,9 @@ struct DungeonEffect
 	
 	DungeonAction *parent;
 	int type;
-	DungeonPlayer *player;
 	string output;
 	int magnitude;
-	void apply();
+	void apply(DungeonPlayer* player);
 	static string typeToString(int type);
 	string getName();
 };

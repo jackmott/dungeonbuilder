@@ -50,7 +50,15 @@ string EffectEditor::set(vector<string> args)
 	}
 	string editNoun = args[1];
 	toLower(&editNoun);
-		resetWindows();
+	
+	if(editNoun == STR_MAGNITUDE)
+	{
+		string magStr = args[2];
+		int mag = stoi(magStr,nullptr,10);
+		effect->magnitude = mag;
+	}
+	
+	resetWindows();
 	return "";
 }
 
@@ -123,7 +131,7 @@ void EffectEditor::resetWindows()
 	mvwprintw(mainWindow,lineCount,0,typeRow.c_str());
 
 	lineCount++;
-	string magnitudeRow = STR_MENU_MAGNITUDE + effect->magnitude;
+	string magnitudeRow = STR_MENU_MAGNITUDE + to_string(effect->magnitude);
 	mvwprintw(mainWindow,lineCount,0,magnitudeRow.c_str());
 
 

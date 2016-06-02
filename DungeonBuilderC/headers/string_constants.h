@@ -46,6 +46,8 @@
 #define STR_MENU_TEXT_OUTPUT "[Set](Text):"
 #define STR_MENU_EFFECT "[Add/Del/Edit](Effect):"
 
+
+#define STR_MAGNITUDE "magnitude"
 #define STR_TEXT_OUTPUT "output"
 #define STR_EFFECT "effect"
 #define STR_GO "go"

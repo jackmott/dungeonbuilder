@@ -122,7 +122,7 @@ void printHeader(WINDOW *window,string leftText,string centerText,string rightTe
 	else
 	{ 
 		setcolors(window,11,DUNGEON_HEADER_FG,DUNGEON_HEADER_BG);
-		mvwprintwBold(window,0,startX,rightText.c_str());
+		mvwprintw(window,0,startX,rightText.c_str());
 	}
 	wrefresh(window);
 }

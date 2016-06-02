@@ -238,7 +238,7 @@ string DungeonEffect::getName()
 {
 	return typeToString(type);
 }
-void DungeonEffect::apply()
+void DungeonEffect::apply(DungeonPlayer* player)
 {
 	switch(type)
 	{
