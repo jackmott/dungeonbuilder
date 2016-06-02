@@ -7,7 +7,21 @@
 #include "string_constants.h"
 
 using namespace std;
+string EffectEditor::larrow(vector<string> args)
+{
+	if (effect->type > 0) effect->type--;
+	else effect->type = EFFECTS_LEN-1;
+	resetWindows();
+	return "";
+}
 
+string EffectEditor::rarrow(vector<string> args)
+{
+	if (effect->type < EFFECTS_LEN-2) effect->type++;
+	else effect->type = 0;
+	resetWindows();
+	return "";
+}
 string EffectEditor::exit(vector<string> args)
 {
 	return STR_EXIT;
@@ -84,6 +98,7 @@ void EffectEditor::clearWindows()
 void EffectEditor::resetWindows()
 {
 	commandWindow = newwin(1,getCols(),LINES-1,0);
+	keypad(commandWindow,true);
 	responseWindow = newwin(1,getCols(),LINES-2,0);
 	mainWindow = newwin(LINES-3,getCols(),1,0);
 	headerWindow = newwin(1,getCols(),0,0);
@@ -125,6 +140,8 @@ void EffectEditor::load(DungeonEffect* _effect)
 	cmdMap[STR_ADD] = &EffectEditor::add;
 	cmdMap[STR_SET] = &EffectEditor::set;
 	cmdMap[STR_DELETE] = &EffectEditor::del;
+	cmdMap[STR_PREV] = &EffectEditor::larrow;
+	cmdMap[STR_NEXT] = &EffectEditor::rarrow;
 	resetWindows();
 
 	CommandWindow cmdW;

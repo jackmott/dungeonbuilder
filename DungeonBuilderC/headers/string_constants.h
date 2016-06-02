@@ -39,7 +39,7 @@
 #define STR_MENU_ID_OR_NEW "[#/New](Name):"
 
 //Effect
-#define STR_MENU_EFFECT_TYPE "[Set](Type):"
+#define STR_MENU_EFFECT_TYPE "[<- ->](Type):"
 #define STR_MENU_MAGNITUDE "[Set](Magnitude)[#]:"
 
 //Action
@@ -91,7 +91,8 @@
 #define STR_DROP "drop"
 #define STR_PAGE_UP "page_up"
 #define STR_PAGE_DOWN "page_down"
-
+#define STR_NEXT "dgn_prev"
+#define STR_PREV "dgn_next"
 
 
 #define STR_TAB  "    "

@@ -7,6 +7,8 @@
 
 
 using namespace std;
+extern int  EFFECTS_LEN;
+extern string EFFECTS[3];
 
 struct EffectEditor
 {
@@ -32,6 +34,9 @@ struct EffectEditor
 	string add(vector<string> args);
 	string set(vector<string> args);
 	string del(vector<string> args);
+	string larrow(vector<string> args);
+	string rarrow(vector<string> args);
+
 };
 
 #endif

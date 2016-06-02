@@ -38,25 +38,20 @@ public:
 	bool removeName(string name);
 };
 
-enum class DUNGEON_EFFECT
-{
-	HEAL,
-	OBJECT_TRANSFORM
-};
-
 
 struct DungeonEffect
 {
 	DungeonEffect();
 	~DungeonEffect();
 
+	
 	DungeonAction *parent;
-	DUNGEON_EFFECT type;
+	int type;
 	DungeonPlayer *player;
 	string output;
 	int magnitude;
 	void apply();
-	static string typeToString(DUNGEON_EFFECT type);
+	static string typeToString(int type);
 	string getName();
 };
 
