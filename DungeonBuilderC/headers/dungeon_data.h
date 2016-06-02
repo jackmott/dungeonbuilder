@@ -62,6 +62,7 @@ struct DungeonEffect
 
 struct DungeonAction : DungeonEntity
 {
+	string output;
 	vector<DungeonEffect*> effects;
 };
 

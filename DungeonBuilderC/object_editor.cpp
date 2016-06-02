@@ -5,7 +5,7 @@
 #include "printutils.h"
 #include "utils.h"
 #include "string_constants.h"
-#include "effect_editor.h"
+#include "action_editor.h"
 
 using namespace std;
 
@@ -193,28 +193,8 @@ string ObjectEditor::add(vector<string> args)
 		action->setPrimaryName(actionStr);
 		action->parent = object;
 		object->actions.push_back(action);
-		
-	}
-	else if(addNoun == STR_EFFECT)
-	{
-		if (args.size() < 4)
-		{
-			return "add effect to which action?";
-		}
-
-		string actionStr;
-		if (toLower(args[2]) == "to")
-		{
-			actionStr = join(3,args," ");
-			DungeonAction* a = (DungeonAction*)extractEntity(&object->actions,&actionStr);
-			if (a != nullptr)
-			{
-				DungeonEffect* e = new DungeonEffect();
-				e->parent = a;
-				EffectEditor ed;
-				ed.load(e);
-			}
-		}
+		ActionEditor ae;
+		ae.load(action);
 	}
 	else if(addNoun == STR_NAME)
 	{

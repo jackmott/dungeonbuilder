@@ -5,7 +5,7 @@
 #include "printutils.h"
 #include "utils.h"
 #include "string_constants.h"
-
+#include "effect_editor.h"
 using namespace std;
 
 string ActionEditor::exit(vector<string> args)
@@ -21,6 +21,17 @@ string ActionEditor::del(vector<string> args)
 	}
 	string delNoun = args[1];
 	toLower(&delNoun);
+	if(delNoun == STR_NAME)
+	{
+		if(args.size() < 3)
+		{
+			return "Provide a name to delete.";
+		}
+		string name = join(2,args," ");				
+		if(!action->removeName(name)) {
+			return "You can't.";
+		}				
+	}
 	resetWindows();
 	return "";
 }
@@ -36,7 +47,17 @@ string ActionEditor::set(vector<string> args)
 	}
 	string editNoun = args[1];
 	toLower(&editNoun);
-		resetWindows();
+	if(editNoun == STR_NAME)
+	{
+		string newname = join(2,args," ");
+		action->setPrimaryName(newname);
+	}
+	else if(editNoun == STR_TEXT_OUTPUT)
+	{
+			  string output = join(2,args," ");
+			  action->output = output;
+	}
+	resetWindows();
 	return "";
 }
 
@@ -64,7 +85,23 @@ string ActionEditor::add(vector<string> args)
 	}
 	string addNoun = args[1];
 	toLower(&addNoun);
-
+	if(addNoun == STR_NAME)
+	{
+		if(args.size() < 3)
+		{
+			return "Provide a name to add please.";
+		}
+		string name = join(2,args," ");
+		action->addName(name);
+	}
+	else if(addNoun == STR_EFFECT)
+	{
+		EffectEditor ed;
+		DungeonEffect *e = new DungeonEffect();
+		action->effects.push_back(e);
+		e->parent = action;
+		ed.load(e);
+	}
 
 	clearWindows();
 	resetWindows();
@@ -105,6 +142,21 @@ void ActionEditor::resetWindows()
 	
 	setcolor(mainWindow,2,COLOR_WHITE);
 	
+	string nameRow = STR_MENU_NAME + join(0,action->getNames(),",");
+	mvwprintw(mainWindow,lineCount,0,nameRow.c_str());
+
+	lineCount++;
+	string outputRow = STR_MENU_TEXT_OUTPUT + action->output;
+	mvwprintw(mainWindow,lineCount,0,outputRow.c_str());
+
+	lineCount++;
+	mvwprintw(mainWindow,lineCount,0,STR_MENU_EFFECT);
+	for(auto e : action->effects)
+	{
+		lineCount++;
+		mvwprintw(mainWindow,lineCount,2,e->getName().c_str());
+	}
+
 	wrefresh(mainWindow);
 	
 }
