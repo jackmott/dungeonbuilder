@@ -14,7 +14,7 @@ struct DungeonObject;
 struct DungeonCreature;
 struct DungeonRoom;
 struct DungeonPlayer;
-
+struct DungeonAction;
 
 
 extern vector<DungeonRoom*> g_roomList;
@@ -41,31 +41,23 @@ public:
 enum class DUNGEON_EFFECT
 {
 	HEAL,
-	DAMAGE,
-	TELEPORT,
-	TEXT,
-	CREATE_OBJECT,
-	DESTROY_OBJECT,
-	OBJECT_TRANSFORM,
-	CREATE_CREATURE,
-	REMOVE,
-	SHRINK,
-	GROW,
-	LIGHTER,
-	HEAVIER,
-	CHANGE,
-	NONE,
-	NOT_ALLOWED
+	OBJECT_TRANSFORM
 };
 
 
-struct DungeonEffect: DungeonEntity
+struct DungeonEffect
 {
+	DungeonEffect();
+	~DungeonEffect();
+
+	DungeonAction *parent;
 	DUNGEON_EFFECT type;
 	DungeonPlayer *player;
 	string output;
 	int magnitude;
 	void apply();
+	static string typeToString(DUNGEON_EFFECT type);
+	string getName();
 };
 
 struct DungeonAction : DungeonEntity

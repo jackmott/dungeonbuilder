@@ -21,9 +21,12 @@
 #define STR_MENU_CLOSEDTEXT "[Set](ClosedText):"
 #define STR_MENU_OPENINGTEXT "[Set](OpeningText):"
 #define STR_MENU_CLOSINGTEXT "[Set](ClosingText):"
-#define STR_MENU_ROOM_MOVE "[Go](Exit/Blank)"
-#define STR_MENU_ID_OR_NEW "[#/New](Name)"
+#define STR_MENU_ROOM_MOVE "[Go](Exit/Blank):"
+#define STR_MENU_ID_OR_NEW "[#/New](Name):"
+#define STR_MENU_EFFECT_TYPE "[Set](Type):"
+#define STR_MENU_MAGNITUDE "[Set](Magnitude)[#]:"
 
+#define STR_EFFECT "effect"
 #define STR_GO "go"
 #define STR_NEW "new"
 #define STR_INVENTORY "inventory"
@@ -77,4 +80,6 @@
 #define STR_ELLIPSES "..."
 
 #define STR_JSON_TRUE "1"
+
+
 #endif

@@ -84,6 +84,7 @@ void EffectEditor::clearWindows()
 	delwin(headerWindow);
 }
 
+
 void EffectEditor::resetWindows()
 {
 	commandWindow = newwin(1,getCols(),LINES-1,0);
@@ -102,64 +103,22 @@ void EffectEditor::resetWindows()
 	string command;
 
 	
-	/*printHeader(headerWindow,effect->parent->getPrimaryName(),"OBJECT:"+object->getPrimaryName());
+	printHeader(headerWindow,effect->parent->parent->getPrimaryName(),effect->parent->getPrimaryName(),"EFFECT:"+effect->getName(),3);
 	
 	int lineCount = 2;	
 	
 	setcolor(mainWindow,2,COLOR_WHITE);
-	string nameRow = STR_MENU_NAME + join(0,object->getNames(),",");
-	mvwprintw(mainWindow,lineCount,0,nameRow.c_str());
+	string typeRow = STR_MENU_EFFECT_TYPE + effect->getName();
+	mvwprintw(mainWindow,lineCount,0,typeRow.c_str());
 
 	lineCount++;
-	string desc = object->description.size() > 0 ? object->description[0] + STR_ELLIPSES : "";
-	string descRow = STR_MENU_DESCRIPTION + desc;
-	mvwprintw(mainWindow,lineCount,0,descRow.c_str());
+	string magnitudeRow = STR_MENU_MAGNITUDE + effect->magnitude;
+	mvwprintw(mainWindow,lineCount,0,magnitudeRow.c_str());
 
 
-	lineCount++;
-	mvwprintw(mainWindow,lineCount,0,STR_MENU_OBJECT);
-	for(auto o : object->contents)
-	{
-		lineCount++;
-		string row = o->getPrimaryName();
-		mvwprintw(mainWindow,lineCount,2,row.c_str());
-	}
-
-
-	lineCount++;	
-	mvwprintw(mainWindow,lineCount,0,STR_MENU_ACTIONS);
-	for(auto a : object->actions)
-	{
-		lineCount++;
-		string row = a->getPrimaryName();
-		mvwprintw(mainWindow,lineCount,2,row.c_str());
-	}
-
-
-	lineCount++;
-	string dmgRow = STR_MENU_DAMAGE + to_string(object->damage);
-	mvwprintw(mainWindow,lineCount,0,dmgRow.c_str());
-
-	lineCount++;
-	string torf = object->canTake? STR_TRUE : STR_FALSE;
-	string takeRow = STR_MENU_TAKEABLE + torf;
-	mvwprintw(mainWindow,lineCount,0,takeRow.c_str());
-
-	lineCount++;
-	torf = object->canOpen ? STR_TRUE : STR_FALSE;
-	string canOpenRow = STR_MENU_CAN_OPEN + torf;
-	mvwprintw(mainWindow,lineCount,0,canOpenRow.c_str());
-
-	lineCount++;
-	torf = object->isOpen ? STR_TRUE : STR_FALSE;
-	string isOpenRow = STR_MENU_IS_OPEN + torf;
-	mvwprintw(mainWindow,lineCount,0,isOpenRow.c_str());
-
-
-
+	
 	wrefresh(mainWindow);
-	*/
-
+	
 }
 
 void EffectEditor::load(DungeonEffect* _effect)

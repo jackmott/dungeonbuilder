@@ -216,6 +216,31 @@ void DungeonPlayer::heal(int amount)
 }
 
 
+DungeonEffect::DungeonEffect()
+{
+	magnitude = 0;
+	type = DUNGEON_EFFECT::HEAL;
+}
+DungeonEffect::~DungeonEffect()
+{
+}
+string DungeonEffect::typeToString(DUNGEON_EFFECT type)
+{
+	switch(type)
+	{
+	case DUNGEON_EFFECT :: HEAL :
+		return "Heal";
+		break;
+	case DUNGEON_EFFECT :: OBJECT_TRANSFORM :
+		return "Object Transform";
+		break;
+	}
+	return "Missed effect type";
+}
+string DungeonEffect::getName()
+{
+	return typeToString(type);
+}
 void DungeonEffect::apply()
 {
 	switch(type)

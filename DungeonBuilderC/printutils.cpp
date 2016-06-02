@@ -77,7 +77,7 @@ void setcolors(WINDOW *window,int group,int fore,int back)
 #define DUNGEON_HEADER_FG COLOR_BLACK
 #define DUNGEON_HEADER_FG_BOLD COLOR_WHITE
 
-void printHeader(WINDOW *window,string leftText,string centerText,string rightText)
+void printHeader(WINDOW *window,string leftText,string centerText,string rightText,int boldIndex)
 {
 
 	init_pair(10,DUNGEON_HEADER_FG,DUNGEON_HEADER_BG);
@@ -89,14 +89,41 @@ void printHeader(WINDOW *window,string leftText,string centerText,string rightTe
 	
 
 	int startX = (getCols() - (leftText.size()+rightText.size()+centerText.size()))/2;
-	setcolors(window,11,DUNGEON_HEADER_FG,DUNGEON_HEADER_BG);
-	mvwprintw(window,0,startX,leftText.c_str());
+	
+	if (boldIndex == 1)
+	{
+		setcolors(window,12,DUNGEON_HEADER_FG_BOLD,DUNGEON_HEADER_BG);
+		mvwprintwBold(window,0,startX,leftText.c_str());
+	}
+	else
+	{
+		setcolors(window,11,DUNGEON_HEADER_FG,DUNGEON_HEADER_BG);
+		mvwprintw(window,0,startX,leftText.c_str());
+	}
 	startX += leftText.size();
-	setcolors(window,12,DUNGEON_HEADER_FG_BOLD,DUNGEON_HEADER_BG);
-	mvwprintwBold(window,0,startX,centerText.c_str());
+	
+	if (boldIndex == 2)
+	{ 
+		setcolors(window,12,DUNGEON_HEADER_FG_BOLD,DUNGEON_HEADER_BG);
+		mvwprintwBold(window,0,startX,centerText.c_str());
+	}
+	else
+	{ 
+		setcolors(window,11,DUNGEON_HEADER_FG,DUNGEON_HEADER_BG);
+		mvwprintw(window,0,startX,centerText.c_str());
+	}
 	startX += centerText.size();
 	setcolors(window,11,DUNGEON_HEADER_FG,DUNGEON_HEADER_BG);
-	mvwprintw(window,0,startX,rightText.c_str());
+	if (boldIndex == 3)
+	{ 
+		setcolors(window,12,DUNGEON_HEADER_FG_BOLD,DUNGEON_HEADER_BG);
+		mvwprintwBold(window,0,startX,rightText.c_str());
+	}
+	else
+	{ 
+		setcolors(window,11,DUNGEON_HEADER_FG,DUNGEON_HEADER_BG);
+		mvwprintwBold(window,0,startX,rightText.c_str());
+	}
 	wrefresh(window);
 }
 
