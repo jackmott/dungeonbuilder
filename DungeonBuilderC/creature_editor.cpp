@@ -1,7 +1,4 @@
 #include "creature_editor.h"
-#include <sstream>
-#include <algorithm>
-#include <iostream>
 #include "command_window.h"
 #include "text_editor.h"
 #include "printutils.h"

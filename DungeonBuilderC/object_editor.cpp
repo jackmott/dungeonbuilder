@@ -1,9 +1,5 @@
 
 #include "object_editor.h"
-#include <string>
-#include <sstream>
-#include <algorithm>
-#include <iostream>
 #include "command_window.h"
 #include "text_editor.h"
 #include "printutils.h"

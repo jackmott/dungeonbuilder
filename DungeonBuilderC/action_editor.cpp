@@ -1,5 +1,5 @@
 
-#include "effect_editor.h"
+#include "action_editor.h"
 #include "command_window.h"
 #include "text_editor.h"
 #include "printutils.h"
@@ -8,12 +8,12 @@
 
 using namespace std;
 
-string EffectEditor::exit(vector<string> args)
+string ActionEditor::exit(vector<string> args)
 {
 	return STR_EXIT;
 }
 
-string EffectEditor::del(vector<string> args)
+string ActionEditor::del(vector<string> args)
 {
 	if(args.size() < 2)
 	{
@@ -25,7 +25,7 @@ string EffectEditor::del(vector<string> args)
 	return "";
 }
 
-string EffectEditor::set(vector<string> args)
+string ActionEditor::set(vector<string> args)
 {
 	if(args.size() < 2)
 	{
@@ -41,7 +41,7 @@ string EffectEditor::set(vector<string> args)
 }
 
 
-string EffectEditor::edit(vector<string> args)
+string ActionEditor::edit(vector<string> args)
 {
 	if(args.size() < 2)
 	{
@@ -56,7 +56,7 @@ string EffectEditor::edit(vector<string> args)
 	return "";
 }
 
-string EffectEditor::add(vector<string> args)
+string ActionEditor::add(vector<string> args)
 {
 	if(args.size() < 2)
 	{
@@ -72,7 +72,7 @@ string EffectEditor::add(vector<string> args)
 }
 
 
-void EffectEditor::clearWindows()
+void ActionEditor::clearWindows()
 {
 	delwin(commandWindow);
 	delwin(responseWindow);
@@ -81,7 +81,7 @@ void EffectEditor::clearWindows()
 }
 
 
-void EffectEditor::resetWindows()
+void ActionEditor::resetWindows()
 {
 	commandWindow = newwin(1,getCols(),LINES-1,0);
 	responseWindow = newwin(1,getCols(),LINES-2,0);
@@ -99,32 +99,24 @@ void EffectEditor::resetWindows()
 	string command;
 
 	
-	printHeader(headerWindow,effect->parent->parent->getPrimaryName(),effect->parent->getPrimaryName(),"EFFECT:"+effect->getName(),3);
+	printHeader(headerWindow,action->parent->parent->getPrimaryName(),action->parent->getPrimaryName(),"ACTION:"+action->getPrimaryName(),3);
 	
 	int lineCount = 2;	
 	
 	setcolor(mainWindow,2,COLOR_WHITE);
-	string typeRow = STR_MENU_EFFECT_TYPE + effect->getName();
-	mvwprintw(mainWindow,lineCount,0,typeRow.c_str());
-
-	lineCount++;
-	string magnitudeRow = STR_MENU_MAGNITUDE + effect->magnitude;
-	mvwprintw(mainWindow,lineCount,0,magnitudeRow.c_str());
-
-
 	
 	wrefresh(mainWindow);
 	
 }
 
-void EffectEditor::load(DungeonEffect* _effect)
+void ActionEditor::load(DungeonAction* _action)
 {
-	effect = _effect;
-	cmdMap[STR_EDIT] = &EffectEditor::edit;
-	cmdMap[STR_EXIT] = &EffectEditor::exit;
-	cmdMap[STR_ADD] = &EffectEditor::add;
-	cmdMap[STR_SET] = &EffectEditor::set;
-	cmdMap[STR_DELETE] = &EffectEditor::del;
+	action = _action;
+	cmdMap[STR_EDIT] = &ActionEditor::edit;
+	cmdMap[STR_EXIT] = &ActionEditor::exit;
+	cmdMap[STR_ADD] = &ActionEditor::add;
+	cmdMap[STR_SET] = &ActionEditor::set;
+	cmdMap[STR_DELETE] = &ActionEditor::del;
 	resetWindows();
 
 	CommandWindow cmdW;

@@ -1,7 +1,6 @@
 #ifndef DUNGEON_LIST
 #define DUNGEON_LIST
 
-#include <vector>
 #include <map>
 #include "dungeon_data.h"
 #include "lib.h"

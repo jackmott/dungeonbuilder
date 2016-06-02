@@ -1,8 +1,4 @@
 #include "dungeon_list.h"
-#include <string>
-#include <sstream>
-#include <algorithm>
-#include <iostream>
 #include "command_window.h"
 #include "printutils.h"
 #include "utils.h"

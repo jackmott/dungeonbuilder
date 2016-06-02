@@ -16,9 +16,9 @@
     <ClCompile Include="JSON_loader.cpp" />
     <ClCompile Include="dungeon_list.cpp" />
     <ClCompile Include="effect_editor.cpp" />
+    <ClCompile Include="action_editor.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="headers\panel.h" />
     <ClInclude Include="headers\room_editor.h" />
     <ClInclude Include="headers\dungeon_data.h" />
     <ClInclude Include="headers\command_window.h" />
@@ -36,6 +36,7 @@
     <ClInclude Include="headers\lib.h" />
     <ClInclude Include="headers\dungeon_list.h" />
     <ClInclude Include="headers\effect_editor.h" />
+    <ClInclude Include="headers\action_editor.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\pdcurses.lib" />

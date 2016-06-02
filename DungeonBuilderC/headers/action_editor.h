@@ -1,5 +1,5 @@
-#ifndef EFFECT_EDITOR
-#define EFFECT_EDITOR
+#ifndef ACTION_EDITOR
+#define ACTION_EDITOR
 
 #include <map>
 #include "dungeon_data.h"
@@ -8,12 +8,12 @@
 
 using namespace std;
 
-struct EffectEditor
+struct ActionEditor
 {
-	typedef string (EffectEditor::*commandFunction) (vector<string>);			
+	typedef string (ActionEditor::*commandFunction) (vector<string>);			
 	map<string,commandFunction> cmdMap;
 
-	DungeonEffect* effect;
+	DungeonAction* action;
 
 	WINDOW *responseWindow;
 	WINDOW *commandWindow;
@@ -25,7 +25,7 @@ struct EffectEditor
 	
 	void clearWindows();
 	void resetWindows();
-	void load(DungeonEffect *_effect);
+	void load(DungeonAction *_action);
 
 	string edit(vector<string> args);
 	string exit(vector<string> args);

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <vector>
 #include <map>
 #include "dungeon_data.h"
 #include "lib.h"

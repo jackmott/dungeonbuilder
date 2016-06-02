@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="action_editor.cpp" />
     <ClCompile Include="creature_editor.cpp" />
     <ClCompile Include="dungeon_list.cpp" />
     <ClCompile Include="dungeon_data.cpp" />
@@ -31,6 +32,7 @@
     <ClCompile Include="object_editor.cpp" />
     <ClCompile Include="room_editor.cpp" />
     <ClCompile Include="utils.cpp" />
+    <ClInclude Include="headers\action_editor.h" />
     <ClInclude Include="headers\command_window.h" />
     <ClInclude Include="headers\creature_editor.h" />
     <ClInclude Include="headers\dungeon_data.h" />
@@ -52,7 +54,6 @@
   <ItemGroup>
     <ClInclude Include="headers\pdcurses.h" />
     <ClInclude Include="headers\text_editor.h" />
-    <ClInclude Include="headers\panel.h" />
     <ClCompile Include="main_menu.cpp" />
     <ClInclude Include="headers\printutils.h" />
   </ItemGroup>
