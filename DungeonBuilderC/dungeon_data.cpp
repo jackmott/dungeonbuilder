@@ -5,8 +5,6 @@
 
 using namespace std;
 
-int  EFFECTS_LEN = 3;
-string EFFECTS[3] = {"Heal","Transform","Damage"};
 
 
 void DungeonEntity::addName(string name)
@@ -220,35 +218,34 @@ void DungeonPlayer::heal(int amount)
 }
 
 
+
 DungeonEffect::DungeonEffect()
 {
 	magnitude = 0;
-	type = 0;
+	type = EFFECT_TYPE::HEAL;
 }
 DungeonEffect::~DungeonEffect()
 {
 }
-string DungeonEffect::typeToString(int type)
-{
-	if (type >= EFFECTS_LEN) return "ERROR";
-	else return EFFECTS[type];
-	
-}
+
 string DungeonEffect::getName()
 {
-	return typeToString(type);
+	return EFFECT_STRS[(int)type];
 }
+
 void DungeonEffect::apply(DungeonPlayer* player)
 {
 	switch(type)
 	{
-	case 0:
+	case EFFECT_TYPE::HEAL:
 		player->heal(magnitude);
 		break;
-	case 1:
-		//HAHA CALM DOWN BRO...soon
+	case EFFECT_TYPE::DAMAGE:
 		break;
-
+	case EFFECT_TYPE::TRANSFORM:
+		DungeonObject *toTransform = (DungeonObject*)parent->parent;
+		removePointer(&player->objects,toTransform);
+		break;
 	}
 
 }

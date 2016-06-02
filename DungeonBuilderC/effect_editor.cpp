@@ -7,21 +7,8 @@
 #include "string_constants.h"
 
 using namespace std;
-string EffectEditor::larrow(vector<string> args)
-{
-	if (effect->type > 0) effect->type--;
-	else effect->type = EFFECTS_LEN-1;
-	resetWindows();
-	return "";
-}
 
-string EffectEditor::rarrow(vector<string> args)
-{
-	if (effect->type < EFFECTS_LEN-2) effect->type++;
-	else effect->type = 0;
-	resetWindows();
-	return "";
-}
+
 string EffectEditor::exit(vector<string> args)
 {
 	return STR_EXIT;
@@ -56,6 +43,17 @@ string EffectEditor::set(vector<string> args)
 		string magStr = args[2];
 		int mag = stoi(magStr,nullptr,10);
 		effect->magnitude = mag;
+	}
+	else if(editNoun == STR_TYPE)
+	{
+		string typeStr = toLower(args[2]);
+		for(int i =0 ; i <= (int)EFFECT_TYPE::LAST ;i++){
+			string lcase = toLower(EFFECT_STRS[i]);
+			if (lcase == typeStr)
+			{
+				effect->type = (EFFECT_TYPE)i;
+			}
+		}
 	}
 	
 	resetWindows();
@@ -127,6 +125,14 @@ void EffectEditor::resetWindows()
 	int lineCount = 2;	
 	
 	setcolor(mainWindow,2,COLOR_WHITE);
+	string typesRow = "| ";
+	for(auto s : EFFECT_STRS)
+	{
+		typesRow += s + " | ";
+	}
+	mvwprintwCenter(mainWindow,lineCount,typesRow.c_str());
+
+	lineCount++;
 	string typeRow = STR_MENU_EFFECT_TYPE + effect->getName();
 	mvwprintw(mainWindow,lineCount,0,typeRow.c_str());
 
@@ -148,8 +154,7 @@ void EffectEditor::load(DungeonEffect* _effect)
 	cmdMap[STR_ADD] = &EffectEditor::add;
 	cmdMap[STR_SET] = &EffectEditor::set;
 	cmdMap[STR_DELETE] = &EffectEditor::del;
-	cmdMap[STR_PREV] = &EffectEditor::larrow;
-	cmdMap[STR_NEXT] = &EffectEditor::rarrow;
+	
 	resetWindows();
 
 	CommandWindow cmdW;

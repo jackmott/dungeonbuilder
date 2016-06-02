@@ -66,14 +66,6 @@ bool CommandWindow::handleInput(int c) {
 		}
 		
 		break;
-	case KEY_LEFT:
-		input = STR_PREV;
-		return true;
-		break;
-	case KEY_RIGHT:
-		input = STR_NEXT;
-		return true;
-		break;
 	case KEY_PPAGE: //page up
 		input = STR_PAGE_UP;
 		return true;

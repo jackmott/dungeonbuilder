@@ -7,8 +7,6 @@
 
 
 using namespace std;
-extern int  EFFECTS_LEN;
-extern string EFFECTS[3];
 
 struct EffectEditor
 {

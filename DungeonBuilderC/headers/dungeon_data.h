@@ -39,6 +39,16 @@ public:
 };
 
 
+
+const string EFFECT_STRS[3] = {
+	"Heal","Damage","Transform"};
+const enum class EFFECT_TYPE{
+	HEAL = 0,
+	DAMAGE = 1,
+	TRANSFORM =2,
+	FIRST = HEAL,
+	LAST = TRANSFORM };
+
 struct DungeonEffect
 {
 	DungeonEffect();
@@ -46,11 +56,14 @@ struct DungeonEffect
 
 	
 	DungeonAction *parent;
-	int type;
+	EFFECT_TYPE type;
 	string output;
+
 	int magnitude;
+	DungeonObject *transform;
+
 	void apply(DungeonPlayer* player);
-	static string typeToString(int type);
+	
 	string getName();
 };
 
