@@ -10,7 +10,7 @@
 #define lib_h
 
 #ifdef _WIN32
-#include <Windows.h>
+//#include <Windows.h>
 #include "pdcurses.h"
 #else
 #include <unistd.h>

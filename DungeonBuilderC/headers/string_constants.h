@@ -9,7 +9,7 @@
 #define STR_MENU_OBJECT "[Add/Del/Edit](Object):"
 #define STR_MENU_CREATURE "[Add/Del/Edit](Creature):"
 #define STR_MENU_EXIT "[Add/Del/Edit](Exit):"
-#define STR_MENU_ACTIONS "[Add/Del](Action):"
+#define STR_MENU_ACTIONS "[Add/Edit/Del](Action) / [Add/Del](Effect)[To/From](Action):"
 #define STR_MENU_HITPOINTS "[Set](Hitpoints):"
 #define STR_MENU_EXIT_ROOM "[Set/Edit](Room):"
 #define STR_MENU_DAMAGE "[Set](Damage):"

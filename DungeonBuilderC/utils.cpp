@@ -290,10 +290,21 @@ string extractPhrase(vector<string> phrasesToFind,string *userInput)
 	return "";
 }
 
+int min(int a,int b)
+{
+	if (a < b) return a;
+	else return b;
+}
+int max(int a,int b)
+{
+	if (a > b) return a;
+	else return b;
+}
+
 #ifdef _WIN32
 void dbsleep(unsigned int milliseconds)
 {
-	Sleep(milliseconds);
+	//Sleep(milliseconds);
 }
 #else
 void dbsleep(unsigned int milliseconds)

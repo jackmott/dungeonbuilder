@@ -30,5 +30,6 @@ void strlensort(vector<string>* v);
 void entitysort(vector<DungeonEntity*> *v);
 string extractPhrase(vector<string> phrasesToFind, string *userInput);
 void dbsleep(unsigned int milliseconds);
-
+int min(int a, int b);
+int max(int a, int b);
 #endif
