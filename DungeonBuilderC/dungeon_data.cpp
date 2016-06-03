@@ -214,10 +214,19 @@ DungeonPlayer::~DungeonPlayer()
 void DungeonPlayer::heal(int amount)
 {
 	hitpoints += amount;
-	if (hitpoints > maxhitpoints) hitpoints = maxhitpoints;
+	if(hitpoints > maxhitpoints) hitpoints = maxhitpoints;
 }
 
 
+DungeonAction::DungeonAction()
+{
+	needToHold = true;
+}
+
+DungeonAction::~DungeonAction()
+{
+
+}
 
 DungeonEffect::DungeonEffect()
 {
@@ -233,7 +242,7 @@ string DungeonEffect::getName()
 	return EFFECT_STRS[(int)type];
 }
 
-void DungeonEffect::apply(DungeonPlayer* player)
+void DungeonEffect::apply(DungeonPlayer* player,DungeonRoom * room,bool objectOnPlayer)
 {
 	switch(type)
 	{
@@ -244,7 +253,20 @@ void DungeonEffect::apply(DungeonPlayer* player)
 		break;
 	case EFFECT_TYPE::TRANSFORM:
 		DungeonObject *toTransform = (DungeonObject*)parent->parent;
-		removePointer(&player->objects,toTransform);
+		if(objectOnPlayer) {
+			removePointer(&player->objects,toTransform);
+			for(auto e : transforms)
+			{
+				player->objects.push_back(e);
+			}
+		}
+		else {
+			removePointer(&room->objects,toTransform);
+			for(auto e : transforms) {
+				room->objects.push_back(e);
+			}
+		}
+
 		break;
 	}
 

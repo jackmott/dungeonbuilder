@@ -45,8 +45,9 @@
 //Action
 #define STR_MENU_TEXT_OUTPUT "[Set](Text):"
 #define STR_MENU_EFFECT "[Add/Del/Edit](Effect):"
+#define STR_MENU_NEED_HOLD "[Set](Held):"
 
-
+#define STR_NEED_HELD "held"
 #define STR_TYPE "type"
 #define STR_MAGNITUDE "magnitude"
 #define STR_TEXT_OUTPUT "output"

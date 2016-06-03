@@ -1,5 +1,6 @@
 
 #include "effect_editor.h"
+#include "object_editor.h"
 #include "command_window.h"
 #include "text_editor.h"
 #include "printutils.h"
@@ -22,6 +23,26 @@ string EffectEditor::del(vector<string> args)
 	}
 	string delNoun = args[1];
 	toLower(&delNoun);
+	if(delNoun == STR_OBJECT)
+	{
+		if(args.size() <3)
+		{
+			return "Which object do you want to delete?";
+		}
+		string objStr = join(2,args," ");
+		DungeonObject *o = (DungeonObject*)extractEntity(&effect->transforms,&objStr);
+		if(o != nullptr)
+		{
+			removePointer(&effect->transforms,o);
+			delete o;
+			resetWindows();
+			return "";
+		}
+		else
+		{
+			return "I don't see that here.";
+		}
+	}
 	resetWindows();
 	return "";
 }
@@ -37,7 +58,7 @@ string EffectEditor::set(vector<string> args)
 	}
 	string editNoun = args[1];
 	toLower(&editNoun);
-	
+
 	if(editNoun == STR_MAGNITUDE)
 	{
 		string magStr = args[2];
@@ -49,13 +70,13 @@ string EffectEditor::set(vector<string> args)
 		string typeStr = toLower(args[2]);
 		for(int i =0 ; i <= (int)EFFECT_TYPE::LAST ;i++){
 			string lcase = toLower(EFFECT_STRS[i]);
-			if (lcase == typeStr)
+			if(lcase == typeStr)
 			{
 				effect->type = (EFFECT_TYPE)i;
 			}
 		}
 	}
-	
+
 	resetWindows();
 	return "";
 }
@@ -70,7 +91,24 @@ string EffectEditor::edit(vector<string> args)
 	string editNoun = args[1];
 	toLower(&editNoun);
 
-	
+	if(editNoun == STR_OBJECT)
+	{
+		if(args.size() <3)
+		{
+			return "Which object do you want to edit?";
+		}
+		string objStr = join(2,args," ");
+		DungeonObject *o = (DungeonObject*)extractEntity(&effect->transforms,&objStr);
+		if(o != nullptr)
+		{
+			ObjectEditor ed;
+			ed.load(o);
+		}
+		else
+		{
+			return "I don't see that here.";
+		}
+	}
 	clearWindows();
 	resetWindows();
 	return "";
@@ -85,6 +123,19 @@ string EffectEditor::add(vector<string> args)
 	string addNoun = args[1];
 	toLower(&addNoun);
 
+	if(addNoun == STR_OBJECT)
+	{
+		ObjectEditor oe;
+		DungeonObject* o = new DungeonObject();
+		o->parent = effect->parent;
+		o->addName(join(2,args," "));
+		clearWindows();
+		oe.load(o);
+		effect->transforms.push_back(o);
+		resetWindows();
+
+		return "";
+	}
 
 	clearWindows();
 	resetWindows();
@@ -108,7 +159,7 @@ void EffectEditor::resetWindows()
 	responseWindow = newwin(1,getCols(),LINES-2,0);
 	mainWindow = newwin(LINES-3,getCols(),1,0);
 	headerWindow = newwin(1,getCols(),0,0);
-	
+
 	getmaxyx(stdscr,h,w); // this doesn't work in windows
 	refresh();
 
@@ -119,11 +170,11 @@ void EffectEditor::resetWindows()
 
 	string command;
 
-	
+
 	printHeader(headerWindow,effect->parent->parent->getPrimaryName(),effect->parent->getPrimaryName(),"EFFECT:"+effect->getName(),3);
-	
-	int lineCount = 2;	
-	
+
+	int lineCount = 2;
+
 	setcolor(mainWindow,2,COLOR_WHITE);
 	string typesRow = "| ";
 	for(auto s : EFFECT_STRS)
@@ -136,14 +187,25 @@ void EffectEditor::resetWindows()
 	string typeRow = STR_MENU_EFFECT_TYPE + effect->getName();
 	mvwprintw(mainWindow,lineCount,0,typeRow.c_str());
 
-	lineCount++;
-	string magnitudeRow = STR_MENU_MAGNITUDE + to_string(effect->magnitude);
-	mvwprintw(mainWindow,lineCount,0,magnitudeRow.c_str());
+	if(effect->type == EFFECT_TYPE::HEAL || effect->type == EFFECT_TYPE::DAMAGE)
+	{
+		lineCount++;
+		string magnitudeRow = STR_MENU_MAGNITUDE + to_string(effect->magnitude);
+		mvwprintw(mainWindow,lineCount,0,magnitudeRow.c_str());
+	}
 
-
-	
+	if(effect->type == EFFECT_TYPE::TRANSFORM)
+	{
+		lineCount++;
+		mvwprintw(mainWindow,lineCount,0,STR_MENU_OBJECT);
+		for(auto e : effect->transforms)
+		{
+			lineCount++;
+			mvwprintw(mainWindow,lineCount,2,e->getPrimaryName().c_str());
+		}
+	}
 	wrefresh(mainWindow);
-	
+
 }
 
 void EffectEditor::load(DungeonEffect* _effect)
@@ -154,7 +216,7 @@ void EffectEditor::load(DungeonEffect* _effect)
 	cmdMap[STR_ADD] = &EffectEditor::add;
 	cmdMap[STR_SET] = &EffectEditor::set;
 	cmdMap[STR_DELETE] = &EffectEditor::del;
-	
+
 	resetWindows();
 
 	CommandWindow cmdW;

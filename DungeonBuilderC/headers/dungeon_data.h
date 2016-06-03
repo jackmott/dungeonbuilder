@@ -45,7 +45,7 @@ const string EFFECT_STRS[3] = {
 const enum class EFFECT_TYPE{
 	HEAL = 0,
 	DAMAGE = 1,
-	TRANSFORM =2,
+	TRANSFORM = 2,
 	FIRST = HEAL,
 	LAST = TRANSFORM };
 
@@ -60,16 +60,19 @@ struct DungeonEffect
 	string output;
 
 	int magnitude;
-	DungeonObject *transform;
+	vector<DungeonObject*> transforms;
 
-	void apply(DungeonPlayer* player);
+	void apply(DungeonPlayer* player, DungeonRoom* room, bool objectOnPlayer);
 	
 	string getName();
 };
 
 struct DungeonAction : DungeonEntity
 {
+	DungeonAction();
+	~DungeonAction();
 	string output;
+	bool needToHold;
 	vector<DungeonEffect*> effects;
 };
 

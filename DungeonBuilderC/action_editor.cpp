@@ -57,6 +57,10 @@ string ActionEditor::set(vector<string> args)
 			  string output = join(2,args," ");
 			  action->output = output;
 	}
+	else if(editNoun == STR_NEED_HELD)
+	{
+			  action->needToHold = !action->needToHold;
+	}
 	resetWindows();
 	return "";
 }
@@ -147,6 +151,11 @@ void ActionEditor::resetWindows()
 
 	lineCount++;
 	string outputRow = STR_MENU_TEXT_OUTPUT + action->output;
+	mvwprintw(mainWindow,lineCount,0,outputRow.c_str());
+
+	lineCount++;
+	string torf = action->needToHold ? STR_TRUE : STR_FALSE;
+	string holdRow = STR_MENU_NEED_HOLD + torf;
 	mvwprintw(mainWindow,lineCount,0,outputRow.c_str());
 
 	lineCount++;

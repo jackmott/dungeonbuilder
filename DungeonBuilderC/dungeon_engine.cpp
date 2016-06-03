@@ -173,20 +173,36 @@ string DungeonEngine::take(string args)
 string DungeonEngine::action(string actionStr,string args)
 {
 
-	int matchedName = -1;
+
 	DungeonObject* playerObject = extractObject(&player->objects,&args);
 
 	if(playerObject != nullptr) {
-	
+
 		DungeonAction* action = (DungeonAction*)extractEntity(&playerObject->actions,&actionStr);
-		for(auto e : action->effects)
+		if(action != nullptr)
 		{
-			e->apply(player);
+			for(auto e : action->effects)
+			{
+				e->apply(player,room,true);
+			}
+			return action->output;
 		}
-		return action->output;
 	}
 	else
 	{
+		DungeonObject *roomObject = extractObject(&room->objects,&args);
+		if(roomObject != nullptr)
+		{
+			DungeonAction* action = (DungeonAction*)extractEntity(&roomObject->actions,&actionStr);
+			if(action != nullptr && !action->needToHold)
+			{
+				for(auto e : action -> effects)
+				{
+					e->apply(player,room,false);
+				}
+				return action->output;
+			}
+		}
 		return "Your attempt amounts to nothing.";
 	}
 
@@ -447,7 +463,16 @@ void DungeonEngine::updateCmdMap()
 			}
 		}
 	}
-
+	for(auto o : room->objects)
+	{
+		for(auto action : o->actions)
+		{
+			for(auto name : action->getLcaseNames())
+			{
+				actionMap[name] = &DungeonEngine::action;
+			}
+		}
+	}
 }
 
 void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
@@ -509,7 +534,7 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 					else {
 						ActionFunction actFunc = actionMap[actionStr];
 						string response = (this->*actFunc)(actionStr,userInput);
-						if (response.length() > 1) textBuffer.push_back(response);
+						if(response.length() > 1) textBuffer.push_back(response);
 					}
 				}
 				else
