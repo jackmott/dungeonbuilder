@@ -21,9 +21,16 @@
   <ItemGroup>
     <ClCompile Include="action_editor.cpp" />
     <ClCompile Include="creature_editor.cpp" />
+    <ClCompile Include="dungeon_action.cpp" />
+    <ClCompile Include="dungeon_creature.cpp" />
+    <ClCompile Include="dungeon_effect.cpp" />
+    <ClCompile Include="dungeon_entity.cpp" />
+    <ClCompile Include="dungeon_exit.cpp" />
     <ClCompile Include="dungeon_list.cpp" />
-    <ClCompile Include="dungeon_data.cpp" />
     <ClCompile Include="dungeon_engine.cpp" />
+    <ClCompile Include="dungeon_object.cpp" />
+    <ClCompile Include="dungeon_player.cpp" />
+    <ClCompile Include="dungeon_room.cpp" />
     <ClCompile Include="effect_editor.cpp" />
     <ClCompile Include="JSON_loader.cpp" />
     <ClCompile Include="text_editor.cpp">
@@ -35,7 +42,14 @@
     <ClInclude Include="headers\action_editor.h" />
     <ClInclude Include="headers\command_window.h" />
     <ClInclude Include="headers\creature_editor.h" />
-    <ClInclude Include="headers\dungeon_data.h" />
+    <ClInclude Include="headers\dungeon_action.h" />
+    <ClInclude Include="headers\dungeon_creature.h" />
+    <ClInclude Include="headers\dungeon_effect.h" />
+    <ClInclude Include="headers\dungeon_entity.h" />
+    <ClInclude Include="headers\dungeon_exit.h" />
+    <ClInclude Include="headers\dungeon_object.h" />
+    <ClInclude Include="headers\dungeon_player.h" />
+    <ClInclude Include="headers\dungeon_room.h" />
     <ClInclude Include="headers\effect_editor.h" />
     <ClInclude Include="headers\exit_editor.h" />
     <ClInclude Include="headers\dungeon_list.h" />
@@ -122,9 +136,10 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
       <AdditionalIncludeDirectories>headers</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>$(ProjectDir)lib\pdcurses.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(ProjectDir)lib\pdcurses.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;MSVCRTD.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/NODEFAULTLIB:LIBCMT %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>

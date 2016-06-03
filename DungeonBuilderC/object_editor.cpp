@@ -1,4 +1,4 @@
-
+#include "dungeon_object.h"
 #include "object_editor.h"
 #include "command_window.h"
 #include "text_editor.h"

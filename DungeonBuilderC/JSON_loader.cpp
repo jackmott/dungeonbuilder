@@ -1,5 +1,9 @@
 #include "JSON_loader.h"
 #include "string_constants.h"
+#include "dungeon_room.h"
+#include "dungeon_object.h"
+#include "dungeon_exit.h"
+#include "dungeon_creature.h"
 
 using namespace std;
 JSONLoader::JSONLoader(string filename)

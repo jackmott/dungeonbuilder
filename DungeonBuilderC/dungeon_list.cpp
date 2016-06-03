@@ -1,4 +1,6 @@
+#include "dungeon_exit.h"
 #include "dungeon_list.h"
+#include "dungeon_room.h"
 #include "command_window.h"
 #include "printutils.h"
 #include "utils.h"

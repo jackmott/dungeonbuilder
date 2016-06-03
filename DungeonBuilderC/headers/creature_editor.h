@@ -1,17 +1,18 @@
-#pragma once
 #ifndef CREATURE_EDITOR
 #define CREATURE_EDITOR
 
+#include <vector>
+#include <string>
 #include <map>
-#include "dungeon_data.h"
 #include "lib.h"
 
-using namespace std;
+struct DungeonCreature;
+
 
 struct CreatureEditor
 {
-	typedef string (CreatureEditor::*commandFunction) (vector<string>);			
-	map<string,commandFunction> cmdMap;
+	typedef std::string  (CreatureEditor::*commandFunction) (std::vector<std::string>);			
+	std::map<std::string,commandFunction> cmdMap;
 
 	DungeonCreature *creature;
 
@@ -27,11 +28,11 @@ struct CreatureEditor
 	void resetWindows();
 	void load(DungeonCreature *creature);
 
-	string add(vector<string> args);
-	string del(vector<string> args);
-	string set(vector<string> args);
-	string edit(vector<string> args);
-	string exit(vector<string> args);	
+	std::string add(std::vector<std::string> args);
+	std::string del(std::vector<std::string> args);
+	std::string set(std::vector<std::string> args);
+	std::string edit(std::vector<std::string> args);
+	std::string exit(std::vector<std::string> args);	
 };
 
 #endif

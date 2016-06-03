@@ -2,16 +2,14 @@
 #define ACTION_EDITOR
 
 #include <map>
-#include "dungeon_data.h"
+#include "dungeon_action.h"
 #include "lib.h"
 
 
-using namespace std;
-
 struct ActionEditor
 {
-	typedef string (ActionEditor::*commandFunction) (vector<string>);			
-	map<string,commandFunction> cmdMap;
+	typedef std::string (ActionEditor::*commandFunction) (std::vector<std::string>);			
+	std::map<std::string,commandFunction> cmdMap;
 
 	DungeonAction* action;
 
@@ -27,11 +25,11 @@ struct ActionEditor
 	void resetWindows();
 	void load(DungeonAction *_action);
 
-	string edit(vector<string> args);
-	string exit(vector<string> args);
-	string add(vector<string> args);
-	string set(vector<string> args);
-	string del(vector<string> args);
+	std::string edit(std::vector<std::string> args);
+	std::string exit(std::vector<std::string> args);
+	std::string add(std::vector<std::string> args);
+	std::string set(std::vector<std::string> args);
+	std::string del(std::vector<std::string> args);
 };
 
 #endif

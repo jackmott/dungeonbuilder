@@ -3,23 +3,25 @@
 #define DUNGEON_ENGINE
 
 #include <map>
-#include "dungeon_data.h"
 #include "lib.h"
 
+struct DungeonRoom;
+struct DungeonPlayer;
+struct DungeonExit;
 
 extern DungeonRoom *g_startRoom;
-extern vector<DungeonRoom*> g_roomList;
+extern std::vector<DungeonRoom*> g_roomList;
 
 struct DungeonEngine
 {
-	typedef string (DungeonEngine::*commandFunction) (string);			
-	typedef string (DungeonEngine::*ActionFunction) (string,string);
+	typedef std::string  (DungeonEngine::*commandFunction) (std::string);			
+	typedef std::string  (DungeonEngine::*ActionFunction) (std::string,std::string);
 
-	map<string,ActionFunction> actionMap;
-	map<string,commandFunction> cmdMap;
-	map<string,DungeonExit*> moveMap;
+	std::map<std::string,ActionFunction> actionMap;
+	std::map<std::string,commandFunction> cmdMap;
+	std::map<std::string,DungeonExit*> moveMap;
 
-	vector<string> textBuffer;
+	std::vector<std::string> textBuffer;
 	
 	DungeonRoom *room;
 	DungeonPlayer *player;
@@ -39,20 +41,20 @@ struct DungeonEngine
 	void resetWindows();
 	void load(DungeonRoom *_room, DungeonPlayer *_player);
 	void render(unsigned long offset);
-	void showContents(vector<DungeonObject*> * o, int depth = 0);
-	void addToBuffer(vector<string> *v);
+	void showContents(std::vector<DungeonObject*> * o, int depth = 0);
+	void addToBuffer(std::vector<std::string> *v);
 	
-	string drop(string args);
-	string inventory(string args);
-	string put(string args);
-	string open(string args);
-	string take(string args);
-	string exit(string args);
-	string pageDown(string args);
-	string pageUp(string args);
-	string action(string actionStr,string args);
-	string lookCmd(string args);
-	string examine(string args);
+	std::string drop(std::string args);
+	std::string inventory(std::string args);
+	std::string put(std::string args);
+	std::string open(std::string args);
+	std::string take(std::string args);
+	std::string exit(std::string args);
+	std::string pageDown(std::string args);
+	std::string pageUp(std::string args);
+	std::string action(std::string actionStr,std::string args);
+	std::string lookCmd(std::string args);
+	std::string examine(std::string args);
 
 	void move(DungeonExit *dungeonExit);
 };

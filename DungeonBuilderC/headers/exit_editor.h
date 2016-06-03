@@ -1,17 +1,20 @@
-#pragma once
+#ifndef EXIT_EDITOR_H
+#define EXIT_EDITOR_H
 
-
+#include <vector>
+#include <string>
 #include <map>
-#include "dungeon_data.h"
 #include "lib.h"
 
-using namespace std;
+struct DungeonRoom;
+struct DungeonExit;
+
 extern DungeonRoom *g_startRoom;
-extern vector<DungeonRoom*> g_roomList;
+extern std::vector<DungeonRoom*> g_roomList;
 struct ExitEditor
 {
-	typedef string (ExitEditor::*commandFunction) (vector<string>);			
-	map<string,commandFunction> cmdMap;
+	typedef std::string  (ExitEditor::*commandFunction) (std::vector<std::string>);			
+	std::map<std::string,commandFunction> cmdMap;
 
 	DungeonExit *dungeonExit;
 	
@@ -21,17 +24,16 @@ struct ExitEditor
 	WINDOW *mainWindow;
 	WINDOW *headerWindow;
 
-	
-
-	
+		
 	void clearWindows();
 	void resetWindows();
 	DungeonRoom* load(DungeonExit *_dungeonExit);
 
-	string set(vector<string> args);
-	string add(vector<string> args);
-	string del(vector<string> args);
-	string edit(vector<string> args);
-	string exit(vector<string> args);	
+	std::string set(std::vector<std::string> args);
+	std::string add(std::vector<std::string> args);
+	std::string del(std::vector<std::string> args);
+	std::string edit(std::vector<std::string> args);
+	std::string exit(std::vector<std::string> args);	
 };
 
+#endif

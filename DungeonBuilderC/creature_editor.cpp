@@ -1,4 +1,5 @@
 #include "creature_editor.h"
+#include "dungeon_creature.h"
 #include "command_window.h"
 #include "text_editor.h"
 #include "printutils.h"

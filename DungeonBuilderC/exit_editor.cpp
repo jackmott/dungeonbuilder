@@ -1,4 +1,5 @@
-
+#include "dungeon_room.h"
+#include "dungeon_exit.h"
 #include "exit_editor.h"
 #include "command_window.h"
 #include "text_editor.h"

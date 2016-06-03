@@ -1,18 +1,20 @@
-#pragma once
+#ifndef ROOM_EDITOR_H
+#define ROOM_EDITOR_H
 
+#include <vector>
 #include <map>
-#include "dungeon_data.h"
+#include <string>
 #include "lib.h"
 
+struct DungeonRoom;
 
 
-using namespace std;
 extern DungeonRoom *g_startRoom;
-extern vector<DungeonRoom*> g_roomList;
+extern std::vector<DungeonRoom*> g_roomList;
 struct RoomEditor
 {
-	typedef string (RoomEditor::*commandFunction) (vector<string>);			
-	map<string,commandFunction> cmdMap;
+	typedef std::string  (RoomEditor::*commandFunction) (std::vector<std::string>);			
+	std::map<std::string,commandFunction> cmdMap;
 
 	DungeonRoom *room;
 	WINDOW *responseWindow;
@@ -26,11 +28,12 @@ struct RoomEditor
 	void resetWindows();
 	void load(DungeonRoom *_room);
 
-	string move(vector<string> args);
-	string edit(vector<string> args);	
-	string del(vector<string> args);
-	string set(vector<string> args);
-	string exit(vector<string> args);
-	string add(vector<string> args);
+	std::string move(std::vector<std::string> args);
+	std::string edit(std::vector<std::string> args);	
+	std::string del(std::vector<std::string> args);
+	std::string set(std::vector<std::string> args);
+	std::string exit(std::vector<std::string> args);
+	std::string add(std::vector<std::string> args);
 };
 
+#endif

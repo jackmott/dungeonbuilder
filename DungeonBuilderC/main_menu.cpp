@@ -1,3 +1,5 @@
+#include "dungeon_room.h"
+#include "dungeon_player.h"
 #include "main_menu.h"
 #include <sstream>
 #include <fstream>

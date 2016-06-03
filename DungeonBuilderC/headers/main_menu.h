@@ -5,17 +5,16 @@
 #include <vector>
 #include <string>
 #include <map>
-#include "dungeon_data.h"
 #include "lib.h"
 #include "JSON_loader.h"
 
-using namespace std;
+
 
 
 struct MainMenu
 {
-	typedef void (MainMenu::*commandFunction) (vector<string>);
-	map<string,commandFunction> cmdMap;
+	typedef void (MainMenu::*commandFunction) (std::vector<std::string>);
+	std::map<std::string,commandFunction> cmdMap;
 
 	WINDOW *responseWindow;
 	WINDOW *commandWindow;
@@ -23,12 +22,12 @@ struct MainMenu
 
 	int w,h;
 
-	void create(vector<string> args);
-	void play(vector<string> args);
-	void exitMenu(vector<string> args);
+	void create(std::vector<std::string> args);
+	void play(std::vector<std::string> args);
+	void exitMenu(std::vector<std::string> args);
 	void clearWindows();
-	void saveMap(vector<string> args);
-	void loadMap(vector<string> args);
+	void saveMap(std::vector<std::string> args);
+	void loadMap(std::vector<std::string> args);
 	void resetWindows();
 	void load();
 	

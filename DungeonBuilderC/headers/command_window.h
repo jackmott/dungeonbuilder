@@ -1,31 +1,27 @@
-#pragma once
-#ifndef COMMAND_WINDOW
-#define COMMAND_WINDOW
+#ifndef COMMAND_WINDOW_H
+#define COMMAND_WINDOW_H
 
 #include <string>
 #include <vector>
 #include "lib.h"
-
-using namespace std;
 
 struct CommandWindow
 {
 	WINDOW *window;
 	int x;	
 	int w;
-	string input;
+	std::string input;
 	int done = 0;
-	string prompt;
+	std::string prompt;
 				
 	void reset();	
-	vector<string> commandBuffer;
-	vector<string> getCommand(WINDOW* _window,string prompt);				
-	string getCommandAsString(WINDOW* _window,string prompt);				
+	std::vector<std::string> commandBuffer;
+	std::vector<std::string> getCommand(WINDOW* _window,std::string prompt);				
+	std::string getCommandAsString(WINDOW* _window,std::string prompt);				
 	void moveLeft();
 	void moveRight();			
 	bool handleInput(int c);
 	void print();
-    void backspace();
 };
 
 

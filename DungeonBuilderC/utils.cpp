@@ -1,8 +1,11 @@
+#include "dungeon_object.h"
+#include "dungeon_entity.h"
 #include "utils.h"
 #include <sstream>
 #include <algorithm>
 #include "lib.h"
 
+using namespace std;
 
 unsigned long getUID() { return global_id++; }
 

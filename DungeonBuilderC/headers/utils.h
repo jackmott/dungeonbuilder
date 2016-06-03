@@ -1,34 +1,35 @@
-#pragma once
-#ifndef UTILS
-#define UTILS
+#ifndef UTILS_H
+#define UTILS_H
 
-#include <string>
 #include <vector>
-#include "dungeon_data.h"
+#include <string>
 
-using namespace std;
+
+struct DungeonEntity;
+struct DungeonObject;
+
 extern unsigned long global_id;
 
 unsigned long getUID();
-vector<string> &split(const string &s, char delim, vector<string> &elems);
-vector<string> split(const string &s, char delim);
-string join(unsigned int offset, vector<string> const &v, string delim);
-vector<string> removeArticles(vector<string> words);
-bool containsWith(vector<string> word);
-string toLower(string s);
-void toLower(string *s);
+std::vector<std::string> &split(const std::string  &s, char delim, std::vector<std::string> &elems);
+std::vector<std::string> split(const std::string  &s, char delim);
+std::string join(unsigned int offset, std::vector<std::string> const &v, std::string  delim);
+std::vector<std::string> removeArticles(std::vector<std::string> words);
+bool containsWith(std::vector<std::string> word);
+std::string toLower(std::string s);
+void toLower(std::string *s);
 bool isVowel(char c);
-string a_an (string s);
-bool isAffirmative(string s);
-string thereIsA(string thing);
-DungeonEntity* extractEntity(void* _entities ,string *userInput, int *matchedName = nullptr);
-DungeonObject* extractObject(vector<DungeonObject*> * objects,string *userInput, int* matchedName = nullptr);
-DungeonObject* extractAndRemoveObject(vector<DungeonObject*> * objects,string *userInput);
+std::string a_an (std::string s);
+bool isAffirmative(std::string s);
+std::string thereIsA(std::string thing);
+DungeonEntity* extractEntity(void* _entities ,std::string *userInput, int *matchedName = nullptr);
+DungeonObject* extractObject(std::vector<DungeonObject*> * objects,std::string *userInput, int* matchedName = nullptr);
+DungeonObject* extractAndRemoveObject(std::vector<DungeonObject*> * objects,std::string *userInput);
 void removePointer(void * _pointers,void* pointer);
-bool removeStr(vector<string> *strs,string str);
-void strlensort(vector<string>* v);
-void entitysort(vector<DungeonEntity*> *v);
-string extractPhrase(vector<string> phrasesToFind, string *userInput);
+bool removeStr(std::vector<std::string> *strs,std::string str);
+void strlensort(std::vector<std::string>* v);
+void entitysort(std::vector<DungeonEntity*> *v);
+std::string extractPhrase(std::vector<std::string> phrasesToFind, std::string  *userInput);
 void dbsleep(unsigned int milliseconds);
 int min(int a, int b);
 int max(int a, int b);

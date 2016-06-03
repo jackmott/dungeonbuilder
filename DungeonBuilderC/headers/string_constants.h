@@ -1,5 +1,5 @@
-#ifndef STRING_CONSTANTS
-#define STRING_CONSTANTS
+#ifndef STRING_CONSTANTS_H
+#define STRING_CONSTANTS_H
 
 
 
@@ -44,7 +44,7 @@
 
 //Action
 #define STR_MENU_TEXT_OUTPUT "[Set](Text):"
-#define STR_MENU_EFFECT "[Add/Del/Edit](Effect):"
+#define STR_MENU_EFFECT "[Add/Del/Edit #](Effect):"
 #define STR_MENU_NEED_HOLD "[Set](Held):"
 
 #define STR_NEED_HELD "held"

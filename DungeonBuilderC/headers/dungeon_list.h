@@ -1,17 +1,18 @@
-#ifndef DUNGEON_LIST
-#define DUNGEON_LIST
+#ifndef DUNGEON_LIST_H
+#define DUNGEON_LIST_H
 
+#include <string>
+#include <vector>
 #include <map>
-#include "dungeon_data.h"
 #include "lib.h"
 
-
-using namespace std;
+struct DungeonRoom;
+struct DungeonExit;
 
 struct DungeonRoomList
 {
-	typedef DungeonRoom* (DungeonRoomList::*commandFunction) (vector<string>);			
-	map<string,commandFunction> cmdMap;
+	typedef DungeonRoom* (DungeonRoomList::*commandFunction) (std::vector<std::string>);			
+	std::map<std::string,commandFunction> cmdMap;
 
 	
 
@@ -20,7 +21,7 @@ struct DungeonRoomList
 	WINDOW *mainWindow;
 	WINDOW *headerWindow;
 
-	vector<DungeonRoom*> rooms;
+	std::vector<DungeonRoom*> rooms;
 	DungeonExit* fromExit;
 	
 	int pos;
@@ -30,11 +31,11 @@ struct DungeonRoomList
 	void resetWindows();
 
 	//display these entities in a list and let user choose one
-	DungeonRoom* load(vector<DungeonRoom*> _rooms, DungeonExit* _fromExit = nullptr);
+	DungeonRoom* load(std::vector<DungeonRoom*> _rooms, DungeonExit* _fromExit = nullptr);
 	DungeonRoom* pickRoom(int id);
-	DungeonRoom* newRoom(vector<string> args);
-	DungeonRoom* pageUp(vector<string> args);
-	DungeonRoom* pageDown(vector<string> args);
+	DungeonRoom* newRoom(std::vector<std::string> args);
+	DungeonRoom* pageUp(std::vector<std::string> args);
+	DungeonRoom* pageDown(std::vector<std::string> args);
 
 };
 

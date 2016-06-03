@@ -2,16 +2,17 @@
 #define EFFECT_EDITOR
 
 #include <map>
-#include "dungeon_data.h"
+#include <vector>
+#include <string>
 #include "lib.h"
 
+struct DungeonEffect;
 
-using namespace std;
 
 struct EffectEditor
 {
-	typedef string (EffectEditor::*commandFunction) (vector<string>);			
-	map<string,commandFunction> cmdMap;
+	typedef std::string  (EffectEditor::*commandFunction) (std::vector<std::string>);			
+	std::map<std::string,commandFunction> cmdMap;
 
 	DungeonEffect* effect;
 
@@ -27,13 +28,11 @@ struct EffectEditor
 	void resetWindows();
 	void load(DungeonEffect *_effect);
 
-	string edit(vector<string> args);
-	string exit(vector<string> args);
-	string add(vector<string> args);
-	string set(vector<string> args);
-	string del(vector<string> args);
-	string larrow(vector<string> args);
-	string rarrow(vector<string> args);
+	std::string edit(std::vector<std::string> args);
+	std::string exit(std::vector<std::string> args);
+	std::string add(std::vector<std::string> args);
+	std::string set(std::vector<std::string> args);
+	std::string del(std::vector<std::string> args);
 
 };
 

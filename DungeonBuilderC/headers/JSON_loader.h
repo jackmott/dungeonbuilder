@@ -1,30 +1,38 @@
+#ifndef JSON_LOADER_H
+#define JSON_LOADER_H
+
 #include <string>
 #include <fstream>
 #include <stack>
 #include <vector>
-#include "dungeon_data.h"
 
-using namespace std;
+
+struct DungeonRoom;
+struct DungeonObject;
+struct DungeonCreature;
+struct DungeonExit;
 
 struct JSONLoader {
 	char ch;
-	ifstream fin;
-	string filename;
-	string currEntry[2];
+	std::ifstream fin;
+	std::string filename;
+	std::string currEntry[2];
 	bool donePass;
 	bool open;
 	bool single;
 	
-	JSONLoader(string);
+	JSONLoader(std::string);
 	~JSONLoader();
-	vector<DungeonRoom*> loadMap();
-	DungeonRoom* loadRoom(vector<DungeonRoom*> roomList);
+	std::vector<DungeonRoom*> loadMap();
+	DungeonRoom* loadRoom(std::vector<DungeonRoom*> roomList);
 	DungeonObject* loadObject();
 	DungeonCreature* loadCreature();
 
-	void getExits(vector<DungeonRoom*> roomList);
-	DungeonExit* loadExit( vector<DungeonRoom*> roomList);
+	void getExits(std::vector<DungeonRoom*> roomList);
+	DungeonExit* loadExit( std::vector<DungeonRoom*> roomList);
 	bool getJSONEntry();
 	
-	void split(string);
+	void split(std::string);
 };
+
+#endif
