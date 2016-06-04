@@ -7,18 +7,19 @@
 using namespace std;
 
 void curses_init()
-{	
-	initscr();	
+{
+	initscr();
 	noecho();
 	cbreak();
-	keypad(stdscr,true);	
+	keypad(stdscr,true);
 	start_color();
+	set_escdelay(25);
 }
 
 int main(int argc,char* argv[])
 {
 	curses_init();
-	
+
 	MainMenu mm;
 	mm.load();
 
