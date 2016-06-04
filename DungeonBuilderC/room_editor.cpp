@@ -72,6 +72,10 @@ string RoomEditor::set(vector<string> args)
 		descVector.push_back(desc);
 		room->description = descVector;
 	}
+	else if(setNoun == STR_LIGHT)
+	{
+		room->hasLight = isAffirmative(args[2]);
+	}
 	else {
 		return "I don't know how to set that";
 	}
@@ -350,6 +354,10 @@ void RoomEditor::resetWindows()
 	string desc = room->description.size() > 0 ? room->description[0] + STR_ELLIPSES : "";
 	string descRow = STR_MENU_DESCRIPTION + desc;
 	mvwprintw(mainWindow,lineCount,0,descRow.c_str());
+	lineCount++;
+	string torf = room->hasLight ? "T" : "F";
+	string lightRow = STR_MENU_HAS_LIGHT + torf;
+	mvwprintw(mainWindow,lineCount,0,lightRow.c_str());
 
 	lineCount++;
 	lineCount++;

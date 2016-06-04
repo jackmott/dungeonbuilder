@@ -59,7 +59,7 @@ string ActionEditor::set(vector<string> args)
 	}
 	else if(editNoun == STR_NEED_HELD)
 	{
-			  action->needToHold = !action->needToHold;
+			  action->needToHold = isAffirmative(args[2]);
 	}
 	resetWindows();
 	return "";

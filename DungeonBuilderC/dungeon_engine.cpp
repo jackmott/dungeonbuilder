@@ -302,7 +302,7 @@ void DungeonEngine::resetWindows()
 {
 	headerWindow = newwin(1,getCols(),0,0);
 	commandWindow = newwin(1,getCols(),LINES-1,0);
-	
+
 
 	mainWindow = newwin(LINES-2,getCols(),1,0);
 	scrollok(mainWindow,TRUE);
@@ -344,46 +344,75 @@ void DungeonEngine::showContents(vector<DungeonObject*> *objects,int depth)
 }
 void DungeonEngine::look()
 {
-	addToBuffer(&room->description);
-
-	for(auto creature : room->creatures)
-	{
-		textBuffer.push_back(thereIsA(creature->getPrimaryName()));
-	}
-
-	for(auto o : room->objects)
-	{
-		string objString = thereIsA(o->getPrimaryName())+".";
-		if(o->isOpen && o->contents.size() > 0) {
-			objString += " Inside it you see ";
-			textBuffer.push_back(objString);
-			showContents(&o->contents);
-		}
-		else {
-			textBuffer.push_back(objString);
-		}
-
-	}
-
-	for(auto exit : room->exits)
-	{
-
-		if(exit->isDoor)
+	bool isThereAnyLight = false;
+	if(room->hasLight) isThereAnyLight = true;
+	if(!isThereAnyLight) {
+		for(auto o : player->objects)
 		{
-			if(exit->isOpen)
+			if(o->isLight) {
+				isThereAnyLight = true;
+				break;
+			}
+		}
+	}
+	if(!isThereAnyLight)
+	{
+		for(auto o : room->objects)
+		{
+			if(o->isLight) {
+				isThereAnyLight = true;
+				break;
+			}
+		}
+	}
+
+	if(isThereAnyLight)
+	{
+		addToBuffer(&room->description);
+		for(auto creature : room->creatures)
+		{
+			textBuffer.push_back(thereIsA(creature->getPrimaryName()));
+		}
+
+		for(auto o : room->objects)
+		{
+			string objString = thereIsA(o->getPrimaryName())+".";
+			if(o->isOpen && o->contents.size() > 0) {
+				objString += " Inside it you see ";
+				textBuffer.push_back(objString);
+				showContents(&o->contents);
+			}
+			else {
+				textBuffer.push_back(objString);
+			}
+
+		}
+
+		for(auto exit : room->exits)
+		{
+
+			if(exit->isDoor)
 			{
+				if(exit->isOpen)
+				{
+					textBuffer.push_back(exit->openText);
+				}
+				else
+				{
+					textBuffer.push_back(exit->closedText);
+				}
+			}
+			else {
 				textBuffer.push_back(exit->openText);
 			}
-			else
-			{
-				textBuffer.push_back(exit->closedText);
-			}
-		}
-		else {
-			textBuffer.push_back(exit->openText);
-		}
 
+		}
 	}
+	else {
+		textBuffer.push_back("All you see is darkness....");
+	}
+
+
 
 }
 

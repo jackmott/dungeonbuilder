@@ -19,7 +19,7 @@ struct DungeonObject: DungeonEntity
 	bool canOpen;
 	bool isOpen;
 	bool canTake;
-
+	bool isLight;
 	
 	std::vector<DungeonObject*> contents;
 	std::vector<DungeonAction*> actions;

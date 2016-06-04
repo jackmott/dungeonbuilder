@@ -14,7 +14,7 @@
 #define STR_MENU_CREATURE "[Add/Del/Edit](Creature):"
 #define STR_MENU_EXIT "[Add/Del/Edit](Exit):"
 #define STR_MENU_ROOM_MOVE "[Go](Exit/Blank):"
-
+#define STR_MENU_HAS_LIGHT "[Light](T/F):"
 
 //Creature
 #define STR_MENU_HITPOINTS "[Set](Hitpoints):"
@@ -47,6 +47,8 @@
 #define STR_MENU_EFFECT "[Add/Del/Edit #](Effect):"
 #define STR_MENU_NEED_HOLD "[Set](Held):"
 
+
+#define STR_LIGHT "light"
 #define STR_NEED_HELD "held"
 #define STR_TYPE "type"
 #define STR_MAGNITUDE "magnitude"

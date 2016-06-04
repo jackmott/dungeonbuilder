@@ -14,6 +14,7 @@ DungeonRoom::DungeonRoom()
 {
 	uid = getUID();
 	g_roomList.push_back(this);
+	hasLight = true;
 }
 
 DungeonRoom::~DungeonRoom()

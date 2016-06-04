@@ -275,8 +275,7 @@ void ObjectEditor::resetWindows()
 	string desc = object->description.size() > 0 ? object->description[0] + STR_ELLIPSES : "";
 	string descRow = STR_MENU_DESCRIPTION + desc;
 	mvwprintw(mainWindow,lineCount,0,descRow.c_str());
-
-
+	
 	lineCount++;
 	mvwprintw(mainWindow,lineCount,0,STR_MENU_OBJECT);
 	for(auto o : object->contents)
@@ -316,6 +315,10 @@ void ObjectEditor::resetWindows()
 	string isOpenRow = STR_MENU_IS_OPEN + torf;
 	mvwprintw(mainWindow,lineCount,0,isOpenRow.c_str());
 
+	lineCount++;
+	torf = object->isLight ? STR_TRUE : STR_FALSE;
+	string isLightRow = STR_MENU_HAS_LIGHT + torf;
+	mvwprintw(mainWindow,lineCount,0,isLightRow.c_str());
 
 
 	wrefresh(mainWindow);

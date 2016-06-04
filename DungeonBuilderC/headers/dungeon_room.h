@@ -12,7 +12,7 @@ struct DungeonRoom : DungeonEntity
 	DungeonRoom();
 	~DungeonRoom();
 
-	
+	bool hasLight;
 	std::vector<std::string> description;
 	std::vector<DungeonExit*> exits;
 	std::vector<DungeonObject*> objects;
