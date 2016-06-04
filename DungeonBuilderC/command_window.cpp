@@ -11,7 +11,7 @@ void CommandWindow::reset(){
 	wclear(window);
 }
 
-string CommandWindow::getCommandAsString(WINDOW* _window,string _prompt) {	
+string CommandWindow::getCommandAsString(WINDOW* _window,string _prompt) {
 	input = "";
 	prompt = _prompt;
 	window = _window;
@@ -28,18 +28,18 @@ string CommandWindow::getCommandAsString(WINDOW* _window,string _prompt) {
 		done = handleInput(c);
 	}
 	reset();
-	
-	if (input != STR_PAGE_UP && (input != STR_PAGE_DOWN))
+
+	if(input != STR_PAGE_UP && (input != STR_PAGE_DOWN))
 	{
 		commandBuffer.push_back(input);
 		cmdBufferPos = commandBuffer.size();
 	}
-	
+
 	return input;
 }
 
 vector<string> CommandWindow::getCommand(WINDOW* _window,string _prompt) {
-	string input = getCommandAsString(_window,_prompt);	
+	string input = getCommandAsString(_window,_prompt);
 	vector<string> result = split(input,' ');
 	return result;
 }
@@ -51,31 +51,37 @@ void CommandWindow::moveRight() {
 }
 
 bool CommandWindow::handleInput(int c) {
-    
-    
+
+
 	switch(c)
 	{
+	case KEY_HOME:
+		x = 0+prompt.size();
+		break;
+	case KEY_END:
+		x = input.size()+prompt.size();
+		break;
 	case KEY_BACKSPACE:
-    case 127: // Mac OSX delete key
+	case 127: // Mac OSX delete key
 	case 8:  //backspace
 		if(x > prompt.size())
-		{ 
+		{
 			x = x -1;
-            input.erase(x-prompt.size(),1);
+			input.erase(x-prompt.size(),1);
 		}
 		break;
 	case KEY_DC:
-		if (input.size() - x+prompt.size() > 0)
+		if(input.size() - x+prompt.size() > 0)
 			input.erase(x-prompt.size(),1);
 		break;
 	case KEY_UP:
-		if (cmdBufferPos > 0)
+		if(cmdBufferPos > 0)
 		{
 			cmdBufferPos--;
-			input = commandBuffer[cmdBufferPos];			
+			input = commandBuffer[cmdBufferPos];
 			x = input.size()+prompt.size();
 		}
-		
+
 		break;
 	case KEY_DOWN:
 		if(cmdBufferPos+1 < commandBuffer.size())
@@ -85,13 +91,13 @@ bool CommandWindow::handleInput(int c) {
 			x = input.size()+prompt.size();
 		}
 		break;
-	case KEY_LEFT:		
+	case KEY_LEFT:
 		if(x > prompt.size())
-		{			
+		{
 			x--;
 		}
 		break;
-	case KEY_RIGHT:		
+	case KEY_RIGHT:
 		if(x < input.size()+prompt.size())
 		{
 			x++;
@@ -106,19 +112,19 @@ bool CommandWindow::handleInput(int c) {
 		return true;
 		break;
 	case KEY_ENTER:
-	case 10:		
+	case 10:
 		return true;
 	case 27:  //escape key
 		input = STR_EXIT;;
 		return true;
 	default:
 		if(input.size() < (unsigned int)(getCols() -2))
-		{			
+		{
 			input.insert(x-prompt.size(),1,(char)c);
 			x++;
 		}
 	}
-    
+
 	return false;
 }
 

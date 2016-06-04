@@ -109,6 +109,12 @@ void TextEditor::deleteLine(int n) {
 void TextEditor::handleInput(int c) {
 	switch(c)
 	{
+	case KEY_HOME:
+		x = 0;
+		break;
+	case KEY_END:
+		x = lines[y].size();
+		break;
 	case KEY_LEFT:
 		moveLeft();
 		break;

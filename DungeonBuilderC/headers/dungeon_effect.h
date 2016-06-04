@@ -23,7 +23,8 @@ struct DungeonEffect
 	DungeonEffect();
 	~DungeonEffect();
 
-	
+	int uid;
+
 	DungeonAction *parent;
 	EFFECT_TYPE type;
 	std::string output;

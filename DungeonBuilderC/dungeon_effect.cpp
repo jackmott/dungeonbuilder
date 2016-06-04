@@ -14,6 +14,7 @@ DungeonEffect::DungeonEffect()
 {
 	magnitude = 0;
 	type = EFFECT_TYPE::HEAL;
+	uid = getUID();
 }
 DungeonEffect::~DungeonEffect()
 {
