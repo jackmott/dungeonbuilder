@@ -25,6 +25,7 @@
     <ClCompile Include="dungeon_exit.cpp" />
     <ClCompile Include="room_list.cpp" />
     <ClCompile Include="object_list.cpp" />
+    <ClCompile Include="dungeon_trigger.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\room_editor.h" />
@@ -53,6 +54,7 @@
     <ClInclude Include="headers\dungeon_exit.h" />
     <ClInclude Include="headers\room_list.h" />
     <ClInclude Include="headers\object_list.h" />
+    <ClInclude Include="headers\dungeon_trigger.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\pdcurses.lib" />

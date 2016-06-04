@@ -26,6 +26,7 @@
     <ClCompile Include="dungeon_effect.cpp" />
     <ClCompile Include="dungeon_entity.cpp" />
     <ClCompile Include="dungeon_exit.cpp" />
+    <ClCompile Include="dungeon_trigger.cpp" />
     <ClCompile Include="object_list.cpp" />
     <ClCompile Include="room_list.cpp" />
     <ClCompile Include="dungeon_engine.cpp" />
@@ -51,6 +52,7 @@
     <ClInclude Include="headers\dungeon_object.h" />
     <ClInclude Include="headers\dungeon_player.h" />
     <ClInclude Include="headers\dungeon_room.h" />
+    <ClInclude Include="headers\dungeon_trigger.h" />
     <ClInclude Include="headers\effect_editor.h" />
     <ClInclude Include="headers\exit_editor.h" />
     <ClInclude Include="headers\object_list.h" />

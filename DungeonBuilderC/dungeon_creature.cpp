@@ -6,22 +6,26 @@
 
 using namespace std;
 
-
+extern vector<DungeonCreature*> g_creatureList;
 
 DungeonCreature::DungeonCreature()
 {
 	uid = getUID();
 	hitpoints = 100;
+	g_creatureList.push_back(this);
 }
+DungeonCreature::~DungeonCreature()
+{
+
+}
+
 string DungeonCreature::attack(DungeonObject *weapon,DungeonPlayer *player)
 {
 	hitpoints = hitpoints - weapon->damage;
 	if(hitpoints <= 0) return "You have killed the "+getPrimaryName()+"!";
 	return "You hit the " + getPrimaryName();
 }
-DungeonCreature::~DungeonCreature()
-{
-}
+
 string DungeonCreature::toJSON()
 {
 	ostringstream sout;
