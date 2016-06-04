@@ -11,10 +11,11 @@ void CommandWindow::reset(){
 	wclear(window);
 }
 
-string CommandWindow::getCommandAsString(WINDOW* _window,string _prompt) {
+string CommandWindow::getCommandAsString(WINDOW* _window,string _prompt) {	
 	input = "";
 	prompt = _prompt;
 	window = _window;
+	keypad(window,true);
 	x = prompt.length();
 	done = false;
 
@@ -27,7 +28,13 @@ string CommandWindow::getCommandAsString(WINDOW* _window,string _prompt) {
 		done = handleInput(c);
 	}
 	reset();
-    commandBuffer.push_back(input);
+	
+	if (input != STR_PAGE_UP && (input != STR_PAGE_DOWN))
+	{
+		commandBuffer.push_back(input);
+		cmdBufferPos = commandBuffer.size();
+	}
+	
 	return input;
 }
 
@@ -51,20 +58,44 @@ bool CommandWindow::handleInput(int c) {
 	case KEY_BACKSPACE:
     case 127: // Mac OSX delete key
 	case 8:  //backspace
-		if(input.length() > 0)
+		if(x > prompt.size())
 		{ 
-			input.pop_back();
-            x--;
+			x = x -1;
+            input.erase(x-prompt.size(),1);
 		}
 		break;
+	case KEY_DC:
+		if (input.size() - x+prompt.size() > 0)
+			input.erase(x-prompt.size(),1);
+		break;
 	case KEY_UP:
-		if (commandBuffer.size() > 0)
+		if (cmdBufferPos > 0)
 		{
-			input = commandBuffer[commandBuffer.size()-1];
-			commandBuffer.pop_back();
-			x = input.size();
+			cmdBufferPos--;
+			input = commandBuffer[cmdBufferPos];			
+			x = input.size()+prompt.size();
 		}
 		
+		break;
+	case KEY_DOWN:
+		if(cmdBufferPos+1 < commandBuffer.size())
+		{
+			cmdBufferPos++;
+			input = commandBuffer[cmdBufferPos];
+			x = input.size()+prompt.size();
+		}
+		break;
+	case KEY_LEFT:		
+		if(x > prompt.size())
+		{			
+			x--;
+		}
+		break;
+	case KEY_RIGHT:		
+		if(x < input.size()+prompt.size())
+		{
+			x++;
+		}
 		break;
 	case KEY_PPAGE: //page up
 		input = STR_PAGE_UP;
@@ -75,15 +106,15 @@ bool CommandWindow::handleInput(int c) {
 		return true;
 		break;
 	case KEY_ENTER:
-	case 10:
+	case 10:		
 		return true;
 	case 27:  //escape key
 		input = STR_EXIT;;
 		return true;
 	default:
 		if(input.size() < (unsigned int)(getCols() -2))
-		{
-			input.push_back((char)c);
+		{			
+			input.insert(x-prompt.size(),1,(char)c);
 			x++;
 		}
 	}

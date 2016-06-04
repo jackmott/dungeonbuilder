@@ -60,8 +60,7 @@ void DungeonRoomList::clearWindows()
 
 void DungeonRoomList::resetWindows()
 {
-	commandWindow = newwin(1,getCols(),LINES-1,0);
-	keypad(commandWindow,true);
+	commandWindow = newwin(1,getCols(),LINES-1,0);	
 	responseWindow = newwin(1,getCols(),LINES-2,0);
 	headerWindow = newwin(1,getCols(),0,0);
 	mainWindow = newwin(LINES-3,getCols(),1,0);
@@ -187,8 +186,6 @@ DungeonRoom* DungeonRoomList::load(vector<DungeonRoom *> _rooms,DungeonExit* _fr
 				wclrtoeol(responseWindow);
 				wrefresh(responseWindow);
 			}
-
-
 
 		}
 	}

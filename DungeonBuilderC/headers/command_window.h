@@ -16,6 +16,7 @@ struct CommandWindow
 				
 	void reset();	
 	std::vector<std::string> commandBuffer;
+	int cmdBufferPos = 0;
 	std::vector<std::string> getCommand(WINDOW* _window,std::string prompt);				
 	std::string getCommandAsString(WINDOW* _window,std::string prompt);				
 	void moveLeft();

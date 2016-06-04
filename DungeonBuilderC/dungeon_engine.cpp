@@ -302,7 +302,7 @@ void DungeonEngine::resetWindows()
 {
 	headerWindow = newwin(1,getCols(),0,0);
 	commandWindow = newwin(1,getCols(),LINES-1,0);
-	keypad(commandWindow,true);
+	
 
 	mainWindow = newwin(LINES-2,getCols(),1,0);
 	scrollok(mainWindow,TRUE);

@@ -156,8 +156,7 @@ void EffectEditor::clearWindows()
 
 void EffectEditor::resetWindows()
 {
-	commandWindow = newwin(1,getCols(),LINES-1,0);
-	keypad(commandWindow,true);
+	commandWindow = newwin(1,getCols(),LINES-1,0);	
 	responseWindow = newwin(1,getCols(),LINES-2,0);
 	mainWindow = newwin(LINES-3,getCols(),1,0);
 	headerWindow = newwin(1,getCols(),0,0);
