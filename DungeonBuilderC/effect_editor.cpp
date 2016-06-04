@@ -1,3 +1,4 @@
+#include "object_list.h"
 #include "dungeon_action.h"
 #include "dungeon_effect.h"
 #include "dungeon_object.h"
@@ -10,7 +11,7 @@
 #include "string_constants.h"
 
 using namespace std;
-
+extern vector<DungeonObject*> g_objectList;
 
 string EffectEditor::exit(vector<string> args)
 {
@@ -76,6 +77,18 @@ string EffectEditor::set(vector<string> args)
 			{
 				effect->type = (EFFECT_TYPE)i;
 			}
+		}
+	}
+	else if(editNoun == STR_OBJECT)
+	{
+		DungeonObjectList ol;
+		DungeonObject* o = ol.load(g_objectList);
+		if(o != nullptr)
+		{
+			effect->transforms.push_back(o);
+		}
+		else {
+			return "ERROR GOT BAD INFO BACK FROM THE OBJECT LIST";
 		}
 	}
 
@@ -198,7 +211,7 @@ void EffectEditor::resetWindows()
 	if(effect->type == EFFECT_TYPE::TRANSFORM)
 	{
 		lineCount++;
-		mvwprintw(mainWindow,lineCount,0,STR_MENU_OBJECT);
+		mvwprintw(mainWindow,lineCount,0,STR_MENU_SET_ADD_OBJECT);
 		for(auto e : effect->transforms)
 		{
 			lineCount++;

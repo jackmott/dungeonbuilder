@@ -41,7 +41,7 @@
 //Effect
 #define STR_MENU_EFFECT_TYPE "[Set](Type):"
 #define STR_MENU_MAGNITUDE "[Set](Magnitude)[#]:"
-#define _STR_MENU_SET_ADD_OBJECT "[Set/Add/Del/Edit](Object):"
+#define STR_MENU_SET_ADD_OBJECT "[Set/Add/Del/Edit](Object):"
 //Action
 #define STR_MENU_TEXT_OUTPUT "[Set](Output):"
 #define STR_MENU_EFFECT "[Add/Del/Edit #](Effect):"

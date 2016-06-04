@@ -24,6 +24,7 @@ unsigned long global_id = 0;
 
 void MainMenu::exitMenu(vector<string> args)
 {
+	endwin();
 	exit(EXIT_SUCCESS);
 }
 
