@@ -17,6 +17,7 @@ using namespace std;
 DungeonRoom *g_startRoom = nullptr;
 DungeonPlayer *g_player;
 vector<DungeonRoom*> g_roomList;
+vector<DungeonObject*> g_objectList;
 unsigned long global_id = 0;
 
 

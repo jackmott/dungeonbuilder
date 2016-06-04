@@ -117,6 +117,10 @@ string ObjectEditor::set(vector<string> args)
 	{
 		object->isOpen = isAffirmative(args[2]);
 	}
+	else if(editNoun == STR_LIGHT)
+	{
+		object->isLight = isAffirmative(args[2]);
+	}
 	else {
 		return "I don't know how to set that.";
 	}

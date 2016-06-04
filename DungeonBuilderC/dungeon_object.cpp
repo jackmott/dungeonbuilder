@@ -5,6 +5,7 @@
 
 using namespace std;
 
+extern vector<DungeonObject*> g_objectList;
 DungeonObject::DungeonObject()
 {
 
@@ -15,6 +16,8 @@ DungeonObject::DungeonObject()
 	canOpen = false;
 	isOpen = false;
 	canTake = true;
+	isLight = false;
+	g_objectList.push_back(this);
 
 }
 

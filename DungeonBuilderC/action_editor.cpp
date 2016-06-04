@@ -156,7 +156,7 @@ void ActionEditor::resetWindows()
 	lineCount++;
 	string torf = action->needToHold ? STR_TRUE : STR_FALSE;
 	string holdRow = STR_MENU_NEED_HOLD + torf;
-	mvwprintw(mainWindow,lineCount,0,outputRow.c_str());
+	mvwprintw(mainWindow,lineCount,0,holdRow.c_str());
 
 	lineCount++;
 	mvwprintw(mainWindow,lineCount,0,STR_MENU_EFFECT);

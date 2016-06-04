@@ -1,6 +1,6 @@
-#include "dungeon_exit.h"
-#include "dungeon_list.h"
-#include "dungeon_room.h"
+
+#include "object_list.h"
+#include "dungeon_object.h"
 #include "command_window.h"
 #include "printutils.h"
 #include "utils.h"
@@ -9,7 +9,7 @@
 using namespace std;
 
 
-DungeonRoom* DungeonRoomList::pageUp(vector<string> args)
+DungeonObject* DungeonObjectList::pageUp(vector<string> args)
 {
 	pos -= 3;
 	if (pos < 0 ) pos = 0;
@@ -17,40 +17,40 @@ DungeonRoom* DungeonRoomList::pageUp(vector<string> args)
 	return nullptr;
 }
 
-DungeonRoom* DungeonRoomList::pageDown(vector<string> args)
+DungeonObject* DungeonObjectList::pageDown(vector<string> args)
 {
 	pos += 3;
-	if (pos > rooms.size() - getRows() - 5) pos -= 3;
+	if (pos > objects.size() - getRows() - 5) pos -= 3;
 	resetWindows();
 	return nullptr;
 }
 
 
-DungeonRoom* DungeonRoomList::pickRoom(int id)
+DungeonObject* DungeonObjectList::pickObject(int id)
 {
-	for(auto r : rooms)
+	for(auto o : objects)
 	{
-		if(r->uid == id)
+		if(o->uid == id)
 		{
-			return r;
+			return o;
 		}
 	}
 	return nullptr;
 }
 
-DungeonRoom* DungeonRoomList::newRoom(vector<string> args)
+DungeonObject* DungeonObjectList::newObject(vector<string> args)
 {
 	if(args.size() < 2)
 	{
 		return nullptr;
 	}
 
-	DungeonRoom *newRoom = new DungeonRoom();
-	newRoom->setPrimaryName(join(1,args," "));
-	return newRoom;
+	DungeonObject *newObject = new DungeonObject();
+	newObject->setPrimaryName(join(1,args," "));
+	return newObject;
 }
 
-void DungeonRoomList::clearWindows()
+void DungeonObjectList::clearWindows()
 {
 	delwin(commandWindow);
 	delwin(responseWindow);
@@ -58,7 +58,7 @@ void DungeonRoomList::clearWindows()
 	delwin(headerWindow);
 }
 
-void DungeonRoomList::resetWindows()
+void DungeonObjectList::resetWindows()
 {
 	commandWindow = newwin(1,getCols(),LINES-1,0);	
 	responseWindow = newwin(1,getCols(),LINES-2,0);
@@ -77,43 +77,33 @@ void DungeonRoomList::resetWindows()
 	
 
 	
-	if(fromExit != nullptr){
-		printHeader(headerWindow,fromExit->parent->getPrimaryName(),"EXIT:"+fromExit->getPrimaryName(),STR_MENU_ID_OR_NEW);		
-	}
-	else {
+	//if(fromExit != nullptr){
+		//printHeader(headerWindow,fromExit->parent->getPrimaryName(),"EXIT:"+fromExit->getPrimaryName(),STR_MENU_ID_OR_NEW);		
+	//}
+	//else {
 		printHeader(headerWindow,STR_MENU_ID_OR_NEW);		
-	}
+	//}
 
 	int lineCount = 0;
 	setcolor(mainWindow,1,COLOR_WHITE);
 	int idWidth = 5;
 	int numRows = getRows()-5;
-	//print all the rooms
+	//print all the objects
 	for (int i = pos; i < numRows+pos; i++)
 	{
-		if(i >= rooms.size())
+		if(i >= objects.size())
 		{
 			break;
 		}
-		DungeonRoom *r = rooms[i];
+		DungeonObject *o = objects[i];
 		lineCount++;
-		string id = to_string(r->uid);
+		string id = to_string(o->uid);
 		
 		mvwprintwBold(mainWindow,lineCount,0,id.c_str());
-		mvwprintw(mainWindow,lineCount,idWidth,r->getPrimaryName().c_str());
-		//print each rooms immediate exits
-		for(auto e : r->exits)
-		{
-			if(e->room != nullptr)
-			{
-				lineCount++;
-				string row = e->getPrimaryName() +STR_RIGHT_ARROW+ e->room->getPrimaryName();
-				mvwprintw(mainWindow,lineCount,idWidth+2,row.c_str());
-			}
-		}
-		
+		mvwprintw(mainWindow,lineCount,idWidth,o->getPrimaryName().c_str());
+				
 	}
-	if(rooms.size() > numRows+pos) {
+	if(objects.size() > numRows+pos) {
 		mvwprintwCenter(mainWindow,numRows+1,"PgDown For More");
 	}
 
@@ -122,17 +112,16 @@ void DungeonRoomList::resetWindows()
 
 }
 
-DungeonRoom* DungeonRoomList::load(vector<DungeonRoom *> _rooms,DungeonExit* _fromExit)
+DungeonObject* DungeonObjectList::load(vector<DungeonObject *> _objects)
 {
 
-	rooms = _rooms;
-	fromExit = _fromExit;
-
+	objects = _objects;
+	
 	pos = 0;
 
-	cmdMap[STR_NEW] = &DungeonRoomList::newRoom;
-	cmdMap[STR_PAGE_UP] = &DungeonRoomList::pageUp;
-	cmdMap[STR_PAGE_DOWN] = &DungeonRoomList::pageDown;
+	cmdMap[STR_NEW] = &DungeonObjectList::newObject;
+	cmdMap[STR_PAGE_UP] = &DungeonObjectList::pageUp;
+	cmdMap[STR_PAGE_DOWN] = &DungeonObjectList::pageDown;
 	resetWindows();
 
 	CommandWindow cmdW;
@@ -146,11 +135,11 @@ DungeonRoom* DungeonRoomList::load(vector<DungeonRoom *> _rooms,DungeonExit* _fr
 		long id = strtol(cmd[0].c_str(),&p,10);
 		if(! *p)
 		{
-			DungeonRoom* resultRoom = pickRoom(id);
-			if(resultRoom != nullptr)
+			DungeonObject* resultObject= pickObject(id);
+			if(resultObject != nullptr)
 			{
 				clearWindows();
-				return resultRoom;
+				return resultObject;
 			}
 			else {
 				mvwprintw(responseWindow,0,0,"Id not found");
@@ -174,15 +163,15 @@ DungeonRoom* DungeonRoomList::load(vector<DungeonRoom *> _rooms,DungeonExit* _fr
 		{
 			if(cmd[0] == STR_EXIT) break;
 			commandFunction cmdFunc = cmdMap[cmd[0]];
-			DungeonRoom* room = (this->*cmdFunc)(cmd);
-			if(room != nullptr)
+			DungeonObject* object = (this->*cmdFunc)(cmd);
+			if(object != nullptr)
 			{
 				clearWindows();
-				return room;
+				return object;
 			}
 			else {
 				cmd.clear();
-				mvwprintw(responseWindow,0,0,"Provide a room name");
+				mvwprintw(responseWindow,0,0,"Provide an object name");
 				wclrtoeol(responseWindow);
 				wrefresh(responseWindow);
 			}

@@ -1,5 +1,5 @@
-#ifndef DUNGEON_LIST_H
-#define DUNGEON_LIST_H
+#ifndef DUNGEON_ROOM_LIST_H
+#define DUNGEON_ROOM_LIST_H
 
 #include <string>
 #include <vector>

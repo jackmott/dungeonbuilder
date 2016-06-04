@@ -12,7 +12,7 @@
 #include "printutils.h"
 #include "utils.h"
 #include "string_constants.h"
-#include "dungeon_list.h"
+#include "room_list.h"
 
 using namespace std;
 

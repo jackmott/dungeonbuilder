@@ -25,7 +25,7 @@
 #define STR_MENU_DAMAGE "[Set](Damage):"
 
 //Objects
-#define STR_MENU_ACTIONS "[Add//Del/Edit](Action):"
+#define STR_MENU_ACTIONS "[Add/Del/Edit](Action):"
 #define STR_MENU_TAKEABLE "[Set](Takeable)[T/F]:"
 #define STR_MENU_CAN_OPEN "[Set](Openable)[T/F]:"
 #define STR_MENU_IS_OPEN "[Set](Open)[T/F]:"
@@ -41,9 +41,9 @@
 //Effect
 #define STR_MENU_EFFECT_TYPE "[Set](Type):"
 #define STR_MENU_MAGNITUDE "[Set](Magnitude)[#]:"
-
+#define _STR_MENU_SET_ADD_OBJECT "[Set/Add/Del/Edit](Object):"
 //Action
-#define STR_MENU_TEXT_OUTPUT "[Set](Text):"
+#define STR_MENU_TEXT_OUTPUT "[Set](Output):"
 #define STR_MENU_EFFECT "[Add/Del/Edit #](Effect):"
 #define STR_MENU_NEED_HOLD "[Set](Held):"
 
