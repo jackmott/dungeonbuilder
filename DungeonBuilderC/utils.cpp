@@ -251,6 +251,7 @@ DungeonObject* extractObject(vector<DungeonObject*> * objects,string *userInput,
 	if(result != nullptr) {
 		return result;
 	}
+	
 	for(auto o : *objects)
 	{
 

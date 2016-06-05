@@ -1,17 +1,17 @@
-#ifndef ACTION_EDITOR_H
-#define ACTION_EDITOR_H
+#ifndef TRIGGER_EDITOR_H
+#define TRIGGER_EDITOR_H
 
 #include <map>
-#include "dungeon_action.h"
+#include "dungeon_trigger.h"
 #include "lib.h"
 
 
-struct ActionEditor
+struct TriggerEditor
 {
-	typedef std::string (ActionEditor::*commandFunction) (std::vector<std::string>);			
+	typedef std::string (TriggerEditor::*commandFunction) (std::vector<std::string>);			
 	std::map<std::string,commandFunction> cmdMap;
 
-	DungeonAction* action;
+	DungeonTrigger* trigger;
 
 	WINDOW *responseWindow;
 	WINDOW *commandWindow;
@@ -23,7 +23,7 @@ struct ActionEditor
 	
 	void clearWindows();
 	void resetWindows();
-	void load(DungeonAction *_action);
+	void load(DungeonTrigger *_trigger);
 
 	std::string edit(std::vector<std::string> args);
 	std::string exit(std::vector<std::string> args);

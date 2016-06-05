@@ -3,6 +3,24 @@
 
 #include <string>
 #include "lib.h"
+#include <vector>
+
+
+struct DungeonChar {
+	char c;
+	int color; 
+	bool bold;
+};
+
+struct DungeonLine {
+	std::vector<DungeonChar> *chars;
+	bool centered = false;
+	bool leftAlign = false;
+	bool rightAlign = false;
+	int indent = 0;
+};
+
+void renderDungeonText(WINDOW* window,std::vector<DungeonLine*> *text);
 
 
 void mvwprintwCenter (WINDOW * window,int row, std::string  text);

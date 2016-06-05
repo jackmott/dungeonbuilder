@@ -1,6 +1,7 @@
 #ifndef DUNGEON_EFFECT_H
 #define DUNGEON_EFFECT_H
 
+#include "dungeon_entity.h"
 #include <vector>
 #include <string>
 
@@ -18,22 +19,20 @@ const enum class EFFECT_TYPE{
 	FIRST = HEAL,
 	LAST = TRANSFORM };
 
-struct DungeonEffect
+struct DungeonEffect : DungeonEntity
 {
 	DungeonEffect();
 	~DungeonEffect();
-
-	int uid;
-
-	DungeonAction *parent;
+		
 	EFFECT_TYPE type;
 	std::string output;
 
 	int magnitude;
 	std::vector<DungeonObject*> transforms;
-
-	std::string getName();
+	
 	void apply(DungeonPlayer* player, DungeonRoom* room, bool objectOnPlayer);
+
+	virtual std::string  getPrimaryName() const override;
 	
 };
 

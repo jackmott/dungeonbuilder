@@ -40,8 +40,12 @@ string CreatureEditor::set(vector<string> args)
 	else if(editNoun == STR_HITPOINTS)
 	{
 		string hitstring = args[2];
-		int hitpoints = stoi(hitstring,nullptr,10);
-		creature->hitpoints = hitpoints;
+		creature->hitpoints = stoi(hitstring,nullptr,10);		 
+	}
+	else if(editNoun == STR_ALIGNMENT)
+	{
+		string alignstring = args[2];
+		creature->alignment = stoi(alignstring,nullptr,10);		
 	}
 	else {
 		return "I don't know how to set that";
@@ -167,6 +171,8 @@ void CreatureEditor::resetWindows()
 	mvwprintw(mainWindow,4,0,descRow.c_str());
 	string hitpointsRow = STR_MENU_HITPOINTS + to_string(creature->hitpoints);
 	mvwprintw(mainWindow,5,0,hitpointsRow.c_str());
+	string alignmentRow = STR_MENU_ALIGNMENT + to_string(creature->alignment);
+	mvwprintw(mainWindow,6,0,alignmentRow.c_str());
 
 	wrefresh(mainWindow);
 

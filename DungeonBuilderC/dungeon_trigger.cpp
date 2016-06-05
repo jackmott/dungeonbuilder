@@ -6,6 +6,8 @@ using namespace std;
 DungeonTrigger::DungeonTrigger()
 {
 	uid = getUID();
+	needToHold = true;
+	type = TRIGGER_TYPE::PROXIMITY;
 }
 
 DungeonTrigger::~DungeonTrigger()
@@ -13,7 +15,10 @@ DungeonTrigger::~DungeonTrigger()
 
 }
 
-string DungeonTrigger::getName()
+string DungeonTrigger::getPrimaryName() const
 {
 	return TRIGGER_STRS[(int)type];
 }
+
+
+

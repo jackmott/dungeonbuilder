@@ -1,4 +1,5 @@
 #include "dungeon_creature.h"
+#include "dungeon_trigger.h"
 #include "dungeon_effect.h"
 #include "dungeon_action.h"
 #include "dungeon_exit.h"
@@ -511,6 +512,53 @@ void DungeonEngine::updateCmdMap()
 	}
 }
 
+// Recursively checks for evil up to depth rooms away
+bool DungeonEngine::checkForEvil(DungeonRoom* room,int depth)
+{
+	for(auto creature : room->creatures)
+	{
+		if (creature->alignment < 0 ) return true;
+	}
+	if (depth == 0) return false;
+	else {		
+		for(auto x : room->exits) {
+			if (checkForEvil(x->room,depth-1)) return true;
+		}
+		return false;
+	}
+}
+
+// Check all object's triggers
+void DungeonEngine::checkTriggers()
+{
+	for(auto o : player->objects)
+	{
+		for(auto t : o->triggers)
+		{
+			bool isTriggered = false;
+			switch(t->type)
+			{
+			case TRIGGER_TYPE::PROXIMITY_EVIL:
+				isTriggered = checkForEvil(room,1);				
+				break;
+			default :
+				textBuffer.push_back("unhandled trigger type");
+				break;
+			}
+			//If the trigger was triggered, push the output and apply the effects
+			if (isTriggered)
+			{ 
+				textBuffer.push_back(t->output);
+				for(auto e : t->effects)
+				{
+					e->apply(player,room,true);
+				}
+					
+			}
+		}
+	}
+}
+
 void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 {
 	player = _player;
@@ -531,6 +579,9 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 		mvwprintw(headerWindow,0,0,"Dungeon Builder");
 		mvwprintwCenter(headerWindow,0,room->getPrimaryName().c_str());
 		wrefresh(headerWindow);
+
+		checkTriggers();
+
 		render(renderOffset);
 		string userInput = cmdW.getCommandAsString(commandWindow,STR_PROMPT);
 

@@ -4,6 +4,7 @@
 #include "dungeon_entity.h"
 
 struct DungeonAction;
+struct DungeonTrigger;
 
 struct DungeonObject: DungeonEntity
 {
@@ -23,6 +24,7 @@ struct DungeonObject: DungeonEntity
 	
 	std::vector<DungeonObject*> contents;
 	std::vector<DungeonAction*> actions;
+	std::vector<DungeonTrigger*> triggers;
 	
 	std::string toJSON();
 };

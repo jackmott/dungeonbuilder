@@ -40,6 +40,7 @@
     <ClCompile Include="exit_editor.cpp" />
     <ClCompile Include="object_editor.cpp" />
     <ClCompile Include="room_editor.cpp" />
+    <ClCompile Include="trigger_editor.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClInclude Include="headers\action_editor.h" />
     <ClInclude Include="headers\command_window.h" />
@@ -67,6 +68,7 @@
     <ClInclude Include="headers\room_editor.h" />
     <ClInclude Include="headers\dungeon_engine.h" />
     <ClInclude Include="headers\string_constants.h" />
+    <ClInclude Include="headers\trigger_editor.h" />
     <ClInclude Include="headers\utils.h" />
   </ItemGroup>
   <ItemGroup>

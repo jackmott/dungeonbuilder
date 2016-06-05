@@ -1,5 +1,6 @@
 #include "dungeon_effect.h"
-#include "action_editor.h"
+#include "dungeon_entity.h"
+#include "trigger_editor.h"
 #include "command_window.h"
 #include "text_editor.h"
 #include "printutils.h"
@@ -8,12 +9,12 @@
 #include "effect_editor.h"
 using namespace std;
 
-string ActionEditor::exit(vector<string> args)
+string TriggerEditor::exit(vector<string> args)
 {
 	return STR_EXIT;
 }
 
-string ActionEditor::del(vector<string> args)
+string TriggerEditor::del(vector<string> args)
 {
 	if(args.size() < 2)
 	{
@@ -21,22 +22,12 @@ string ActionEditor::del(vector<string> args)
 	}
 	string delNoun = args[1];
 	toLower(&delNoun);
-	if(delNoun == STR_NAME)
-	{
-		if(args.size() < 3)
-		{
-			return "Provide a name to delete.";
-		}
-		string name = join(2,args," ");				
-		if(!action->removeName(name)) {
-			return "You can't.";
-		}				
-	}
+	
 	resetWindows();
 	return "";
 }
 
-string ActionEditor::set(vector<string> args)
+string TriggerEditor::set(vector<string> args)
 {
 	if(args.size() < 2)
 	{
@@ -47,26 +38,34 @@ string ActionEditor::set(vector<string> args)
 	}
 	string editNoun = args[1];
 	toLower(&editNoun);
-	if(editNoun == STR_NAME)
-	{
-		string newname = join(2,args," ");
-		action->setPrimaryName(newname);
-	}
-	else if(editNoun == STR_TEXT_OUTPUT)
+	
+	if(editNoun == STR_TEXT_OUTPUT)
 	{
 			  string output = join(2,args," ");
-			  action->output = output;
+			  trigger->output = output;
 	}
+	else if(editNoun == STR_TYPE)
+	{
+		string typeStr = toLower(join(2,args," "));
+		for(int i =0 ; i <= (int)TRIGGER_TYPE::LAST ;i++){
+			string lcase = toLower(TRIGGER_STRS[i]);
+			if(lcase == typeStr)
+			{
+				trigger->type = (TRIGGER_TYPE)i;
+			}
+		}
+	}
+
 	else if(editNoun == STR_NEED_HELD)
 	{
-			  action->needToHold = isAffirmative(args[2]);
+			  trigger->needToHold = isAffirmative(args[2]);
 	}
 	resetWindows();
 	return "";
 }
 
 
-string ActionEditor::edit(vector<string> args)
+string TriggerEditor::edit(vector<string> args)
 {
 	if(args.size() < 2)
 	{
@@ -81,7 +80,7 @@ string ActionEditor::edit(vector<string> args)
 	return "";
 }
 
-string ActionEditor::add(vector<string> args)
+string TriggerEditor::add(vector<string> args)
 {
 	if(args.size() < 2)
 	{
@@ -89,21 +88,13 @@ string ActionEditor::add(vector<string> args)
 	}
 	string addNoun = args[1];
 	toLower(&addNoun);
-	if(addNoun == STR_NAME)
-	{
-		if(args.size() < 3)
-		{
-			return "Provide a name to add please.";
-		}
-		string name = join(2,args," ");
-		action->addName(name);
-	}
-	else if(addNoun == STR_EFFECT)
+	
+	if(addNoun == STR_EFFECT)
 	{
 		EffectEditor ed;
 		DungeonEffect *e = new DungeonEffect();
-		action->effects.push_back(e);
-		e->parent = action;
+		trigger->effects.push_back(e);
+		e->parent = trigger;
 		ed.load(e);
 	}
 
@@ -113,7 +104,7 @@ string ActionEditor::add(vector<string> args)
 }
 
 
-void ActionEditor::clearWindows()
+void TriggerEditor::clearWindows()
 {
 	delwin(commandWindow);
 	delwin(responseWindow);
@@ -122,7 +113,7 @@ void ActionEditor::clearWindows()
 }
 
 
-void ActionEditor::resetWindows()
+void TriggerEditor::resetWindows()
 {
 	commandWindow = newwin(1,getCols(),LINES-1,0);
 	responseWindow = newwin(1,getCols(),LINES-2,0);
@@ -140,27 +131,28 @@ void ActionEditor::resetWindows()
 	string command;
 
 	
-	printHeader(headerWindow,action->parent->parent->getPrimaryName(),action->parent->getPrimaryName(),"ACTION:"+action->getPrimaryName(),3);
+	printHeader(headerWindow,trigger->parent->parent->getPrimaryName(),trigger->parent->getPrimaryName(),"Trigger:"+trigger->getPrimaryName(),3);
 	
 	int lineCount = 2;	
 	
 	setcolor(mainWindow,2,COLOR_WHITE);
+			
 	
-	string nameRow = STR_MENU_NAME + join(0,action->getNames(),",");
-	mvwprintw(mainWindow,lineCount,0,nameRow.c_str());
+	string typeRow = STR_MENU_TYPE + trigger->getPrimaryName();
+	mvwprintw(mainWindow,lineCount,0,typeRow.c_str());
 
 	lineCount++;
-	string outputRow = STR_MENU_TEXT_OUTPUT + action->output;
+	string outputRow = STR_MENU_TEXT_OUTPUT + trigger->output;
 	mvwprintw(mainWindow,lineCount,0,outputRow.c_str());
 
 	lineCount++;
-	string torf = action->needToHold ? STR_TRUE : STR_FALSE;
+	string torf = trigger->needToHold ? STR_TRUE : STR_FALSE;
 	string holdRow = STR_MENU_NEED_HOLD + torf;
 	mvwprintw(mainWindow,lineCount,0,holdRow.c_str());
 
 	lineCount++;
 	mvwprintw(mainWindow,lineCount,0,STR_MENU_EFFECT);
-	for(auto e : action->effects)
+	for(auto e : trigger->effects)
 	{
 		lineCount++;
 		mvwprintw(mainWindow,lineCount,2,e->getPrimaryName().c_str());
@@ -170,14 +162,14 @@ void ActionEditor::resetWindows()
 	
 }
 
-void ActionEditor::load(DungeonAction* _action)
+void TriggerEditor::load(DungeonTrigger* _trigger)
 {
-	action = _action;
-	cmdMap[STR_EDIT] = &ActionEditor::edit;
-	cmdMap[STR_EXIT] = &ActionEditor::exit;
-	cmdMap[STR_ADD] = &ActionEditor::add;
-	cmdMap[STR_SET] = &ActionEditor::set;
-	cmdMap[STR_DELETE] = &ActionEditor::del;
+	trigger = _trigger;
+	cmdMap[STR_EDIT] = &TriggerEditor::edit;
+	cmdMap[STR_EXIT] = &TriggerEditor::exit;
+	cmdMap[STR_ADD] = &TriggerEditor::add;
+	cmdMap[STR_SET] = &TriggerEditor::set;
+	cmdMap[STR_DELETE] = &TriggerEditor::del;
 	resetWindows();
 
 	CommandWindow cmdW;

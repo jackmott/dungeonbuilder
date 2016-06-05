@@ -1,4 +1,5 @@
 #include "dungeon_object.h"
+#include "trigger_editor.h"
 #include "object_editor.h"
 #include "command_window.h"
 #include "text_editor.h"
@@ -186,8 +187,7 @@ string ObjectEditor::add(vector<string> args)
 	toLower(&addNoun);
 
 	if(addNoun == STR_ACTION) {
-
-		//TODO - check if use alias is already used for summin else
+		
 		if(args.size() < 3)
 		{
 			return "Provide a string to name the action.";
@@ -199,6 +199,14 @@ string ObjectEditor::add(vector<string> args)
 		object->actions.push_back(action);
 		ActionEditor ae;
 		ae.load(action);
+	}
+	else if(addNoun == STR_TRIGGER) {
+						
+		DungeonTrigger *trigger = new DungeonTrigger();
+		trigger->parent = object;		
+		object->triggers.push_back(trigger);
+		TriggerEditor ed;
+		ed.load(trigger);
 	}
 	else if(addNoun == STR_NAME)
 	{
@@ -296,6 +304,15 @@ void ObjectEditor::resetWindows()
 	{
 		lineCount++;
 		string row = a->getPrimaryName();
+		mvwprintw(mainWindow,lineCount,2,row.c_str());
+	}
+
+	lineCount++;	
+	mvwprintw(mainWindow,lineCount,0,STR_MENU_TRIGGERS);
+	for(auto t : object->triggers)
+	{
+		lineCount++;
+		string row = t->getPrimaryName();
 		mvwprintw(mainWindow,lineCount,2,row.c_str());
 	}
 

@@ -43,6 +43,8 @@ struct DungeonEngine
 	void render(unsigned long offset);
 	void showContents(std::vector<DungeonObject*> * o, int depth = 0);
 	void addToBuffer(std::vector<std::string> *v);
+	void checkTriggers();
+	bool checkForEvil(DungeonRoom* room, int depth);
 	
 	std::string drop(std::string args);
 	std::string inventory(std::string args);
@@ -57,6 +59,7 @@ struct DungeonEngine
 	std::string examine(std::string args);
 
 	void move(DungeonExit *dungeonExit);
+
 };
 
 #endif

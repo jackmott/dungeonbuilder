@@ -20,7 +20,7 @@ DungeonEffect::~DungeonEffect()
 {
 }
 
-string DungeonEffect::getName()
+string DungeonEffect::getPrimaryName() const
 {
 	return EFFECT_STRS[(int)type];
 }

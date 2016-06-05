@@ -1,9 +1,8 @@
 #include "printutils.h"
 #include "string_constants.h"
-
+#include <map>
 
 using namespace std;
-
 
 
 unsigned int getRows()
@@ -151,4 +150,21 @@ void printHeader(WINDOW* window,string text)
 
 	mvwprintwCenterBold(window,0,text.c_str());
 	wrefresh(window);
+}
+
+
+//to keep track of color pairs and group numbers because
+//ncurses is silly
+map<int,int> colorMap;
+int uGroup = 0;
+void renderDungeonText(WINDOW * window,vector<DungeonLine*> *text)
+{
+	for(int y = 0; y < text->size(); y++)
+	{
+		DungeonLine* line = (*text)[y];
+		for(int x = 0; x < line->chars->size(); x++)
+		{
+			//todo render the chars
+		}
+	}
 }

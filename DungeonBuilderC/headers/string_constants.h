@@ -18,6 +18,7 @@
 
 //Creature
 #define STR_MENU_HITPOINTS "[Set](Hitpoints):"
+#define STR_MENU_ALIGNMENT "[Set](Alignment):"
 
 //Exit
 #define STR_MENU_EXIT_ROOM "[Set/Edit](Room):"
@@ -26,6 +27,7 @@
 
 //Objects
 #define STR_MENU_ACTIONS "[Add/Del/Edit](Action):"
+#define STR_MENU_TRIGGERS "[Add/Del/Edit](Trigger):"
 #define STR_MENU_TAKEABLE "[Set](Takeable)[T/F]:"
 #define STR_MENU_CAN_OPEN "[Set](Openable)[T/F]:"
 #define STR_MENU_IS_OPEN "[Set](Open)[T/F]:"
@@ -39,7 +41,7 @@
 #define STR_MENU_ID_OR_NEW "[#/New](Name):"
 
 //Effect
-#define STR_MENU_EFFECT_TYPE "[Set](Type):"
+#define STR_MENU_TYPE "[Set](Type):"
 #define STR_MENU_MAGNITUDE "[Set](Magnitude)[#]:"
 #define STR_MENU_SET_ADD_OBJECT "[Set/Add/Del/Edit](Object):"
 //Action
@@ -73,12 +75,14 @@
 #define STR_DESC "desc"
 #define STR_NAME "name"
 #define STR_ACTION "action"
+#define STR_TRIGGER "trigger"
 #define STR_ADD "add"
 #define STR_DELETE "del"
 #define STR_ENTER "enter"
 #define STR_SAVE "save"
 #define STR_LOAD "load"
 #define STR_HITPOINTS "hitpoints"
+#define STR_ALIGNMENT "alignment"
 #define STR_ROOM "room"
 #define STR_USE "use"
 #define STR_DAMAGE "damage"
