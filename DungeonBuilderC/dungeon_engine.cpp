@@ -14,53 +14,54 @@
 
 using namespace std;
 
-string DungeonEngine::exit(string args)
-{
-	return STR_EXIT;
-}
 
-string DungeonEngine::pageUp(string args)
+int DungeonEngine::pageUp(string args)
 {
 	int bufferSize = (int)textBuffer.size() - pageSize;
 	renderOffset = min(renderOffset+pageSize,bufferSize);
-	return "";
+	return 0;
 }
 
-string DungeonEngine::pageDown(string args)
+int DungeonEngine::pageDown(string args)
 {
 	renderOffset = max(0,renderOffset - pageSize);
-	return "";
+	return 0;
 }
 
-string DungeonEngine::inventory(string args)
+int DungeonEngine::inventory(string args)
 {
 	if(player->objects.size() == 0)
 	{
-		return "You are empty handed.";
+		textBuffer.push_back("You are empty handed");
+
 	}
+	else
+	{
 
-	textBuffer.push_back("You are carrying");
-	vector<DungeonObject*> *objects = &player->objects;
-	showContents(objects);
-
-	return "";
+		textBuffer.push_back("You are carrying");
+		vector<DungeonObject*> *objects = &player->objects;
+		showContents(objects);
+	}
+	return 0;
 
 }
 
-string DungeonEngine::drop(string args)
+int DungeonEngine::drop(string args)
 {
 	DungeonObject *thing = (DungeonObject*)extractEntity(&player->objects,&args);
 	if(thing != nullptr) {
 		removePointer(&player->objects,thing);
 		room->objects.push_back(thing);
-		return "You drop the " + thing->getPrimaryName() +".";
+		textBuffer.push_back("You drop the " + thing->getPrimaryName() +".");
+		return 1;
 	}
 	else {
-		return "You don't have that.";
+		textBuffer.push_back("You don't have that.");
+		return 0;
 	}
 }
 
-string DungeonEngine::examine(string args)
+int DungeonEngine::examine(string args)
 {
 	DungeonObject* thing =extractObject(&room->objects,&args);
 	if(thing == nullptr)
@@ -70,13 +71,13 @@ string DungeonEngine::examine(string args)
 
 	if(thing != nullptr && thing->description.size() == 0)
 	{
-		return "You see no further detail.";
+		textBuffer.push_back("You see no further detail.");
 
 	}
 	else if(thing != nullptr)
 	{
 		addToBuffer(&thing->description);
-		return "";
+
 	}
 	else {
 		DungeonCreature *gal = (DungeonCreature*)extractEntity(&room->creatures,&args);
@@ -84,29 +85,28 @@ string DungeonEngine::examine(string args)
 		{
 			if(gal->description.size() == 0)
 			{
-				return "There is nothing more to see.";
+				textBuffer.push_back("There is nothing more to see.");
 			}
 			else {
 				addToBuffer(&gal->description);
-				return "";
 			}
 		}
 		else
 		{
-			return "You don't see that here.";
+			textBuffer.push_back("You don't see that here.");
 		}
 	}
-
-	return "investigate examine function more";
+	return 0;
 }
 
-string DungeonEngine::put(string args)
+int DungeonEngine::put(string args)
 {
 	//get the string before and after the word "in" to clarify what is being put where
 	unsigned long inLocation = args.find(" in ");
 	if(inLocation == string::npos)
 	{
-		return "Your fumble about, but it doesn't work.";
+		textBuffer.push_back("Your fumble about, but it doesn't work.");
+		return 0;
 	}
 
 	string firstHalf = args.substr(0,inLocation);
@@ -121,7 +121,8 @@ string DungeonEngine::put(string args)
 
 	if(containerObject != nullptr && !containerObject->isOpen)
 	{
-		return "It isn't open.";
+		textBuffer.push_back("It isn't open.");
+		return 0;
 	}
 
 	if(containerObject != nullptr && containerObject->isOpen)
@@ -135,18 +136,21 @@ string DungeonEngine::put(string args)
 		if(putObject != nullptr)
 		{
 			containerObject->contents.push_back(putObject);
-			return "You put the "+ putObject->getPrimaryName() + " in the " + containerObject->getPrimaryName() + ".";
+			textBuffer.push_back("You put the "+ putObject->getPrimaryName() + " in the " + containerObject->getPrimaryName() + ".");
+			return 1;
 		}
 		else
 		{
-			return "You don't have that.";
+			textBuffer.push_back( "You don't have that.");
+			return 0;
 		}
 	}
 
-	return "You flounder about, with no success.";
+	textBuffer.push_back("You flounder about, with no success.");
+	return 0;
 }
 
-string DungeonEngine::take(string args)
+int DungeonEngine::take(string args)
 {
 	DungeonObject* takenObject = extractAndRemoveObject(&room->objects,&args);
 
@@ -154,7 +158,8 @@ string DungeonEngine::take(string args)
 	{
 		takenObject = (DungeonObject*)extractEntity(&player->objects,&args);
 		if(takenObject != nullptr) {
-			return "You already have that.";
+			textBuffer.push_back( "You already have that.");
+			return 0;
 		}
 		else {
 			for(auto o : player->objects)
@@ -170,15 +175,17 @@ string DungeonEngine::take(string args)
 	if(takenObject != nullptr)
 	{
 		player->objects.push_back(takenObject);
-		return takenObject->getPrimaryName() + " taken.";
+		textBuffer.push_back( takenObject->getPrimaryName() + " taken.");
+		return 1;
 	}
 	else
 	{
-		return "You try to take it, but it seems futile";
+		textBuffer.push_back( "You try to take it, but it seems futile");
+		return 0;
 	}
 
 }
-string DungeonEngine::action(string actionStr,string args)
+int DungeonEngine::action(string actionStr,string args)
 {
 
 
@@ -193,7 +200,8 @@ string DungeonEngine::action(string actionStr,string args)
 			{
 				e->apply(player,room,true);
 			}
-			return action->output;
+			textBuffer.push_back(action->output);
+			return 1; //Todo maybe some actions take more than 1 turn?
 		}
 	}
 	else
@@ -208,16 +216,17 @@ string DungeonEngine::action(string actionStr,string args)
 				{
 					e->apply(player,room,false);
 				}
-				return action->output;
+				textBuffer.push_back(action->output);
+				return 1; //Todo maybe some actions take more than 1 turn?
 			}
 		}
-		return "Your attempt amounts to nothing.";
+		textBuffer.push_back("Your attempt amounts to nothing.");
+		return 0;
 	}
-
-	return "";
+	
 }
 
-string DungeonEngine::open(string args)
+int DungeonEngine::open(string args)
 {
 
 	//chceck for objects to open in the room
@@ -238,11 +247,12 @@ string DungeonEngine::open(string args)
 			textBuffer.push_back("You open the "+thingToOpen->getPrimaryName()+", inside you see");
 			showContents(&thingToOpen->contents);
 		}
-		return "";
+		return 1;
 	}
 	else if(thingToOpen != nullptr)
 	{
-		return "You can't open that";
+		textBuffer.push_back("You can't open that");
+		return 0;
 	}
 
 	//Now check for 'doors' to open
@@ -251,13 +261,16 @@ string DungeonEngine::open(string args)
 	{
 		exitToOpen->isOpen = true;
 		textBuffer.push_back(exitToOpen->openingText);
+		return 1;
 	}
 	else if(exitToOpen != nullptr)
 	{
-		return "You try but fail.";
+		textBuffer.push_back("You try but fail.");
+		return 0;
 	}
 
-	return "You don't see that here.";
+	textBuffer.push_back( "You don't see that here.");
+	return 0;
 }
 
 void DungeonEngine::move(DungeonExit *dungeonExit)
@@ -266,6 +279,7 @@ void DungeonEngine::move(DungeonExit *dungeonExit)
 	if(! dungeonExit->isDoor || dungeonExit->isOpen)
 	{
 		room = dungeonExit->room;
+		turns++;
 		updateCmdMap();
 		look();
 	}
@@ -277,10 +291,10 @@ void DungeonEngine::move(DungeonExit *dungeonExit)
 }
 
 
-string DungeonEngine::lookCmd(string args)
+int DungeonEngine::lookCmd(string args)
 {
 	look();
-	return "";
+	return 0;
 }
 
 
@@ -461,8 +475,7 @@ void DungeonEngine::render(unsigned long offset)
 void DungeonEngine::updateCmdMap()
 {
 	cmdMap.clear();
-
-	cmdMap[STR_EXIT] = &DungeonEngine::exit;
+	
 	cmdMap[STR_PAGE_UP] = &DungeonEngine::pageUp;
 	cmdMap[STR_PAGE_DOWN] = &DungeonEngine::pageDown;
 	cmdMap[STR_LOOK_AT] = &DungeonEngine::examine;
@@ -512,51 +525,76 @@ void DungeonEngine::updateCmdMap()
 	}
 }
 
-// Recursively checks for evil up to depth rooms away
-bool DungeonEngine::checkForEvil(DungeonRoom* room,int depth)
+
+void DungeonEngine::gameLogic()
 {
-	for(auto creature : room->creatures)
-	{
-		if (creature->alignment < 0 ) return true;
-	}
-	if (depth == 0) return false;
-	else {		
-		for(auto x : room->exits) {
-			if (checkForEvil(x->room,depth-1)) return true;
-		}
-		return false;
-	}
+	updatePhysicalObjects();
+
 }
 
-// Check all object's triggers
-void DungeonEngine::checkTriggers()
+// Iterate over all physically present objects in the game world
+// Do all the things
+// ie. On the player, or in a room, 
+void DungeonEngine::updatePhysicalObjects()
 {
-	for(auto o : player->objects)
+	//For now, we adjust age, and check triggers
+
+	// All player objects
+	vector<DungeonObject*> objects = getAllPlayerObjects(player);
+	for(auto o: objects) {
+		o->age++;
+		checkTriggers(o);
+	}
+
+	// All objects in room
+	for(auto r : g_roomList)
 	{
-		for(auto t : o->triggers)
+		vector<DungeonObject*> roomObjects = getAllRoomObjects(r);
+		for(auto o : roomObjects)
 		{
-			bool isTriggered = false;
-			switch(t->type)
+			o->age++;
+			checkTriggers(o);
+		}
+
+	}
+
+	// Todo: expand to creatures as well?
+}
+
+
+
+
+// Check all object's triggers
+void DungeonEngine::checkTriggers(DungeonObject* o)
+{
+
+
+	for(auto t : o->triggers)
+	{
+		bool isTriggered = false;
+		switch(t->type)
+		{
+		case TRIGGER_TYPE::PROXIMITY_EVIL:
+			isTriggered = t->checkForEvil(room,t->magnitude);
+			break;
+		case TRIGGER_TYPE::AGE:
+			isTriggered = t->checkAge();
+		default:
+			textBuffer.push_back("unhandled trigger type");
+			break;
+		}
+		//If the trigger was triggered, push the output and apply the effects
+		if(isTriggered)
+		{
+			textBuffer.push_back(t->output);
+			for(auto e : t->effects)
 			{
-			case TRIGGER_TYPE::PROXIMITY_EVIL:
-				isTriggered = checkForEvil(room,1);				
-				break;
-			default :
-				textBuffer.push_back("unhandled trigger type");
-				break;
+				e->apply(player,room,true);
 			}
-			//If the trigger was triggered, push the output and apply the effects
-			if (isTriggered)
-			{ 
-				textBuffer.push_back(t->output);
-				for(auto e : t->effects)
-				{
-					e->apply(player,room,true);
-				}
-					
-			}
+
 		}
 	}
+
 }
 
 void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
@@ -580,11 +618,11 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 		mvwprintwCenter(headerWindow,0,room->getPrimaryName().c_str());
 		wrefresh(headerWindow);
 
-		checkTriggers();
 
 		render(renderOffset);
 		string userInput = cmdW.getCommandAsString(commandWindow,STR_PROMPT);
 
+		if (userInput == STR_EXIT) break; 
 		if(userInput != STR_PAGE_DOWN && userInput != STR_PAGE_UP)
 		{
 			textBuffer.push_back(STR_PROMPT+userInput);
@@ -620,8 +658,8 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 					}
 					else {
 						ActionFunction actFunc = actionMap[actionStr];
-						string response = (this->*actFunc)(actionStr,userInput);
-						if(response.length() > 1) textBuffer.push_back(response);
+						int turnsUsed = (this->*actFunc)(actionStr,userInput);
+						turns += turnsUsed;
 					}
 				}
 				else
@@ -630,13 +668,10 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 				}
 			}
 			else
-			{
-				if(verb == STR_EXIT) break;
+			{				
 				commandFunction cmdFunc = cmdMap[verb];
-				string response = (this->*cmdFunc)(userInput);
-				if(response.length() > 1) {
-					textBuffer.push_back(response);
-				}
+				int turnsUsed = (this->*cmdFunc)(userInput);
+				turns += turnsUsed;
 
 			}
 		}

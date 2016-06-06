@@ -13,14 +13,15 @@ struct DungeonCreature;
 
 struct DungeonEffect;
 
-const std::string  TRIGGER_STRS[2] = {
-	"Proximity", "Evil Near"};
+const std::string  TRIGGER_STRS[] = {
+	"Proximity", "Evil Near", "Age"};
 
 const enum class TRIGGER_TYPE{
 	PROXIMITY = 0,	
 	PROXIMITY_EVIL = 1,	
+	AGE = 2,
 	FIRST = PROXIMITY,
-	LAST = PROXIMITY_EVIL };
+	LAST = AGE };
 
 struct DungeonTrigger : DungeonEntity
 {
@@ -33,17 +34,18 @@ struct DungeonTrigger : DungeonEntity
 	bool needToHold;
 	std::string output;
 
-	int distance;
+	int magnitude;
 	std::vector<DungeonObject*> objects;
 	std::vector<DungeonRoom*> rooms;
 	std::vector<DungeonCreature*> creatures;
 
 	std::vector<DungeonEffect*> effects;
 	
+
 	virtual std::string  getPrimaryName() const override;
 	
-	
-
+	bool checkForEvil(DungeonRoom* room,int depth);
+	bool checkAge();
 	
 	
 };

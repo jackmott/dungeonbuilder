@@ -1,3 +1,5 @@
+#include "dungeon_room.h"
+#include "dungeon_player.h"
 #include "dungeon_object.h"
 #include "dungeon_entity.h"
 #include "utils.h"
@@ -318,3 +320,38 @@ void dbsleep(unsigned int milliseconds)
 #endif
 
 
+void recursiveObjectAccumulator(vector<DungeonObject*> *result,vector<DungeonObject*> *objects)
+{
+	(*result).insert(result->end(),objects->begin(),objects->end());
+	for(auto o : *objects)
+	{
+		if(o->contents.size() > 0)
+		{
+			recursiveObjectAccumulator(result,&o->contents);
+		}
+	}
+}
+
+vector<DungeonObject*> getAllPlayerObjects(DungeonPlayer* player)
+{
+	vector<DungeonObject*> result;
+	recursiveObjectAccumulator(&result,&player->objects);
+	return result;
+	
+}
+
+vector<DungeonObject*> getAllRoomObjects(DungeonRoom* room)
+{
+	vector<DungeonObject*> result;
+	recursiveObjectAccumulator(&result,&room->objects);
+	return result;
+}
+
+vector<DungeonObject*> getAllObjects(DungeonPlayer* player, DungeonRoom* room)
+{
+	vector<DungeonObject*> result = getAllPlayerObjects(player);	
+	vector<DungeonObject*> resultB = getAllRoomObjects(room);
+
+	result.insert(result.end(),resultB.begin(),resultB.end());
+	return result;
+}

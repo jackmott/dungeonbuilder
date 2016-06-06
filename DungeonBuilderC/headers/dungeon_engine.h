@@ -14,8 +14,8 @@ extern std::vector<DungeonRoom*> g_roomList;
 
 struct DungeonEngine
 {
-	typedef std::string  (DungeonEngine::*commandFunction) (std::string);			
-	typedef std::string  (DungeonEngine::*ActionFunction) (std::string,std::string);
+	typedef int (DungeonEngine::*commandFunction) (std::string);			
+	typedef int (DungeonEngine::*ActionFunction) (std::string,std::string);
 
 	std::map<std::string,ActionFunction> actionMap;
 	std::map<std::string,commandFunction> cmdMap;
@@ -31,6 +31,7 @@ struct DungeonEngine
 	WINDOW *mainWindow;
 
 	int w,h;
+	int turns =0;
 	
 	int renderOffset;
 	int pageSize;
@@ -43,20 +44,22 @@ struct DungeonEngine
 	void render(unsigned long offset);
 	void showContents(std::vector<DungeonObject*> * o, int depth = 0);
 	void addToBuffer(std::vector<std::string> *v);
-	void checkTriggers();
-	bool checkForEvil(DungeonRoom* room, int depth);
+	void gameLogic();
+	void updatePhysicalObjects();
+	void checkTriggers(DungeonObject* o);
 	
-	std::string drop(std::string args);
-	std::string inventory(std::string args);
-	std::string put(std::string args);
-	std::string open(std::string args);
-	std::string take(std::string args);
-	std::string exit(std::string args);
-	std::string pageDown(std::string args);
-	std::string pageUp(std::string args);
-	std::string action(std::string actionStr,std::string args);
-	std::string lookCmd(std::string args);
-	std::string examine(std::string args);
+	
+	int drop(std::string args);
+	int inventory(std::string args);
+	int put(std::string args);
+	int open(std::string args);
+	int take(std::string args);
+	int exit(std::string args);
+	int pageDown(std::string args);
+	int pageUp(std::string args);
+	int action(std::string actionStr,std::string args);
+	int lookCmd(std::string args);
+	int examine(std::string args);
 
 	void move(DungeonExit *dungeonExit);
 

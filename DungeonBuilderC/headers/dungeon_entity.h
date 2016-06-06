@@ -13,6 +13,7 @@ private:
 public:
 	DungeonEntity* parent = nullptr;
 	unsigned long uid = NULL;	
+	int age=0;
 	virtual void addName(std::string name);
 	virtual void setPrimaryName(std::string name);
 	virtual std::string  getPrimaryName() const;

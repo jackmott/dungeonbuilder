@@ -7,6 +7,8 @@
 
 struct DungeonEntity;
 struct DungeonObject;
+struct DungeonRoom;
+struct DungeonPlayer;
 
 extern unsigned long global_id;
 
@@ -25,6 +27,12 @@ std::string thereIsA(std::string thing);
 DungeonEntity* extractEntity(void* _entities ,std::string *userInput, int *matchedName = nullptr);
 DungeonObject* extractObject(std::vector<DungeonObject*> * objects,std::string *userInput, int* matchedName = nullptr);
 DungeonObject* extractAndRemoveObject(std::vector<DungeonObject*> * objects,std::string *userInput);
+
+void recursiveObjectAccumulator(std::vector<DungeonObject*> *result,std::vector<DungeonObject*> *objects);
+std::vector<DungeonObject*> getAllPlayerObjects(DungeonPlayer* player);
+std::vector<DungeonObject*> getAllRoomObjects(DungeonRoom* room);
+std::vector<DungeonObject*> getAllObjects(DungeonPlayer* player,DungeonRoom* room);
+
 void removePointer(void * _pointers,void* pointer);
 bool removeStr(std::vector<std::string> *strs,std::string str);
 void strlensort(std::vector<std::string>* v);
