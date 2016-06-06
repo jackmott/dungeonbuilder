@@ -621,6 +621,7 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 		wclrtoeol(headerWindow);
 		mvwprintw(headerWindow,0,0,"Dungeon Builder");
 		mvwprintwCenter(headerWindow,0,room->getPrimaryName().c_str());
+		mvwprintw(headerWindow,0,COLS-5,to_string(turns).c_str());
 		wrefresh(headerWindow);
 
 
@@ -670,6 +671,7 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 				else
 				{
 					move(moveMap[moveStr]);
+					gameLogic(1);
 				}
 			}
 			else

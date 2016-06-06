@@ -80,6 +80,7 @@ string EffectEditor::set(vector<string> args)
 			if(lcase == typeStr)
 			{
 				effect->type = (EFFECT_TYPE)i;
+				break;
 			}
 		}
 	}

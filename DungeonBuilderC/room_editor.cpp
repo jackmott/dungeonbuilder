@@ -1,3 +1,4 @@
+#include "object_list.h"
 #include "dungeon_creature.h"
 #include "dungeon_object.h"
 #include "dungeon_exit.h"
@@ -106,7 +107,11 @@ string RoomEditor::edit(vector<string> args)
 	{
 		if(args.size() <3)
 		{
-			return "Which object do you want to edit?";
+			//object not found round here, bring up the list!
+			DungeonObjectList dol;
+			DungeonObject* o = dol.load(g_objectList);
+			ObjectEditor ed;
+			ed.load(o);
 		}
 		string objStr = join(2,args," ");
 		DungeonObject *o = (DungeonObject*)extractEntity(&room->objects,&objStr);
@@ -117,7 +122,12 @@ string RoomEditor::edit(vector<string> args)
 		}
 		else
 		{
-			return "I don't see that here.";
+			//object not found round here, bring up the list!
+			DungeonObjectList dol;
+			DungeonObject* o = dol.load(g_objectList);
+			ObjectEditor ed;
+			ed.load(o);
+
 		}
 	}
 	else if(editNoun == STR_CREATURE)

@@ -11,6 +11,8 @@ struct DungeonRoom;
 
 extern DungeonRoom *g_startRoom;
 extern std::vector<DungeonRoom*> g_roomList;
+extern std::vector<DungeonObject*> g_objectList;
+
 struct RoomEditor
 {
 	typedef std::string  (RoomEditor::*commandFunction) (std::vector<std::string>);			

@@ -27,10 +27,10 @@ string ActionEditor::del(vector<string> args)
 		{
 			return "Provide a name to delete.";
 		}
-		string name = join(2,args," ");				
+		string name = join(2,args," ");
 		if(!action->removeName(name)) {
 			return "You can't.";
-		}				
+		}
 	}
 	resetWindows();
 	return "";
@@ -54,12 +54,12 @@ string ActionEditor::set(vector<string> args)
 	}
 	else if(editNoun == STR_TEXT_OUTPUT)
 	{
-			  string output = join(2,args," ");
-			  action->output = output;
+		string output = join(2,args," ");
+		action->output = output;
 	}
 	else if(editNoun == STR_NEED_HELD)
 	{
-			  action->needToHold = isAffirmative(args[2]);
+		action->needToHold = isAffirmative(args[2]);
 	}
 	resetWindows();
 	return "";
@@ -75,7 +75,7 @@ string ActionEditor::edit(vector<string> args)
 	string editNoun = args[1];
 	toLower(&editNoun);
 
-	
+
 	clearWindows();
 	resetWindows();
 	return "";
@@ -100,8 +100,24 @@ string ActionEditor::add(vector<string> args)
 	}
 	else if(addNoun == STR_EFFECT)
 	{
+
 		EffectEditor ed;
 		DungeonEffect *e = new DungeonEffect();
+
+		if(args.size() > 2) {
+
+			string typeStr = toLower(join(2,args," "));
+			for(int i =0 ; i <= (int)EFFECT_TYPE::LAST ;i++){
+				string lcase = toLower(EFFECT_STRS[i]);
+				if(lcase == typeStr)
+				{
+					e->type = (EFFECT_TYPE)i;
+					break;
+				}
+			}
+
+		}
+
 		action->effects.push_back(e);
 		e->parent = action;
 		ed.load(e);
@@ -128,7 +144,7 @@ void ActionEditor::resetWindows()
 	responseWindow = newwin(1,getCols(),LINES-2,0);
 	mainWindow = newwin(LINES-3,getCols(),1,0);
 	headerWindow = newwin(1,getCols(),0,0);
-	
+
 	getmaxyx(stdscr,h,w); // this doesn't work in windows
 	refresh();
 
@@ -139,13 +155,13 @@ void ActionEditor::resetWindows()
 
 	string command;
 
-	
+
 	printHeader(headerWindow,action->parent->parent->getPrimaryName(),action->parent->getPrimaryName(),"ACTION:"+action->getPrimaryName(),3);
-	
-	int lineCount = 2;	
-	
+
+	int lineCount = 2;
+
 	setcolor(mainWindow,2,COLOR_WHITE);
-	
+
 	string nameRow = STR_MENU_NAME + join(0,action->getNames(),",");
 	mvwprintw(mainWindow,lineCount,0,nameRow.c_str());
 
@@ -167,7 +183,7 @@ void ActionEditor::resetWindows()
 	}
 
 	wrefresh(mainWindow);
-	
+
 }
 
 void ActionEditor::load(DungeonAction* _action)

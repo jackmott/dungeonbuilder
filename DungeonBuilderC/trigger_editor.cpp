@@ -22,7 +22,7 @@ string TriggerEditor::del(vector<string> args)
 	}
 	string delNoun = args[1];
 	toLower(&delNoun);
-	
+
 	resetWindows();
 	return "";
 }
@@ -38,11 +38,11 @@ string TriggerEditor::set(vector<string> args)
 	}
 	string editNoun = args[1];
 	toLower(&editNoun);
-	
+
 	if(editNoun == STR_TEXT_OUTPUT)
 	{
-			  string output = join(2,args," ");
-			  trigger->output = output;
+		string output = join(2,args," ");
+		trigger->output = output;
 	}
 	else if(editNoun == STR_TYPE)
 	{
@@ -63,7 +63,7 @@ string TriggerEditor::set(vector<string> args)
 	}
 	else if(editNoun == STR_NEED_HELD)
 	{
-			  trigger->needToHold = isAffirmative(args[2]);
+		trigger->needToHold = isAffirmative(args[2]);
 	}
 	resetWindows();
 	return "";
@@ -79,7 +79,7 @@ string TriggerEditor::edit(vector<string> args)
 	string editNoun = args[1];
 	toLower(&editNoun);
 
-	
+
 	clearWindows();
 	resetWindows();
 	return "";
@@ -93,11 +93,25 @@ string TriggerEditor::add(vector<string> args)
 	}
 	string addNoun = args[1];
 	toLower(&addNoun);
-	
+
 	if(addNoun == STR_EFFECT)
 	{
 		EffectEditor ed;
 		DungeonEffect *e = new DungeonEffect();
+
+		if(args.size() > 2) {
+
+			string typeStr = toLower(join(2,args," "));
+			for(int i =0 ; i <= (int)EFFECT_TYPE::LAST ;i++){
+				string lcase = toLower(EFFECT_STRS[i]);
+				if(lcase == typeStr)
+				{
+					e->type = (EFFECT_TYPE)i;
+					break;
+				}
+			}
+
+		}
 		trigger->effects.push_back(e);
 		e->parent = trigger;
 		ed.load(e);
@@ -124,7 +138,7 @@ void TriggerEditor::resetWindows()
 	responseWindow = newwin(1,getCols(),LINES-2,0);
 	mainWindow = newwin(LINES-3,getCols(),1,0);
 	headerWindow = newwin(1,getCols(),0,0);
-	
+
 	getmaxyx(stdscr,h,w); // this doesn't work in windows
 	refresh();
 
@@ -135,14 +149,14 @@ void TriggerEditor::resetWindows()
 
 	string command;
 
-	
+
 	printHeader(headerWindow,trigger->parent->parent->getPrimaryName(),trigger->parent->getPrimaryName(),"Trigger:"+trigger->getPrimaryName(),3);
-	
-	int lineCount = 2;	
-	
+
+	int lineCount = 2;
+
 	setcolor(mainWindow,2,COLOR_WHITE);
-			
-	
+
+
 	string typeRow = STR_MENU_TYPE + trigger->getPrimaryName();
 	mvwprintw(mainWindow,lineCount,0,typeRow.c_str());
 
@@ -169,7 +183,7 @@ void TriggerEditor::resetWindows()
 	}
 
 	wrefresh(mainWindow);
-	
+
 }
 
 void TriggerEditor::load(DungeonTrigger* _trigger)
