@@ -56,20 +56,24 @@ string EffectEditor::set(vector<string> args)
 	{
 		return "What do you want to set?";
 	}
-	if(args.size() < 3) {
-		return "Please supply the value directly in the command.";
-	}
+
 	string editNoun = args[1];
 	toLower(&editNoun);
 
 	if(editNoun == STR_MAGNITUDE)
 	{
+		if(args.size() < 3) {
+			return "Please supply the value directly in the command.";
+		}
 		string magStr = args[2];
 		int mag = stoi(magStr,nullptr,10);
 		effect->magnitude = mag;
 	}
 	else if(editNoun == STR_TYPE)
 	{
+		if(args.size() < 3) {
+			return "Please supply the value directly in the command.";
+		}
 		string typeStr = toLower(join(2,args," "));
 		for(int i =0 ; i <= (int)EFFECT_TYPE::LAST ;i++){
 			string lcase = toLower(EFFECT_STRS[i]);
@@ -169,7 +173,7 @@ void EffectEditor::clearWindows()
 
 void EffectEditor::resetWindows()
 {
-	commandWindow = newwin(1,getCols(),LINES-1,0);	
+	commandWindow = newwin(1,getCols(),LINES-1,0);
 	responseWindow = newwin(1,getCols(),LINES-2,0);
 	mainWindow = newwin(LINES-3,getCols(),1,0);
 	headerWindow = newwin(1,getCols(),0,0);

@@ -526,9 +526,13 @@ void DungeonEngine::updateCmdMap()
 }
 
 
-void DungeonEngine::gameLogic()
+void DungeonEngine::gameLogic(int turnsUsed)
 {
-	updatePhysicalObjects();
+	if (turnsUsed > 0)
+	{
+		turns += turnsUsed;
+		updatePhysicalObjects();
+	}
 
 }
 
@@ -579,6 +583,7 @@ void DungeonEngine::checkTriggers(DungeonObject* o)
 			break;
 		case TRIGGER_TYPE::AGE:
 			isTriggered = t->checkAge();
+			break;
 		default:
 			textBuffer.push_back("unhandled trigger type");
 			break;
@@ -659,7 +664,7 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 					else {
 						ActionFunction actFunc = actionMap[actionStr];
 						int turnsUsed = (this->*actFunc)(actionStr,userInput);
-						turns += turnsUsed;
+						gameLogic(turnsUsed);						
 					}
 				}
 				else
@@ -671,7 +676,7 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 			{				
 				commandFunction cmdFunc = cmdMap[verb];
 				int turnsUsed = (this->*cmdFunc)(userInput);
-				turns += turnsUsed;
+				gameLogic(turnsUsed);
 
 			}
 		}

@@ -44,7 +44,7 @@ struct DungeonEngine
 	void render(unsigned long offset);
 	void showContents(std::vector<DungeonObject*> * o, int depth = 0);
 	void addToBuffer(std::vector<std::string> *v);
-	void gameLogic();
+	void gameLogic(int turnsUsed);
 	void updatePhysicalObjects();
 	void checkTriggers(DungeonObject* o);
 	

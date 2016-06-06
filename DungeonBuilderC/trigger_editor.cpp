@@ -55,7 +55,12 @@ string TriggerEditor::set(vector<string> args)
 			}
 		}
 	}
-
+	else if(editNoun == STR_MAGNITUDE)
+	{
+		string magStr = args[2];
+		int mag = stoi(magStr,nullptr,10);
+		trigger->magnitude = mag;
+	}
 	else if(editNoun == STR_NEED_HELD)
 	{
 			  trigger->needToHold = isAffirmative(args[2]);
@@ -149,6 +154,11 @@ void TriggerEditor::resetWindows()
 	string torf = trigger->needToHold ? STR_TRUE : STR_FALSE;
 	string holdRow = STR_MENU_NEED_HOLD + torf;
 	mvwprintw(mainWindow,lineCount,0,holdRow.c_str());
+
+	lineCount++;
+	string magnitudeRow = STR_MENU_MAGNITUDE + to_string(trigger->magnitude);
+	mvwprintw(mainWindow,lineCount,0,magnitudeRow.c_str());
+
 
 	lineCount++;
 	mvwprintw(mainWindow,lineCount,0,STR_MENU_EFFECT);

@@ -29,7 +29,7 @@ vector<string> TextEditor::edit(string header,vector<string> startText)
 	keypad(mainWindow,true);   //turns on arrows and f keys
 	w = getmaxx(stdscr); // this doesn't work in windows
 
-	refresh();
+	
 	wrefresh(headerWindow);
 	wrefresh(mainWindow);
 	

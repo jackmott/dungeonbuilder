@@ -168,6 +168,24 @@ string ObjectEditor::edit(vector<string> args)
 			return "I don't see that here.";
 		}
 	}
+	else if(editNoun == STR_ACTION)
+	{
+		if(args.size() <3)
+		{
+			return "Which action do you want to edit?";
+		}
+		string actionStr = join(2,args," ");
+		DungeonAction *a = (DungeonAction*)extractEntity(&object->actions,&actionStr);
+		if(a != nullptr)
+		{
+			ActionEditor ed;
+			ed.load(a);			
+		}
+		else
+		{
+			return "I don't see that here.";
+		}
+	}
 	else
 	{
 		return "I don't know how to edit that.";
