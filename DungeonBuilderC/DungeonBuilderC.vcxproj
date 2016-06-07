@@ -34,7 +34,7 @@
     <ClCompile Include="dungeon_player.cpp" />
     <ClCompile Include="dungeon_room.cpp" />
     <ClCompile Include="effect_editor.cpp" />
-    <ClCompile Include="JSON_loader.cpp" />
+    <ClCompile Include="dungeon_serializer.cpp" />
     <ClCompile Include="text_editor.cpp">
     </ClCompile>
     <ClCompile Include="exit_editor.cpp" />
@@ -58,7 +58,7 @@
     <ClInclude Include="headers\exit_editor.h" />
     <ClInclude Include="headers\object_list.h" />
     <ClInclude Include="headers\room_list.h" />
-    <ClInclude Include="headers\JSON_loader.h" />
+    <ClInclude Include="headers\dungeon_serializer.h" />
     <ClInclude Include="headers\lib.h" />
     <ClInclude Include="headers\main_menu.h" />
     <ClCompile Include="command_window.cpp" />

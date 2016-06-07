@@ -1,3 +1,4 @@
+#include "dungeon_serializer.h"
 #include "dungeon_object.h"
 #include <sstream>
 #include "utils.h"
@@ -42,16 +43,15 @@ void DungeonObject::destroy(vector<string> *textBuffer)
 }
 string DungeonObject::toJSON()
 {
-	ostringstream sout;
-	sout << "\"name\":" << vectorStringToJSON(getNames()) << ", \"description\":" << vectorStringToJSON(description) << ",";
-	sout << "\"mass\":" << mass << ", \"size\":" << size << ",";
-	sout << " \"canOpen\":" << canOpen << ",\"canTake\":" << canTake << ", \"isOpen\":" << isOpen << ",";
-	//	sout << "\"useAlias\":" << vectorStringToJSON(&useAliases) << ", ";   TODO useAlias replaced by actions
-	sout << "\"contents\":[";
-	for(auto i = 0u; i < contents.size(); i++) {
-		sout << "{" << contents[i]->toJSON() << "}," << endl;
-	};
-	sout << "]" << endl;
-
+	ostringstream sout;	
+	sout << writeVectorString(names);
+	sout << writeVectorString(description);
+	sout << writeInt(mass);
+	sout << writeInt(size);
+	sout << writeBool(canOpen);
+	sout << writeBool(canTake);
+	sout << writeBool(isOpen);
+	sout << writeVectorEntity(&contents);
 	return sout.str();
+	
 }

@@ -12,7 +12,6 @@
     <ClCompile Include="creature_editor.cpp" />
     <ClCompile Include="text_editor.cpp" />
     <ClCompile Include="dungeon_engine.cpp" />
-    <ClCompile Include="JSON_loader.cpp" />
     <ClCompile Include="effect_editor.cpp" />
     <ClCompile Include="action_editor.cpp" />
     <ClCompile Include="dungeon_action.cpp" />
@@ -27,6 +26,7 @@
     <ClCompile Include="object_list.cpp" />
     <ClCompile Include="dungeon_trigger.cpp" />
     <ClCompile Include="trigger_editor.cpp" />
+    <ClCompile Include="dungeon_serializer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\room_editor.h" />
@@ -39,7 +39,6 @@
     <ClInclude Include="headers\creature_editor.h" />
     <ClInclude Include="headers\text_editor.h" />
     <ClInclude Include="headers\string_constants.h" />
-    <ClInclude Include="headers\JSON_loader.h" />
     <ClInclude Include="headers\dungeon_engine.h" />
     <ClInclude Include="headers\pdcurses.h" />
     <ClInclude Include="headers\lib.h" />
@@ -57,6 +56,7 @@
     <ClInclude Include="headers\object_list.h" />
     <ClInclude Include="headers\dungeon_trigger.h" />
     <ClInclude Include="headers\trigger_editor.h" />
+    <ClInclude Include="headers\dungeon_serializer.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\pdcurses.lib" />

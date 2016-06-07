@@ -1,3 +1,4 @@
+#include "dungeon_serializer.h"
 #include "dungeon_creature.h"
 #include "dungeon_object.h"
 #include "dungeon_player.h"
@@ -46,8 +47,9 @@ void DungeonCreature::attack(vector<string> *textBuffer,int magnitude, DungeonOb
 string DungeonCreature::toJSON()
 {
 	ostringstream sout;
-
-	sout << "\"name\":" << vectorStringToJSON(getNames()) << ", \"description\":" << vectorStringToJSON(description)
-		<< ", \"hitpoints\":" << hitpoints << ", \"alignment\":" << alignment;
+	sout << writeVectorString(names);
+	sout << writeVectorString(description);
+	sout << writeInt(hitpoints);
+	sout << writeInt(alignment);
 	return sout.str();
 }

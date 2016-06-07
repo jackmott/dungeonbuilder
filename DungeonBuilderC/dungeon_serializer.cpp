@@ -1,4 +1,4 @@
-#include "JSON_loader.h"
+#include "dungeon_serializer.h"
 #include "string_constants.h"
 #include "dungeon_room.h"
 #include "dungeon_object.h"
@@ -6,6 +6,49 @@
 #include "dungeon_creature.h"
 
 using namespace std;
+
+
+string _writeInt(string name,int value)
+{
+	return "\"" + name + ":" + to_string(value);
+}
+
+string _writeString(string name,string value)
+{
+	return "\"" + name + ":" + value;
+}
+
+string _writeBool(string name,bool value)
+{
+	return "\"" + name + ":" + to_string(value);
+}
+
+string _writeVectorString(string name,vector<string> const &value)
+{
+	string result =  "\"" + name + ":[";
+	for(unsigned int i = 0; i < value.size(); i++)
+	{
+		result += "\"" + value[i] + "\"";
+		if(i != value.size()-1) {
+			result += ",";
+		}
+	}
+	result = result +"]";
+	return result;
+}
+
+string _writeVectorEntity(string name,void *value)
+{
+	vector<DungeonEntity*> *entityValue = (vector<DungeonEntity*>*)value;
+	string result =  "\"" + name + ":[";
+	for(auto v : *entityValue) {
+		result += "{" + v->toJSON() + "}," + "\n";
+	};
+	result = result +"]";
+	return result;
+}
+
+
 JSONLoader::JSONLoader(string filename)
 {
 	

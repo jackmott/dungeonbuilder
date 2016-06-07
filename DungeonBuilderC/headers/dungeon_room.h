@@ -18,7 +18,7 @@ struct DungeonRoom : DungeonEntity
 	std::vector<DungeonObject*> objects;
 	std::vector<DungeonCreature*> creatures;
 
-	std::string toJSON();
+	std::string toJSON() ;
 
 };
 

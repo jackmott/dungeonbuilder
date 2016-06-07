@@ -141,7 +141,7 @@ int DungeonEngine::put(string args)
 		}
 		else
 		{
-			textBuffer.push_back( "You don't have that.");
+			textBuffer.push_back("You don't have that.");
 			return 0;
 		}
 	}
@@ -158,7 +158,7 @@ int DungeonEngine::take(string args)
 	{
 		takenObject = (DungeonObject*)extractEntity(&player->objects,&args);
 		if(takenObject != nullptr) {
-			textBuffer.push_back( "You already have that.");
+			textBuffer.push_back("You already have that.");
 			return 0;
 		}
 		else {
@@ -175,12 +175,12 @@ int DungeonEngine::take(string args)
 	if(takenObject != nullptr)
 	{
 		player->objects.push_back(takenObject);
-		textBuffer.push_back( takenObject->getPrimaryName() + " taken.");
+		textBuffer.push_back(takenObject->getPrimaryName() + " taken.");
 		return 1;
 	}
 	else
 	{
-		textBuffer.push_back( "You try to take it, but it seems futile");
+		textBuffer.push_back("You try to take it, but it seems futile");
 		return 0;
 	}
 
@@ -203,27 +203,27 @@ int DungeonEngine::action(string actionStr,string args)
 			textBuffer.push_back(action->output);
 			return 1; //Todo maybe some actions take more than 1 turn?
 		}
+
 	}
-	else
+
+	DungeonObject *roomObject = extractObject(&room->objects,&args);
+	if(roomObject != nullptr)
 	{
-		DungeonObject *roomObject = extractObject(&room->objects,&args);
-		if(roomObject != nullptr)
+		DungeonAction* action = (DungeonAction*)extractEntity(&roomObject->actions,&actionStr);
+		if(action != nullptr && !action->needToHold)
 		{
-			DungeonAction* action = (DungeonAction*)extractEntity(&roomObject->actions,&actionStr);
-			if(action != nullptr && !action->needToHold)
+			for(auto e : action -> effects)
 			{
-				for(auto e : action -> effects)
-				{
-					e->apply(&textBuffer,player,room,false);
-				}
-				textBuffer.push_back(action->output);
-				return 1; //Todo maybe some actions take more than 1 turn?
+				e->apply(&textBuffer,player,room,false);
 			}
+			textBuffer.push_back(action->output);
+			return 1; //Todo maybe some actions take more than 1 turn?
 		}
-		textBuffer.push_back("Your attempt amounts to nothing.");
-		return 0;
 	}
-	
+	textBuffer.push_back("Your attempt amounts to nothing.");
+	return 0;
+
+
 }
 
 int DungeonEngine::open(string args)
@@ -269,7 +269,7 @@ int DungeonEngine::open(string args)
 		return 0;
 	}
 
-	textBuffer.push_back( "You don't see that here.");
+	textBuffer.push_back("You don't see that here.");
 	return 0;
 }
 
@@ -475,7 +475,7 @@ void DungeonEngine::render(unsigned long offset)
 void DungeonEngine::updateCmdMap()
 {
 	cmdMap.clear();
-	
+
 	cmdMap[STR_PAGE_UP] = &DungeonEngine::pageUp;
 	cmdMap[STR_PAGE_DOWN] = &DungeonEngine::pageDown;
 	cmdMap[STR_LOOK_AT] = &DungeonEngine::examine;
@@ -528,7 +528,7 @@ void DungeonEngine::updateCmdMap()
 
 void DungeonEngine::gameLogic(int turnsUsed)
 {
-	if (turnsUsed > 0)
+	if(turnsUsed > 0)
 	{
 		turns += turnsUsed;
 		updatePhysicalObjects();
@@ -628,7 +628,7 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 		render(renderOffset);
 		string userInput = cmdW.getCommandAsString(commandWindow,STR_PROMPT);
 
-		if (userInput == STR_EXIT) break; 
+		if(userInput == STR_EXIT) break;
 		if(userInput != STR_PAGE_DOWN && userInput != STR_PAGE_UP)
 		{
 			textBuffer.push_back(STR_PROMPT+userInput);
@@ -665,7 +665,7 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 					else {
 						ActionFunction actFunc = actionMap[actionStr];
 						int turnsUsed = (this->*actFunc)(actionStr,userInput);
-						gameLogic(turnsUsed);						
+						gameLogic(turnsUsed);
 					}
 				}
 				else
@@ -675,7 +675,7 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 				}
 			}
 			else
-			{				
+			{
 				commandFunction cmdFunc = cmdMap[verb];
 				int turnsUsed = (this->*cmdFunc)(userInput);
 				gameLogic(turnsUsed);

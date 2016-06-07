@@ -24,7 +24,6 @@
 #define STR_MENU_EXIT_ROOM "[Set/Edit](Room):"
 
 
-
 //Objects
 #define STR_MENU_DURABILITY "[Set](Durability):"
 #define STR_MENU_ACTIONS "[Add/Del/Edit](Action):"

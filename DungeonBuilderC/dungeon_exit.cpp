@@ -1,3 +1,4 @@
+#include "dungeon_serializer.h"
 #include "dungeon_exit.h"
 #include "dungeon_room.h"
 #include <sstream>
@@ -23,11 +24,14 @@ DungeonExit::~DungeonExit()
 string DungeonExit::toJSON()
 {
 	ostringstream sout;
-
-	sout << "\"name\":" << vectorStringToJSON(getNames()) << ", \"isOpen\":" << isOpen
-		<< ", \"isDoor\":" << isDoor << ", \"distance\":" << distance << ", \"openingText\":\"" << openingText
-		<< "\", \"closingText\":\"" << closingText << "\", \"openText\":\"" << openText << "\", \"closedText\":\"" << closedText
-		<< "\", \"links\":" << room->uid;
-
+	sout << writeVectorString(names);
+	sout << writeBool(isOpen);
+	sout << writeBool(isDoor);
+	sout << writeInt(distance);
+	sout << writeString(openingText);
+	sout << writeString(closingText);
+	sout << writeString(openText);
+	sout << writeString(closedText);
+	sout << _writeInt("links",room->uid);
 	return sout.str();
 }

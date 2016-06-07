@@ -33,6 +33,11 @@ vector<string> DungeonEntity::getLcaseNames() const
 	return lcasenames;
 }
 
+string DungeonEntity::toJSON()
+{
+	return "";
+}
+
 
 void DungeonEntity::setPrimaryName(string name)
 {
@@ -57,18 +62,4 @@ string DungeonEntity::getPrimaryName() const
 	}
 }
 
-
-string DungeonEntity::vectorStringToJSON(vector<string> const &v) const
-{
-	string result = "[";
-	for(unsigned int i = 0; i < v.size(); i++)
-	{
-		result += "\"" + (v)[i] + "\"";
-		if(i != v.size()-1) {
-			result += ",";
-		}
-	}
-	result = result +"]";
-	return result;
-}
 
