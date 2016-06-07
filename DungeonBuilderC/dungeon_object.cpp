@@ -22,6 +22,11 @@ DungeonObject::DungeonObject()
 
 }
 
+DungeonObject::DungeonObject(string json)
+{
+	loadInt(mass,json);
+}
+
 DungeonObject::~DungeonObject()
 {
 

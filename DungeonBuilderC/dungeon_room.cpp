@@ -18,6 +18,11 @@ DungeonRoom::DungeonRoom()
 	hasLight = true;
 }
 
+DungeonRoom::DungeonRoom(string json)
+{
+
+}
+
 DungeonRoom::~DungeonRoom()
 {
 	//todo remove from roomlist

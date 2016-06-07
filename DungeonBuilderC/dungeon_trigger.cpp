@@ -17,6 +17,11 @@ DungeonTrigger::DungeonTrigger()
 	g_triggerList.push_back(this);
 }
 
+DungeonTrigger::DungeonTrigger(string json)
+{
+
+}
+
 DungeonTrigger::~DungeonTrigger()
 {
 

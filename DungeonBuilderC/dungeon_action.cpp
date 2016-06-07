@@ -12,6 +12,11 @@ DungeonAction::DungeonAction()
 	g_actionList.push_back(this);
 }
 
+DungeonAction::DungeonAction(string json)
+{
+	//todo make thyself
+}
+
 DungeonAction::~DungeonAction()
 {
 

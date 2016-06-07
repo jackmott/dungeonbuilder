@@ -14,9 +14,11 @@ struct DungeonEntity;
 #define writeString(x) _writeString(#x,x)
 #define writeBool(x) _writeBool(#x,x)
 #define writeVectorString(x) _writeVectorString(#x,x)
-
 //only the ids!
-#define writeVectorEntity(x) _writeVectorEntity(#x,&x);
+#define writeVectorEntity(x) _writeVectorEntity(#x,&x)
+
+//load
+#define loadInt(x,json) x = _loadInt(#x,json)
 
 struct DungeonRoom;
 struct DungeonObject;
@@ -24,14 +26,18 @@ struct DungeonCreature;
 struct DungeonExit;
 
 
+//save
 std::string _writeInt(std::string name, int value);
 std::string _writeString(std::string name,std::string value);
 std::string _writeBool(std::string name,bool value);
 std::string _writeVectorString(std::string name,std::vector<std::string> const &value);
-
 //only the ids!
 std::string _writeVectorEntity(std::string name, void *value);
 
+
+//load
+
+int _loadInt(std::string name, std::string json);
 
 struct JSONLoader {
 	char ch;

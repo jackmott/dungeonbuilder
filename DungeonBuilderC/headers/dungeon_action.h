@@ -8,6 +8,7 @@ struct DungeonEffect;
 struct DungeonAction : DungeonEntity
 {
 	DungeonAction();
+	DungeonAction(std::string json);
 	~DungeonAction();
 	std::string output;
 	bool needToHold;

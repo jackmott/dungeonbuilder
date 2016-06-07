@@ -24,6 +24,7 @@ const enum class EFFECT_TYPE{
 struct DungeonEffect : DungeonEntity
 {
 	DungeonEffect();
+	DungeonEffect(std::string json);
 	~DungeonEffect();
 		
 	EFFECT_TYPE type;

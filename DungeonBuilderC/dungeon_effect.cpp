@@ -19,6 +19,11 @@ DungeonEffect::DungeonEffect()
 	uid = getUID();
 	g_effectList.push_back(this);
 }
+
+DungeonEffect::DungeonEffect(string json)
+{
+
+}
 DungeonEffect::~DungeonEffect()
 {
 }

@@ -166,6 +166,12 @@ DungeonCreature* JSONLoader::loadCreature()
 	return creature;
 }
 
+int _loadInt(string name,string json)
+{
+	//todo get the int at name from the json
+	return 5;
+}
+
 void JSONLoader::getExits(vector<DungeonRoom*> roomList)
 {
 	for (DungeonRoom* room : roomList)
@@ -188,7 +194,7 @@ DungeonExit* JSONLoader::loadExit( vector<DungeonRoom*> roomList)
 	do
 	{
 		if (donePass)
-		{
+		{			
 			if (currEntry[0] == "name")
 				while (ch != ']' &&  getJSONEntry( ))
 					exit->addName(currEntry[1]);			

@@ -26,6 +26,7 @@ const enum class TRIGGER_TYPE{
 struct DungeonTrigger : DungeonEntity
 {
 	DungeonTrigger();
+	DungeonTrigger(std::string json);
 	~DungeonTrigger();
 
 			

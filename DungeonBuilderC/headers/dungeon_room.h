@@ -10,6 +10,7 @@ struct DungeonExit;
 struct DungeonRoom : DungeonEntity
 {
 	DungeonRoom();
+	DungeonRoom(std::string json);
 	~DungeonRoom();
 
 	bool hasLight;

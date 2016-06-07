@@ -9,6 +9,7 @@ struct DungeonRoom;
 struct DungeonExit: DungeonEntity
 {
 	DungeonExit();
+	DungeonExit(std::string json);
 	~DungeonExit();
 
 

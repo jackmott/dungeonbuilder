@@ -20,6 +20,11 @@ DungeonCreature::~DungeonCreature()
 
 }
 
+DungeonCreature::DungeonCreature(string json)
+{
+
+}
+
 void DungeonCreature::kill(vector<string> *textBuffer)
 {
 	textBuffer->push_back("You have killed the "+getPrimaryName()+"!");

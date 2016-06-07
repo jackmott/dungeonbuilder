@@ -18,6 +18,11 @@ DungeonExit::DungeonExit()
 	g_exitList.push_back(this);
 }
 
+DungeonExit::DungeonExit(string json)
+{
+
+}
+
 DungeonExit::~DungeonExit()
 {
 
