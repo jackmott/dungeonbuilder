@@ -51,7 +51,7 @@ string DungeonObject::toJSON()
 	sout << writeBool(canOpen);
 	sout << writeBool(canTake);
 	sout << writeBool(isOpen);
-	sout << writeVectorEntity(&contents);
+	sout << writeVectorEntity(contents);
 	return sout.str();
 	
 }

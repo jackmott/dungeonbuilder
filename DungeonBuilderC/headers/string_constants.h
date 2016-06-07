@@ -105,6 +105,7 @@
 
 
 
+#define STR_QUOT "\""
 #define STR_TAB  "    "
 #define STR_RIGHT_ARROW " \xAF "
 #define STR_JOINER ","

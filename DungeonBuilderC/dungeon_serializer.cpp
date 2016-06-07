@@ -10,41 +10,41 @@ using namespace std;
 
 string _writeInt(string name,int value)
 {
-	return "\"" + name + ":" + to_string(value);
+	return STR_QUOT + name + STR_QUOT + ":" + to_string(value) +",";
 }
 
 string _writeString(string name,string value)
 {
-	return "\"" + name + ":" + value;
+	return STR_QUOT + name +STR_QUOT+ ":" + STR_QUOT + value + STR_QUOT+",";
 }
 
 string _writeBool(string name,bool value)
 {
-	return "\"" + name + ":" + to_string(value);
+	return STR_QUOT + name +STR_QUOT + ":" + to_string(value)+",";
 }
 
 string _writeVectorString(string name,vector<string> const &value)
 {
-	string result =  "\"" + name + ":[";
+	string result =  STR_QUOT + name + STR_QUOT+ ":[";
 	for(unsigned int i = 0; i < value.size(); i++)
 	{
-		result += "\"" + value[i] + "\"";
+		result += STR_QUOT + value[i] + STR_QUOT;
 		if(i != value.size()-1) {
 			result += ",";
 		}
 	}
-	result = result +"]";
+	result = result +"],";
 	return result;
 }
 
 string _writeVectorEntity(string name,void *value)
 {
 	vector<DungeonEntity*> *entityValue = (vector<DungeonEntity*>*)value;
-	string result =  "\"" + name + ":[";
+	string result =  STR_QUOT + name + STR_QUOT+ ":[";
 	for(auto v : *entityValue) {
 		result += "{" + v->toJSON() + "}," + "\n";
 	};
-	result = result +"]";
+	result = result +"],";
 	return result;
 }
 
