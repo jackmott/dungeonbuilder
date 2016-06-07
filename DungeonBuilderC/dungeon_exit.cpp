@@ -6,6 +6,7 @@
 
 using namespace std;
 
+extern vector<DungeonExit*> g_exitList;
 
 DungeonExit::DungeonExit()
 {
@@ -14,6 +15,7 @@ DungeonExit::DungeonExit()
 	distance = 1;
 	room = nullptr;
 	uid = getUID();
+	g_exitList.push_back(this);
 }
 
 DungeonExit::~DungeonExit()

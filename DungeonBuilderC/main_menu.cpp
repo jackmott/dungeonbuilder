@@ -1,3 +1,5 @@
+#include "dungeon_effect.h"
+#include "dungeon_trigger.h"
 #include "dungeon_room.h"
 #include "dungeon_player.h"
 #include "main_menu.h"
@@ -14,11 +16,17 @@
 
 using namespace std;
 
+
 DungeonRoom *g_startRoom = nullptr;
 DungeonPlayer *g_player;
 vector<DungeonRoom*> g_roomList;
 vector<DungeonObject*> g_objectList;
 vector<DungeonCreature*> g_creatureList;
+vector<DungeonExit*> g_exitList;
+vector<DungeonAction*> g_actionList;
+vector<DungeonEffect*> g_effectList;
+vector<DungeonTrigger*> g_triggerList;
+
 
 unsigned long global_id = 0;
 

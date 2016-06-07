@@ -9,12 +9,15 @@
 
 using namespace std;
 
+extern vector<DungeonEffect*> g_effectList;
+
 
 DungeonEffect::DungeonEffect()
 {
 	magnitude = 0;
 	type = EFFECT_TYPE::HEAL;
 	uid = getUID();
+	g_effectList.push_back(this);
 }
 DungeonEffect::~DungeonEffect()
 {

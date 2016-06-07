@@ -6,12 +6,15 @@
 
 using namespace std;
 
+extern vector<DungeonTrigger*> g_triggerList;
+
 DungeonTrigger::DungeonTrigger()
 {
 	uid = getUID();
 	needToHold = true;
 	type = TRIGGER_TYPE::PROXIMITY;
 	magnitude = 1;
+	g_triggerList.push_back(this);
 }
 
 DungeonTrigger::~DungeonTrigger()

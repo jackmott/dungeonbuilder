@@ -37,12 +37,13 @@ string _writeVectorString(string name,vector<string> const &value)
 	return result;
 }
 
+//This only writes out the ids
 string _writeVectorEntity(string name,void *value)
 {
 	vector<DungeonEntity*> *entityValue = (vector<DungeonEntity*>*)value;
 	string result =  STR_QUOT + name + STR_QUOT+ ":[";
 	for(auto v : *entityValue) {
-		result += "{" + v->toJSON() + "}," + "\n";
+		result += to_string(v->uid)+ ",";
 	};
 	result = result +"],";
 	return result;
