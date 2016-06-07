@@ -24,6 +24,7 @@ DungeonObject::DungeonObject()
 
 DungeonObject::DungeonObject(string json)
 {
+	// below expands to:  mass = _loadInt("mass",json);
 	loadInt(mass,json);
 }
 
