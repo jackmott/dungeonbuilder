@@ -16,7 +16,10 @@ struct DungeonCreature: DungeonEntity
 	int hitpoints;
 	int alignment;
 
-	std::string attack(DungeonObject *weapon,DungeonPlayer *player);
+	void kill(std::vector<std::string> *textBuffer);
+	void applyDamage(std::vector<std::string> *textBuffer,int dmg);
+
+	void attack(std::vector<std::string> *textBuffer,int magnitude,DungeonObject *weapon,DungeonPlayer *player);
 
 
 	std::string toJSON();

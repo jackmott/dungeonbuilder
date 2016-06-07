@@ -13,7 +13,7 @@ struct DungeonObject: DungeonEntity
 
 	std::vector<std::string> description;
 
-	int damage;  //0 if not a weapon
+	int durability;
 	int mass;
 	int size;
 
@@ -21,6 +21,10 @@ struct DungeonObject: DungeonEntity
 	bool isOpen;
 	bool canTake;
 	bool isLight;
+
+	void applyDamage(std::vector<std::string> *textBuffer,int dmg);
+	void destroy(std::vector<std::string> *textBuffer);
+
 	
 	std::vector<DungeonObject*> contents;
 	std::vector<DungeonAction*> actions;

@@ -23,9 +23,10 @@
 //Exit
 #define STR_MENU_EXIT_ROOM "[Set/Edit](Room):"
 
-#define STR_MENU_DAMAGE "[Set](Damage):"
+
 
 //Objects
+#define STR_MENU_DURABILITY "[Set](Durability):"
 #define STR_MENU_ACTIONS "[Add/Del/Edit](Action):"
 #define STR_MENU_TRIGGERS "[Add/Del/Edit](Trigger):"
 #define STR_MENU_TAKEABLE "[Set](Takeable)[T/F]:"
@@ -50,6 +51,7 @@
 #define STR_MENU_NEED_HOLD "[Set](Held):"
 
 
+#define STR_DURABILITY "durability"
 #define STR_LIGHT "light"
 #define STR_NEED_HELD "held"
 #define STR_TYPE "type"

@@ -9,9 +9,9 @@ extern vector<DungeonObject*> g_objectList;
 DungeonObject::DungeonObject()
 {
 
-	damage = 0;
-	mass =0;
-	size=0;
+	durability = 100;
+	mass =1;
+	size=1;
 	uid = getUID();
 	canOpen = false;
 	isOpen = false;
@@ -25,11 +25,26 @@ DungeonObject::~DungeonObject()
 {
 
 }
+
+void DungeonObject::applyDamage(vector<string> *textBuffer,int dmg)
+{
+	durability -= dmg;
+	if(durability <= 0)
+	{
+		destroy(textBuffer);
+	}
+}
+
+void DungeonObject::destroy(vector<string> *textBuffer)
+{
+	textBuffer->push_back("You have destroyed the "+getPrimaryName());
+	//todo remove this from all things
+}
 string DungeonObject::toJSON()
 {
 	ostringstream sout;
 	sout << "\"name\":" << vectorStringToJSON(getNames()) << ", \"description\":" << vectorStringToJSON(description) << ",";
-	sout << " \"damage\":" << damage << ",\"mass\":" << mass << ", \"size\":" << size << ",";
+	sout << "\"mass\":" << mass << ", \"size\":" << size << ",";
 	sout << " \"canOpen\":" << canOpen << ",\"canTake\":" << canTake << ", \"isOpen\":" << isOpen << ",";
 	//	sout << "\"useAlias\":" << vectorStringToJSON(&useAliases) << ", ";   TODO useAlias replaced by actions
 	sout << "\"contents\":[";

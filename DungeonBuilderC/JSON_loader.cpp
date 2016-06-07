@@ -78,9 +78,7 @@ DungeonObject* JSONLoader::loadObject()
 				object->addName(currEntry[1]);
 		else if (currEntry[0] == "description")
 			while (ch != ']' &&  getJSONEntry( ))
-				object->description.push_back(currEntry[1]);
-		else if (currEntry[0] == "damage")
-			object->damage = atoi(currEntry[1].c_str());
+				object->description.push_back(currEntry[1]);		
 		else if (currEntry[0] == "mass")
 			object->mass = atoi(currEntry[1].c_str());
 		else if (currEntry[0] == "size")

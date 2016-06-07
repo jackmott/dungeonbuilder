@@ -19,11 +19,28 @@ DungeonCreature::~DungeonCreature()
 
 }
 
-string DungeonCreature::attack(DungeonObject *weapon,DungeonPlayer *player)
+void DungeonCreature::kill(vector<string> *textBuffer)
 {
-	hitpoints = hitpoints - weapon->damage;
-	if(hitpoints <= 0) return "You have killed the "+getPrimaryName()+"!";
-	return "You hit the " + getPrimaryName();
+	textBuffer->push_back("You have killed the "+getPrimaryName()+"!");
+	//remove from all things
+}
+
+
+void DungeonCreature::applyDamage(vector<string> *textBuffer,int dmg)
+{
+	hitpoints -= dmg;
+	if(hitpoints < 0)
+	{
+		return kill(textBuffer);
+	}
+	textBuffer->push_back("You damage the "+getPrimaryName()+".");
+}
+
+void DungeonCreature::attack(vector<string> *textBuffer,int magnitude, DungeonObject *weapon,DungeonPlayer *player)
+{
+	hitpoints = hitpoints - magnitude;
+	if(hitpoints <= 0) return kill(textBuffer);
+	textBuffer->push_back("You hit the " + getPrimaryName());
 }
 
 string DungeonCreature::toJSON()

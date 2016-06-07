@@ -1,4 +1,4 @@
-
+#include "dungeon_creature.h"
 #include "dungeon_effect.h"
 #include "dungeon_room.h"
 #include "dungeon_player.h"
@@ -25,7 +25,7 @@ string DungeonEffect::getPrimaryName() const
 	return EFFECT_STRS[(int)type];
 }
 
-void DungeonEffect::apply(DungeonPlayer* player,DungeonRoom * room,bool objectOnPlayer)
+void DungeonEffect::apply(vector<string> *textBuffer,DungeonPlayer* player,DungeonRoom * room,bool objectOnPlayer)
 {
 	switch(type)
 	{
@@ -33,6 +33,15 @@ void DungeonEffect::apply(DungeonPlayer* player,DungeonRoom * room,bool objectOn
 		player->heal(magnitude);
 		break;
 	case EFFECT_TYPE::DAMAGE:
+		if(creatureTarget != nullptr)
+		{
+			creatureTarget->applyDamage(textBuffer,magnitude);
+		}
+		else if(objectTarget != nullptr)
+		{
+			objectTarget->applyDamage(textBuffer,magnitude);
+		}
+		
 		break;
 	case EFFECT_TYPE::TRANSFORM:
 		DungeonObject *toTransform = (DungeonObject*)parent->parent;

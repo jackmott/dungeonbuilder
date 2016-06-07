@@ -198,7 +198,7 @@ int DungeonEngine::action(string actionStr,string args)
 		{
 			for(auto e : action->effects)
 			{
-				e->apply(player,room,true);
+				e->apply(&textBuffer,player,room,true);
 			}
 			textBuffer.push_back(action->output);
 			return 1; //Todo maybe some actions take more than 1 turn?
@@ -214,7 +214,7 @@ int DungeonEngine::action(string actionStr,string args)
 			{
 				for(auto e : action -> effects)
 				{
-					e->apply(player,room,false);
+					e->apply(&textBuffer,player,room,false);
 				}
 				textBuffer.push_back(action->output);
 				return 1; //Todo maybe some actions take more than 1 turn?
@@ -594,7 +594,7 @@ void DungeonEngine::checkTriggers(DungeonObject* o)
 			textBuffer.push_back(t->output);
 			for(auto e : t->effects)
 			{
-				e->apply(player,room,true);
+				e->apply(&textBuffer,player,room,true);
 			}
 
 		}

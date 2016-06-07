@@ -100,11 +100,11 @@ string ObjectEditor::set(vector<string> args)
 		descVector.push_back(desc);
 		object->description = descVector;
 	}
-	else if(editNoun == STR_DAMAGE)
+	else if(editNoun == STR_DURABILITY)
 	{
-		string damagestring = args[2];
-		int dmg = stoi(damagestring,nullptr,10);
-		object->damage = dmg;
+		string durStr = args[2];
+		object->durability = stoi(durStr,nullptr,10);
+		
 	}
 	else if(editNoun == STR_TAKEABLE)
 	{
@@ -336,7 +336,7 @@ void ObjectEditor::resetWindows()
 
 
 	lineCount++;
-	string dmgRow = STR_MENU_DAMAGE + to_string(object->damage);
+	string dmgRow = STR_MENU_DURABILITY + to_string(object->durability);
 	mvwprintw(mainWindow,lineCount,0,dmgRow.c_str());
 
 	lineCount++;
