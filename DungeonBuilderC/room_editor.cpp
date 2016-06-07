@@ -113,21 +113,23 @@ string RoomEditor::edit(vector<string> args)
 			ObjectEditor ed;
 			ed.load(o);
 		}
-		string objStr = join(2,args," ");
-		DungeonObject *o = (DungeonObject*)extractEntity(&room->objects,&objStr);
-		if(o != nullptr)
-		{
-			ObjectEditor ed;
-			ed.load(o);
-		}
-		else
-		{
-			//object not found round here, bring up the list!
-			DungeonObjectList dol;
-			DungeonObject* o = dol.load(g_objectList);
-			ObjectEditor ed;
-			ed.load(o);
+		else {
+			string objStr = join(2,args," ");
+			DungeonObject *o = (DungeonObject*)extractEntity(&room->objects,&objStr);
+			if(o != nullptr)
+			{
+				ObjectEditor ed;
+				ed.load(o);
+			}
+			else
+			{
+				//object not found round here, bring up the list!
+				DungeonObjectList dol;
+				DungeonObject* o = dol.load(g_objectList);
+				ObjectEditor ed;
+				ed.load(o);
 
+			}
 		}
 	}
 	else if(editNoun == STR_CREATURE)
@@ -155,7 +157,7 @@ string RoomEditor::edit(vector<string> args)
 			return "Which exit do you want to edit?";
 		}
 		string exitStr = join(2,args," ");
-		DungeonExit *e = (DungeonExit*)extractEntity(&room->exits,&exitStr);		
+		DungeonExit *e = (DungeonExit*)extractEntity(&room->exits,&exitStr);
 		if(e != nullptr)
 		{
 			ExitEditor ed;
@@ -309,12 +311,12 @@ string RoomEditor::add(vector<string> args)
 		DungeonRoomList listPicker;
 		clearWindows();
 		DungeonRoom *newRoom = listPicker.load(g_roomList,e);
-		
+
 		//Once a room is picked, fire up the exit editor with the room
 		if(newRoom != nullptr)
 		{
 			e->room = newRoom;
-			ExitEditor ed;			
+			ExitEditor ed;
 			newRoom = ed.load(e);
 			if(newRoom != nullptr)
 			{
@@ -354,7 +356,7 @@ void RoomEditor::resetWindows()
 	scrollok(mainWindow,TRUE);
 	getmaxyx(stdscr,h,w); // this doesn't work in windows
 
-	
+
 	printHeader(headerWindow,"ROOM:"+room->getPrimaryName());
 
 	int lineCount = 2;
@@ -399,11 +401,11 @@ void RoomEditor::resetWindows()
 	lineCount++;
 	mvwprintw(mainWindow,lineCount,0,STR_MENU_ROOM_MOVE);
 
-	
+
 	wrefresh(commandWindow);
 	wrefresh(responseWindow);
 	wrefresh(mainWindow);
-	
+
 
 }
 

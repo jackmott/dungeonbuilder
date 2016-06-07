@@ -12,7 +12,7 @@ using namespace std;
 DungeonObject* DungeonObjectList::pageUp(vector<string> args)
 {
 	pos -= 3;
-	if (pos < 0 ) pos = 0;
+	if(pos < 0) pos = 0;
 	resetWindows();
 	return nullptr;
 }
@@ -20,7 +20,7 @@ DungeonObject* DungeonObjectList::pageUp(vector<string> args)
 DungeonObject* DungeonObjectList::pageDown(vector<string> args)
 {
 	pos += 3;
-	if (pos > objects.size() - getRows() - 5) pos -= 3;
+	if(pos > objects.size() - getRows() - 5) pos -= 3;
 	resetWindows();
 	return nullptr;
 }
@@ -60,11 +60,11 @@ void DungeonObjectList::clearWindows()
 
 void DungeonObjectList::resetWindows()
 {
-	commandWindow = newwin(1,getCols(),LINES-1,0);	
+	commandWindow = newwin(1,getCols(),LINES-1,0);
 	responseWindow = newwin(1,getCols(),LINES-2,0);
 	headerWindow = newwin(1,getCols(),0,0);
 	mainWindow = newwin(LINES-3,getCols(),1,0);
-	
+
 	refresh();
 
 	wrefresh(commandWindow);
@@ -74,14 +74,14 @@ void DungeonObjectList::resetWindows()
 
 	string command;
 
-	
 
-	
+
+
 	//if(fromExit != nullptr){
 		//printHeader(headerWindow,fromExit->parent->getPrimaryName(),"EXIT:"+fromExit->getPrimaryName(),STR_MENU_ID_OR_NEW);		
 	//}
 	//else {
-		printHeader(headerWindow,STR_MENU_ID_OR_NEW);		
+	printHeader(headerWindow,STR_MENU_ID_OR_NEW);
 	//}
 
 	int lineCount = 0;
@@ -89,7 +89,7 @@ void DungeonObjectList::resetWindows()
 	int idWidth = 5;
 	int numRows = getRows()-5;
 	//print all the objects
-	for (int i = pos; i < numRows+pos; i++)
+	for(int i = pos; i < numRows+pos; i++)
 	{
 		if(i >= objects.size())
 		{
@@ -98,10 +98,10 @@ void DungeonObjectList::resetWindows()
 		DungeonObject *o = objects[i];
 		lineCount++;
 		string id = to_string(o->uid);
-		
+
 		mvwprintwBold(mainWindow,lineCount,0,id.c_str());
 		mvwprintw(mainWindow,lineCount,idWidth,o->getPrimaryName().c_str());
-				
+
 	}
 	if(objects.size() > numRows+pos) {
 		mvwprintwCenter(mainWindow,numRows+1,"PgDown For More");
@@ -116,7 +116,7 @@ DungeonObject* DungeonObjectList::load(vector<DungeonObject *> _objects)
 {
 
 	objects = _objects;
-	
+
 	pos = 0;
 
 	cmdMap[STR_NEW] = &DungeonObjectList::newObject;
@@ -131,23 +131,25 @@ DungeonObject* DungeonObjectList::load(vector<DungeonObject *> _objects)
 		cmd = cmdW.getCommand(commandWindow,STR_PROMPT);
 
 		//check if input was a number
-		char *p;
-		long id = strtol(cmd[0].c_str(),&p,10);
-		if(! *p)
+		if(cmd[0].size() > 0)
 		{
-			DungeonObject* resultObject= pickObject(id);
-			if(resultObject != nullptr)
+			char *p;
+			long id = strtol(cmd[0].c_str(),&p,10);
+			if(! *p)
 			{
-				clearWindows();
-				return resultObject;
-			}
-			else {
-				mvwprintw(responseWindow,0,0,"Id not found");
-				wclrtoeol(responseWindow);
-				wrefresh(responseWindow);
+				DungeonObject* resultObject= pickObject(id);
+				if(resultObject != nullptr)
+				{
+					clearWindows();
+					return resultObject;
+				}
+				else {
+					mvwprintw(responseWindow,0,0,"Id not found");
+					wclrtoeol(responseWindow);
+					wrefresh(responseWindow);
+				}
 			}
 		}
-
 
 		if(cmd.size() > 0) {
 			toLower(&cmd[0]);
