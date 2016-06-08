@@ -40,6 +40,6 @@ string DungeonExit::toJSON()
 	sout << writeString(closingText);
 	sout << writeString(openText);
 	sout << writeString(closedText);
-	sout << _writeInt("links",room->uid);
+	sout << writeEntity(room);
 	return sout.str();
 }
