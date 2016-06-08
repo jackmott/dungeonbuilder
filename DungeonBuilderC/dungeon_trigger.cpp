@@ -1,8 +1,10 @@
 #include "dungeon_room.h"
 #include "dungeon_creature.h"
 #include "dungeon_exit.h"
+#include "dungeon_serializer.h"
 #include "dungeon_trigger.h"
 #include "utils.h"
+#include <sstream>
 
 using namespace std;
 
@@ -60,4 +62,22 @@ bool DungeonTrigger::checkForEvil(DungeonRoom* room,int depth)
 	}
 }
 
+
+//TODO: Add support for enum class TRIGGER_TYPE
+string DungeonTrigger::toJSON()
+{
+	ostringstream sout;
+
+	sout << writeInt(uid);
+	sout << writeBool(needToHold);
+	sout << writeString(output);
+	sout << writeInt(magnitude);
+	sout << writeVectorEntity(objects);
+	sout << writeVectorEntity(rooms);
+	sout << writeVectorEntity(creatures);
+	sout << writeVectorEntity(effects);
+
+
+	return sout.str();
+}
 

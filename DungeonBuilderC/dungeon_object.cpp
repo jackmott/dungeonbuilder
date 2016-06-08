@@ -53,11 +53,13 @@ string DungeonObject::toJSON()
 	sout << writeInt(uid);
 	sout << writeVectorString(names);
 	sout << writeVectorString(description);
+	sout << writeInt(durability);
 	sout << writeInt(mass);
 	sout << writeInt(size);
 	sout << writeBool(canOpen);
 	sout << writeBool(canTake);
 	sout << writeBool(isOpen);
+	sout << writeBool(isLight);
 	sout << writeVectorEntity(contents);
 	sout << writeVectorEntity(actions);
 	sout << writeVectorEntity(triggers);

@@ -42,6 +42,7 @@ struct DungeonEffect : DungeonEntity
 
 	virtual std::string  getPrimaryName() const override;
 	
+	std::string toJSON();
 };
 
 #endif

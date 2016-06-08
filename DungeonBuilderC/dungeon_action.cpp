@@ -1,4 +1,5 @@
 #include "dungeon_action.h"
+#include "dungeon_serializer.h"
 #include "utils.h"
 #include <sstream>
 
@@ -20,4 +21,15 @@ DungeonAction::DungeonAction(string json)
 DungeonAction::~DungeonAction()
 {
 
+}
+
+string DungeonAction::toJSON()
+{
+	ostringstream sout;
+
+	sout << writeInt(uid);
+	sout << writeBool(needToHold);
+	sout << writeVectorEntity(effects);
+
+	return sout.str();
 }

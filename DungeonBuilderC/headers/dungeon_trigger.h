@@ -48,7 +48,7 @@ struct DungeonTrigger : DungeonEntity
 	bool checkForEvil(DungeonRoom* room,int depth);
 	bool checkAge();
 	
-	
+	std::string toJSON();
 };
 
 #endif

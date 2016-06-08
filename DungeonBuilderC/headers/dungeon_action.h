@@ -13,6 +13,8 @@ struct DungeonAction : DungeonEntity
 	std::string output;
 	bool needToHold;
 	std::vector<DungeonEffect*> effects;
+
+	std::string toJSON();
 };
 
 

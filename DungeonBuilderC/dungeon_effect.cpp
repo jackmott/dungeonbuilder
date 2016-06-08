@@ -4,6 +4,7 @@
 #include "dungeon_player.h"
 #include "dungeon_object.h"
 #include "dungeon_action.h"
+#include "dungeon_serializer.h"
 #include <sstream>
 #include "utils.h"
 
@@ -70,4 +71,20 @@ void DungeonEffect::apply(vector<string> *textBuffer,DungeonPlayer* player,Dunge
 		break;
 	}
 
+}
+
+//TODO: add enum classes for type
+string DungeonEffect::toJSON() 
+{
+	ostringstream sout;
+
+	sout << writeInt(uid);
+	sout << writeString(output);
+	sout << writeInt(magnitude);
+	sout << writeInt(speed);
+	sout << _writeInt("creatureTarget",creatureTarget->uid);
+	sout << _writeInt("objectTarget",objectTarget->uid);
+	sout << writeVectorEntity(transforms);
+
+	return sout.str();
 }
