@@ -4,6 +4,7 @@
 #include "dungeon_creature.h"
 #include "dungeon_exit.h"
 #include "dungeon_object.h"
+#include "dungeon_action.h"
 #include "dungeon_player.h"
 #include "main_menu.h"
 #include <sstream>
@@ -86,29 +87,47 @@ void MainMenu::saveMap(vector<string> args)
 
 		fout << "{" << endl;
 
-		fout << "\"Rooms\":[" << endl;
+		fout << "\"rooms\":[" << endl;
 		for (auto room : g_roomList) {
 			fout << "{" << room->toJSON() << "}," << endl;
 		}
-		fout << "],";
+		fout << "]," << endl;
 
-		fout << "\"Objects\":[" << endl;
+		fout << "\"objects\":[" << endl;
 		for (auto item : g_objectList) {
 			fout << "{" << item->toJSON() << "}," << endl;
 		}
-		fout << "],";
+		fout << "]," << endl;
 
-		fout << "\"Creatures\":[" << endl;
+		fout << "\"creatures\":[" << endl;
 		for (auto creature : g_creatureList) {
 			fout << "{" << creature->toJSON() << "}," << endl;
 		}
-		fout << "],";
+		fout << "]," << endl;
 
-		fout << "\"Exits\":[" << endl;
+		fout << "\"exits\":[" << endl;
 		for (auto  exit : g_exitList) {
 			fout << "{" << exit->toJSON() << "}," << endl;
 		}
-		fout << "],";
+		fout << "]," << endl;
+
+		fout << "\"effects\":[" << endl;
+		for (auto effect : g_effectList) {
+			fout << "{" << effect->toJSON() << "}," << endl;
+		}
+		fout << "]," << endl;
+
+		fout << "\"triggers\":[" << endl;
+		for (auto trigger : g_triggerList) {
+			fout << "{" << trigger->toJSON() << "}," << endl;
+		}
+		fout << "]," << endl;
+
+		fout << "\"actions\":[" << endl;
+		for (auto action : g_actionList) {
+			fout << "{" << action->toJSON() << "}," << endl;
+		}
+		fout << "]," << endl;
 
 		fout << "}";
 

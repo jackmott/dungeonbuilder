@@ -3,6 +3,7 @@
 #include "dungeon_room.h"
 #include "dungeon_object.h"
 #include "dungeon_exit.h"
+#include "dungeon_effect.h"
 #include "dungeon_creature.h"
 
 using namespace std;
@@ -52,7 +53,6 @@ string _writeVectorEntity(string name,void *value)
 
 JSONLoader::JSONLoader(string filename)
 {
-	
 	filename.append(".json");
 	this->filename = filename;
 	fin.open(filename.c_str());
@@ -71,11 +71,28 @@ JSONLoader::~JSONLoader()
 vector<DungeonRoom*> JSONLoader::loadMap()
 {
 	vector<DungeonRoom*> roomList;
+	vector<DungeonObject*> objectList;
+	vector<DungeonCreature*> creatureList;
+	vector<DungeonExit*> exitList;
+	vector<DungeonAction*> actionList;
+	vector<DungeonTrigger*> triggerList;
+	vector<DungeonEffect*> effectList;
+
 	if (getJSONEntry( ))
 	{
 		if (currEntry[0] == "rooms")
-			while (getJSONEntry( ))
+			while (getJSONEntry())
 				roomList.push_back(loadRoom(roomList));
+		else if (currEntry[0] == "objects")
+			while (getJSONEntry())
+				objectList.push_back(loadObject());
+		else if (currEntry[0] == "creatures")
+			while (getJSONEntry())
+				creatureList.push_back(loadCreature());
+		else if (currEntry[0] == "exits")
+			while (getJSONEntry())
+				exitList.push_back(loadExit(roomList));
+
 	} 
 	donePass = true;
 	fin.seekg(0, ios::beg);
