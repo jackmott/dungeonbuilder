@@ -102,7 +102,7 @@ string TriggerEditor::add(vector<string> args)
 		if(args.size() > 2) {
 
 			string typeStr = toLower(join(2,args," "));
-			for(int i =0 ; i <= (int)EFFECT_TYPE::LAST ;i++){
+			for(int i =0 ; i <= ARRAYSIZE(EFFECT_STRS) ;i++){
 				string lcase = toLower(EFFECT_STRS[i]);
 				if(lcase == typeStr)
 				{

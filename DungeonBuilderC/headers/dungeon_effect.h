@@ -1,6 +1,7 @@
 #ifndef DUNGEON_EFFECT_H
 #define DUNGEON_EFFECT_H
 
+#include "utils.h"
 #include "dungeon_entity.h"
 #include <vector>
 #include <string>
@@ -11,15 +12,18 @@ struct DungeonPlayer;
 struct DungeonObject;
 struct DungeonCreature;
 
-const std::string  EFFECT_STRS[] = {
-	"Heal","Damage","Attack","Transform"};
-const enum class EFFECT_TYPE{
-	HEAL = 0,
-	DAMAGE = 1,
-	ATTACK = 2,
-	TRANSFORM = 3,	
-	FIRST = HEAL,
-	LAST = TRANSFORM };
+
+#define EFFECT_ENUM_LOOP(EFFECT) \
+	EFFECT(Heal)	  \
+	EFFECT(Damage)	  \
+	EFFECT(Attack)	  \
+	EFFECT(Transform) 
+
+
+
+const std::string  EFFECT_STRS[] = { EFFECT_ENUM_LOOP(GEN_STRING) };
+const enum class EFFECT_TYPE { EFFECT_ENUM_LOOP(GEN_ENUM) };
+
 
 struct DungeonEffect : DungeonEntity
 {

@@ -12,6 +12,17 @@ struct DungeonPlayer;
 
 extern unsigned long global_id;
 
+#define ARRAYSIZE(a) \
+  ((sizeof(a) / sizeof(*(a))) / \
+  static_cast<size_t>(!(sizeof(a) % sizeof(*(a)))))
+
+//Used by ENUM generating macros
+//To produce enums and string arrays
+//that are kept in synch
+#define GEN_ENUM(ENUM) ENUM,
+#define GEN_STRING(STRING) #STRING,
+
+
 unsigned long getUID();
 std::vector<std::string> &split(const std::string  &s, char delim, std::vector<std::string> &elems);
 std::vector<std::string> split(const std::string  &s, char delim);

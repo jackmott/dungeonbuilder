@@ -16,7 +16,7 @@ extern vector<DungeonEffect*> g_effectList;
 DungeonEffect::DungeonEffect()
 {
 	magnitude = 0;
-	type = EFFECT_TYPE::HEAL;
+	type = EFFECT_TYPE::Heal;
 	uid = getUID();
 	g_effectList.push_back(this);
 }
@@ -38,10 +38,10 @@ void DungeonEffect::apply(vector<string> *textBuffer,DungeonPlayer* player,Dunge
 {
 	switch(type)
 	{
-	case EFFECT_TYPE::HEAL:
+	case EFFECT_TYPE::Heal:
 		player->heal(magnitude);
 		break;
-	case EFFECT_TYPE::DAMAGE:
+	case EFFECT_TYPE::Damage:
 		if(creatureTarget != nullptr)
 		{
 			creatureTarget->applyDamage(textBuffer,magnitude);
@@ -52,7 +52,7 @@ void DungeonEffect::apply(vector<string> *textBuffer,DungeonPlayer* player,Dunge
 		}
 		
 		break;
-	case EFFECT_TYPE::TRANSFORM:
+	case EFFECT_TYPE::Transform:
 		DungeonObject *toTransform = (DungeonObject*)parent->parent;
 		if(objectOnPlayer) {
 			removePointer(&player->objects,toTransform);

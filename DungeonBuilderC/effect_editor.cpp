@@ -75,7 +75,7 @@ string EffectEditor::set(vector<string> args)
 			return "Please supply the value directly in the command.";
 		}
 		string typeStr = toLower(join(2,args," "));
-		for(int i =0 ; i <= (int)EFFECT_TYPE::LAST ;i++){
+		for(int i =0 ; i <= ARRAYSIZE(EFFECT_STRS) ;i++){
 			string lcase = toLower(EFFECT_STRS[i]);
 			if(lcase == typeStr)
 			{
@@ -206,14 +206,14 @@ void EffectEditor::resetWindows()
 	string typeRow = STR_MENU_TYPE + effect->getPrimaryName();
 	mvwprintw(mainWindow,lineCount,0,typeRow.c_str());
 
-	if(effect->type == EFFECT_TYPE::HEAL || effect->type == EFFECT_TYPE::DAMAGE)
+	if(effect->type == EFFECT_TYPE::Heal || effect->type == EFFECT_TYPE::Damage)
 	{
 		lineCount++;
 		string magnitudeRow = STR_MENU_MAGNITUDE + to_string(effect->magnitude);
 		mvwprintw(mainWindow,lineCount,0,magnitudeRow.c_str());
 	}
 
-	if(effect->type == EFFECT_TYPE::TRANSFORM)
+	if(effect->type == EFFECT_TYPE::Transform)
 	{
 		lineCount++;
 		mvwprintw(mainWindow,lineCount,0,STR_MENU_SET_ADD_OBJECT);
