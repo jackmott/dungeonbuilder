@@ -12,6 +12,10 @@ struct DungeonAction : DungeonEntity
 	~DungeonAction();
 	std::string output;
 	bool needToHold;
+
+	//These will be DungeonEntities
+	std::vector<void*> targets;
+
 	std::vector<DungeonEffect*> effects;
 
 	std::string toJSON();

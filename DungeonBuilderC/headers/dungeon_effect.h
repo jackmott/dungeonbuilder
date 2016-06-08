@@ -36,10 +36,7 @@ struct DungeonEffect : DungeonEntity
 
 	int magnitude;
 	int speed;
-
-	DungeonCreature* creatureTarget = nullptr;
-	DungeonObject* objectTarget = nullptr;
-	
+		
 	std::vector<DungeonObject*> transforms;
 	
 	void apply(std::vector<std::string> *textBuffer,DungeonPlayer* player, DungeonRoom* room, bool objectOnPlayer);

@@ -9,7 +9,7 @@ using namespace std;
 extern vector<DungeonObject*> g_objectList;
 DungeonObject::DungeonObject()
 {
-
+	entityType = ENTITY_TYPE::Object;
 	durability = 100;
 	mass =1;
 	size=1;
@@ -24,6 +24,7 @@ DungeonObject::DungeonObject()
 
 DungeonObject::DungeonObject(string json)
 {
+	entityType = ENTITY_TYPE::Object;
 	// below expands to:  mass = _loadInt("mass",json);
 	loadInt(mass,json);
 }

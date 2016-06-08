@@ -13,6 +13,7 @@ struct DungeonEntity;
 #define writeInt(x) _writeInt(#x,x)
 #define writeString(x) _writeString(#x,x)
 #define writeBool(x) _writeBool(#x,x)
+#define writeEntity(x) _writeInt(#x,x->uid)
 #define writeVectorString(x) _writeVectorString(#x,x)
 //only the ids!
 #define writeVectorEntity(x) _writeVectorEntity(#x,&x)

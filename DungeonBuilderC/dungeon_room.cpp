@@ -13,6 +13,7 @@ extern vector<DungeonRoom*> g_roomList;
 
 DungeonRoom::DungeonRoom()
 {
+	entityType = ENTITY_TYPE::Room;
 	uid = getUID();
 	g_roomList.push_back(this);
 	hasLight = true;
@@ -20,7 +21,7 @@ DungeonRoom::DungeonRoom()
 
 DungeonRoom::DungeonRoom(string json)
 {
-
+	entityType = ENTITY_TYPE::Room;
 }
 
 DungeonRoom::~DungeonRoom()

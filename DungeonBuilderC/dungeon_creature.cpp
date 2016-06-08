@@ -11,6 +11,7 @@ extern vector<DungeonCreature*> g_creatureList;
 
 DungeonCreature::DungeonCreature()
 {
+	entityType = ENTITY_TYPE::Creature;
 	uid = getUID();
 	hitpoints = 100;
 	g_creatureList.push_back(this);
@@ -22,7 +23,7 @@ DungeonCreature::~DungeonCreature()
 
 DungeonCreature::DungeonCreature(string json)
 {
-
+	entityType = ENTITY_TYPE::Creature;
 }
 
 void DungeonCreature::kill(vector<string> *textBuffer)

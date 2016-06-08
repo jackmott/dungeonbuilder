@@ -15,6 +15,7 @@ extern vector<DungeonEffect*> g_effectList;
 
 DungeonEffect::DungeonEffect()
 {
+	entityType = ENTITY_TYPE::Effect;
 	magnitude = 0;
 	type = EFFECT_TYPE::Heal;
 	uid = getUID();
@@ -23,7 +24,7 @@ DungeonEffect::DungeonEffect()
 
 DungeonEffect::DungeonEffect(string json)
 {
-
+	entityType = ENTITY_TYPE::Effect;
 }
 DungeonEffect::~DungeonEffect()
 {
@@ -42,15 +43,7 @@ void DungeonEffect::apply(vector<string> *textBuffer,DungeonPlayer* player,Dunge
 		player->heal(magnitude);
 		break;
 	case EFFECT_TYPE::Damage:
-		if(creatureTarget != nullptr)
-		{
-			creatureTarget->applyDamage(textBuffer,magnitude);
-		}
-		else if(objectTarget != nullptr)
-		{
-			objectTarget->applyDamage(textBuffer,magnitude);
-		}
-		
+		//todo damage
 		break;
 	case EFFECT_TYPE::Transform:
 		DungeonObject *toTransform = (DungeonObject*)parent->parent;
@@ -81,9 +74,7 @@ string DungeonEffect::toJSON()
 	sout << writeInt(uid);
 	sout << writeString(output);
 	sout << writeInt(magnitude);
-	sout << writeInt(speed);
-	sout << _writeInt("creatureTarget",creatureTarget->uid);
-	sout << _writeInt("objectTarget",objectTarget->uid);
+	sout << writeInt(speed);	
 	sout << writeVectorEntity(transforms);
 
 	return sout.str();

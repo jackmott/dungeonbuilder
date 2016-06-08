@@ -12,6 +12,7 @@ extern vector<DungeonTrigger*> g_triggerList;
 
 DungeonTrigger::DungeonTrigger()
 {
+	entityType = ENTITY_TYPE::Trigger;
 	uid = getUID();
 	needToHold = true;
 	type = TRIGGER_TYPE::Proximity;
@@ -21,7 +22,7 @@ DungeonTrigger::DungeonTrigger()
 
 DungeonTrigger::DungeonTrigger(string json)
 {
-
+	entityType = ENTITY_TYPE::Trigger;
 }
 
 DungeonTrigger::~DungeonTrigger()

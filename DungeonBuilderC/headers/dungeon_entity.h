@@ -4,12 +4,22 @@
 #include <vector>
 #include <string>
 
+enum class ENTITY_TYPE 
+{ 
+	Object,
+	Creature,
+	Room,
+	Exit,
+	Action,
+	Trigger,
+	Effect
+};
 
 struct DungeonEntity
 {
 
 
-
+	ENTITY_TYPE entityType;
 	std::vector <std::string> names;
 	DungeonEntity* parent = nullptr;
 	unsigned long uid = NULL;	
