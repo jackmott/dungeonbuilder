@@ -31,6 +31,7 @@ DungeonExit::~DungeonExit()
 string DungeonExit::toJSON()
 {
 	ostringstream sout;
+	sout << writeInt(uid);
 	sout << writeVectorString(names);
 	sout << writeBool(isOpen);
 	sout << writeBool(isDoor);

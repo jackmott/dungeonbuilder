@@ -52,6 +52,7 @@ void DungeonCreature::attack(vector<string> *textBuffer,int magnitude, DungeonOb
 string DungeonCreature::toJSON()
 {
 	ostringstream sout;
+	sout << writeInt(uid);
 	sout << writeVectorString(names);
 	sout << writeVectorString(description);
 	sout << writeInt(hitpoints);

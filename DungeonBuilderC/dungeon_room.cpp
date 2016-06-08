@@ -34,6 +34,7 @@ string DungeonRoom::toJSON()
 	sout << writeInt(uid);
 	sout << writeVectorString(names);
 	sout << writeVectorString(description);
+	sout << writeBool(hasLight);
 	sout << writeVectorEntity(objects);
 	sout << writeVectorEntity(creatures);
 	sout << writeVectorEntity(exits);

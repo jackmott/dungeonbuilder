@@ -50,6 +50,7 @@ void DungeonObject::destroy(vector<string> *textBuffer)
 string DungeonObject::toJSON()
 {
 	ostringstream sout;	
+	sout << writeInt(uid);
 	sout << writeVectorString(names);
 	sout << writeVectorString(description);
 	sout << writeInt(mass);
@@ -58,6 +59,9 @@ string DungeonObject::toJSON()
 	sout << writeBool(canTake);
 	sout << writeBool(isOpen);
 	sout << writeVectorEntity(contents);
+	sout << writeVectorEntity(actions);
+	sout << writeVectorEntity(triggers);
+
 	return sout.str();
 	
 }
