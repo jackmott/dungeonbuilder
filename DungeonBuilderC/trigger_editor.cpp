@@ -47,7 +47,7 @@ string TriggerEditor::set(vector<string> args)
 	else if(editNoun == STR_TYPE)
 	{
 		string typeStr = toLower(join(2,args," "));
-		for(int i =0 ; i <= (int)TRIGGER_TYPE::LAST ;i++){
+		for(int i =0 ; i <= ARRAYSIZE(TRIGGER_STRS) ;i++){
 			string lcase = toLower(TRIGGER_STRS[i]);
 			if(lcase == typeStr)
 			{

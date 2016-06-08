@@ -1,6 +1,7 @@
 #ifndef DUNGEON_TRIGGER_H
 #define DUNGEON_TRIGGER_H
 
+#include "utils.h"
 #include "dungeon_entity.h"
 #include <vector>
 #include <string>
@@ -13,15 +14,15 @@ struct DungeonCreature;
 
 struct DungeonEffect;
 
-const std::string  TRIGGER_STRS[] = {
-	"Proximity", "Evil Near", "Age"};
+#define TRIGGER_ENUM_LOOP(TRIGGER) \
+	TRIGGER(Proximity)	  \
+	TRIGGER(Evil)	  \
+	TRIGGER(Age)
+	
 
-const enum class TRIGGER_TYPE{
-	PROXIMITY = 0,	
-	PROXIMITY_EVIL = 1,	
-	AGE = 2,
-	FIRST = PROXIMITY,
-	LAST = AGE };
+
+const std::string  TRIGGER_STRS[] = { TRIGGER_ENUM_LOOP(GEN_STRING) };
+const enum class TRIGGER_TYPE { TRIGGER_ENUM_LOOP(GEN_ENUM) };
 
 struct DungeonTrigger : DungeonEntity
 {

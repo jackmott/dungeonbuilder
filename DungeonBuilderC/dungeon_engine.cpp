@@ -578,10 +578,10 @@ void DungeonEngine::checkTriggers(DungeonObject* o)
 		bool isTriggered = false;
 		switch(t->type)
 		{
-		case TRIGGER_TYPE::PROXIMITY_EVIL:
+		case TRIGGER_TYPE::Evil:
 			isTriggered = t->checkForEvil(room,t->magnitude);
 			break;
-		case TRIGGER_TYPE::AGE:
+		case TRIGGER_TYPE::Age:
 			isTriggered = t->checkAge();
 			break;
 		default:

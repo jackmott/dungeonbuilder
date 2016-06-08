@@ -14,7 +14,7 @@ DungeonTrigger::DungeonTrigger()
 {
 	uid = getUID();
 	needToHold = true;
-	type = TRIGGER_TYPE::PROXIMITY;
+	type = TRIGGER_TYPE::Proximity;
 	magnitude = 1;
 	g_triggerList.push_back(this);
 }
