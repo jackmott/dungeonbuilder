@@ -68,7 +68,7 @@ void TextEditor::removeLine(int n) {
 }
 
 void TextEditor::moveLeft() {
-	if(x-1 >= 0)
+	if(x > 0)
 	{
 		x--;
 		wmove(mainWindow,y,x);
@@ -82,7 +82,7 @@ void TextEditor::moveRight() {
 	}
 }
 void TextEditor::moveUp() {
-	if(y-1 >= 0)
+	if(y > 0)
 		y--;
 	if(x >= lines[y].length())
 		x = lines[y].length();
