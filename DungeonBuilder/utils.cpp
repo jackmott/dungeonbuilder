@@ -25,10 +25,9 @@ vector<string> removeArticles(vector<string> words)
 	vector<string> result;
 	for(auto word: words)
 	{
-		string lowerWord = word;
-		toLower(&lowerWord);
+		string lowerWord = toLower(word);
 
-		if(lowerWord != "a" && lowerWord != "the")
+		if(lowerWord != "a" && lowerWord != "the" && lowerWord != "my")
 		{
 			result.push_back(word);
 		}
@@ -36,17 +35,47 @@ vector<string> removeArticles(vector<string> words)
 	return result;
 }
 
-bool containsWith(vector<string> words)
-{
 
-	for(auto word: words)
+
+ObjectTarget extractObjectTarget(vector<string> words)
+{
+	ObjectTarget result;
+	words = removeArticles(words);
+	for(size_t i = 0; i < words.size(); i++)
 	{
-		string lowerWord = word;
-		toLower(&lowerWord);
-		if(lowerWord == "with") return true;
+		string lowerWord = toLower(words[i]);
+
+		if(lowerWord == "with" || lowerWord == "using") //target -> object
+		{
+			for(size_t j = 0; j < i; j++)
+			{
+				result.target += words[j];
+			}
+			for(size_t j = i+1; j < words.size(); j++)
+			{
+				result.object += words[j];
+			}
+			break;
+		}
+		else if(lowerWord == "at" || lowerWord == "on" || lowerWord == "toward")  //object -> target
+		{
+			for(size_t j = 0; j < i; j++)
+			{
+				result.object += words[j];
+			}
+			for(size_t j = i+1; j < words.size(); j++)
+			{
+				result.target += words[j];
+			}
+			break;
+		}
 	}
-	return false;
+
+	
+	return result;
+	
 }
+
 
 
 vector<string> split(const string &s,char delim) {
@@ -194,7 +223,7 @@ void removePointer(void* _pointers,void* pointer)
 }
 
 // void* considered harmful. living dangerously.
-DungeonEntity* extractEntity(void * _entities,string *userInput, int* matchedName)
+DungeonEntity* extractEntity(void * _entities,string *userInput,int* matchedName)
 {
 	vector<DungeonEntity*> *entities = (vector<DungeonEntity*> *)_entities;
 	vector<DungeonEntity*> sortedEntities;
@@ -212,9 +241,10 @@ DungeonEntity* extractEntity(void * _entities,string *userInput, int* matchedNam
 		//strlensort(&lcaseNames);
 		int i = 0;
 		for(auto s : lcaseNames)
-		{			
+		{
 			if(lcaseInput.compare(s) == 0)
-			{	if (matchedName != nullptr) *matchedName = i;
+			{
+				if(matchedName != nullptr) *matchedName = i;
 				return e;
 			}
 			i++;
@@ -236,7 +266,7 @@ DungeonObject* extractAndRemoveObject(vector<DungeonObject*> * objects,string *u
 		if(o->isOpen && o->contents.size() > 0)
 		{
 			result = extractAndRemoveObject(&o->contents,userInput);
-			if (result != nullptr) {
+			if(result != nullptr) {
 				removePointer(&o->contents,result);
 				return result;
 			}
@@ -247,20 +277,20 @@ DungeonObject* extractAndRemoveObject(vector<DungeonObject*> * objects,string *u
 }
 
 
-DungeonObject* extractObject(vector<DungeonObject*> * objects,string *userInput, int* matchedName)
+DungeonObject* extractObject(vector<DungeonObject*> * objects,string *userInput,int* matchedName)
 {
 	DungeonObject* result = (DungeonObject*)extractEntity(objects,userInput,matchedName);
 	if(result != nullptr) {
 		return result;
 	}
-	
+
 	for(auto o : *objects)
 	{
 
 		if(o->isOpen && o->contents.size() > 0)
 		{
 			result = extractObject(&o->contents,userInput,matchedName);
-			if (result != nullptr) return result;
+			if(result != nullptr) return result;
 
 		}
 	}
@@ -269,12 +299,12 @@ DungeonObject* extractObject(vector<DungeonObject*> * objects,string *userInput,
 
 void trim(string* str)
 {
-  str->erase(str->begin(), find_if(str->begin(), str->end(),
-    [](char& ch)->bool { return !isspace(ch); }));
-  str->erase(find_if(str->rbegin(), str->rend(),
-    [](char& ch)->bool { return !isspace(ch); }).base(), str->end());
-  ;
-}  
+	str->erase(str->begin(),find_if(str->begin(),str->end(),
+		[](char& ch)->bool { return !isspace(ch); }));
+	str->erase(find_if(str->rbegin(),str->rend(),
+		[](char& ch)->bool { return !isspace(ch); }).base(),str->end());
+	;
+}
 
 
 string extractPhrase(vector<string> phrasesToFind,string *userInput)
@@ -291,19 +321,19 @@ string extractPhrase(vector<string> phrasesToFind,string *userInput)
 			userInput->erase(pos,phrase.length());
 			trim(userInput);
 			return phrase;
-		}
 	}
+}
 	return "";
 }
 
 int min(int a,int b)
 {
-	if (a < b) return a;
+	if(a < b) return a;
 	else return b;
 }
 int max(int a,int b)
 {
-	if (a > b) return a;
+	if(a > b) return a;
 	else return b;
 }
 
@@ -337,7 +367,7 @@ vector<DungeonObject*> getAllPlayerObjects(DungeonPlayer* player)
 	vector<DungeonObject*> result;
 	recursiveObjectAccumulator(&result,&player->objects);
 	return result;
-	
+
 }
 
 vector<DungeonObject*> getAllRoomObjects(DungeonRoom* room)
@@ -347,9 +377,9 @@ vector<DungeonObject*> getAllRoomObjects(DungeonRoom* room)
 	return result;
 }
 
-vector<DungeonObject*> getAllObjects(DungeonPlayer* player, DungeonRoom* room)
+vector<DungeonObject*> getAllObjects(DungeonPlayer* player,DungeonRoom* room)
 {
-	vector<DungeonObject*> result = getAllPlayerObjects(player);	
+	vector<DungeonObject*> result = getAllPlayerObjects(player);
 	vector<DungeonObject*> resultB = getAllRoomObjects(room);
 
 	result.insert(result.end(),resultB.begin(),resultB.end());

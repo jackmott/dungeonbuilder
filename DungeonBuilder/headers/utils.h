@@ -22,6 +22,12 @@ extern unsigned long global_id;
 #define GEN_ENUM(ENUM) ENUM,
 #define GEN_STRING(STRING) #STRING,
 
+struct ObjectTarget
+{
+	std::string object;
+	std::string target;
+};
+
 
 unsigned long getUID();
 std::vector<std::string> &split(const std::string  &s, char delim, std::vector<std::string> &elems);
