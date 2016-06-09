@@ -39,7 +39,7 @@ struct DungeonEffect : DungeonEntity
 		
 	std::vector<DungeonObject*> transforms;
 	
-	void apply(std::vector<std::string> *textBuffer,DungeonPlayer* player, DungeonRoom* room, bool objectOnPlayer);
+	void apply(std::vector<std::string> *textBuffer,DungeonEntity* target,DungeonPlayer* player, DungeonRoom* room, bool objectOnPlayer);
 
 	virtual std::string  getPrimaryName() const override;
 	

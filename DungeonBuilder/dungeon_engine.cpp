@@ -187,9 +187,40 @@ int DungeonEngine::take(string args)
 }
 int DungeonEngine::action(string actionStr,string args)
 {
+	vector<string> vArgs = split(args,' ');
+	vArgs = removeArticles(vArgs);
 
+	string objectStr;
+	string targetStr;
 
-	DungeonObject* playerObject = extractObject(&player->objects,&args);
+	if(vArgs.size() < 1)
+	{
+		textBuffer.push_back("I don't understand.");
+		return 0;
+	} 
+
+	ObjectTarget ot = extractObjectTarget(vArgs);
+	//no preposition found?
+	if(ot.object == "" && ot.target == "")
+	{
+		ot.object = join(0,vArgs," ");
+	}
+	
+	DungeonEntity * targetEntity = nullptr;
+	if(ot.target != "")
+	{
+		targetEntity = extractObject(&player->objects,&ot.target);
+		if(targetEntity == nullptr)
+		{
+			targetEntity = extractObject(&room->objects,&ot.target);
+		}
+		if(targetEntity == nullptr)
+		{
+			targetEntity = extractEntity(&room->creatures,&ot.target);
+		}
+	}
+
+	DungeonObject* playerObject = extractObject(&player->objects,&ot.object);
 
 	if(playerObject != nullptr) {
 
@@ -198,7 +229,7 @@ int DungeonEngine::action(string actionStr,string args)
 		{
 			for(auto e : action->effects)
 			{
-				e->apply(&textBuffer,player,room,true);
+				e->apply(&textBuffer,targetEntity,player,room,true);
 			}
 			textBuffer.push_back(action->output);
 			return 1; //Todo maybe some actions take more than 1 turn?
@@ -206,7 +237,7 @@ int DungeonEngine::action(string actionStr,string args)
 
 	}
 
-	DungeonObject *roomObject = extractObject(&room->objects,&args);
+	DungeonObject *roomObject = extractObject(&room->objects,&ot.object);
 	if(roomObject != nullptr)
 	{
 		DungeonAction* action = (DungeonAction*)extractEntity(&roomObject->actions,&actionStr);
@@ -214,7 +245,7 @@ int DungeonEngine::action(string actionStr,string args)
 		{
 			for(auto e : action -> effects)
 			{
-				e->apply(&textBuffer,player,room,false);
+				e->apply(&textBuffer,targetEntity,player,room,false);
 			}
 			textBuffer.push_back(action->output);
 			return 1; //Todo maybe some actions take more than 1 turn?
@@ -572,7 +603,7 @@ void DungeonEngine::updatePhysicalObjects()
 void DungeonEngine::checkTriggers(DungeonObject* o)
 {
 
-
+	
 	for(auto t : o->triggers)
 	{
 		bool isTriggered = false;
@@ -594,7 +625,8 @@ void DungeonEngine::checkTriggers(DungeonObject* o)
 			textBuffer.push_back(t->output);
 			for(auto e : t->effects)
 			{
-				e->apply(&textBuffer,player,room,true);
+				//TODO deal with Target
+				e->apply(&textBuffer,nullptr,player,room,true);
 			}
 
 		}

@@ -35,7 +35,7 @@ string DungeonEffect::getPrimaryName() const
 	return EFFECT_STRS[(int)type];
 }
 
-void DungeonEffect::apply(vector<string> *textBuffer,DungeonPlayer* player,DungeonRoom * room,bool objectOnPlayer)
+void DungeonEffect::apply(vector<string> *textBuffer,DungeonEntity* target, DungeonPlayer* player,DungeonRoom * room,bool objectOnPlayer)
 {
 	switch(type)
 	{

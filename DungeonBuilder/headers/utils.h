@@ -28,6 +28,7 @@ struct ObjectTarget
 	std::string target;
 };
 
+ObjectTarget extractObjectTarget(std::vector<std::string> words);
 
 unsigned long getUID();
 std::vector<std::string> &split(const std::string  &s, char delim, std::vector<std::string> &elems);

@@ -39,8 +39,7 @@ vector<string> removeArticles(vector<string> words)
 
 ObjectTarget extractObjectTarget(vector<string> words)
 {
-	ObjectTarget result;
-	words = removeArticles(words);
+	ObjectTarget result;	
 	for(size_t i = 0; i < words.size(); i++)
 	{
 		string lowerWord = toLower(words[i]);
@@ -57,7 +56,7 @@ ObjectTarget extractObjectTarget(vector<string> words)
 			}
 			break;
 		}
-		else if(lowerWord == "at" || lowerWord == "on" || lowerWord == "toward")  //object -> target
+		else if( lowerWord == "on" || lowerWord == "at" || lowerWord == "on" || lowerWord == "toward")  //object -> target
 		{
 			for(size_t j = 0; j < i; j++)
 			{
