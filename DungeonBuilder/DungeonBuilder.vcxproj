@@ -85,7 +85,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{799C09B3-0B2C-4371-8D26-DDAA12EE6691}</ProjectGuid>
-    <RootNamespace>DungeonBuilderC</RootNamespace>
+    <RootNamespace>DungeonBuilder</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
