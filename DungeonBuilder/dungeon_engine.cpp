@@ -483,7 +483,7 @@ void DungeonEngine::render(unsigned long offset)
 		for(auto s : tokens)
 		{
 			s = s + " ";
-			if(s.length() + x < COLS)
+			if(s.length() + x < getCols())
 			{
 				wprintw(mainWindow,s.c_str());
 				x += s.length();

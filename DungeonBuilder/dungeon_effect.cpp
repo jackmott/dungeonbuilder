@@ -35,46 +35,48 @@ string DungeonEffect::getPrimaryName() const
 	return EFFECT_STRS[(int)type];
 }
 
-void DungeonEffect::apply(vector<string> *textBuffer,DungeonEntity* target, DungeonPlayer* player,DungeonRoom * room,bool objectOnPlayer)
+void DungeonEffect::apply(vector<string> *textBuffer,DungeonEntity* target,DungeonPlayer* player,DungeonRoom * room,bool objectOnPlayer)
 {
 	switch(type)
 	{
 	case EFFECT_TYPE::Heal:
-		player->heal(magnitude);
-		break;
+	{player->heal(magnitude);}
+	break;
 	case EFFECT_TYPE::Damage:
 		//todo damage
 		break;
 	case EFFECT_TYPE::Transform:
-		DungeonObject *toTransform = (DungeonObject*)parent->parent;
-		if(objectOnPlayer) {
-			removePointer(&player->objects,toTransform);
-			for(auto e : transforms)
-			{
-				player->objects.push_back(e);
-			}
+	{DungeonObject *toTransform = (DungeonObject*)parent->parent;
+	if(objectOnPlayer) {
+		removePointer(&player->objects,toTransform);
+		for(auto e : transforms)
+		{
+			player->objects.push_back(e);
 		}
-		else {
-			removePointer(&room->objects,toTransform);
-			for(auto e : transforms) {
-				room->objects.push_back(e);
-			}
+	}
+	else {
+		removePointer(&room->objects,toTransform);
+		for(auto e : transforms) {
+			room->objects.push_back(e);
 		}
-
-		break;
+	}}
+	break;
+	case EFFECT_TYPE::Attack:
+	{}
+	break;
 	}
 
 }
 
 //TODO: add enum classes for type
-string DungeonEffect::toJSON() 
+string DungeonEffect::toJSON()
 {
 	ostringstream sout;
 
 	sout << writeInt(uid);
 	sout << writeString(output);
 	sout << writeInt(magnitude);
-	sout << writeInt(speed);	
+	sout << writeInt(speed);
 	sout << writeVectorEntity(transforms);
 
 	return sout.str();

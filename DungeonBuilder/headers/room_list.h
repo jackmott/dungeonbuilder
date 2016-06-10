@@ -24,7 +24,7 @@ struct DungeonRoomList
 	std::vector<DungeonRoom*> rooms;
 	DungeonExit* fromExit;
 	
-	int pos;
+	size_t pos;
 
 	
 	void clearWindows();

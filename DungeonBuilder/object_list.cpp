@@ -89,7 +89,7 @@ void DungeonObjectList::resetWindows()
 	int idWidth = 5;
 	int numRows = getRows()-5;
 	//print all the objects
-	for(int i = pos; i < numRows+pos; i++)
+	for(size_t i = pos; i < numRows+pos; i++)
 	{
 		if(i >= objects.size())
 		{

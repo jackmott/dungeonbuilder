@@ -21,7 +21,7 @@ struct DungeonObjectList
 	WINDOW *headerWindow;
 
 	std::vector<DungeonObject*> objects;	
-	int pos;
+	size_t pos;
 
 	
 	void clearWindows();

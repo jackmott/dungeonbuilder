@@ -87,9 +87,9 @@ void DungeonRoomList::resetWindows()
 	int lineCount = 0;
 	setcolor(mainWindow,1,COLOR_WHITE);
 	int idWidth = 5;
-	int numRows = getRows()-5;
+	size_t numRows = getRows()-5;
 	//print all the rooms
-	for(int i = pos; i < numRows+pos; i++)
+	for(size_t i = pos; i < numRows+pos; i++)
 	{
 		if(i >= rooms.size())
 		{

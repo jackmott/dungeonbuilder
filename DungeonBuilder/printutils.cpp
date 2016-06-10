@@ -5,7 +5,7 @@
 using namespace std;
 
 
-unsigned int getRows()
+size_t getRows()
 {
 #ifdef TODO_MAYBE
 	//Why doesn't this work?
@@ -17,12 +17,12 @@ unsigned int getRows()
 
 	return rows;
 #else
-	return LINES;
+	return (size_t)LINES;
 #endif // _WIN32
 
 }
 
-unsigned int getCols()
+size_t getCols()
 {
 #ifdef TODO_MAYBE
 	//Why doesn't this work?
@@ -34,7 +34,7 @@ unsigned int getCols()
 
 	return columns;
 #else
-	return COLS;
+	return (size_t)COLS;
 #endif
 
 }
@@ -159,10 +159,10 @@ map<int,int> colorMap;
 int uGroup = 0;
 void renderDungeonText(WINDOW * window,vector<DungeonLine*> *text)
 {
-	for(int y = 0; y < text->size(); y++)
+	for(size_t y = 0; y < text->size(); y++)
 	{
 		DungeonLine* line = (*text)[y];
-		for(int x = 0; x < line->chars->size(); x++)
+		for(size_t x = 0; x < line->chars->size(); x++)
 		{
 			//todo render the chars
 		}

@@ -8,7 +8,7 @@
 struct CommandWindow
 {
 	WINDOW *window;
-	int x;	
+	size_t x;	
 	int w;
 	std::string input;
 	int done = 0;
@@ -16,7 +16,7 @@ struct CommandWindow
 				
 	void reset();	
 	std::vector<std::string> commandBuffer;
-	int cmdBufferPos = 0;
+	size_t cmdBufferPos = 0;
 	std::vector<std::string> getCommand(WINDOW* _window,std::string prompt);				
 	std::string getCommandAsString(WINDOW* _window,std::string prompt);				
 	void moveLeft();
