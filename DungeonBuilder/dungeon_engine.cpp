@@ -354,9 +354,8 @@ void DungeonEngine::resetWindows()
 	scrollok(mainWindow,TRUE);
 	getmaxyx(stdscr,h,w);
 
-	init_pair(1,COLOR_BLACK,COLOR_RED);
-	wbkgd(headerWindow,COLOR_PAIR(1));
-
+	setbackground(headerWindow,COLOR_BLACK,COLOR_RED);
+	
 	look();
 
 	refresh();
@@ -468,7 +467,9 @@ void DungeonEngine::render(unsigned long offset)
 {
 	wclear(mainWindow);
 
-
+	vector<DungeonLine*> *parsedText = parseDungeonText(&textBuffer);
+	renderDungeonText(mainWindow,parsedText);
+	/*
 	int bufferSize = (int)textBuffer.size() - offset;
 	int end = max(0,bufferSize);
 	int start = max(0,end-LINES);
@@ -500,6 +501,7 @@ void DungeonEngine::render(unsigned long offset)
 
 		//dbsleep(200);
 	}
+	*/
 	wrefresh(mainWindow);
 }
 

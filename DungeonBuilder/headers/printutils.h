@@ -7,20 +7,22 @@
 
 
 struct DungeonChar {
-	char c;
+	chtype c;
 	int foreColor;
 	int backColor;
-	bool bold;
+	chtype attributes;
 };
 
 struct DungeonLine {
-	std::vector<DungeonChar> *chars;
+	DungeonLine() {};
+	std::vector<DungeonChar> *chars = new std::vector<DungeonChar>();
 	bool centered = false;
 	bool leftAlign = false;
 	bool rightAlign = false;
 	int indent = 0;
 };
 
+std::vector<DungeonLine*> *parseDungeonText(std::vector<std::string> *text);
 void renderDungeonText(WINDOW* window,std::vector<DungeonLine*> *text);
 
 
