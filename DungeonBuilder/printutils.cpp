@@ -61,17 +61,6 @@ void mvwprintwCenterBold (WINDOW *window,int row,string text)
 }
 
 
-void setcolor (WINDOW* window,int group,int fore)
-{
-	setcolors(window,group,fore,COLOR_BLACK);
-}
-void setcolors(WINDOW *window,int group,int fore,int back)
-{
-	init_pair(group,fore,back);
-	wattron(window,COLOR_PAIR(group));
-}
-
-
 #define DUNGEON_HEADER_BG COLOR_RED
 #define DUNGEON_HEADER_FG COLOR_BLACK
 #define DUNGEON_HEADER_FG_BOLD COLOR_WHITE
@@ -79,10 +68,8 @@ void setcolors(WINDOW *window,int group,int fore,int back)
 void printHeader(WINDOW *window,string leftText,string centerText,string rightText,int boldIndex)
 {
 
-	init_pair(10,DUNGEON_HEADER_FG,DUNGEON_HEADER_BG);
-	wbkgd(window,COLOR_PAIR(10));
+	setbackground(window,DUNGEON_HEADER_FG,DUNGEON_HEADER_BG);	
 	wclrtoeol(window);
-
 	
 	centerText = STR_RIGHT_ARROW + centerText + STR_RIGHT_ARROW;
 	
@@ -91,80 +78,120 @@ void printHeader(WINDOW *window,string leftText,string centerText,string rightTe
 	
 	if (boldIndex == 1)
 	{
-		setcolors(window,12,DUNGEON_HEADER_FG_BOLD,DUNGEON_HEADER_BG);
+		setcolors(window,DUNGEON_HEADER_FG_BOLD,DUNGEON_HEADER_BG);
 		mvwprintwBold(window,0,startX,leftText.c_str());
 	}
 	else
 	{
-		setcolors(window,11,DUNGEON_HEADER_FG,DUNGEON_HEADER_BG);
+		setcolors(window,DUNGEON_HEADER_FG,DUNGEON_HEADER_BG);
 		mvwprintw(window,0,startX,leftText.c_str());
 	}
 	startX += leftText.size();
 	
 	if (boldIndex == 2)
 	{ 
-		setcolors(window,12,DUNGEON_HEADER_FG_BOLD,DUNGEON_HEADER_BG);
+		setcolors(window,DUNGEON_HEADER_FG_BOLD,DUNGEON_HEADER_BG);
 		mvwprintwBold(window,0,startX,centerText.c_str());
 	}
 	else
 	{ 
-		setcolors(window,11,DUNGEON_HEADER_FG,DUNGEON_HEADER_BG);
+		setcolors(window,DUNGEON_HEADER_FG,DUNGEON_HEADER_BG);
 		mvwprintw(window,0,startX,centerText.c_str());
 	}
 	startX += centerText.size();
-	setcolors(window,11,DUNGEON_HEADER_FG,DUNGEON_HEADER_BG);
+	setcolors(window,DUNGEON_HEADER_FG,DUNGEON_HEADER_BG);
 	if (boldIndex == 3)
 	{ 
-		setcolors(window,12,DUNGEON_HEADER_FG_BOLD,DUNGEON_HEADER_BG);
+		setcolors(window,DUNGEON_HEADER_FG_BOLD,DUNGEON_HEADER_BG);
 		mvwprintwBold(window,0,startX,rightText.c_str());
 	}
 	else
 	{ 
-		setcolors(window,11,DUNGEON_HEADER_FG,DUNGEON_HEADER_BG);
+		setcolors(window,DUNGEON_HEADER_FG,DUNGEON_HEADER_BG);
 		mvwprintw(window,0,startX,rightText.c_str());
 	}
 	wrefresh(window);
 }
 
 void printHeader(WINDOW *window,string leftText,string rightText){
-	init_pair(10,DUNGEON_HEADER_FG,DUNGEON_HEADER_BG);
-	wbkgd(window,COLOR_PAIR(10));
+
+	setbackground(window,DUNGEON_HEADER_FG,DUNGEON_HEADER_BG);	
 	wclrtoeol(window);
 	
 	rightText = STR_RIGHT_ARROW + rightText;
 	
 	int startX = (getCols() - (leftText.size()+rightText.size()))/2;
-	setcolors(window,11,DUNGEON_HEADER_FG,DUNGEON_HEADER_BG);
+	setcolors(window,DUNGEON_HEADER_FG,DUNGEON_HEADER_BG);
 	mvwprintw(window,0,startX,leftText.c_str());
 	startX += leftText.size();
-	setcolors(window,12,DUNGEON_HEADER_FG_BOLD,DUNGEON_HEADER_BG);
+	setcolors(window,DUNGEON_HEADER_FG_BOLD,DUNGEON_HEADER_BG);
 	mvwprintwBold(window,0,startX,rightText.c_str());	
 	wrefresh(window);
 }
 
 void printHeader(WINDOW* window,string text)
 {
-	init_pair(10,DUNGEON_HEADER_FG_BOLD,DUNGEON_HEADER_BG);
-	wbkgd(window,COLOR_PAIR(10));
+	setbackground(window,DUNGEON_HEADER_FG,DUNGEON_HEADER_BG);	
 	wclrtoeol(window);
 
 	mvwprintwCenterBold(window,0,text.c_str());
 	wrefresh(window);
 }
 
-
 //to keep track of color pairs and group numbers because
 //ncurses is silly
 map<int,int> colorMap;
-int uGroup = 0;
+int uGroup = 1;
+
+int getColorGroup(int fore,int back)
+{
+	//25 bigger than any foreground color making hash unique for all color combos
+	int colorHash = fore + back*25;  
+	auto findResult = colorMap.find(colorHash);
+	int group = NULL;
+	if(findResult == colorMap.end())
+	{
+		init_pair(uGroup,fore,back);
+		colorMap.insert(make_pair(colorHash,uGroup));
+		group = uGroup;
+		uGroup++;
+	} else
+	{
+		group = findResult->second;
+	}
+	return group;
+}
+
+void setcolor (WINDOW* window,int fore)
+{
+	setcolors(window,fore,COLOR_BLACK);
+}
+void setcolors(WINDOW *window, int fore,int back)
+{	
+	int group = getColorGroup(fore,back);
+	wattron(window,COLOR_PAIR(group));
+}
+
+void setbackground(WINDOW *window,int fore,int back)
+{
+	int group = getColorGroup(fore,back);
+	wbkgd(window,COLOR_PAIR(group));
+}
+
+
 void renderDungeonText(WINDOW * window,vector<DungeonLine*> *text)
 {
+	int currentColor = COLOR_WHITE;
+	bool currentlyBold = false;
+
+	
 	for(size_t y = 0; y < text->size(); y++)
 	{
 		DungeonLine* line = (*text)[y];
 		for(size_t x = 0; x < line->chars->size(); x++)
 		{
-			//todo render the chars
+			DungeonChar c = (*line->chars)[x];
+			mvwaddch(window,y,x,  c.c | c.attributes);			
 		}
 	}
 }

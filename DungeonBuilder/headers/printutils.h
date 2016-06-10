@@ -8,7 +8,8 @@
 
 struct DungeonChar {
 	char c;
-	int color; 
+	int foreColor;
+	int backColor;
 	bool bold;
 };
 
@@ -26,8 +27,10 @@ void renderDungeonText(WINDOW* window,std::vector<DungeonLine*> *text);
 void mvwprintwCenter (WINDOW * window,int row, std::string  text);
 void mvwprintwCenterBold (WINDOW * window,int row, std::string  text);
 void mvwprintwBold (WINDOW * window,int row,int col, std::string  text);
-void setcolor (WINDOW* window, int group, int fore);
-void setcolors(WINDOW* window, int group, int fore,int back);
+int getColorGroup(int fore,int back);
+void setbackground(WINDOW* window,int fore,int back);
+void setcolor (WINDOW* window, int fore);
+void setcolors(WINDOW* window, int fore,int back);
 unsigned int getCols();
 unsigned int getRows();
 void printHeader(WINDOW *window,std::string leftText,std::string centerText,std::string rightText, int boldIndex = 2);

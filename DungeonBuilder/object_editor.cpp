@@ -297,7 +297,7 @@ void ObjectEditor::resetWindows()
 	
 	int lineCount = 2;	
 	
-	setcolor(mainWindow,2,COLOR_WHITE);
+	setcolor(mainWindow,COLOR_WHITE);
 	string nameRow = STR_MENU_NAME + join(0,object->getNames(),",");
 	mvwprintw(mainWindow,lineCount,0,nameRow.c_str());
 

@@ -186,7 +186,7 @@ void ExitEditor::resetWindows()
 	
 	
 	int lineCount = 2;
-	setcolor(mainWindow,1,COLOR_WHITE);
+	setcolor(mainWindow,COLOR_WHITE);
 
 
 	string nameRow = STR_MENU_NAME + join(0,dungeonExit->getNames(),",");

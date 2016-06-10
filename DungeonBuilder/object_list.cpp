@@ -85,7 +85,7 @@ void DungeonObjectList::resetWindows()
 	//}
 
 	int lineCount = 0;
-	setcolor(mainWindow,1,COLOR_WHITE);
+	setcolor(mainWindow,COLOR_WHITE);
 	int idWidth = 5;
 	int numRows = getRows()-5;
 	//print all the objects

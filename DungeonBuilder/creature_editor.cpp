@@ -163,7 +163,7 @@ void CreatureEditor::resetWindows()
 
 	printHeader(headerWindow,creature->parent->getPrimaryName(),"CREATURE:"+creature->getPrimaryName(),"");
 	
-	setcolor(mainWindow,1,COLOR_WHITE);
+	setcolor(mainWindow,COLOR_WHITE);
 	string nameRow = STR_MENU_NAME + join(0,creature->getNames(),",");
 	mvwprintw(mainWindow,3,0,nameRow.c_str());
 	string desc = creature->description.size() > 0 ? creature->description[0] + STR_ELLIPSES : "";

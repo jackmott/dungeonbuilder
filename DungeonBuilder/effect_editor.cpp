@@ -194,7 +194,7 @@ void EffectEditor::resetWindows()
 
 	int lineCount = 2;
 
-	setcolor(mainWindow,2,COLOR_WHITE);
+	setcolor(mainWindow,COLOR_WHITE);
 	string typesRow = "| ";
 	for(auto s : EFFECT_STRS)
 	{

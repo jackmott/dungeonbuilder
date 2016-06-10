@@ -177,9 +177,9 @@ void MainMenu::resetWindows()
 
 	string command;
 
-	setcolor(mainWindow,1,COLOR_RED);
+	setcolor(mainWindow,COLOR_RED);
 	mvwprintwCenterBold(mainWindow,3,"Dungeon Builder <-> Pre Alpha");
-	setcolor(mainWindow,2,COLOR_CYAN);
+	setcolor(mainWindow,COLOR_CYAN);
 
 	mvwprintwBold(mainWindow,5,0,"[Create] a Dungeon");
 	mvwprintwBold(mainWindow,6,0,"[Enter] Dungeon");
