@@ -111,7 +111,8 @@
 #define STR_JOINER ","
 #define STR_PROMPT ">"
 #define STR_ELLIPSES "..."
-
+#define CHR_NEWLINE 170
+#define CHR_SPACE ' '
 #define STR_JSON_TRUE "1"
 
 

@@ -1,3 +1,4 @@
+#include "string_constants.h"
 #include "dungeon_room.h"
 #include "dungeon_player.h"
 #include "dungeon_object.h"
@@ -83,28 +84,37 @@ vector<string> split(const string &s,char delim) {
 	return elems;
 }
 
-vector<string> splitWithDelim(const string &s,char delim)
+vector<string> splitOnSpaceAndEnter(const string &s)
 {
 	vector<string> result;
 
 	for(size_t i = 0; i < s.size();i++)
 	{
-		size_t delimIndex = s.find(delim,i);
-		if(delimIndex == string::npos) {
-			result.push_back(s.substr(i,s.size()-i));
-			break;
-		}
-		else {
-			result.push_back(s.substr(i,delimIndex-i));
-			i = delimIndex;
-			string delimChunk;
-			while(i < s.size() && s[i] == delim)
-			{
-				delimChunk += delim;
-				i++;
+		size_t spaceIndex = s.find(CHR_SPACE,i);
+		size_t newlineIndex = s.find(CHR_NEWLINE,i);
+
+		if(spaceIndex <= newlineIndex) {
+			if(spaceIndex == string::npos) {
+				result.push_back(s.substr(i,s.size()-i));
+				break;
 			}
-			i--;
-			result.push_back(delimChunk);
+			else {
+				result.push_back(s.substr(i,spaceIndex-i));
+				i = spaceIndex;
+				string spaceChunk;
+				while(i < s.size() && s[i] == CHR_SPACE)
+				{
+					spaceChunk += CHR_SPACE;
+					i++;
+				}
+				i--;
+				result.push_back(spaceChunk);
+			}
+		}
+		else
+		{
+			result.push_back(s.substr(i,newlineIndex-i+1));
+			i = newlineIndex;
 		}
 	}
 	return result;
@@ -329,7 +339,7 @@ void trim(string* str)
 		[](char& ch)->bool { return !isspace(ch); }));
 	str->erase(find_if(str->rbegin(),str->rend(),
 		[](char& ch)->bool { return !isspace(ch); }).base(),str->end());
-	;
+
 }
 
 

@@ -7,8 +7,9 @@
 
 struct TextEditor
 {
-	size_t x,y;	
-	std::vector<std::string> lines;
+
+	size_t x,y,pos;
+	std::string text;
 	int done = 0;
 
 	WINDOW *headerWindow;
@@ -18,25 +19,19 @@ struct TextEditor
 	
 	void clearWindows();
 	
+	std::vector<size_t> lineLengths;
 	std::vector<std::string> edit(std::string _header, std::vector<std::string> startText);
 		
 	std::string remTabs(std::string line);
 
-	void insertLine(std::string line,int n);
-
-	void appendLine(std::string line);
-
-	void removeLine(int n);
+	
 
 	void moveLeft();
-
 	void moveRight();
 	void moveUp(); 
 	void moveDown();
-
-	void deleteCurrentLine();
 	
-
+		
 		
 	void handleInput(int c);
 	void printBuff();

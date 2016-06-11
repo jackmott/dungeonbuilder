@@ -1,4 +1,5 @@
 #include "text_editor.h"
+#include "string_constants.h"
 #include "printutils.h"
 #include "utils.h"
 using namespace std;
@@ -10,38 +11,36 @@ void TextEditor::clearWindows()
 	y = 0;
 	done = 0;
 	delwin(headerWindow);
-	delwin(mainWindow);	
+	delwin(mainWindow);
 	clear();
 }
 
 vector<string> TextEditor::edit(string header,vector<string> startText)
-{		
-	lines = startText;
+{
+	text = join(0,startText," ");
 	x = 0;
 	y = 0;
-	appendLine("");
+	pos = 0;
+
 	headerWindow = newwin(1,getCols(),0,0);
 	mainWindow = newwin(LINES-1,getCols(),1,0);
 
 	printHeader(headerWindow,header);
 
-	scrollok(mainWindow,true);
 	keypad(mainWindow,true);   //turns on arrows and f keys
-	w = getmaxx(stdscr); // this doesn't work in windows
 
-	
 	wrefresh(headerWindow);
 	wrefresh(mainWindow);
-	
+
 	while(!done)
 	{
-		printBuff();				
+		printBuff();
 		int input = wgetch(mainWindow);
 		handleInput(input);
 	}
-	
+
 	clearWindows();
-	return lines;
+	return split(text,CHR_SPACE);
 }
 
 
@@ -50,22 +49,9 @@ string TextEditor::remTabs(string line) {
 	if(tab == line.npos)
 		return line;
 	else
-		return remTabs(line.replace(tab,1,"    "));
+		return remTabs(line.replace(tab,1,STR_TAB));
 }
 
-void TextEditor::insertLine(string line,int n) {
-	line = remTabs(line);
-	lines.insert(lines.begin()+n,line);
-}
-
-void TextEditor::appendLine(string line) {
-	line = remTabs(line);
-	lines.push_back(line);
-}
-
-void TextEditor::removeLine(int n) {
-	lines.erase(lines.begin()+n);
-}
 
 void TextEditor::moveLeft() {
 	if(x > 0)
@@ -74,33 +60,22 @@ void TextEditor::moveLeft() {
 		wmove(mainWindow,y,x);
 	}
 }
+
 void TextEditor::moveRight() {
-	if(x+y < w && x+1 <= lines[y].length())
-	{
-		x++;
-		wmove(mainWindow,y,x);
-	}
+	x++;
+	wmove(mainWindow,y,x);
 }
+
 void TextEditor::moveUp() {
 	if(y > 0)
 		y--;
-	if(x >= lines[y].length())
-		x = lines[y].length();
 	wmove(mainWindow,y,x);
 }
 void TextEditor::moveDown() {
-
-	if(y+1 < lines.size())
-		y++;
-	if(x >= lines[y].length())
-		x = lines[y].length();
+	y++;
 	wmove(mainWindow,y,x);
 }
 
-
-void TextEditor::deleteCurrentLine() {
-	removeLine(y);
-}
 
 
 void TextEditor::handleInput(int c) {
@@ -110,7 +85,7 @@ void TextEditor::handleInput(int c) {
 		x = 0;
 		break;
 	case KEY_END:
-		x = lines[y].size();
+		x = getCols();
 		break;
 	case KEY_LEFT:
 		moveLeft();
@@ -119,7 +94,7 @@ void TextEditor::handleInput(int c) {
 		moveRight();
 		break;
 	case KEY_UP:
-		moveUp();		
+		moveUp();
 		break;
 	case KEY_DOWN:
 		moveDown();
@@ -127,58 +102,27 @@ void TextEditor::handleInput(int c) {
 	case 27: //escape key
 		done = 1;
 		break;
-    case KEY_BACKSPACE:
-    case 127: // Mac OSX delete key
-    case 8:  // backspace
+	case KEY_BACKSPACE:
+	case 127: // Mac OSX delete key
+	case 8:  // backspace
 		// The Backspace key
-		if(x == 0 && y > 0)
+		if(pos != 0)
 		{
-			x = lines[y-1].length();
-			// Bring the line down
-			lines[y-1] += lines[y];
-			// Delete the current line
-			deleteCurrentLine();
-			moveUp();
-		}
-		else
-		{
-			// Removes a character
-            if(x>0 || y>0) {
-				lines[y].erase(--x,1);
-            }
+			pos--;
+			text.erase(pos,1);
 		}
 		break;
 	case KEY_DC:
-		// The Delete key
-		if(x == lines[y].length() && y != lines.size() - 1)
+		if(pos < text.size())
 		{
-			// Bring the line down
-			lines[y] += lines[y+1];
-			// Delete the line
-			removeLine(y+1);
-		}
-		else
-		{
-			lines[y].erase(x,1);
+			text.erase(pos,1);
+			pos--;
 		}
 		break;
 	case KEY_ENTER:
 	case 10:
-		// The Enter key
-		// Bring the rest of the line down
-		if(x < lines[y].length())
-		{
-			// Put the rest of the line on a new line
-			insertLine(lines[y].substr(x,lines[y].length() - x),y + 1);
-			// Remove that part of the line
-			lines[y].erase(x,lines[y].length() - x);
-		}
-		else
-		{
-			insertLine("",y+1);
-		}
-		x = 0;
-		moveDown();
+		text.insert(pos,1,char(CHR_NEWLINE));
+		pos++;
 		break;
 	case KEY_BTAB:
 	case KEY_CTAB:
@@ -186,72 +130,78 @@ void TextEditor::handleInput(int c) {
 	case KEY_CATAB:
 	case 9:
 		// The Tab key
-		lines[y].insert(x,4,' ');
-		x += 4;
+		text.insert(pos,4,CHR_SPACE);
+		pos += 4;
 		break;
 	default:
 		// Any other character insert
-		if(x < (unsigned int)getCols()) {
-			lines[y].insert(x,1,char(c));
-			x++;
-		}
-		//WERD WRAP!!
-		else {
-			string token;			
-			//walk backwards collecting 1 token
-			int i = 0;
-			for(i = (int)(x-1); i >= 0; i--)
-			{
-				if (lines[y][i] != ' ') 
-				{
-					token.insert(0,1,lines[y][i]);
-					lines[y].pop_back();
-				}
-				else break;
-			}
-			if (i == -1) 
-			{
-				lines[y] = token;
-				y++;
-				x = 1;
-				string s;
-				s.insert(0,1,char(c));
-				lines.insert(lines.begin()+y,s);
-				
-			} else
-			{ 
-				y++;
-				token.append(1,char(c));
-				x=token.size();
-				lines.insert(lines.begin()+y,token);
-			}
-			
-			
-		}
+		text.insert(pos,1,char(c));
+		pos++;
 		break;
 	}
 }
 
 void TextEditor::printBuff() {
 	wclear(mainWindow);
-	for(auto i = 0u; i < lines.size(); i++)
-	{
-		if(i >= lines.size())
+	lineLengths.clear();
+	size_t px=0;
+	size_t py = 0;
+
+	vector<string> tokens = splitOnSpaceAndEnter(text);
+	size_t counter = 1;
+	for(auto token : tokens) {
+		int remainingWidth = getCols() - px;
+		if(token[0] == CHR_SPACE)
 		{
-			wmove(mainWindow,i,0);			
+			for(size_t i = 0; i < token.size(); i++)
+			{
+				if(px >= getCols()){
+					lineLengths.push_back(px);
+					py++;
+					px = 0;
+				}
+				mvwaddch(mainWindow,py,px,CHR_SPACE);
+				if(counter == pos)
+				{
+					x = px+1;
+					y = py;
+				}
+				counter++;
+				px++;
+			}
 		}
 		else
 		{
-			mvwprintw(mainWindow,i,0,lines[i].c_str());
-		}		
+			if(token.size() > remainingWidth ) {
+				lineLengths.push_back(px);
+				py++;
+				px = 0;
+			}
+			for(size_t i = 0; i < token.size(); i++)
+			{
+				mvwprintw(mainWindow,py,px,&token[i]);			
+				if(i == token.size()-1 && (unsigned char)token[i] == CHR_NEWLINE)
+				{
+					px = 0;
+					py++;
+				}
+				else
+				{
+					px++;
+				}
+				if(counter == pos)
+				{
+					x = px;
+					y = py;
+				}
+				
+				counter++;
+			}
+			
+		}
 	}
-    
-	int maxY = getmaxy(mainWindow);
-    
-    if (y > (unsigned int)maxY-1) {
-		scroll(mainWindow);
-	}
-	
+
+
 	wmove(mainWindow,y,min(x,getCols()-1));
 }
 

@@ -31,7 +31,7 @@ struct ObjectTarget
 ObjectTarget extractObjectTarget(std::vector<std::string> words);
 
 unsigned long getUID();
-std::vector<std::string> splitWithDelim(const std::string &s,char delim);
+std::vector<std::string> splitOnSpaceAndEnter(const std::string &s);
 std::vector<std::string> &split(const std::string  &s, char delim, std::vector<std::string> &elems);
 std::vector<std::string> split(const std::string  &s, char delim);
 std::string join(unsigned int offset, std::vector<std::string> const &v, std::string  delim);
