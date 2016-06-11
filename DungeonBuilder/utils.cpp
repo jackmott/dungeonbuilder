@@ -39,7 +39,7 @@ vector<string> removeArticles(vector<string> words)
 
 ObjectTarget extractObjectTarget(vector<string> words)
 {
-	ObjectTarget result;	
+	ObjectTarget result;
 	for(size_t i = 0; i < words.size(); i++)
 	{
 		string lowerWord = toLower(words[i]);
@@ -56,7 +56,7 @@ ObjectTarget extractObjectTarget(vector<string> words)
 			}
 			break;
 		}
-		else if( lowerWord == "on" || lowerWord == "at" || lowerWord == "on" || lowerWord == "toward")  //object -> target
+		else if(lowerWord == "on" || lowerWord == "at" || lowerWord == "on" || lowerWord == "toward")  //object -> target
 		{
 			for(size_t j = 0; j < i; j++)
 			{
@@ -70,9 +70,9 @@ ObjectTarget extractObjectTarget(vector<string> words)
 		}
 	}
 
-	
+
 	return result;
-	
+
 }
 
 
@@ -81,6 +81,33 @@ vector<string> split(const string &s,char delim) {
 	vector<string> elems;
 	split(s,delim,elems);
 	return elems;
+}
+
+vector<string> splitWithDelim(const string &s,char delim)
+{
+	vector<string> result;
+
+	for(size_t i = 0; i < s.size();i++)
+	{
+		size_t delimIndex = s.find(delim,i);
+		if(delimIndex == string::npos) {
+			result.push_back(s.substr(i,s.size()-i));
+			break;
+		}
+		else {
+			result.push_back(s.substr(i,delimIndex-i));
+			i = delimIndex;
+			string delimChunk;
+			while(i < s.size() && s[i] == delim)
+			{
+				delimChunk += delim;
+				i++;
+			}
+			i--;
+			result.push_back(delimChunk);
+		}
+	}
+	return result;
 }
 
 bool isVowel(char c)
@@ -320,8 +347,8 @@ string extractPhrase(vector<string> phrasesToFind,string *userInput)
 			userInput->erase(pos,phrase.length());
 			trim(userInput);
 			return phrase;
+		}
 	}
-}
 	return "";
 }
 

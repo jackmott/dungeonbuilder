@@ -7,7 +7,7 @@
 
 struct TextEditor
 {
-	unsigned int x,y;	
+	size_t x,y;	
 	std::vector<std::string> lines;
 	int done = 0;
 
@@ -34,8 +34,8 @@ struct TextEditor
 	void moveUp(); 
 	void moveDown();
 
-	void deleteLine();
-	void deleteLine(int n);
+	void deleteCurrentLine();
+	
 
 		
 	void handleInput(int c);

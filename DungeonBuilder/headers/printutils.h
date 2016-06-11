@@ -13,12 +13,11 @@ struct DungeonChar {
 	chtype attributes;
 };
 
+enum class TEXT_ALIGN {CENTER, LEFT, RIGHT};
 struct DungeonLine {
 	DungeonLine() {};
 	std::vector<DungeonChar> *chars = new std::vector<DungeonChar>();
-	bool centered = false;
-	bool leftAlign = false;
-	bool rightAlign = false;
+	TEXT_ALIGN alignment = TEXT_ALIGN::LEFT;
 	int indent = 0;
 };
 

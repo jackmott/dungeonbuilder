@@ -98,11 +98,8 @@ void TextEditor::moveDown() {
 }
 
 
-void TextEditor::deleteLine() {
+void TextEditor::deleteCurrentLine() {
 	removeLine(y);
-}
-void TextEditor::deleteLine(int n) {
-	removeLine(n);
 }
 
 
@@ -140,7 +137,7 @@ void TextEditor::handleInput(int c) {
 			// Bring the line down
 			lines[y-1] += lines[y];
 			// Delete the current line
-			deleteLine();
+			deleteCurrentLine();
 			moveUp();
 		}
 		else
@@ -158,7 +155,7 @@ void TextEditor::handleInput(int c) {
 			// Bring the line down
 			lines[y] += lines[y+1];
 			// Delete the line
-			deleteLine(y+1);
+			removeLine(y+1);
 		}
 		else
 		{
@@ -198,7 +195,37 @@ void TextEditor::handleInput(int c) {
 			lines[y].insert(x,1,char(c));
 			x++;
 		}
+		//WERD WRAP!!
 		else {
+			string token;			
+			//walk backwards collecting 1 token
+			int i = 0;
+			for(i = (int)(x-1); i >= 0; i--)
+			{
+				if (lines[y][i] != ' ') 
+				{
+					token.insert(0,1,lines[y][i]);
+					lines[y].pop_back();
+				}
+				else break;
+			}
+			if (i == -1) 
+			{
+				lines[y] = token;
+				y++;
+				x = 1;
+				string s;
+				s.insert(0,1,char(c));
+				lines.insert(lines.begin()+y,s);
+				
+			} else
+			{ 
+				y++;
+				token.append(1,char(c));
+				x=token.size();
+				lines.insert(lines.begin()+y,token);
+			}
+			
 			
 		}
 		break;
@@ -206,18 +233,17 @@ void TextEditor::handleInput(int c) {
 }
 
 void TextEditor::printBuff() {
+	wclear(mainWindow);
 	for(auto i = 0u; i < lines.size(); i++)
 	{
 		if(i >= lines.size())
 		{
-			wmove(mainWindow,i,0);
-			wclrtoeol(mainWindow);
+			wmove(mainWindow,i,0);			
 		}
 		else
 		{
 			mvwprintw(mainWindow,i,0,lines[i].c_str());
-		}
-		wclrtoeol(mainWindow);
+		}		
 	}
     
 	int maxY = getmaxy(mainWindow);
@@ -225,7 +251,8 @@ void TextEditor::printBuff() {
     if (y > (unsigned int)maxY-1) {
 		scroll(mainWindow);
 	}
-	wmove(mainWindow,y,x);
+	
+	wmove(mainWindow,y,min(x,getCols()-1));
 }
 
 

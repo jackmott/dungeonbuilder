@@ -197,66 +197,76 @@ vector<DungeonLine*>* parseDungeonText(vector<string> *text)
 			if(c == '#')
 			{
 				size_t nextPound = line.find("#",i+1);
-				if(nextPound == string::npos) continue; //ignore if no closing pound
-				string oToken = line.substr(i+1,nextPound-(i+1));
-				string token = toLower(oToken);
-				i = i + token.size() + 1; //advance past the end of the # # token
-				bool isColor = true;
-				if(token == "black")
-				{
-					foreColor = COLOR_BLACK;
-				}
-				else if(token == "red")
-				{
-					foreColor = COLOR_RED;
-				}
-				else if(token == "green")
-				{
-					foreColor = COLOR_GREEN;
-				}
-				else if(token == "yellow")
-				{
-					foreColor = COLOR_YELLOW;
-				}
-				else if(token == "blue")
-				{
-					foreColor = COLOR_BLUE;
-				}
-				else if(token == "magenta")
-				{
-					foreColor = COLOR_MAGENTA;
-				}
-				else if(token == "cyan")
-				{
-					foreColor = COLOR_CYAN;
-				}
-				else if(token == "white")
-				{
-					foreColor = COLOR_WHITE;				
-				}
-				else {
-					isColor = false;
-				}
+				bool isColor = false;
+				bool isAnyTag = false;
+				if(nextPound != string::npos) {
+					string oToken = line.substr(i+1,nextPound-(i+1));
+					string token = toLower(oToken);
 
-				if(isColor) {
-					if(oToken[0] == toupper(token[0]))
+					isColor = true;
+					if(token == "black")
 					{
-						attributes = A_BOLD;
+						foreColor = COLOR_BLACK;
+					}
+					else if(token == "red")
+					{
+						foreColor = COLOR_RED;
+					}
+					else if(token == "green")
+					{
+						foreColor = COLOR_GREEN;
+					}
+					else if(token == "yellow")
+					{
+						foreColor = COLOR_YELLOW;
+					}
+					else if(token == "blue")
+					{
+						foreColor = COLOR_BLUE;
+					}
+					else if(token == "magenta")
+					{
+						foreColor = COLOR_MAGENTA;
+					}
+					else if(token == "cyan")
+					{
+						foreColor = COLOR_CYAN;
+					}
+					else if(token == "white")
+					{
+						foreColor = COLOR_WHITE;
 					}
 					else {
-						attributes	= A_NORMAL;
+						isColor = false;
+						isAnyTag = false;
 					}
-				}			
+
+					if(isColor) {
+						isAnyTag = true;
+						if(oToken[0] == toupper(token[0]))
+						{
+							attributes = A_BOLD;
+						}
+						else {
+							attributes	= A_NORMAL;
+						}
+					}
+
+					if(isAnyTag) {
+						i = i + token.size() + 2; //advance past the end of the # # token
+					}
+				}
+				c = line[i];
+
 			}
-			else
-			{
-				DungeonChar dc;
-				dc.c = c;
-				dc.attributes = attributes;
-				dc.backColor = backColor;
-				dc.foreColor = foreColor;
-				dLine->chars->push_back(dc);
-			}
+
+			DungeonChar dc;
+			dc.c = c;
+			dc.attributes = attributes;
+			dc.backColor = backColor;
+			dc.foreColor = foreColor;
+			dLine->chars->push_back(dc);
+
 		}
 		result->push_back(dLine);
 	}

@@ -31,11 +31,11 @@ struct ObjectTarget
 ObjectTarget extractObjectTarget(std::vector<std::string> words);
 
 unsigned long getUID();
+std::vector<std::string> splitWithDelim(const std::string &s,char delim);
 std::vector<std::string> &split(const std::string  &s, char delim, std::vector<std::string> &elems);
 std::vector<std::string> split(const std::string  &s, char delim);
 std::string join(unsigned int offset, std::vector<std::string> const &v, std::string  delim);
 std::vector<std::string> removeArticles(std::vector<std::string> words);
-bool containsWith(std::vector<std::string> word);
 std::string toLower(std::string s);
 void toLower(std::string *s);
 bool isVowel(char c);
