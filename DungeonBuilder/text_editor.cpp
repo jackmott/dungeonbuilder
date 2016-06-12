@@ -54,16 +54,11 @@ string TextEditor::remTabs(string line) {
 
 
 void TextEditor::moveLeft() {
-	if(x > 0)
-	{
-		x--;
-		wmove(mainWindow,y,x);
-	}
+	if (pos > 0) pos--;
 }
 
 void TextEditor::moveRight() {
-	x++;
-	wmove(mainWindow,y,x);
+	if (pos < text.size()) pos++;
 }
 
 void TextEditor::moveUp() {
@@ -146,9 +141,10 @@ void TextEditor::printBuff() {
 	lineLengths.clear();
 	size_t px=0;
 	size_t py = 0;
-
+	x=0;
+	y=0;
 	vector<string> tokens = splitOnSpaceAndEnter(text);
-	size_t counter = 1;
+	size_t counter = 0;
 	for(auto token : tokens) {
 		int remainingWidth = getCols() - px;
 		if(token[0] == CHR_SPACE)
@@ -163,7 +159,7 @@ void TextEditor::printBuff() {
 				mvwaddch(mainWindow,py,px,CHR_SPACE);
 				if(counter == pos)
 				{
-					x = px+1;
+					x = px;
 					y = py;
 				}
 				counter++;
@@ -180,6 +176,11 @@ void TextEditor::printBuff() {
 			for(size_t i = 0; i < token.size(); i++)
 			{
 				mvwprintw(mainWindow,py,px,&token[i]);			
+				if(counter == pos)
+				{
+					x = px;
+					y = py;
+				}
 				if(i == token.size()-1 && (unsigned char)token[i] == CHR_NEWLINE)
 				{
 					px = 0;
@@ -188,21 +189,18 @@ void TextEditor::printBuff() {
 				else
 				{
 					px++;
-				}
-				if(counter == pos)
-				{
-					x = px;
-					y = py;
-				}
-				
+				}								
 				counter++;
 			}
 			
 		}
 	}
-
-
-	wmove(mainWindow,y,min(x,getCols()-1));
+	if(counter == pos)
+	{
+		x = px;
+		y = py;
+	}
+	wmove(mainWindow,y,x);
 }
 
 
