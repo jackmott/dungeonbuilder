@@ -7,8 +7,7 @@
 using namespace std;
 
 void curses_init()
-{
-	traceon();
+{	
 	initscr();
 	noecho();
 	cbreak();

@@ -15,22 +15,24 @@ void TextEditor::clearWindows()
 	clear();
 }
 
+void TextEditor::resetWindows()
+{
 
+	headerWindow = newwin(1,getCols(),0,0);
+	mainWindow = newwin(LINES-1,getCols(),1,0);
+	printHeader(headerWindow,header);
+	keypad(mainWindow,true);   //turns on arrows and f keys
+}
 
-string TextEditor::edit(string header,string startText)
+string TextEditor::edit(string _header,string startText)
 {
 	
 	x = 0;
 	y = 0;
 	pos = 0;
+	header = _header;
 
-	headerWindow = newwin(1,getCols(),0,0);
-	mainWindow = newwin(LINES-1,getCols(),1,0);
-
-	printHeader(headerWindow,header);
-
-	keypad(mainWindow,true);   //turns on arrows and f keys
-
+	resetWindows();
 	wrefresh(headerWindow);
 	wrefresh(mainWindow);
 
@@ -99,6 +101,10 @@ void TextEditor::moveDown() {
 void TextEditor::handleInput(int c) {
 	switch(c)
 	{
+	case KEY_RESIZE:
+		resize_term(0,0);
+		resetWindows();
+		break;
 	case KEY_HOME:
 		pos = pos - x;
 		break;

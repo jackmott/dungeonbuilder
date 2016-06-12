@@ -17,6 +17,7 @@ struct TextEditor
 
 	unsigned int w;
 	
+	void resetWindows();
 	void clearWindows();
 	
 	std::vector<size_t> lineLengths;
@@ -24,7 +25,7 @@ struct TextEditor
 		
 	std::string remTabs(std::string line);
 
-	
+	std::string header;
 
 	void moveLeft();
 	void moveRight();
