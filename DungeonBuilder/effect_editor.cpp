@@ -32,7 +32,7 @@ string EffectEditor::del(vector<string> args)
 		{
 			return "Which object do you want to delete?";
 		}
-		string objStr = join(2,args," ");
+		string objStr = join(2,args,CHR_SPACE);
 		DungeonObject *o = (DungeonObject*)extractEntity(&effect->transforms,&objStr);
 		if(o != nullptr)
 		{
@@ -74,7 +74,7 @@ string EffectEditor::set(vector<string> args)
 		if(args.size() < 3) {
 			return "Please supply the value directly in the command.";
 		}
-		string typeStr = toLower(join(2,args," "));
+		string typeStr = toLower(join(2,args,CHR_SPACE));
 		for(int i =0 ; i <= ARRAYSIZE(EFFECT_STRS) ;i++){
 			string lcase = toLower(EFFECT_STRS[i]);
 			if(lcase == typeStr)
@@ -117,7 +117,7 @@ string EffectEditor::edit(vector<string> args)
 		{
 			return "Which object do you want to edit?";
 		}
-		string objStr = join(2,args," ");
+		string objStr = join(2,args,CHR_SPACE);
 		DungeonObject *o = (DungeonObject*)extractEntity(&effect->transforms,&objStr);
 		if(o != nullptr)
 		{
@@ -148,7 +148,7 @@ string EffectEditor::add(vector<string> args)
 		ObjectEditor oe;
 		DungeonObject* o = new DungeonObject();
 		o->parent = effect->parent;
-		o->addName(join(2,args," "));
+		o->addName(join(2,args,CHR_SPACE));
 		clearWindows();
 		oe.load(o);
 		effect->transforms.push_back(o);

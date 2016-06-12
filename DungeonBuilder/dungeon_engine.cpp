@@ -202,7 +202,7 @@ int DungeonEngine::action(string actionStr,string args)
 	//no preposition found?
 	if(ot.object == "" && ot.target == "")
 	{
-		ot.object = join(0,vArgs," ");
+		ot.object = join(0,vArgs,CHR_SPACE);
 	}
 	
 	DungeonEntity * targetEntity = nullptr;
@@ -462,8 +462,9 @@ void DungeonEngine::render(unsigned long offset)
 {
 	wclear(mainWindow);
 
-	vector<DungeonLine*> *parsedText = parseDungeonText(&textBuffer);
-	renderDungeonText(mainWindow,parsedText);
+	string text = join(0,textBuffer,CHR_NEWLINE);
+
+	renderDungeonText(mainWindow,parseDungeonText(text));
 	/*
 	int bufferSize = (int)textBuffer.size() - offset;
 	int end = max(0,bufferSize);
@@ -478,7 +479,7 @@ void DungeonEngine::render(unsigned long offset)
 		int x = 0;
 		for(auto s : tokens)
 		{
-			s = s + " ";
+			s = s + CHR_SPACE;
 			if(s.length() + x < getCols())
 			{
 				wprintw(mainWindow,s.c_str());

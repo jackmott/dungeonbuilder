@@ -41,12 +41,12 @@ string TriggerEditor::set(vector<string> args)
 
 	if(editNoun == STR_TEXT_OUTPUT)
 	{
-		string output = join(2,args," ");
+		string output = join(2,args,CHR_SPACE);
 		trigger->output = output;
 	}
 	else if(editNoun == STR_TYPE)
 	{
-		string typeStr = toLower(join(2,args," "));
+		string typeStr = toLower(join(2,args,CHR_SPACE));
 		for(int i =0 ; i <= ARRAYSIZE(TRIGGER_STRS) ;i++){
 			string lcase = toLower(TRIGGER_STRS[i]);
 			if(lcase == typeStr)
@@ -101,7 +101,7 @@ string TriggerEditor::add(vector<string> args)
 
 		if(args.size() > 2) {
 
-			string typeStr = toLower(join(2,args," "));
+			string typeStr = toLower(join(2,args,CHR_SPACE));
 			for(int i =0 ; i <= ARRAYSIZE(EFFECT_STRS) ;i++){
 				string lcase = toLower(EFFECT_STRS[i]);
 				if(lcase == typeStr)

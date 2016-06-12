@@ -46,7 +46,7 @@ DungeonRoom* DungeonRoomList::newRoom(vector<string> args)
 	}
 
 	DungeonRoom *newRoom = new DungeonRoom();
-	newRoom->setPrimaryName(join(1,args," "));
+	newRoom->setPrimaryName(join(1,args,CHR_SPACE));
 	return newRoom;
 }
 

@@ -52,8 +52,7 @@ struct DungeonEngine
 	int inventory(std::string args);
 	int put(std::string args);
 	int open(std::string args);
-	int take(std::string args);
-	int exit(std::string args);
+	int take(std::string args);	
 	int pageDown(std::string args);
 	int pageUp(std::string args);
 	int action(std::string actionStr,std::string args);

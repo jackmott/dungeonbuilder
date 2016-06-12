@@ -46,7 +46,7 @@ DungeonObject* DungeonObjectList::newObject(vector<string> args)
 	}
 
 	DungeonObject *newObject = new DungeonObject();
-	newObject->setPrimaryName(join(1,args," "));
+	newObject->setPrimaryName(join(1,args,CHR_SPACE));
 	return newObject;
 }
 

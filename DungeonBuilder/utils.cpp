@@ -149,7 +149,7 @@ string a_an (string s)
 	}
 }
 
-string join(unsigned int offset,vector<string> const &v,string delim)
+string join(unsigned int offset,vector<string> const &v,char delim)
 {
 	string result;
 	for(auto i = offset; i < v.size();i++)
@@ -347,10 +347,10 @@ string extractPhrase(vector<string> phrasesToFind,string *userInput)
 {
 
 	strlensort(&phrasesToFind);
-	string lcaseInput = " " + toLower(*userInput) + " ";
+	string lcaseInput = CHR_SPACE + toLower(*userInput) + CHR_SPACE;
 	for(auto phrase : phrasesToFind)
 	{
-		string lcasePhrase = " " + toLower(phrase) + " ";
+		string lcasePhrase = CHR_SPACE + toLower(phrase) + CHR_SPACE;
 		size_t pos = lcaseInput.find(lcasePhrase);
 		if(pos != string::npos)
 		{

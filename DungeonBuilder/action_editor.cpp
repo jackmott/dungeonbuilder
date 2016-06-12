@@ -27,7 +27,7 @@ string ActionEditor::del(vector<string> args)
 		{
 			return "Provide a name to delete.";
 		}
-		string name = join(2,args," ");
+		string name = join(2,args,CHR_SPACE);
 		if(!action->removeName(name)) {
 			return "You can't.";
 		}
@@ -49,12 +49,12 @@ string ActionEditor::set(vector<string> args)
 	toLower(&editNoun);
 	if(editNoun == STR_NAME)
 	{
-		string newname = join(2,args," ");
+		string newname = join(2,args,CHR_SPACE);
 		action->setPrimaryName(newname);
 	}
 	else if(editNoun == STR_TEXT_OUTPUT)
 	{
-		string output = join(2,args," ");
+		string output = join(2,args,CHR_SPACE);
 		action->output = output;
 	}
 	else if(editNoun == STR_NEED_HELD)
@@ -95,7 +95,7 @@ string ActionEditor::add(vector<string> args)
 		{
 			return "Provide a name to add please.";
 		}
-		string name = join(2,args," ");
+		string name = join(2,args,CHR_SPACE);
 		action->addName(name);
 	}
 	else if(addNoun == STR_EFFECT)
@@ -106,7 +106,7 @@ string ActionEditor::add(vector<string> args)
 
 		if(args.size() > 2) {
 
-			string typeStr = toLower(join(2,args," "));
+			string typeStr = toLower(join(2,args,CHR_SPACE));
 			for(int i =0 ; i <= ARRAYSIZE(EFFECT_STRS) ;i++){
 				string lcase = toLower(EFFECT_STRS[i]);
 				if(lcase == typeStr)
@@ -162,7 +162,7 @@ void ActionEditor::resetWindows()
 
 	setcolor(mainWindow,COLOR_WHITE);
 
-	string nameRow = STR_MENU_NAME + join(0,action->getNames(),",");
+	string nameRow = STR_MENU_NAME + join(0,action->getNames(),',');
 	mvwprintw(mainWindow,lineCount,0,nameRow.c_str());
 
 	lineCount++;

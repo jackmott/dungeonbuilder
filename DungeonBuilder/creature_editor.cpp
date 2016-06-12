@@ -27,12 +27,12 @@ string CreatureEditor::set(vector<string> args)
 	toLower(&editNoun);
 	if(editNoun ==STR_NAME)
 	{
-		string newname = join(2,args," ");
+		string newname = join(2,args,CHR_SPACE);
 		creature->setPrimaryName(newname);
 	}
 	else if(editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
 	{
-		string desc = join(2,args," ");		
+		string desc = join(2,args,CHR_SPACE);		
 		creature->description = desc;
 	}
 	else if(editNoun == STR_HITPOINTS)
@@ -68,7 +68,7 @@ string CreatureEditor::del(vector<string> args)
 		{
 			return "Provide a name to delete.";
 		}
-		string name = join(2,args," ");
+		string name = join(2,args,CHR_SPACE);
 		if(!creature->removeName(name)) {
 			return "You can't.";
 		}
@@ -94,7 +94,7 @@ string CreatureEditor::add(vector<string> args)
 		{
 			return "Provide a name to add please.";
 		}
-		string name = join(2,args," ");
+		string name = join(2,args,CHR_SPACE);
 		creature->addName(name);
 	}
 	else
@@ -162,7 +162,7 @@ void CreatureEditor::resetWindows()
 	printHeader(headerWindow,creature->parent->getPrimaryName(),"CREATURE:"+creature->getPrimaryName(),"");
 	
 	setcolor(mainWindow,COLOR_WHITE);
-	string nameRow = STR_MENU_NAME + join(0,creature->getNames(),",");
+	string nameRow = STR_MENU_NAME + join(0,creature->getNames(),',');
 	mvwprintw(mainWindow,3,0,nameRow.c_str());
 	string desc = creature->description.size() > 0 ? creature->description[0] + STR_ELLIPSES : "";
 	string descRow = STR_MENU_DESCRIPTION + desc;

@@ -13,16 +13,9 @@ struct DungeonChar {
 	chtype attributes;
 };
 
-enum class TEXT_ALIGN {CENTER, LEFT, RIGHT};
-struct DungeonLine {
-	DungeonLine() {};
-	std::vector<DungeonChar> *chars = new std::vector<DungeonChar>();
-	TEXT_ALIGN alignment = TEXT_ALIGN::LEFT;
-	int indent = 0;
-};
 
-std::vector<DungeonLine*> *parseDungeonText(std::vector<std::string> *text);
-void renderDungeonText(WINDOW* window,std::vector<DungeonLine*> *text);
+std::vector<DungeonChar> parseDungeonText(std::string &text);
+void renderDungeonText(WINDOW* window,std::vector<DungeonChar> text);
 
 
 void mvwprintwCenter (WINDOW * window,int row, std::string  text);

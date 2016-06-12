@@ -182,117 +182,125 @@ void setbackground(WINDOW *window,int fore,int back)
 
 
 // #red#
-vector<DungeonLine*>* parseDungeonText(vector<string> *text)
+vector<DungeonChar> parseDungeonText(string &text)
 {
 	chtype attributes = A_NORMAL;
 	int backColor = COLOR_BLACK;
 	int foreColor = COLOR_WHITE;
-	vector<DungeonLine*> *result = new vector<DungeonLine*>();
-	for(auto line : *text)
-	{
-		DungeonLine *dLine = new DungeonLine();
-		for(size_t i = 0; i < line.size(); i++)
-		{
-			char c = line[i];
-			if(c == '#')
-			{
-				size_t nextPound = line.find("#",i+1);
-				bool isColor = false;
-				bool isAnyTag = false;
-				if(nextPound != string::npos) {
-					string oToken = line.substr(i+1,nextPound-(i+1));
-					string token = toLower(oToken);
+	vector<DungeonChar> result;
 
-					isColor = true;
-					if(token == "black")
+	for(size_t i = 0; i < text.size(); i++)
+	{
+		unsigned char c = (unsigned char)text[i];
+		if(c == '#')
+		{
+			size_t nextPound = text.find("#",i+1);
+			bool isColor = false;
+			bool isAnyTag = false;
+			if(nextPound != string::npos) {
+				string oToken = text.substr(i+1,nextPound-(i+1));
+				string token = toLower(oToken);
+
+				isColor = true;
+				if(token == "black")
+				{
+					foreColor = COLOR_BLACK;
+				}
+				else if(token == "red")
+				{
+					foreColor = COLOR_RED;
+				}
+				else if(token == "green")
+				{
+					foreColor = COLOR_GREEN;
+				}
+				else if(token == "yellow")
+				{
+					foreColor = COLOR_YELLOW;
+				}
+				else if(token == "blue")
+				{
+					foreColor = COLOR_BLUE;
+				}
+				else if(token == "magenta")
+				{
+					foreColor = COLOR_MAGENTA;
+				}
+				else if(token == "cyan")
+				{
+					foreColor = COLOR_CYAN;
+				}
+				else if(token == "white")
+				{
+					foreColor = COLOR_WHITE;
+				}
+				else {
+					isColor = false;
+					isAnyTag = false;
+				}
+
+				if(isColor) {
+					isAnyTag = true;
+					if(oToken[0] == toupper(token[0]))
 					{
-						foreColor = COLOR_BLACK;
-					}
-					else if(token == "red")
-					{
-						foreColor = COLOR_RED;
-					}
-					else if(token == "green")
-					{
-						foreColor = COLOR_GREEN;
-					}
-					else if(token == "yellow")
-					{
-						foreColor = COLOR_YELLOW;
-					}
-					else if(token == "blue")
-					{
-						foreColor = COLOR_BLUE;
-					}
-					else if(token == "magenta")
-					{
-						foreColor = COLOR_MAGENTA;
-					}
-					else if(token == "cyan")
-					{
-						foreColor = COLOR_CYAN;
-					}
-					else if(token == "white")
-					{
-						foreColor = COLOR_WHITE;
+						attributes = A_BOLD;
 					}
 					else {
-						isColor = false;
-						isAnyTag = false;
-					}
-
-					if(isColor) {
-						isAnyTag = true;
-						if(oToken[0] == toupper(token[0]))
-						{
-							attributes = A_BOLD;
-						}
-						else {
-							attributes	= A_NORMAL;
-						}
-					}
-
-					if(isAnyTag) {
-						i = i + token.size() + 2; //advance past the end of the # # token
+						attributes	= A_NORMAL;
 					}
 				}
-				c = line[i];
 
+				if(isAnyTag) {
+					i = i + token.size() + 2; //advance past the end of the # # token
+				}
 			}
-
-			DungeonChar dc;
-			dc.c = c;
-			dc.attributes = attributes;
-			dc.backColor = backColor;
-			dc.foreColor = foreColor;
-			dLine->chars->push_back(dc);
+			c = text[i];
 
 		}
-		result->push_back(dLine);
+
+		DungeonChar dc;
+		dc.c = c;
+		dc.attributes = attributes;
+		dc.backColor = backColor;
+		dc.foreColor = foreColor;
+		result.push_back(dc);
+
 	}
 	return result;
 }
 
-void renderDungeonText(WINDOW * window,vector<DungeonLine*> *text)
+void renderDungeonText(WINDOW * window,vector<DungeonChar> text)
 {
 	int currentColor = COLOR_WHITE;
 	int currentBgColor = COLOR_BLACK;
 	setcolors(window,currentColor,currentBgColor);
-
-
-	for(size_t y = 0; y < text->size(); y++)
+	size_t x =0;
+	size_t y = 0;
+	for(size_t i = 0; i < text.size(); i++)
 	{
-		DungeonLine* line = (*text)[y];
-		for(size_t x = 0; x < line->chars->size(); x++)
+
+		DungeonChar c = text[i];
+		if(c.foreColor != currentColor || c.backColor != currentBgColor)
 		{
-			DungeonChar c = (*line->chars)[x];
-			if(c.foreColor != currentColor || c.backColor != currentBgColor)
-			{
-				setcolors(window,c.foreColor,c.backColor);
-				currentColor = c.foreColor;
-				currentBgColor = c.backColor;
-			}
+			setcolors(window,c.foreColor,c.backColor);
+			currentColor = c.foreColor;
+			currentBgColor = c.backColor;
+		}
+		if(c.c == CHR_NEWLINE) {
+			mvwaddch(window,y,x,CHR_SPACE | c.attributes);
+			x = 0;
+			y++;
+		}
+		else if (x > getCols()) {
+			y++;
+			x = 0;
 			mvwaddch(window,y,x,c.c | c.attributes);
 		}
+		else
+		{			
+			mvwaddch(window,y,x,c.c | c.attributes);
+			x++;
+		}
+				
 	}
 }

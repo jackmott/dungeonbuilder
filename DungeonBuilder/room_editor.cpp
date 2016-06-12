@@ -32,7 +32,7 @@ string RoomEditor::move(vector<string> args)
 	}
 	else {
 
-		string exitStr = join(1,args," ");
+		string exitStr = join(1,args,CHR_SPACE);
 		DungeonExit *e = (DungeonExit*)extractEntity(&room->exits,&exitStr);
 		if(e != nullptr)
 		{
@@ -63,12 +63,12 @@ string RoomEditor::set(vector<string> args)
 	toLower(&setNoun);
 	if(setNoun == STR_NAME)
 	{
-		string newname = join(2,args," ");
+		string newname = join(2,args,CHR_SPACE);
 		room->setPrimaryName(newname);
 	}
 	else if(setNoun == STR_DESCRIPTION || setNoun == STR_DESC)
 	{
-		string desc = join(2,args," ");		
+		string desc = join(2,args,CHR_SPACE);		
 		room->description = desc;
 	}
 	else if(setNoun == STR_LIGHT)
@@ -112,7 +112,7 @@ string RoomEditor::edit(vector<string> args)
 			ed.load(o);
 		}
 		else {
-			string objStr = join(2,args," ");
+			string objStr = join(2,args,CHR_SPACE);
 			DungeonObject *o = (DungeonObject*)extractEntity(&room->objects,&objStr);
 			if(o != nullptr)
 			{
@@ -136,7 +136,7 @@ string RoomEditor::edit(vector<string> args)
 		{
 			return "Which creature do you want to edit?";
 		}
-		string creatureStr = join(2,args," ");
+		string creatureStr = join(2,args,CHR_SPACE);
 		DungeonCreature *c = (DungeonCreature*)extractEntity(&room->creatures,&creatureStr);
 		if(c != nullptr)
 		{
@@ -154,7 +154,7 @@ string RoomEditor::edit(vector<string> args)
 		{
 			return "Which exit do you want to edit?";
 		}
-		string exitStr = join(2,args," ");
+		string exitStr = join(2,args,CHR_SPACE);
 		DungeonExit *e = (DungeonExit*)extractEntity(&room->exits,&exitStr);
 		if(e != nullptr)
 		{
@@ -195,7 +195,7 @@ string RoomEditor::del(vector<string> args)
 		{
 			return "Which object do you want to delete?";
 		}
-		string objStr = join(2,args," ");
+		string objStr = join(2,args,CHR_SPACE);
 		DungeonObject *o = (DungeonObject*)extractEntity(&room->objects,&objStr);
 		if(o != nullptr)
 		{
@@ -215,7 +215,7 @@ string RoomEditor::del(vector<string> args)
 		{
 			return "Which creature do you want to delete?";
 		}
-		string creatureStr = join(2,args," ");
+		string creatureStr = join(2,args,CHR_SPACE);
 		DungeonCreature *c = (DungeonCreature*)extractEntity(&room->creatures,&creatureStr);
 		if(c != nullptr)
 		{
@@ -235,7 +235,7 @@ string RoomEditor::del(vector<string> args)
 		{
 			return "Which exit do you want to delete?";
 		}
-		string exitStr = join(2,args," ");
+		string exitStr = join(2,args,CHR_SPACE);
 		DungeonExit *e = (DungeonExit*)extractEntity(&room->exits,&exitStr);
 		if(e != nullptr)
 		{
@@ -276,7 +276,7 @@ string RoomEditor::add(vector<string> args)
 		CreatureEditor editor;
 		DungeonCreature* creature = new DungeonCreature();
 		creature->parent = room;
-		creature->addName(join(2,args," "));
+		creature->addName(join(2,args,CHR_SPACE));
 		clearWindows();
 		editor.load(creature);
 		room->creatures.push_back(creature);
@@ -288,7 +288,7 @@ string RoomEditor::add(vector<string> args)
 		ObjectEditor oe;
 		DungeonObject* o = new DungeonObject();
 		o->parent = room;
-		o->addName(join(2,args," "));
+		o->addName(join(2,args,CHR_SPACE));
 		clearWindows();
 		oe.load(o);
 		room->objects.push_back(o);
@@ -302,7 +302,7 @@ string RoomEditor::add(vector<string> args)
 		//Make a a new exit, add it to the room's list of exits
 		DungeonExit * e = new DungeonExit();
 		e->parent = room;
-		e->addName(join(2,args," "));
+		e->addName(join(2,args,CHR_SPACE));
 		room->exits.push_back(e);
 
 		//Fire up the list picker with a list of rooms

@@ -31,7 +31,7 @@ string ObjectEditor::del(vector<string> args)
 		{
 			return "Provide an alias to delete.";
 		}
-		string actionStr = join(2,args," ");		
+		string actionStr = join(2,args,CHR_SPACE);		
 		DungeonAction *a = (DungeonAction*) extractEntity(&object->actions,&actionStr);		
 		if(a == nullptr)
 		{
@@ -45,7 +45,7 @@ string ObjectEditor::del(vector<string> args)
 		{
 			return "Provide a name to delete.";
 		}
-		string name = join(2,args," ");				
+		string name = join(2,args,CHR_SPACE);				
 		if(!object->removeName(name)) {
 			return "You can't.";
 		}				
@@ -56,7 +56,7 @@ string ObjectEditor::del(vector<string> args)
 		{
 			return "Which object do you want to delete?";
 		}
-		string objStr = join(2,args," ");
+		string objStr = join(2,args,CHR_SPACE);
 		DungeonObject *o = (DungeonObject*)extractEntity(&object->contents,&objStr);
 		if(o != nullptr)
 		{
@@ -90,12 +90,12 @@ string ObjectEditor::set(vector<string> args)
 	toLower(&editNoun);
 	if(editNoun == STR_NAME)
 	{
-		string newname = join(2,args," ");
+		string newname = join(2,args,CHR_SPACE);
 		object->setPrimaryName(newname);
 	}
 	else if(editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
 	{
-		string desc = join(2,args," ");		
+		string desc = join(2,args,CHR_SPACE);		
 		object->description = desc;
 	}
 	else if(editNoun == STR_DURABILITY)
@@ -154,7 +154,7 @@ string ObjectEditor::edit(vector<string> args)
 		{
 			return "Which object do you want to edit?";
 		}
-		string objStr = join(2,args," ");
+		string objStr = join(2,args,CHR_SPACE);
 		DungeonObject *o = (DungeonObject*)extractEntity(&object->contents,&objStr);
 		if(o != nullptr)
 		{
@@ -172,7 +172,7 @@ string ObjectEditor::edit(vector<string> args)
 		{
 			return "Which action do you want to edit?";
 		}
-		string actionStr = join(2,args," ");
+		string actionStr = join(2,args,CHR_SPACE);
 		DungeonAction *a = (DungeonAction*)extractEntity(&object->actions,&actionStr);
 		if(a != nullptr)
 		{
@@ -208,7 +208,7 @@ string ObjectEditor::add(vector<string> args)
 		{
 			return "Provide a string to name the action.";
 		}
-		string actionStr = join(2,args," ");
+		string actionStr = join(2,args,CHR_SPACE);
 		DungeonAction *action = new DungeonAction();
 		action->setPrimaryName(actionStr);
 		action->parent = object;
@@ -230,7 +230,7 @@ string ObjectEditor::add(vector<string> args)
 		{
 			return "Provide a name to add please.";
 		}
-		string name = join(2,args," ");
+		string name = join(2,args,CHR_SPACE);
 		object->addName(name);
 	}
 	else if(addNoun == STR_OBJECT)
@@ -238,7 +238,7 @@ string ObjectEditor::add(vector<string> args)
 		ObjectEditor oe;
 		DungeonObject* o = new DungeonObject();
 		o->parent = object;
-		o->addName(join(2,args," "));		
+		o->addName(join(2,args,CHR_SPACE));		
 		oe.load(o);
 		object->contents.push_back(o);				
 	}
@@ -296,7 +296,7 @@ void ObjectEditor::resetWindows()
 	int lineCount = 2;	
 	
 	setcolor(mainWindow,COLOR_WHITE);
-	string nameRow = STR_MENU_NAME + join(0,object->getNames(),",");
+	string nameRow = STR_MENU_NAME + join(0,object->getNames(),',');
 	mvwprintw(mainWindow,lineCount,0,nameRow.c_str());
 
 	lineCount++;

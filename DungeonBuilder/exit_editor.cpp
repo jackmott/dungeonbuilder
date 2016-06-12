@@ -38,7 +38,7 @@ string ExitEditor::set(vector<string> args)
 	}
 	else if(setNoun ==STR_NAME)
 	{
-		string newname = join(2,args," ");
+		string newname = join(2,args,CHR_SPACE);
 		dungeonExit->setPrimaryName(newname);
 	}
 	else if(setNoun == STR_DOOR)
@@ -51,19 +51,19 @@ string ExitEditor::set(vector<string> args)
 	}
 	else if(setNoun == STR_OPEN_TEXT || setNoun == STR_DESC)
 	{
-		dungeonExit->openText = join(2,args," ");
+		dungeonExit->openText = join(2,args,CHR_SPACE);
 	}
 	else if(setNoun == STR_CLOSED_TEXT)
 	{
-		dungeonExit->closedText = join(2,args," ");
+		dungeonExit->closedText = join(2,args,CHR_SPACE);
 	}
 	else if(setNoun == STR_CLOSING_TEXT)
 	{
-		dungeonExit->closingText = join(2,args," ");
+		dungeonExit->closingText = join(2,args,CHR_SPACE);
 	}
 	else if(setNoun == STR_OPENING_TEXT)
 	{
-		dungeonExit->openingText = join(2,args," ");
+		dungeonExit->openingText = join(2,args,CHR_SPACE);
 	}
 
 
@@ -91,7 +91,7 @@ string ExitEditor::del(vector<string> args)
 		{
 			return "Provide a name to delete.";
 		}
-		string name = join(2,args," ");
+		string name = join(2,args,CHR_SPACE);
 		if(!dungeonExit->removeName(name)) {
 			return "You can't.";
 		}
@@ -118,7 +118,7 @@ string ExitEditor::add(vector<string> args)
 		{
 			return "Provide a name to add please.";
 		}
-		string name = join(2,args," ");
+		string name = join(2,args,CHR_SPACE);
 		dungeonExit->addName(name);
 	}
 	else
@@ -189,7 +189,7 @@ void ExitEditor::resetWindows()
 	setcolor(mainWindow,COLOR_WHITE);
 
 
-	string nameRow = STR_MENU_NAME + join(0,dungeonExit->getNames(),",");
+	string nameRow = STR_MENU_NAME + join(0,dungeonExit->getNames(),',');
 	mvwprintw(mainWindow,lineCount,0,nameRow.c_str());
 
 	lineCount++;
