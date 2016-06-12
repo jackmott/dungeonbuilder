@@ -32,10 +32,8 @@ string CreatureEditor::set(vector<string> args)
 	}
 	else if(editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
 	{
-		string desc = join(2,args," ");
-		vector<string> descVector;
-		descVector.push_back(desc);
-		creature->description = descVector;
+		string desc = join(2,args," ");		
+		creature->description = desc;
 	}
 	else if(editNoun == STR_HITPOINTS)
 	{

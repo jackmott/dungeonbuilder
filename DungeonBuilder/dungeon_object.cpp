@@ -53,7 +53,7 @@ string DungeonObject::toJSON()
 	ostringstream sout;	
 	sout << writeInt(uid);
 	sout << writeVectorString(names);
-	sout << writeVectorString(description);
+	sout << writeString(description);
 	sout << writeInt(durability);
 	sout << writeInt(mass);
 	sout << writeInt(size);

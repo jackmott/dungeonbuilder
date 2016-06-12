@@ -15,9 +15,9 @@ void TextEditor::clearWindows()
 	clear();
 }
 
-vector<string> TextEditor::edit(string header,vector<string> startText)
+string TextEditor::edit(string header,string startText)
 {
-	text = join(0,startText," ");
+	
 	x = 0;
 	y = 0;
 	pos = 0;
@@ -40,7 +40,7 @@ vector<string> TextEditor::edit(string header,vector<string> startText)
 	}
 
 	clearWindows();
-	return split(text,CHR_SPACE);
+	return text;
 }
 
 

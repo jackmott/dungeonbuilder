@@ -76,8 +76,7 @@ int DungeonEngine::examine(string args)
 	}
 	else if(thing != nullptr)
 	{
-		addToBuffer(&thing->description);
-
+		textBuffer.push_back(thing->description);		
 	}
 	else {
 		DungeonCreature *gal = (DungeonCreature*)extractEntity(&room->creatures,&args);
@@ -88,7 +87,7 @@ int DungeonEngine::examine(string args)
 				textBuffer.push_back("There is nothing more to see.");
 			}
 			else {
-				addToBuffer(&gal->description);
+				textBuffer.push_back(gal->description);				
 			}
 		}
 		else
@@ -337,10 +336,6 @@ void DungeonEngine::clearWindows()
 	clear();
 }
 
-void DungeonEngine::addToBuffer(vector<string> *v)
-{
-	textBuffer.insert(textBuffer.end(),v->begin(),v->end());
-}
 
 
 
@@ -413,7 +408,7 @@ void DungeonEngine::look()
 
 	if(isThereAnyLight)
 	{
-		addToBuffer(&room->description);
+		textBuffer.push_back(room->description);		
 		for(auto creature : room->creatures)
 		{
 			textBuffer.push_back(thereIsA(creature->getPrimaryName()));

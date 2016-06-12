@@ -12,7 +12,7 @@ struct DungeonObject: DungeonEntity
 	DungeonObject(std::string json);
 	~DungeonObject();
 
-	std::vector<std::string> description;
+	std::string description;
 
 	int durability;
 	int mass;

@@ -55,7 +55,7 @@ string DungeonCreature::toJSON()
 	ostringstream sout;
 	sout << writeInt(uid);
 	sout << writeVectorString(names);
-	sout << writeVectorString(description);
+	sout << writeString(description);
 	sout << writeInt(hitpoints);
 	sout << writeInt(alignment);
 	return sout.str();

@@ -13,7 +13,7 @@ struct DungeonCreature: DungeonEntity
 	DungeonCreature(std::string json);
 	~DungeonCreature();
 
-	std::vector<std::string> description;
+	std::string description;
 	int hitpoints;
 	int alignment;
 

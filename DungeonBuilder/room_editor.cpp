@@ -68,10 +68,8 @@ string RoomEditor::set(vector<string> args)
 	}
 	else if(setNoun == STR_DESCRIPTION || setNoun == STR_DESC)
 	{
-		string desc = join(2,args," ");
-		vector<string> descVector;
-		descVector.push_back(desc);
-		room->description = descVector;
+		string desc = join(2,args," ");		
+		room->description = desc;
 	}
 	else if(setNoun == STR_LIGHT)
 	{

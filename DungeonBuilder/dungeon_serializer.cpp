@@ -111,9 +111,9 @@ DungeonRoom* JSONLoader::loadRoom( vector<DungeonRoom*> roomList)
 		else if (currEntry[0] == "name")
 			while( ch != ']' &&  getJSONEntry( ))
 				room->addName(currEntry[1]);
-		else if (currEntry[0] == "description")
+		/*else if (currEntry[0] == "description")
 			while (ch != ']' &&  getJSONEntry( ))
-				room->description.push_back(currEntry[1]);
+				room->description.push_back(currEntry[1]);*/
 		else if (currEntry[0] == "objects")
 			while( getJSONEntry( ) )
 				room->objects.push_back(loadObject());
@@ -137,9 +137,9 @@ DungeonObject* JSONLoader::loadObject()
 		if (currEntry[0] == "name")
 			while (ch != ']' &&  getJSONEntry( ))
 				object->addName(currEntry[1]);
-		else if (currEntry[0] == "description")
+/*		else if (currEntry[0] == "description")
 			while (ch != ']' &&  getJSONEntry( ))
-				object->description.push_back(currEntry[1]);		
+				object->description.push_back(currEntry[1]);		*/
 		else if (currEntry[0] == "mass")
 			object->mass = atoi(currEntry[1].c_str());
 		else if (currEntry[0] == "size")
@@ -171,9 +171,9 @@ DungeonCreature* JSONLoader::loadCreature()
 		if (currEntry[0] == "name")
 			while (ch != ']' &&  getJSONEntry( ))
 				creature->addName(currEntry[1]);
-		else if (currEntry[0] == "description")
+/*		else if (currEntry[0] == "description")
 			while (ch != ']' &&  getJSONEntry( ))
-				creature->description.push_back(currEntry[1]);
+				creature->description.push_back(currEntry[1]);*/
 		else if (currEntry[0] == "hitpoints")
 			creature->hitpoints = atoi(currEntry[1].c_str());
 		else if (currEntry[0] == "alignment")
