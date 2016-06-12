@@ -34,8 +34,11 @@ vector<DungeonTrigger*> g_triggerList;
 
 unsigned long global_id = 0;
 
-
-
+void MainMenu::resize(vector<string> args)
+{
+	resize_term(0,0);
+	resetWindows();
+}
 void MainMenu::exitMenu(vector<string> args)
 {
 	endwin();
@@ -50,11 +53,11 @@ void MainMenu::create(vector<string> args)
 	//Add the room to the global room list
 	//Edit the room
 	RoomEditor ed;
-	if (g_startRoom == nullptr)
+	if(g_startRoom == nullptr)
 	{
 		g_startRoom = new DungeonRoom();
-		g_startRoom->setPrimaryName("Start Room");		
-	}		
+		g_startRoom->setPrimaryName("Start Room");
+	}
 	clearWindows();
 	ed.load(g_startRoom);
 	resetWindows();
@@ -75,56 +78,56 @@ void MainMenu::clearWindows()
 	delwin(mainWindow);
 }
 
-void MainMenu::saveMap(vector<string> args) 
+void MainMenu::saveMap(vector<string> args)
 {
-	if (args.size() < 2)
-		mvwprintw(responseWindow, 0, 0, "Save to what filename?");
+	if(args.size() < 2)
+		mvwprintw(responseWindow,0,0,"Save to what filename?");
 	else if(!g_startRoom)
-		mvwprintw(responseWindow, 0, 0, "Must make a room first");
-	else 
+		mvwprintw(responseWindow,0,0,"Must make a room first");
+	else
 	{
 		ofstream fout((args[1].append(".json")).c_str());
 
 		fout << "{" << endl;
 
 		fout << "\"rooms\":[" << endl;
-		for (auto room : g_roomList) {
+		for(auto room : g_roomList) {
 			fout << "{" << room->toJSON() << "}," << endl;
 		}
 		fout << "]," << endl;
 
 		fout << "\"objects\":[" << endl;
-		for (auto item : g_objectList) {
+		for(auto item : g_objectList) {
 			fout << "{" << item->toJSON() << "}," << endl;
 		}
 		fout << "]," << endl;
 
 		fout << "\"creatures\":[" << endl;
-		for (auto creature : g_creatureList) {
+		for(auto creature : g_creatureList) {
 			fout << "{" << creature->toJSON() << "}," << endl;
 		}
 		fout << "]," << endl;
 
 		fout << "\"exits\":[" << endl;
-		for (auto  exit : g_exitList) {
+		for(auto exit : g_exitList) {
 			fout << "{" << exit->toJSON() << "}," << endl;
 		}
 		fout << "]," << endl;
 
 		fout << "\"effects\":[" << endl;
-		for (auto effect : g_effectList) {
+		for(auto effect : g_effectList) {
 			fout << "{" << effect->toJSON() << "}," << endl;
 		}
 		fout << "]," << endl;
 
 		fout << "\"triggers\":[" << endl;
-		for (auto trigger : g_triggerList) {
+		for(auto trigger : g_triggerList) {
 			fout << "{" << trigger->toJSON() << "}," << endl;
 		}
 		fout << "]," << endl;
 
 		fout << "\"actions\":[" << endl;
-		for (auto action : g_actionList) {
+		for(auto action : g_actionList) {
 			fout << "{" << action->toJSON() << "}," << endl;
 		}
 		fout << "]," << endl;
@@ -132,7 +135,7 @@ void MainMenu::saveMap(vector<string> args)
 		fout << "}";
 
 		fout.close();
-		mvwprintw(responseWindow, 0, 0, "File written");
+		mvwprintw(responseWindow,0,0,"File written");
 	}
 	wclrtoeol(responseWindow);
 	wrefresh(responseWindow);
@@ -140,16 +143,16 @@ void MainMenu::saveMap(vector<string> args)
 
 void MainMenu::loadMap(vector<string> args)
 {
-	if (args.size() != 2) 
+	if(args.size() != 2)
 	{
-		mvwprintw(responseWindow, 0, 0, "Requires single filename to load");
+		mvwprintw(responseWindow,0,0,"Requires single filename to load");
 	}
 	else
 	{
 		JSONLoader loader(args[1].c_str());
-		if (!loader.open)
+		if(!loader.open)
 		{
-			mvwprintw(responseWindow, 0, 0, "Could not open that file");
+			mvwprintw(responseWindow,0,0,"Could not open that file");
 		}
 		else
 		{
@@ -196,26 +199,23 @@ void MainMenu::load()
 	cmdMap[STR_ENTER] = &MainMenu::play;
 	cmdMap[STR_SAVE] = &MainMenu::saveMap;
 	cmdMap[STR_LOAD] = &MainMenu::loadMap;
+	cmdMap[STR_KEY_RESIZE] = &MainMenu::resize;
 
 	resetWindows();
 
 	CommandWindow cmdW;
 	bool cmdFound = false;
 	vector<string> cmd;
-    
+
 	while(true) {
-		if(is_termresized())
-		{
-			resize_term(0,0);
-			resetWindows();
-		}
+
 
 		cmd = cmdW.getCommand(commandWindow,STR_PROMPT);
 		if(cmd.size() > 0) {
 			toLower(&cmd[0]);
 			cmdFound = cmdMap.count(cmd[0]) > 0;
 		}
-        
+
 		if(!cmdFound) {
 			cmd.clear();
 			mvwprintw(responseWindow,0,0,"What are you doing, dave?");

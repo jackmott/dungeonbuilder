@@ -15,6 +15,8 @@ void TextEditor::clearWindows()
 	clear();
 }
 
+
+
 string TextEditor::edit(string header,string startText)
 {
 	
@@ -157,7 +159,10 @@ void TextEditor::handleInput(int c) {
 }
 
 void TextEditor::printBuff() {
-	resize_term(0,0);
+	if(is_termresized())
+		{
+			resize_term(0,0);		
+		}
 	wclear(mainWindow);
 	lineLengths.clear();
 	size_t px=0;

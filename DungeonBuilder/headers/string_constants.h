@@ -102,7 +102,7 @@
 #define STR_DROP "drop"
 #define STR_PAGE_UP "page_up"
 #define STR_PAGE_DOWN "page_down"
-
+#define STR_KEY_RESIZE "curses_resize"
 
 
 #define STR_QUOT "\""

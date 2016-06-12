@@ -111,6 +111,10 @@ bool CommandWindow::handleInput(int c) {
 		input = STR_PAGE_DOWN;
 		return true;
 		break;
+	case KEY_RESIZE:
+		input = STR_KEY_RESIZE;
+		return true;
+		break;
 	case KEY_ENTER:
 	case 10:
 		return true;

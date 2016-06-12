@@ -25,6 +25,7 @@ struct MainMenu
 	void create(std::vector<std::string> args);
 	void play(std::vector<std::string> args);
 	void exitMenu(std::vector<std::string> args);
+	void resize(std::vector<std::string> args);
 	void clearWindows();
 	void saveMap(std::vector<std::string> args);
 	void loadMap(std::vector<std::string> args);
