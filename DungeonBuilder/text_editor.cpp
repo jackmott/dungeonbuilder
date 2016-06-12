@@ -157,6 +157,7 @@ void TextEditor::handleInput(int c) {
 }
 
 void TextEditor::printBuff() {
+	resize_term(0,0);
 	wclear(mainWindow);
 	lineLengths.clear();
 	size_t px=0;

@@ -3,16 +3,18 @@
 #include <string>
 #include "main_menu.h"
 #include "lib.h"
-
+#include <Windows.h>
 using namespace std;
 
 void curses_init()
 {
+	traceon();
 	initscr();
 	noecho();
 	cbreak();
 	keypad(stdscr,true);
 	start_color();
+
 
 //This function only exists in ncurses, not pdcurses
 //and is necessary or there is a long delay on ESC key
@@ -23,6 +25,7 @@ void curses_init()
 
 int main(int argc,char* argv[])
 {
+
 	curses_init();
 
 	MainMenu mm;

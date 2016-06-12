@@ -204,6 +204,12 @@ void MainMenu::load()
 	vector<string> cmd;
     
 	while(true) {
+		if(is_termresized())
+		{
+			resize_term(0,0);
+			resetWindows();
+		}
+
 		cmd = cmdW.getCommand(commandWindow,STR_PROMPT);
 		if(cmd.size() > 0) {
 			toLower(&cmd[0]);

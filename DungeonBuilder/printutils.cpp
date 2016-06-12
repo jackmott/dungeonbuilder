@@ -2,6 +2,7 @@
 #include "utils.h"
 #include "string_constants.h"
 #include <map>
+#include <Windows.h>
 
 using namespace std;
 
@@ -25,12 +26,39 @@ size_t getRows()
 
 size_t getCols()
 {
-#ifdef TODO_MAYBE
+#ifdef MADNESS
+	HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+	DWORD numMsg = 0;
+	DWORD numRead;
+	INPUT_RECORD inBuf[512];
+	GetNumberOfConsoleInputEvents(consoleHandle,&numMsg);
+	DWORD i = 0;
+	WINDOW_BUFFER_SIZE_RECORD resizeRecord;
+	bool wasResized = false;
+	while (i < numMsg)
+	{
+		ReadConsoleInput ( consoleHandle,inBuf,512,&numRead);
+		i  = i + numRead;
+		for(DWORD j = 0; j < numRead; j++)
+		{
+			if(inBuf[j].EventType == WINDOW_BUFFER_SIZE_EVENT)
+			{
+				resizeRecord = inBuf[j].Event.WindowBufferSizeEvent;
+				wasResized = true;
+			}
+		}
+
+	}
+
+	if (wasResized)
+	{
+		SetConsoleScreenBufferSize(consoleHandle,resizeRecord.dwSize);
+	}
 	//Why doesn't this work?
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
 	unsigned int columns;
 
-	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE),&csbi);
+	GetConsoleScreenBufferInfo(consoleHandle,&csbi);
 	columns = csbi.srWindow.Right - csbi.srWindow.Left + 1;
 
 	return columns;
