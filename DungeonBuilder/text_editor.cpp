@@ -54,21 +54,42 @@ string TextEditor::remTabs(string line) {
 
 
 void TextEditor::moveLeft() {
-	if (pos > 0) pos--;
+	if(pos > 0) pos--;
 }
 
+
+// abcd 1234
+// efgh 5431
 void TextEditor::moveRight() {
-	if (pos < text.size()) pos++;
+	if(pos < text.size()) pos++;
 }
 
 void TextEditor::moveUp() {
-	if(y > 0)
-		y--;
-	wmove(mainWindow,y,x);
+	if(y > 0) {
+		pos = pos - x; //pop us to the start of this line
+		if(x < lineLengths[y-1])
+		{
+			pos = pos - (lineLengths[y-1] - x); //then to the proper position of the previous line
+		}
+		else
+		{
+			pos--;
+		}		
+	}
+
 }
 void TextEditor::moveDown() {
-	y++;
-	wmove(mainWindow,y,x);
+	if(y < lineLengths.size()-1)
+	{
+		pos = pos + (lineLengths[y]-x);
+		if(x < lineLengths[y+1])
+		{
+			pos = pos + x;
+		}
+		else {
+			pos = pos + lineLengths[y+1]-1;
+		}
+	}
 }
 
 
@@ -77,10 +98,10 @@ void TextEditor::handleInput(int c) {
 	switch(c)
 	{
 	case KEY_HOME:
-		x = 0;
+		pos = pos - x;
 		break;
 	case KEY_END:
-		x = getCols();
+		pos = pos + lineLengths[y] - x -1;		
 		break;
 	case KEY_LEFT:
 		moveLeft();
@@ -110,8 +131,7 @@ void TextEditor::handleInput(int c) {
 	case KEY_DC:
 		if(pos < text.size())
 		{
-			text.erase(pos,1);
-			pos--;
+			text.erase(pos,1);			
 		}
 		break;
 	case KEY_ENTER:
@@ -168,14 +188,14 @@ void TextEditor::printBuff() {
 		}
 		else
 		{
-			if(token.size() > remainingWidth ) {
+			if(token.size() > remainingWidth) {
 				lineLengths.push_back(px);
 				py++;
 				px = 0;
 			}
 			for(size_t i = 0; i < token.size(); i++)
 			{
-				mvwprintw(mainWindow,py,px,&token[i]);			
+				mvwprintw(mainWindow,py,px,&token[i]);
 				if(counter == pos)
 				{
 					x = px;
@@ -183,18 +203,20 @@ void TextEditor::printBuff() {
 				}
 				if(i == token.size()-1 && (unsigned char)token[i] == CHR_NEWLINE)
 				{
-					px = 0;
+					lineLengths.push_back(px+1);
 					py++;
+					px = 0;
 				}
 				else
 				{
 					px++;
-				}								
+				}
 				counter++;
 			}
-			
+
 		}
 	}
+	lineLengths.push_back(px);
 	if(counter == pos)
 	{
 		x = px;
