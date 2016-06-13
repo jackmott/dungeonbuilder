@@ -1290,7 +1290,7 @@ bool    wmouse_trafo(const WINDOW *, int *, int *, bool);
 
 int     addrawch(chtype);
 int     insrawch(chtype);
-bool    is_termresized(void);
+bool    is_term_resized(void);
 int     mvaddrawch(int, int, chtype);
 int     mvdeleteln(int, int);
 int     mvinsertln(int, int);

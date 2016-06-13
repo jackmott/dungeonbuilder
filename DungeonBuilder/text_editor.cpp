@@ -165,7 +165,7 @@ void TextEditor::handleInput(int c) {
 }
 
 void TextEditor::printBuff() {
-	if(is_termresized())
+	if(is_term_resized())
 		{
 			resize_term(0,0);		
 		}
