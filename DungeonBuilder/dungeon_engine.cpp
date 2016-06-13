@@ -341,11 +341,11 @@ void DungeonEngine::clearWindows()
 
 void DungeonEngine::resetWindows()
 {
-	headerWindow = newwin(1,getCols(),0,0);
-	commandWindow = newwin(1,getCols(),LINES-1,0);
+	headerWindow = newwin(1,COLS,0,0);
+	commandWindow = newwin(1,COLS,LINES-1,0);
 
 
-	mainWindow = newwin(LINES-2,getCols(),1,0);
+	mainWindow = newwin(LINES-2,COLS,1,0);
 	scrollok(mainWindow,TRUE);
 	getmaxyx(stdscr,h,w);
 

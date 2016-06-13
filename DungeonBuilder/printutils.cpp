@@ -7,67 +7,6 @@
 using namespace std;
 
 
-size_t getRows()
-{
-#ifdef TODO_MAYBE
-	//Why doesn't this work?
-	CONSOLE_SCREEN_BUFFER_INFO csbi;
-	unsigned int rows;
-
-	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE),&csbi);
-	rows = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
-
-	return rows;
-#else
-	return (size_t)LINES;
-#endif // _WIN32
-
-}
-
-size_t getCols()
-{
-#ifdef MADNESS
-	HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
-	DWORD numMsg = 0;
-	DWORD numRead;
-	INPUT_RECORD inBuf[512];
-	GetNumberOfConsoleInputEvents(consoleHandle,&numMsg);
-	DWORD i = 0;
-	WINDOW_BUFFER_SIZE_RECORD resizeRecord;
-	bool wasResized = false;
-	while(i < numMsg)
-	{
-		ReadConsoleInput (consoleHandle,inBuf,512,&numRead);
-		i  = i + numRead;
-		for(DWORD j = 0; j < numRead; j++)
-		{
-			if(inBuf[j].EventType == WINDOW_BUFFER_SIZE_EVENT)
-			{
-				resizeRecord = inBuf[j].Event.WindowBufferSizeEvent;
-				wasResized = true;
-			}
-		}
-
-	}
-
-	if(wasResized)
-	{
-		SetConsoleScreenBufferSize(consoleHandle,resizeRecord.dwSize);
-	}
-	//Why doesn't this work?
-	CONSOLE_SCREEN_BUFFER_INFO csbi;
-	unsigned int columns;
-
-	GetConsoleScreenBufferInfo(consoleHandle,&csbi);
-	columns = csbi.srWindow.Right - csbi.srWindow.Left + 1;
-
-	return columns;
-#else
-	return (size_t)COLS;
-#endif
-
-}
-
 void mvwprintwCenter (WINDOW * window,int row,string text)
 {
 	int w = getmaxx(window);
@@ -85,7 +24,7 @@ void mvwprintwBold (WINDOW *window,int row,int col,string text)
 void mvwprintwCenterBold (WINDOW *window,int row,string text)
 {
 	wattron(window,A_BOLD);
-	mvwprintw(window,row,(getCols()-text.length())/2,text.c_str());
+	mvwprintw(window,row,(COLS-text.length())/2,text.c_str());
 	wattroff(window,A_BOLD);
 }
 
@@ -103,7 +42,7 @@ void printHeader(WINDOW *window,string leftText,string centerText,string rightTe
 	centerText = STR_RIGHT_ARROW + centerText + STR_RIGHT_ARROW;
 
 
-	int startX = (getCols() - (leftText.size()+rightText.size()+centerText.size()))/2;
+	int startX = (COLS - (leftText.size()+rightText.size()+centerText.size()))/2;
 
 	if(boldIndex == 1)
 	{
@@ -149,7 +88,7 @@ void printHeader(WINDOW *window,string leftText,string rightText){
 
 	rightText = STR_RIGHT_ARROW + rightText;
 
-	int startX = (getCols() - (leftText.size()+rightText.size()))/2;
+	int startX = (COLS - (leftText.size()+rightText.size()))/2;
 	setcolors(window,DUNGEON_HEADER_FG,DUNGEON_HEADER_BG);
 	mvwprintw(window,0,startX,leftText.c_str());
 	startX += leftText.size();
@@ -326,7 +265,7 @@ void renderDungeonText(WINDOW * window,vector<vector<DungeonChar>> textBuffer)
 				x = 0;
 				y++;
 			}
-			else if(x > getCols()) {
+			else if(x > COLS) {
 				y++;
 				x = 0;
 				mvwaddch(window,y,x,c.c | c.attributes);

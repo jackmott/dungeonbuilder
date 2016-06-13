@@ -18,8 +18,8 @@ void TextEditor::clearWindows()
 void TextEditor::resetWindows()
 {
 
-	headerWindow = newwin(1,getCols(),0,0);
-	mainWindow = newwin(LINES-1,getCols(),1,0);
+	headerWindow = newwin(1,COLS,0,0);
+	mainWindow = newwin(LINES-1,COLS,1,0);
 	printHeader(headerWindow,header);
 	keypad(mainWindow,true);   //turns on arrows and f keys
 }
@@ -178,12 +178,12 @@ void TextEditor::printBuff() {
 	vector<string> tokens = splitOnSpaceAndEnter(text);
 	size_t counter = 0;
 	for(auto token : tokens) {
-		int remainingWidth = getCols() - px;
+		int remainingWidth = COLS - px;
 		if(token[0] == CHR_SPACE)
 		{
 			for(size_t i = 0; i < token.size(); i++)
 			{
-				if(px >= getCols()){
+				if(px >= COLS){
 					lineLengths.push_back(px);
 					py++;
 					px = 0;

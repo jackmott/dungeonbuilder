@@ -122,7 +122,7 @@ bool CommandWindow::handleInput(int c) {
 		input = STR_EXIT;;
 		return true;
 	default:
-		if(input.size() < (unsigned int)(getCols() -2))
+		if(input.size() < (unsigned int)(COLS -2))
 		{
 			input.insert(x-prompt.size(),1,(char)c);
 			x++;

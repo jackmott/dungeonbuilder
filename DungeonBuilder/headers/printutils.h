@@ -25,8 +25,6 @@ int getColorGroup(int fore,int back);
 void setbackground(WINDOW* window,int fore,int back);
 void setcolor (WINDOW* window, int fore);
 void setcolors(WINDOW* window, int fore,int back);
-unsigned int getCols();
-unsigned int getRows();
 void printHeader(WINDOW *window,std::string leftText,std::string centerText,std::string rightText, int boldIndex = 2);
 void printHeader(WINDOW* window,std::string text);
 void printHeader(WINDOW *window,std::string leftText,std::string rightText);

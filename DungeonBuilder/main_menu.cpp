@@ -168,9 +168,9 @@ void MainMenu::loadMap(vector<string> args)
 void MainMenu::resetWindows()
 {
 	clear();
-	commandWindow = newwin(1,getCols(),LINES-1,0);
-	responseWindow = newwin(1,getCols(),LINES-2,0);
-	mainWindow = newwin(LINES-2,getCols(),0,0);
+	commandWindow = newwin(1,COLS,LINES-1,0);
+	responseWindow = newwin(1,COLS,LINES-2,0);
+	mainWindow = newwin(LINES-2,COLS,0,0);
 	getmaxyx(stdscr,h,w); // this doesn't work in windows
 	refresh();
 

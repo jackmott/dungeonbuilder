@@ -20,7 +20,7 @@ DungeonObject* DungeonObjectList::pageUp(vector<string> args)
 DungeonObject* DungeonObjectList::pageDown(vector<string> args)
 {
 	pos += 3;
-	if(pos > objects.size() - getRows() - 5) pos -= 3;
+	if(pos > objects.size() - LINES - 5) pos -= 3;
 	resetWindows();
 	return nullptr;
 }
@@ -60,10 +60,10 @@ void DungeonObjectList::clearWindows()
 
 void DungeonObjectList::resetWindows()
 {
-	commandWindow = newwin(1,getCols(),LINES-1,0);
-	responseWindow = newwin(1,getCols(),LINES-2,0);
-	headerWindow = newwin(1,getCols(),0,0);
-	mainWindow = newwin(LINES-3,getCols(),1,0);
+	commandWindow = newwin(1,COLS,LINES-1,0);
+	responseWindow = newwin(1,COLS,LINES-2,0);
+	headerWindow = newwin(1,COLS,0,0);
+	mainWindow = newwin(LINES-3,COLS,1,0);
 
 	refresh();
 
@@ -87,7 +87,7 @@ void DungeonObjectList::resetWindows()
 	int lineCount = 0;
 	setcolor(mainWindow,COLOR_WHITE);
 	int idWidth = 5;
-	int numRows = getRows()-5;
+	int numRows = LINES-5;
 	//print all the objects
 	for(size_t i = pos; i < numRows+pos; i++)
 	{
