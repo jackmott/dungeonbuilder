@@ -26,10 +26,8 @@ int main(int argc,char* argv[])
 {
 
 	curses_init();
-
 	MainMenu mm;
 	mm.load();
-
 	endwin();
 	return 0;
 }

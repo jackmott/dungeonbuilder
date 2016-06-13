@@ -461,43 +461,9 @@ void DungeonEngine::look()
 void DungeonEngine::render(unsigned long offset)
 {
 	wclear(mainWindow);
-
-	string text = join(0,textBuffer,CHR_NEWLINE);
-
-	renderDungeonText(mainWindow,parseDungeonText(text));
-	/*
-	int bufferSize = (int)textBuffer.size() - offset;
-	int end = max(0,bufferSize);
-	int start = max(0,end-LINES);
-
-
-	for(auto i = start; i < end; i++)
-	{
-		string entry = textBuffer[i];
-		vector<string> tokens = split(entry,' ');
-
-		int x = 0;
-		for(auto s : tokens)
-		{
-			s = s + CHR_SPACE;
-			if(s.length() + x < getCols())
-			{
-				wprintw(mainWindow,s.c_str());
-				x += s.length();
-			}
-			else {
-				wprintw(mainWindow,"\n");
-
-				wprintw(mainWindow,s.c_str());
-				x = s.length();
-			}
-		}
-		wprintw(mainWindow,"\n");
-
-
-		//dbsleep(200);
-	}
-	*/
+	
+	renderDungeonText(mainWindow,parseDungeonText(textBuffer));
+	
 	wrefresh(mainWindow);
 }
 

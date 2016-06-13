@@ -14,8 +14,8 @@ struct DungeonChar {
 };
 
 
-std::vector<DungeonChar> parseDungeonText(std::string &text);
-void renderDungeonText(WINDOW* window,std::vector<DungeonChar> text);
+std::vector<std::vector<DungeonChar>> parseDungeonText(std::vector<std::string> &textBuffer);
+void renderDungeonText(WINDOW* window,std::vector<std::vector<DungeonChar>> textBuffer);
 
 
 void mvwprintwCenter (WINDOW * window,int row, std::string  text);
