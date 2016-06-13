@@ -111,7 +111,12 @@
 #define STR_JOINER ","
 #define STR_PROMPT ">"
 #define STR_ELLIPSES "..."
+
+#ifdef _WIN32
 #define CHR_NEWLINE 170
+#else
+#define CHR_NEWLINE 172
+#endif
 #define CHR_SPACE ' '
 #define STR_JSON_TRUE "1"
 
