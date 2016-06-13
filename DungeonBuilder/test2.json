@@ -1,0 +1,8 @@
+{
+    "rooms": [
+        {
+"uid":0,"names":["Start Room"],"description":[],"objects":[{"names":["hammer"],"description":[],"mass":1,"size":1,"canOpen":0,"canTake":1,"isOpen":0,"contents":[],},
+{"names":["sickle"],"description":[],"mass":1,"size":1,"canOpen":0,"canTake":1,"isOpen":0,"contents":[],},
+],"creatures":[],"exits":[],        },
+    ]
+}
