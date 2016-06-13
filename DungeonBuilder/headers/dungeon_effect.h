@@ -22,7 +22,7 @@ struct DungeonCreature;
 
 
 const std::string  EFFECT_STRS[] = { EFFECT_ENUM_LOOP(GEN_STRING) };
-const enum class EFFECT_TYPE { EFFECT_ENUM_LOOP(GEN_ENUM) };
+enum class EFFECT_TYPE { EFFECT_ENUM_LOOP(GEN_ENUM) };
 
 
 struct DungeonEffect : DungeonEntity

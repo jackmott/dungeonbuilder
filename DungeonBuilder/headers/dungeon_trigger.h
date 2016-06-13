@@ -22,7 +22,7 @@ struct DungeonEffect;
 
 
 const std::string  TRIGGER_STRS[] = { TRIGGER_ENUM_LOOP(GEN_STRING) };
-const enum class TRIGGER_TYPE { TRIGGER_ENUM_LOOP(GEN_ENUM) };
+enum class TRIGGER_TYPE { TRIGGER_ENUM_LOOP(GEN_ENUM) };
 
 struct DungeonTrigger : DungeonEntity
 {
