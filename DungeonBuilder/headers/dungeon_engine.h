@@ -58,6 +58,7 @@ struct DungeonEngine
 	int action(std::string actionStr,std::string args);
 	int lookCmd(std::string args);
 	int examine(std::string args);
+	int resize(std::string args);
 
 	void move(DungeonExit *dungeonExit);
 

@@ -13,9 +13,13 @@ struct DungeonChar {
 	chtype attributes;
 };
 
+typedef std::vector<DungeonChar> DungeonToken;
+typedef std::vector<DungeonToken> DungeonChunk;
 
-std::vector<std::vector<DungeonChar>> parseDungeonText(std::vector<std::string> &textBuffer);
-void renderDungeonText(WINDOW* window,std::vector<std::vector<DungeonChar>> textBuffer);
+
+
+std::vector<DungeonChunk> parseDungeonText(std::vector<std::string> &textBuffer);
+void renderDungeonText(WINDOW* window,std::vector<DungeonChunk> chunks);
 
 
 void mvwprintwCenter (WINDOW * window,int row, std::string  text);

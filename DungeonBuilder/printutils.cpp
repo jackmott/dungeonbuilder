@@ -149,15 +149,16 @@ void setbackground(WINDOW *window,int fore,int back)
 
 
 // #red#
-vector<vector<DungeonChar>> parseDungeonText(vector<string> &textBuffer)
+vector<DungeonChunk> parseDungeonText(vector<string> &textBuffer)
 {
-	vector<vector<DungeonChar>> finalResult;
+	vector<DungeonChunk> chunks;
 	for(auto text : textBuffer) {
 		chtype attributes = A_NORMAL;
 		int backColor = COLOR_BLACK;
 		int foreColor = COLOR_WHITE;
-		vector<DungeonChar> result;
+		DungeonChunk chunk;
 
+		DungeonToken token;
 		for(size_t i = 0; i < text.size(); i++)
 		{
 			unsigned char c = (unsigned char)text[i];
@@ -232,51 +233,96 @@ vector<vector<DungeonChar>> parseDungeonText(vector<string> &textBuffer)
 			dc.attributes = attributes;
 			dc.backColor = backColor;
 			dc.foreColor = foreColor;
-			result.push_back(dc);
-
-		}
-		finalResult.push_back(result);
-	}
-	return finalResult;
-}
-
-void renderDungeonText(WINDOW * window,vector<vector<DungeonChar>> textBuffer)
-{
-	size_t y = 0;
-	for(auto text : textBuffer)
-	{
-		int currentColor = COLOR_WHITE;
-		int currentBgColor = COLOR_BLACK;
-		setcolors(window,currentColor,currentBgColor);
-		size_t x =0;
-		
-		for(size_t i = 0; i < text.size(); i++)
-		{
-
-			DungeonChar c = text[i];
-			if(c.foreColor != currentColor || c.backColor != currentBgColor)
+			if(dc.c == CHR_SPACE)
 			{
-				setcolors(window,c.foreColor,c.backColor);
-				currentColor = c.foreColor;
-				currentBgColor = c.backColor;
+				chunk.push_back(token);
+				token.clear();
+				while(i < text.size() && (unsigned char)text[i] == CHR_SPACE)
+				{
+					token.push_back(dc);
+					i++;
+				}
+				i--;
+				chunk.push_back(token);
+				token.clear();				
 			}
-			if(c.c == CHR_NEWLINE) {
-				mvwaddch(window,y,x,CHR_SPACE | c.attributes);
-				x = 0;
-				y++;
-			}
-			else if(x > COLS) {
-				y++;
-				x = 0;
-				mvwaddch(window,y,x,c.c | c.attributes);
+			else if(dc.c == CHR_NEWLINE)
+			{
+				chunk.push_back(token);
+				token.clear();
+				while(i < text.size() && (unsigned char)text[i] == CHR_NEWLINE)
+				{
+					token.push_back(dc);
+					i++;
+				}
+				i--;
+				chunk.push_back(token);
+				token.clear();				
 			}
 			else
 			{
-				mvwaddch(window,y,x,c.c | c.attributes);
-				x++;
+				token.push_back(dc);
+				if(i == text.size()-1)
+				{
+					chunk.push_back(token);
+					token.clear();
+				}
 			}
 
+
 		}
-		y++;
+		chunks.push_back(chunk);
 	}
+	return chunks;
+}
+
+void renderDungeonText(WINDOW * window,vector<DungeonChunk> chunks)
+{
+	size_t y = 0;
+	for(auto chunk : chunks)
+	{
+		//Each chunk starts at x = 0 and default colors
+		//and attributes
+		size_t x =0;
+		int currentColor = COLOR_WHITE;
+		int currentBgColor = COLOR_BLACK;
+		setcolors(window,currentColor,currentBgColor);
+
+		for(auto token : chunk) {
+			int remainingWidth = COLS-x;
+
+			if(token.size() > remainingWidth)
+			{
+				y++;
+				x = 0;
+			}
+			for(size_t i = 0; i < token.size(); i++)
+			{
+
+				DungeonChar c = token[i];
+				if(c.foreColor != currentColor || c.backColor != currentBgColor)
+				{
+					setcolors(window,c.foreColor,c.backColor);
+					currentColor = c.foreColor;
+					currentBgColor = c.backColor;
+				}
+				if(c.c == CHR_NEWLINE) {
+					mvwaddch(window,y,x,CHR_SPACE | c.attributes);
+					x = 0;
+					y++;
+				}
+				else if(x > COLS) {
+					y++;
+					x = 0;
+					mvwaddch(window,y,x,c.c | c.attributes);
+				}
+				else
+				{
+					mvwaddch(window,y,x,c.c | c.attributes);
+					x++;
+				}
+			}
+		} // end for token
+		y++;
+	} // end for chunk
 }

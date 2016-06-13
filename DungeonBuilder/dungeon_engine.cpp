@@ -14,6 +14,12 @@
 
 using namespace std;
 
+int DungeonEngine::resize(string args)
+{
+	resize_term(0,0);
+	resetWindows();
+	return 0;
+}
 
 int DungeonEngine::pageUp(string args)
 {
@@ -343,15 +349,13 @@ void DungeonEngine::resetWindows()
 {
 	headerWindow = newwin(1,COLS,0,0);
 	commandWindow = newwin(1,COLS,LINES-1,0);
-
-
 	mainWindow = newwin(LINES-2,COLS,1,0);
 	scrollok(mainWindow,TRUE);
 	getmaxyx(stdscr,h,w);
 
 	setbackground(headerWindow,COLOR_BLACK,COLOR_RED);
 	
-	look();
+	
 
 	refresh();
 	wrefresh(headerWindow);
@@ -483,6 +487,7 @@ void DungeonEngine::updateCmdMap()
 	cmdMap[STR_DROP] = &DungeonEngine::drop;
 	cmdMap[STR_INVENTORY] = &DungeonEngine::inventory;
 	cmdMap[STR_I] = &DungeonEngine::inventory;
+	cmdMap[STR_KEY_RESIZE] = &DungeonEngine::resize;
 
 	//update movemap
 	moveMap.clear();
@@ -608,7 +613,7 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 	//create a map of exit names to move to
 
 	resetWindows();
-
+	look();
 	CommandWindow cmdW;
 
 	while(true) {
@@ -625,7 +630,7 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 		string userInput = cmdW.getCommandAsString(commandWindow,STR_PROMPT);
 
 		if(userInput == STR_EXIT) break;
-		if(userInput != STR_PAGE_DOWN && userInput != STR_PAGE_UP)
+		if(userInput != STR_PAGE_DOWN && userInput != STR_PAGE_UP && userInput != STR_KEY_RESIZE)
 		{
 			textBuffer.push_back(STR_PROMPT+userInput);
 		}
