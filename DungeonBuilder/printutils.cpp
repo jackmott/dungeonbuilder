@@ -8,9 +8,8 @@ using namespace std;
 
 
 void mvwprintwCenter (WINDOW * window,int row,string text)
-{
-	int w = getmaxx(window);
-	mvwprintw(window,row,(w-text.length())/2,text.c_str());
+{	
+	mvwprintw(window,row,(COLS-text.length())/2,text.c_str());
 }
 
 
@@ -156,6 +155,7 @@ vector<DungeonChunk> parseDungeonText(vector<string> &textBuffer)
 		bool bold = false;
 		int backColor = COLOR_BLACK;
 		int foreColor = COLOR_WHITE;
+		DUNGEON_ALIGN align = DUNGEON_ALIGN::LEFT;
 		DungeonChunk chunk;
 
 		DungeonToken token;
@@ -163,14 +163,21 @@ vector<DungeonChunk> parseDungeonText(vector<string> &textBuffer)
 		{
 			unsigned char c = (unsigned char)text[i];
 			unsigned char nextC = NULL;
-			if (i < text.size()-1)
+			if(i < text.size()-1)
 			{
 				nextC = text[i+1];
 			}
-			//Bold markup
-			if(c == '*' && nextC != '*')
+
+			//Center markup
+			if(c=='`' && nextC != '`')
 			{
-				bold = !bold;				
+				if(align == DUNGEON_ALIGN::LEFT) align = DUNGEON_ALIGN::CENTER;
+				else align = DUNGEON_ALIGN::LEFT;
+			}
+			//Bold markup
+			else if(c == '*' && nextC != '*')
+			{
+				bold = !bold;
 			}
 			//Fore Color Markup
 			else if(c == '#' && nextC != '#')
@@ -211,8 +218,8 @@ vector<DungeonChunk> parseDungeonText(vector<string> &textBuffer)
 				if(isColor) {
 					i = i+1; //go past # and letter
 				}
-				
-			}
+
+			} //BG COLOR
 			else if(c == '~' && nextC != '~')
 			{
 				char token = text[i+1];
@@ -251,16 +258,17 @@ vector<DungeonChunk> parseDungeonText(vector<string> &textBuffer)
 				if(isColor) {
 					i = i+1; //go past # and letter
 				}
-				
+
 			}
 			else {
-				if (c == '#' || c == '*' || c == '~') i++; //handle escaped #
+				if(c == '#' || c == '*' || c == '~' || c == '`') i++; //handle escaped #
 				c = text[i];
 				DungeonChar dc;
 				dc.c = c;
 				dc.bold = bold;
 				dc.backColor = backColor;
 				dc.foreColor = foreColor;
+				dc.alignment = align;
 				if(dc.c == CHR_SPACE)
 				{
 					chunk.push_back(token);
@@ -289,7 +297,7 @@ vector<DungeonChunk> parseDungeonText(vector<string> &textBuffer)
 				}
 				else
 				{
-					token.push_back(dc);															
+					token.push_back(dc);
 				}
 			}
 		}
@@ -302,6 +310,11 @@ vector<DungeonChunk> parseDungeonText(vector<string> &textBuffer)
 void renderDungeonText(WINDOW * window,vector<DungeonChunk> chunks)
 {
 	size_t y = 0;
+
+	//For handling centered text
+	bool centering = false;
+	vector<DungeonChar> centerBuffer;
+
 	for(auto chunk : chunks)
 	{
 		//Each chunk starts at x = 0 and default colors
@@ -312,7 +325,7 @@ void renderDungeonText(WINDOW * window,vector<DungeonChunk> chunks)
 		setcolors(window,currentColor,currentBgColor);
 
 		for(auto token : chunk) {
-			int remainingWidth = COLS-x;
+			size_t remainingWidth = COLS-x;
 
 			if(token.size() > remainingWidth)
 			{
@@ -324,7 +337,7 @@ void renderDungeonText(WINDOW * window,vector<DungeonChunk> chunks)
 
 				DungeonChar dc = token[i];
 				chtype attributes;
-				if (dc.bold) attributes = A_BOLD;
+				if(dc.bold) attributes = A_BOLD;
 				else attributes = A_NORMAL;
 
 				if(dc.foreColor != currentColor || dc.backColor != currentBgColor)
@@ -333,20 +346,53 @@ void renderDungeonText(WINDOW * window,vector<DungeonChunk> chunks)
 					currentColor = dc.foreColor;
 					currentBgColor = dc.backColor;
 				}
-				if(dc.c == CHR_NEWLINE) {
-					mvwaddch(window,y,x,CHR_SPACE | attributes);
-					x = 0;
-					y++;
-				}
-				else if(x > COLS) {
-					y++;
-					x = 0;
-					mvwaddch(window,y,x,dc.c | attributes);
-				}
-				else
+				
+				if(dc.alignment == DUNGEON_ALIGN::CENTER)
 				{
-					mvwaddch(window,y,x,dc.c | attributes);
-					x++;
+					centering = true;
+					if(x!=0)
+					{
+						y++;
+						x=0;
+					}
+					centerBuffer.push_back(dc);
+
+				}
+				else if(centering && dc.alignment == DUNGEON_ALIGN::LEFT)
+				{
+					x = (COLS - centerBuffer.size())/2;
+					for(size_t j = 0; j < centerBuffer.size();j++)
+					{
+						DungeonChar centerChar = centerBuffer[j];
+						currentColor = centerChar.foreColor;
+						currentBgColor = centerChar.backColor;
+						setcolors(window,currentColor,currentBgColor);
+						if (centerChar.bold) attributes = A_BOLD;
+						else attributes = A_NORMAL;
+						mvwaddch(window,y,x,centerChar.c | attributes);
+						x++;						
+					}
+					y++;
+					x=0;
+					centerBuffer.clear();
+					centering = false;
+				}				
+				else {
+					if(dc.c == CHR_NEWLINE) {
+						mvwaddch(window,y,x,CHR_SPACE | attributes);
+						x = 0;
+						y++;
+					}
+					else if(x > COLS) {
+						y++;
+						x = 0;
+						mvwaddch(window,y,x,dc.c | attributes);
+					}
+					else
+					{
+						mvwaddch(window,y,x,dc.c | attributes);
+						x++;
+					}
 				}
 			}
 		} // end for token

@@ -6,11 +6,17 @@
 #include <vector>
 
 
+enum class DUNGEON_ALIGN {
+	LEFT,
+	CENTER
+};
+
 struct DungeonChar {
 	chtype c;
 	int foreColor;
 	int backColor;
 	bool bold;
+	DUNGEON_ALIGN alignment;
 };
 
 typedef std::vector<DungeonChar> DungeonToken;
