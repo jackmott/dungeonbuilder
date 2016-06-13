@@ -3,7 +3,7 @@
 #include <string>
 #include "main_menu.h"
 #include "lib.h"
-#include <Windows.h>
+
 using namespace std;
 
 void curses_init()
