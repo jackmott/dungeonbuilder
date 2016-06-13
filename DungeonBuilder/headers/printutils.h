@@ -10,7 +10,7 @@ struct DungeonChar {
 	chtype c;
 	int foreColor;
 	int backColor;
-	chtype attributes;
+	bool bold;
 };
 
 typedef std::vector<DungeonChar> DungeonToken;

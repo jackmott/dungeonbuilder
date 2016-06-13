@@ -153,7 +153,7 @@ vector<DungeonChunk> parseDungeonText(vector<string> &textBuffer)
 {
 	vector<DungeonChunk> chunks;
 	for(auto text : textBuffer) {
-		chtype attributes = A_NORMAL;
+		bool bold = false;
 		int backColor = COLOR_BLACK;
 		int foreColor = COLOR_WHITE;
 		DungeonChunk chunk;
@@ -162,115 +162,138 @@ vector<DungeonChunk> parseDungeonText(vector<string> &textBuffer)
 		for(size_t i = 0; i < text.size(); i++)
 		{
 			unsigned char c = (unsigned char)text[i];
-			if(c == '#')
+			unsigned char nextC = NULL;
+			if (i < text.size()-1)
 			{
-				size_t nextPound = text.find("#",i+1);
-				bool isColor = false;
-				bool isAnyTag = false;
-				if(nextPound != string::npos) {
-					string oToken = text.substr(i+1,nextPound-(i+1));
-					string token = toLower(oToken);
-
-					isColor = true;
-					if(token == "black")
-					{
-						foreColor = COLOR_BLACK;
-					}
-					else if(token == "red")
-					{
-						foreColor = COLOR_RED;
-					}
-					else if(token == "green")
-					{
-						foreColor = COLOR_GREEN;
-					}
-					else if(token == "yellow")
-					{
-						foreColor = COLOR_YELLOW;
-					}
-					else if(token == "blue")
-					{
-						foreColor = COLOR_BLUE;
-					}
-					else if(token == "magenta")
-					{
-						foreColor = COLOR_MAGENTA;
-					}
-					else if(token == "cyan")
-					{
-						foreColor = COLOR_CYAN;
-					}
-					else if(token == "white")
-					{
-						foreColor = COLOR_WHITE;
-					}
-					else {
-						isColor = false;
-						isAnyTag = false;
-					}
-
-					if(isColor) {
-						isAnyTag = true;
-						if(oToken[0] == toupper(token[0]))
-						{
-							attributes = A_BOLD;
-						}
-						else {
-							attributes	= A_NORMAL;
-						}
-					}
-
-					if(isAnyTag) {
-						i = i + token.size() + 2; //advance past the end of the # # token
-					}
+				nextC = text[i+1];
+			}
+			//Bold markup
+			if(c == '*' && nextC != '*')
+			{
+				bold = !bold;				
+			}
+			//Fore Color Markup
+			else if(c == '#' && nextC != '#')
+			{
+				char token = text[i+1];
+				token = tolower(token);
+				bool isColor = true;
+				switch(token)
+				{
+				case 'e':
+					foreColor = COLOR_BLACK;
+					break;
+				case 'r':
+					foreColor = COLOR_RED;
+					break;
+				case 'g':
+					foreColor = COLOR_GREEN;
+					break;
+				case 'y':
+					foreColor = COLOR_YELLOW;
+					break;
+				case 'b':
+					foreColor = COLOR_BLUE;
+					break;
+				case 'm':
+					foreColor = COLOR_MAGENTA;
+					break;
+				case 'c':
+					foreColor = COLOR_CYAN;
+					break;
+				case 'w':
+					foreColor = COLOR_WHITE;
+					break;
+				default:
+					isColor = false;
+					break;
 				}
+				if(isColor) {
+					i = i+1; //go past # and letter
+				}
+				
+			}
+			else if(c == '~' && nextC != '~')
+			{
+				char token = text[i+1];
+				token = tolower(token);
+				bool isColor = true;
+				switch(token)
+				{
+				case 'e':
+					backColor = COLOR_BLACK;
+					break;
+				case 'r':
+					backColor = COLOR_RED;
+					break;
+				case 'g':
+					backColor = COLOR_GREEN;
+					break;
+				case 'y':
+					backColor = COLOR_YELLOW;
+					break;
+				case 'b':
+					backColor = COLOR_BLUE;
+					break;
+				case 'm':
+					backColor = COLOR_MAGENTA;
+					break;
+				case 'c':
+					backColor = COLOR_CYAN;
+					break;
+				case 'w':
+					backColor = COLOR_WHITE;
+					break;
+				default:
+					isColor = false;
+					break;
+				}
+				if(isColor) {
+					i = i+1; //go past # and letter
+				}
+				
+			}
+			else {
+				if (c == '#' || c == '*' || c == '~') i++; //handle escaped #
 				c = text[i];
-
-			}
-
-			DungeonChar dc;
-			dc.c = c;
-			dc.attributes = attributes;
-			dc.backColor = backColor;
-			dc.foreColor = foreColor;
-			if(dc.c == CHR_SPACE)
-			{
-				chunk.push_back(token);
-				token.clear();
-				while(i < text.size() && (unsigned char)text[i] == CHR_SPACE)
-				{
-					token.push_back(dc);
-					i++;
-				}
-				i--;
-				chunk.push_back(token);
-				token.clear();				
-			}
-			else if(dc.c == CHR_NEWLINE)
-			{
-				chunk.push_back(token);
-				token.clear();
-				while(i < text.size() && (unsigned char)text[i] == CHR_NEWLINE)
-				{
-					token.push_back(dc);
-					i++;
-				}
-				i--;
-				chunk.push_back(token);
-				token.clear();				
-			}
-			else
-			{
-				token.push_back(dc);
-				if(i == text.size()-1)
+				DungeonChar dc;
+				dc.c = c;
+				dc.bold = bold;
+				dc.backColor = backColor;
+				dc.foreColor = foreColor;
+				if(dc.c == CHR_SPACE)
 				{
 					chunk.push_back(token);
 					token.clear();
+					while(i < text.size() && (unsigned char)text[i] == CHR_SPACE)
+					{
+						token.push_back(dc);
+						i++;
+					}
+					i--;
+					chunk.push_back(token);
+					token.clear();
+				}
+				else if(dc.c == CHR_NEWLINE)
+				{
+					chunk.push_back(token);
+					token.clear();
+					while(i < text.size() && (unsigned char)text[i] == CHR_NEWLINE)
+					{
+						token.push_back(dc);
+						i++;
+					}
+					i--;
+					chunk.push_back(token);
+					token.clear();
+				}
+				else
+				{
+					token.push_back(dc);															
 				}
 			}
-
-
 		}
+		chunk.push_back(token);
 		chunks.push_back(chunk);
 	}
 	return chunks;
@@ -299,26 +322,30 @@ void renderDungeonText(WINDOW * window,vector<DungeonChunk> chunks)
 			for(size_t i = 0; i < token.size(); i++)
 			{
 
-				DungeonChar c = token[i];
-				if(c.foreColor != currentColor || c.backColor != currentBgColor)
+				DungeonChar dc = token[i];
+				chtype attributes;
+				if (dc.bold) attributes = A_BOLD;
+				else attributes = A_NORMAL;
+
+				if(dc.foreColor != currentColor || dc.backColor != currentBgColor)
 				{
-					setcolors(window,c.foreColor,c.backColor);
-					currentColor = c.foreColor;
-					currentBgColor = c.backColor;
+					setcolors(window,dc.foreColor,dc.backColor);
+					currentColor = dc.foreColor;
+					currentBgColor = dc.backColor;
 				}
-				if(c.c == CHR_NEWLINE) {
-					mvwaddch(window,y,x,CHR_SPACE | c.attributes);
+				if(dc.c == CHR_NEWLINE) {
+					mvwaddch(window,y,x,CHR_SPACE | attributes);
 					x = 0;
 					y++;
 				}
 				else if(x > COLS) {
 					y++;
 					x = 0;
-					mvwaddch(window,y,x,c.c | c.attributes);
+					mvwaddch(window,y,x,dc.c | attributes);
 				}
 				else
 				{
-					mvwaddch(window,y,x,c.c | c.attributes);
+					mvwaddch(window,y,x,dc.c | attributes);
 					x++;
 				}
 			}
