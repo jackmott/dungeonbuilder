@@ -26,7 +26,7 @@ void TextEditor::resetWindows()
 
 string TextEditor::edit(string _header,string startText)
 {
-	
+	text = startText;	
 	x = 0;
 	y = 0;
 	pos = 0;
