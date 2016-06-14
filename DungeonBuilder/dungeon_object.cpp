@@ -26,7 +26,7 @@ DungeonObject::DungeonObject(string json)
 {
 	entityType = ENTITY_TYPE::Object;
 	// below expands to:  mass = _loadInt("mass",json);
-	loadInt(mass,json);
+	
 }
 
 DungeonObject::~DungeonObject()

@@ -6,6 +6,8 @@
 #include <stack>
 #include <vector>
 
+
+
 struct DungeonEntity;
 
 //reflection, the C way
@@ -18,8 +20,7 @@ struct DungeonEntity;
 //only the ids!
 #define writeVectorEntity(x) _writeVectorEntity(#x,&x)
 
-//load
-#define loadInt(x,json) x = _loadInt(#x,json)
+#define loadInt(x,json) x _loadInt(#x,json)
 
 struct DungeonRoom;
 struct DungeonObject;
@@ -35,32 +36,22 @@ std::string _writeVectorString(std::string name,std::vector<std::string> const &
 //only the ids!
 std::string _writeVectorEntity(std::string name, void *value);
 
-
 //load
+int _loadInt(std::string name, void* json);
+std::string _loadString(std::string name, void* json);
+bool _loadBool(std::string name, void* json);
+std::vector<std::string> _loadVectorString(std::string name, void* json);
 
-int _loadInt(std::string name, std::string json);
 
 struct JSONLoader {
-	char ch;
+	
 	std::ifstream fin;
 	std::string filename;
-	std::string currEntry[2];
-	bool donePass;
-	bool open;
-	bool single;
+	
 	
 	JSONLoader(std::string);
 	~JSONLoader();
-	std::vector<DungeonRoom*> loadMap();
-	DungeonRoom* loadRoom(std::vector<DungeonRoom*> roomList);
-	DungeonObject* loadObject();
-	DungeonCreature* loadCreature();
-
-	void getExits(std::vector<DungeonRoom*> roomList);
-	DungeonExit* loadExit( std::vector<DungeonRoom*> roomList);
-	bool getJSONEntry();
 	
-	void split(std::string);
 };
 
 #endif

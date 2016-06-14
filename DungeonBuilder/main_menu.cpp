@@ -149,16 +149,7 @@ void MainMenu::loadMap(vector<string> args)
 	}
 	else
 	{
-		JSONLoader loader(args[1].c_str());
-		if(!loader.open)
-		{
-			mvwprintw(responseWindow,0,0,"Could not open that file");
-		}
-		else
-		{
-			g_roomList = loader.loadMap();
-			g_startRoom = g_roomList[0];
-		}
+		JSONLoader loader(args[1].c_str());		
 	}
 
 	wclrtoeol(responseWindow);

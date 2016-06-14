@@ -115,7 +115,7 @@
 #ifdef _WIN32
 #define CHR_NEWLINE 170
 #else
-#define CHR_NEWLINE 172
+#define CHR_NEWLINE 172 //This doesn't seem to work in common terminals. bla.
 #endif
 #define CHR_SPACE ' '
 #define STR_JSON_TRUE "1"

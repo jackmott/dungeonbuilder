@@ -3,6 +3,8 @@
 
 #include "dungeon_entity.h"
 
+
+
 struct DungeonCreature;
 struct DungeonObject;
 struct DungeonExit;
@@ -10,7 +12,7 @@ struct DungeonExit;
 struct DungeonRoom : DungeonEntity
 {
 	DungeonRoom();
-	DungeonRoom(std::string json);
+	DungeonRoom(void* _json);
 	~DungeonRoom();
 
 	bool hasLight;

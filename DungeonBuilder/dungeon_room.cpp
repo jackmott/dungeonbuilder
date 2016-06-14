@@ -19,9 +19,10 @@ DungeonRoom::DungeonRoom()
 	hasLight = true;
 }
 
-DungeonRoom::DungeonRoom(string json)
+DungeonRoom::DungeonRoom(void* _json)
 {
 	entityType = ENTITY_TYPE::Room;
+
 }
 
 DungeonRoom::~DungeonRoom()

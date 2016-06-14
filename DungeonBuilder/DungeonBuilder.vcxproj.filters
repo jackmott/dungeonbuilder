@@ -27,6 +27,7 @@
     <ClCompile Include="dungeon_trigger.cpp" />
     <ClCompile Include="trigger_editor.cpp" />
     <ClCompile Include="dungeon_serializer.cpp" />
+    <ClCompile Include="json.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\room_editor.h" />
@@ -57,6 +58,7 @@
     <ClInclude Include="headers\dungeon_trigger.h" />
     <ClInclude Include="headers\trigger_editor.h" />
     <ClInclude Include="headers\dungeon_serializer.h" />
+    <ClInclude Include="headers\json.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\pdcurses.lib" />

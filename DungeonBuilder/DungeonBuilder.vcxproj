@@ -27,6 +27,7 @@
     <ClCompile Include="dungeon_entity.cpp" />
     <ClCompile Include="dungeon_exit.cpp" />
     <ClCompile Include="dungeon_trigger.cpp" />
+    <ClCompile Include="json.c" />
     <ClCompile Include="object_list.cpp" />
     <ClCompile Include="room_list.cpp" />
     <ClCompile Include="dungeon_engine.cpp" />
@@ -56,6 +57,7 @@
     <ClInclude Include="headers\dungeon_trigger.h" />
     <ClInclude Include="headers\effect_editor.h" />
     <ClInclude Include="headers\exit_editor.h" />
+    <ClInclude Include="headers\json.h" />
     <ClInclude Include="headers\object_list.h" />
     <ClInclude Include="headers\room_list.h" />
     <ClInclude Include="headers\dungeon_serializer.h" />
@@ -144,6 +146,7 @@
       <AdditionalIncludeDirectories>headers</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PreprocessToFile>false</PreprocessToFile>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>$(ProjectDir)lib\pdcurses.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;MSVCRTD.lib;%(AdditionalDependencies)</AdditionalDependencies>

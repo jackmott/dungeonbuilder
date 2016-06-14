@@ -16,10 +16,10 @@ contact me at jack.mott@theemailmanypeopleusethatgoogledoes
 - Better handling of language. Accurate selection of articles "a / an / some", auto-plural forms etc.
 - Setting up a system where game state can be tranmitted via sockets - allowing multi-term/monitor support
 - Feature to save game transcript to a file
-- Enhance the in game text editor
-- A markup system for 'bold' and color
+- Preview mode for in game text editor
 - A system to 'copy' an existing object to speed creation of another similar or identical one.
 - A more graceful system of responses to failed and successful commands. Perhaps randomized.
 - A combat system
-- A generalized object use/effect/crafting system (drink a glass of water -> get effect -> get empty bottle)
+- Some interface for easier creation of 'two way' exits.
+- Expanding on the available set of effects and triggers
 
