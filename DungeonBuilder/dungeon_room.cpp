@@ -6,6 +6,8 @@
 #include <sstream>
 #include "utils.h"
 #include "string_constants.h"
+#include "json.h"
+#include "dungeon_serializer.h"
 
 using namespace std;
 
@@ -21,8 +23,14 @@ DungeonRoom::DungeonRoom()
 
 DungeonRoom::DungeonRoom(void* _json)
 {
+	json_value* json = (json_value*)_json;
 	entityType = ENTITY_TYPE::Room;
 
+	loadInt(uid,json);
+	loadVectorString(names,json);
+	loadString(description,json);
+	loadBool(hasLight,json);
+	
 }
 
 DungeonRoom::~DungeonRoom()

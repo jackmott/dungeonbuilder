@@ -149,7 +149,7 @@ void MainMenu::loadMap(vector<string> args)
 	}
 	else
 	{
-		JSONLoader loader(args[1].c_str());		
+		loadJson(args[1]);		
 	}
 
 	wclrtoeol(responseWindow);

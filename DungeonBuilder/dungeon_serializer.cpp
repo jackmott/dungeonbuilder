@@ -9,8 +9,8 @@
 using namespace std;
 
 
-/*
-extern DungeonRoom *g_startRoom = nullptr;
+
+extern DungeonRoom *g_startRoom;
 extern DungeonPlayer *g_player;
 extern vector<DungeonRoom*> g_roomList;
 extern vector<DungeonObject*> g_objectList;
@@ -19,9 +19,9 @@ extern vector<DungeonExit*> g_exitList;
 extern vector<DungeonAction*> g_actionList;
 extern vector<DungeonEffect*> g_effectList;
 extern vector<DungeonTrigger*> g_triggerList;
-*/
 
-int _loadInt(string name, void *_json)
+
+int _loadInt(string name,void *_json)
 {
 	json_value * json = (json_value*)_json;
 	for(int i = 0; i < json->u.object.length; i++)
@@ -29,8 +29,8 @@ int _loadInt(string name, void *_json)
 		string json_name = json->u.object.values[i].name;
 		if(json_name == name)
 		{
-			if (json->u.object.values[i].value->type == json_integer)
-				return json->u.object.values[i].value->u.integer;			 
+			if(json->u.object.values[i].value->type == json_integer)
+				return json->u.object.values[i].value->u.integer;
 			else
 				break;
 		}
@@ -38,7 +38,7 @@ int _loadInt(string name, void *_json)
 	return 0; //todo - proper error here?
 }
 
-string _loadString(string name, void *_json)
+string _loadString(string name,void *_json)
 {
 	json_value * json = (json_value*)_json;
 	for(int i = 0; i < json->u.object.length; i++)
@@ -46,8 +46,8 @@ string _loadString(string name, void *_json)
 		string json_name = json->u.object.values[i].name;
 		if(json_name == name)
 		{
-			if (json->u.object.values[i].value->type == json_string)
-				return json->u.object.values[i].value->u.string.ptr;				
+			if(json->u.object.values[i].value->type == json_string)
+				return json->u.object.values[i].value->u.string.ptr;
 			else
 				break;
 		}
@@ -63,8 +63,8 @@ bool _loadBool(string name,void *_json)
 		string json_name = json->u.object.values[i].name;
 		if(json_name == name)
 		{
-			if (json->u.object.values[i].value->type == json_boolean)
-				return json->u.object.values[i].value->u.boolean;				
+			if(json->u.object.values[i].value->type == json_boolean)
+				return json->u.object.values[i].value->u.boolean;
 			else
 				break;
 		}
@@ -86,7 +86,7 @@ vector<string> _loadVectorString(string name,void *_json)
 				auto v = json->u.object.values[i].value->u.array;
 				for(int j = 0; j < v.length; j++)
 				{
-					if (v.values[j]->type == json_string) {
+					if(v.values[j]->type == json_string) {
 						string s = v.values[j]->u.string.ptr;
 						result.push_back(s);
 					}
@@ -115,7 +115,12 @@ string _writeString(string name,string value)
 
 string _writeBool(string name,bool value)
 {
-	return STR_QUOT + name +STR_QUOT + ":" + to_string(value)+",";
+	string truth;
+	
+	if (value) truth = "true";
+	else truth = "false";
+
+	return STR_QUOT + name +STR_QUOT + ":" +truth+",";
 }
 
 string _writeVectorString(string name,vector<string> const &value)
@@ -145,44 +150,51 @@ string _writeVectorEntity(string name,void *value)
 }
 
 
-JSONLoader::JSONLoader(string filename)
+void loadJson(string filename)
 {
+	ifstream fin;
 	filename.append(".json");
-	this->filename = filename;
 	fin.open(filename.c_str());
 	string contents((istreambuf_iterator<char>(fin)),istreambuf_iterator<char>());
 	const char *jsonStr = contents.c_str();
 
 	json_value* root = json_parse(jsonStr,contents.size()+1);
-	for (int i = 0; i < root->u.object.length;i++)
+	for(int i = 0; i < root->u.object.length;i++)
 	{
-		json_value* entity = root->u.object.values[i].value;
-		char* name = root->u.object.values[i].name;
-		if (name == "rooms")
+		auto v = root->u.object.values[i].value->u.array;
+		string name = root->u.object.values[i].name;
+		if(name == "rooms")
 		{
-			DungeonRoom *room = new DungeonRoom(entity);
+
+			for(int j = 0; j < v.length; j++)
+			{
+				DungeonRoom *room = new DungeonRoom(v.values[j]);
+				if(j == 0) g_startRoom = room;
+				g_roomList.push_back(room);
+			}
+
 		}
 		else if(name == "exits")
 		{
-		
+
 		}
-		else if (name == "creatures")
+		else if(name == "creatures")
 		{
 
 		}
-		else if (name == "objects")
-		{ }
-		else if (name == "effects")
-		{}
-		else if (name == "actions")
-		{}
-		else if (name == "triggers")
-		{}
+		else if(name == "objects")
+		{
+		}
+		else if(name == "effects")
+		{
+		}
+		else if(name == "actions")
+		{
+		}
+		else if(name == "triggers")
+		{
+		}
 	}
-	
-	
-}
-JSONLoader::~JSONLoader()
-{
-	fin.close();
+
+
 }
