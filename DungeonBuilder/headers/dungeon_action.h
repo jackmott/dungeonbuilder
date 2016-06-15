@@ -10,12 +10,12 @@ struct DungeonAction : DungeonEntity
 	DungeonAction();
 	DungeonAction(void* _json);
 	~DungeonAction();
+	void fixUpPointers();
 	std::string output;
 	bool needToHold;
 
 	//These will be DungeonEntities
-	std::vector<void*> targets;
-
+	std::vector<DungeonEntity*> targets;
 	std::vector<DungeonEffect*> effects;
 
 	std::string toJSON();

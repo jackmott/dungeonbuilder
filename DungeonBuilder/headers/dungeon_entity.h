@@ -18,13 +18,12 @@ enum class ENTITY_TYPE
 
 struct DungeonEntity
 {
-
-
 	ENTITY_TYPE entityType;
 	std::vector <std::string> names;
 	DungeonEntity* parent = nullptr;
 	unsigned long uid = NULL;	
-	int age=0;
+	int age=0;	
+	virtual void fixUpPointers();
 	virtual void addName(std::string name);
 	virtual void setPrimaryName(std::string name);
 	virtual std::string  getPrimaryName() const;

@@ -11,6 +11,7 @@ struct DungeonObject: DungeonEntity
 	DungeonObject();
 	DungeonObject(void* _json);
 	~DungeonObject();
+	void fixUpPointers();
 
 	std::string description;
 

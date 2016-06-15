@@ -10,6 +10,12 @@
 using namespace std;
 
 extern vector<DungeonTrigger*> g_triggerList;
+extern vector<DungeonEntity*> g_entityList;
+extern vector<DungeonObject*> g_objectList;
+extern vector<DungeonCreature*> g_creatureList;
+extern vector<DungeonEffect*> g_effectList;
+extern vector<DungeonRoom*> g_roomList;
+
 
 DungeonTrigger::DungeonTrigger()
 {
@@ -19,6 +25,7 @@ DungeonTrigger::DungeonTrigger()
 	type = TRIGGER_TYPE::Proximity;
 	magnitude = 1;
 	g_triggerList.push_back(this);
+	g_entityList.push_back(this);
 }
 
 DungeonTrigger::DungeonTrigger(void* _json)
@@ -26,10 +33,16 @@ DungeonTrigger::DungeonTrigger(void* _json)
 	entityType = ENTITY_TYPE::Trigger;
 	json_value *json = (json_value*)_json;
 	loadInt(uid,json);
+	loadEntity(parent,json);
 	loadBool(needToHold,json);
 	loadString(output,json);
 	loadInt(magnitude,json);
-
+	loadVectorEntity(objects,json);
+	loadVectorEntity(creatures,json);
+	loadVectorEntity(effects,json);
+	loadVectorEntity(rooms,json);
+	g_triggerList.push_back(this);
+	g_entityList.push_back(this);
 }
 
 DungeonTrigger::~DungeonTrigger()
@@ -37,6 +50,28 @@ DungeonTrigger::~DungeonTrigger()
 
 }
 
+
+void DungeonTrigger::fixUpPointers()
+{
+	for(int i =0; i < objects.size();i++)
+	{
+		objects[i] = (DungeonObject*)getEntityById(&g_objectList,(int)objects[i]);
+	}
+	for(int i =0; i < creatures.size();i++)
+	{
+		creatures[i] = (DungeonCreature*)getEntityById(&g_creatureList,(int)creatures[i]);
+	}
+	for(int i =0; i < effects.size();i++)
+	{
+		effects[i] = (DungeonEffect*)getEntityById(&g_effectList,(int)effects[i]);
+	}
+	for(int i =0; i < rooms.size();i++)
+	{
+		rooms[i] = (DungeonRoom*)getEntityById(&g_roomList,(int)rooms[i]);
+	}
+	if (parent != nullptr)
+		parent = (DungeonEntity*)getEntityById(&g_entityList,(int)parent);
+}
 string DungeonTrigger::getPrimaryName() const
 {
 	return TRIGGER_STRS[(int)type];
@@ -77,6 +112,7 @@ string DungeonTrigger::toJSON()
 	ostringstream sout;
 
 	sout << writeInt(uid);
+	sout << writeEntity(parent);
 	sout << writeBool(needToHold);
 	sout << writeString(output);
 	sout << writeInt(magnitude);

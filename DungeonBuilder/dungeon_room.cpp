@@ -15,13 +15,16 @@ extern vector<DungeonRoom*> g_roomList;
 extern vector<DungeonObject*> g_objectList;
 extern vector<DungeonExit*> g_exitList;
 extern vector<DungeonCreature*> g_creatureList;
+extern vector<DungeonEntity*> g_entityList;
 
 DungeonRoom::DungeonRoom()
 {
 	entityType = ENTITY_TYPE::Room;
 	uid = getUID();
-	g_roomList.push_back(this);
 	hasLight = true;
+	g_roomList.push_back(this);
+	g_entityList.push_back(this);
+	
 }
 
 DungeonRoom::DungeonRoom(void* _json)
@@ -30,6 +33,7 @@ DungeonRoom::DungeonRoom(void* _json)
 	entityType = ENTITY_TYPE::Room;
 
 	loadInt(uid,json);
+	loadEntity(parent,json);
 	loadVectorString(names,json);
 	loadString(description,json);
 	loadBool(hasLight,json);
@@ -41,29 +45,28 @@ DungeonRoom::DungeonRoom(void* _json)
 	loadVectorEntity(objects,json);
 	loadVectorEntity(creatures,json);
 	loadVectorEntity(exits,json);
+
+	g_roomList.push_back(this);
+	g_entityList.push_back(this);
 	
 }
 
 void DungeonRoom::fixUpPointers()
 {	
 	for(int i = 0; i < objects.size();i++)
-	{
-		int uid = (int)objects[i];
-		DungeonObject* o = dynamic_cast<DungeonObject*>(getEntityById(&g_objectList,uid));
-		objects[i] = o;
+	{		
+		objects[i] = dynamic_cast<DungeonObject*>(getEntityById(&g_objectList,(int)objects[i]));		 
 	}
 	for(int i = 0; i < creatures.size();i++)
-	{
-		int uid = (int)creatures[i];
-		DungeonCreature* c = dynamic_cast<DungeonCreature*>(getEntityById(&g_creatureList,uid));
-		creatures[i] = c;
+	{		
+		creatures[i] = dynamic_cast<DungeonCreature*>(getEntityById(&g_creatureList,(int)creatures[i]));		
 	}
 	for(int i = 0; i < exits.size();i++)
-	{
-		int uid = (int)exits[i];
-		DungeonExit* e = dynamic_cast<DungeonExit*>(getEntityById(&g_exitList,uid));
-		exits[i] = e;
+	{		
+		exits[i] = dynamic_cast<DungeonExit*>(getEntityById(&g_exitList,(int)exits[i]));	
 	}
+	if (parent != nullptr)
+		parent = (DungeonEntity*)getEntityById(&g_entityList,(int)parent);
 }
 
 DungeonRoom::~DungeonRoom()
@@ -75,6 +78,7 @@ string DungeonRoom::toJSON()
 {
 	ostringstream sout;
 	sout << writeInt(uid);
+	sout << writeEntity(parent);
 	sout << writeVectorString(names);
 	sout << writeString(description);
 	sout << writeBool(hasLight);

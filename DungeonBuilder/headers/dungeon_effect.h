@@ -30,7 +30,7 @@ struct DungeonEffect : DungeonEntity
 	DungeonEffect();
 	DungeonEffect(void * _json);
 	~DungeonEffect();
-		
+	void fixUpPointers();
 	EFFECT_TYPE type;
 	std::string output;
 

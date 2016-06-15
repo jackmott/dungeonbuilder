@@ -21,6 +21,7 @@ extern vector<DungeonExit*> g_exitList;
 extern vector<DungeonAction*> g_actionList;
 extern vector<DungeonEffect*> g_effectList;
 extern vector<DungeonTrigger*> g_triggerList;
+extern vector<DungeonEntity*> g_entityList;
 
 
 int _loadInt(string name,void *_json)
@@ -105,6 +106,24 @@ vector<string> _loadVectorString(string name,void *_json)
 	return result; //todo - proper error here?
 }
 
+void _loadEntity(string name,DungeonEntity **e,void *_json)
+{
+	json_value * json = (json_value*)_json;
+	for(int i = 0; i < json->u.object.length; i++)
+	{
+		string json_name = json->u.object.values[i].name;
+		if(json_name == name)
+		{
+			if(json->u.object.values[i].value->type == json_integer)
+			{
+				*e = (DungeonEntity*) json->u.object.values[i].value->u.integer;
+				return;
+			} 
+			else break;
+		}
+	}
+				
+}
 void _loadVectorEntity(string name,void *_v,void *_json)
 {
 	json_value * json = (json_value*)_json;
@@ -171,6 +190,17 @@ string _writeVectorString(string name,vector<string> const &value)
 	return result;
 }
 
+string _writeEntity(string name,DungeonEntity* value)
+{
+	if(value != nullptr)
+	{
+		return STR_QUOT + name + STR_QUOT+":"+to_string(value->uid)+",";
+	}
+	else
+	{
+		   return "";	}
+} 
+
 //This only writes out the ids
 string _writeVectorEntity(string name,void *value)
 {
@@ -206,8 +236,7 @@ void loadJson(string filename)
 			for(int j = 0; j < v.length; j++)
 			{
 				DungeonRoom *room = new DungeonRoom(v.values[j]);
-				if(j == 0) g_startRoom = room;
-				g_roomList.push_back(room);
+				if(j == 0) g_startRoom = room;				
 			}
 
 		}
@@ -215,56 +244,49 @@ void loadJson(string filename)
 		{
 			for(int j = 0; j < v.length; j++)
 			{
-				DungeonExit *exit = new DungeonExit(v.values[j]);				
-				g_exitList.push_back(exit);
+				DungeonExit *exit = new DungeonExit(v.values[j]);								
 			}
 		}
 		else if(name == "creatures")
 		{
 			for(int j = 0; j < v.length; j++)
 			{
-				DungeonCreature *creature = new DungeonCreature(v.values[j]);				
-				g_creatureList.push_back(creature);
+				DungeonCreature *creature = new DungeonCreature(v.values[j]);								
 			}
 		}
 		else if(name == "objects")
 		{
 			for(int j = 0; j < v.length; j++)
 			{
-				DungeonObject *object = new DungeonObject(v.values[j]);				
-				g_objectList.push_back(object);
+				DungeonObject *object = new DungeonObject(v.values[j]);								
 			}
 		}
 		else if(name == "effects")
 		{
 			for(int j = 0; j < v.length; j++)
 			{
-				DungeonEffect *effect = new DungeonEffect(v.values[j]);				
-				g_effectList.push_back(effect);
+				DungeonEffect *effect = new DungeonEffect(v.values[j]);								
 			}
 		}
 		else if(name == "actions")
 		{
 			for(int j = 0; j < v.length; j++)
 			{
-				DungeonAction *action = new DungeonAction(v.values[j]);				
-				g_actionList.push_back(action);
+				DungeonAction *action = new DungeonAction(v.values[j]);								
 			}
 		}
 		else if(name == "triggers")
 		{
 			for(int j = 0; j < v.length; j++)
 			{
-				DungeonTrigger *trigger = new DungeonTrigger(v.values[j]);				
-				g_triggerList.push_back(trigger);
+				DungeonTrigger *trigger = new DungeonTrigger(v.values[j]);							
 			}
 		}
 	}
 
-	for(auto r : g_roomList)
+	for(auto e : g_entityList)
 	{
-		r->fixUpPointers();
+		e->fixUpPointers();
 	}
-	
 
 }

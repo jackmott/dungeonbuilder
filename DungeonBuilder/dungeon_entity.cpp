@@ -62,4 +62,7 @@ string DungeonEntity::getPrimaryName() const
 	}
 }
 
+void DungeonEntity::fixUpPointers()
+{
 
+}

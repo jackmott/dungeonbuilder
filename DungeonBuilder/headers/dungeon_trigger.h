@@ -30,17 +30,18 @@ struct DungeonTrigger : DungeonEntity
 	DungeonTrigger(void* _json);
 	~DungeonTrigger();
 
-			
+	void fixUpPointers();
+
 	TRIGGER_TYPE type;
 	
 	bool needToHold;
 	std::string output;
 
 	int magnitude;
+	
 	std::vector<DungeonObject*> objects;
 	std::vector<DungeonRoom*> rooms;
 	std::vector<DungeonCreature*> creatures;
-
 	std::vector<DungeonEffect*> effects;
 	
 

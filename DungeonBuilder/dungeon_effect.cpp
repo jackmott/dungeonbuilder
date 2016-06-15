@@ -12,7 +12,8 @@
 using namespace std;
 
 extern vector<DungeonEffect*> g_effectList;
-
+extern vector<DungeonEntity*> g_entityList;
+extern vector<DungeonObject*> g_objectList;
 
 DungeonEffect::DungeonEffect()
 {
@@ -21,22 +22,36 @@ DungeonEffect::DungeonEffect()
 	type = EFFECT_TYPE::Heal;
 	uid = getUID();
 	g_effectList.push_back(this);
+	g_entityList.push_back(this);
 }
 
 DungeonEffect::DungeonEffect(void* _json)
 {
 	json_value* json = (json_value*)_json;
 	entityType = ENTITY_TYPE::Effect;
-	loadInt(uid,json);
+	loadInt(uid,json);	
+	loadEntity(parent,json);
+	type = (EFFECT_TYPE)loadEnum(type,json);
 	loadString(output,json);
 	loadInt(speed,json);
+	loadVectorEntity(transforms,json);
+	g_effectList.push_back(this);
+	g_entityList.push_back(this);
 	
-
 }
 DungeonEffect::~DungeonEffect()
 {
 }
 
+void DungeonEffect::fixUpPointers()
+{
+	for(int i = 0; i < transforms.size();i++)
+	{
+		transforms[i] = (DungeonObject*)getEntityById(&g_objectList,(int)transforms[i]);
+	}
+	if (parent != nullptr)
+		parent = (DungeonEntity*)getEntityById(&g_entityList,(int)parent);
+}
 string DungeonEffect::getPrimaryName() const
 {
 	return EFFECT_STRS[(int)type];
@@ -81,6 +96,8 @@ string DungeonEffect::toJSON()
 	ostringstream sout;
 
 	sout << writeInt(uid);
+	sout << writeEntity(parent);
+	sout << writeEnum(type);
 	sout << writeString(output);
 	sout << writeInt(magnitude);
 	sout << writeInt(speed);

@@ -30,6 +30,7 @@ vector<DungeonExit*> g_exitList;
 vector<DungeonAction*> g_actionList;
 vector<DungeonEffect*> g_effectList;
 vector<DungeonTrigger*> g_triggerList;
+vector<DungeonEntity*> g_entityList;
 
 
 unsigned long global_id = 0;

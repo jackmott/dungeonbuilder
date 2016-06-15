@@ -7,6 +7,10 @@
 using namespace std;
 
 extern vector<DungeonObject*> g_objectList;
+extern vector<DungeonAction*> g_actionList;
+extern vector<DungeonTrigger*> g_triggerList;
+extern vector<DungeonEntity*> g_entityList;
+
 DungeonObject::DungeonObject()
 {
 	entityType = ENTITY_TYPE::Object;
@@ -19,6 +23,7 @@ DungeonObject::DungeonObject()
 	canTake = true;
 	isLight = false;
 	g_objectList.push_back(this);
+	g_entityList.push_back(this);
 
 }
 
@@ -28,6 +33,7 @@ DungeonObject::DungeonObject(void* _json)
 	json_value* json = (json_value*)_json;
 
 	loadInt(uid,json);
+	loadEntity(parent,json);
 	loadVectorString(names,json);
 	loadString(description,json);
 	loadInt(durability,json);
@@ -37,12 +43,35 @@ DungeonObject::DungeonObject(void* _json)
 	loadBool(canTake,json);
 	loadBool(isOpen,json);
 	loadBool(isLight,json);
+	loadVectorEntity(contents,json);
+	loadVectorEntity(actions,json);
+	loadVectorEntity(triggers,json);
+	g_objectList.push_back(this);
+	g_entityList.push_back(this);
 		
 }
 
 DungeonObject::~DungeonObject()
 {
 
+}
+
+void DungeonObject::fixUpPointers()
+{
+	for(int i = 0; i < contents.size();i++)
+	{
+		contents[i] = (DungeonObject*)getEntityById(&g_objectList,(int)contents[i]);
+	}
+	for(int i = 0; i < actions.size();i++)
+	{
+		actions[i] = (DungeonAction*)getEntityById(&g_actionList,(int)actions[i]);
+	}
+	for(int i = 0; i < triggers.size();i++)
+	{
+		triggers[i] = (DungeonTrigger*)getEntityById(&g_triggerList,(int)triggers[i]);
+	}
+	if (parent != nullptr)
+		parent = (DungeonEntity*)getEntityById(&g_entityList,(int)parent);
 }
 
 void DungeonObject::applyDamage(vector<string> *textBuffer,int dmg)
@@ -63,6 +92,7 @@ string DungeonObject::toJSON()
 {
 	ostringstream sout;	
 	sout << writeInt(uid);
+	sout << writeEntity(parent);
 	sout << writeVectorString(names);
 	sout << writeString(description);
 	sout << writeInt(durability);

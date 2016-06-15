@@ -11,7 +11,7 @@ struct DungeonExit: DungeonEntity
 	DungeonExit();
 	DungeonExit(void* _json);
 	~DungeonExit();
-
+	void fixUpPointers();
 
 	bool isDoor;   // or window, or pile of rocks, whatever	
 	bool isOpen;   //or whatever

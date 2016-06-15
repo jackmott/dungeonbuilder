@@ -13,6 +13,7 @@ struct DungeonCreature: DungeonEntity
 	DungeonCreature(void* _json);
 	~DungeonCreature();
 
+	void fixUpPointers();
 	std::string description;
 	int hitpoints;
 	int alignment;
@@ -22,6 +23,7 @@ struct DungeonCreature: DungeonEntity
 
 	void attack(std::vector<std::string> *textBuffer,int magnitude,DungeonObject *weapon,DungeonPlayer *player);
 
+	std::vector<DungeonObject*> objects;
 
 	std::string toJSON();
 };
