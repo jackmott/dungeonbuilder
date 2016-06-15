@@ -8,7 +8,7 @@ using namespace std;
 
 
 void mvwprintwCenter (WINDOW * window,int row,string text)
-{	
+{
 	mvwprintw(window,row,(COLS-text.length())/2,text.c_str());
 }
 
@@ -309,93 +309,123 @@ vector<DungeonChunk> parseDungeonText(vector<string> &textBuffer)
 
 void renderDungeonText(WINDOW * window,vector<DungeonChunk> chunks)
 {
-	size_t y = 0;
+	size_t linesRemaining = getmaxy(window);
+	
 
 	//For handling centered text
-	bool centering = false;
-	vector<DungeonChar> centerBuffer;
 
-	for(auto chunk : chunks)
+
+	for(int chunks_i = chunks.size()-1; chunks_i >= 0; chunks_i--)
 	{
 		//Each chunk starts at x = 0 and default colors
 		//and attributes
+		if (linesRemaining <= 0) return;
+		auto chunk = chunks[chunks_i];
 		size_t x =0;
-		int currentColor = COLOR_WHITE;
-		int currentBgColor = COLOR_BLACK;
-		setcolors(window,currentColor,currentBgColor);
+		size_t y = 0;		
+		bool centering = false;
+		typedef vector<DungeonChar> DungeonLine;
+		vector<DungeonLine> lines;
+		DungeonLine emptyLine;
+		lines.push_back(emptyLine);
 
 		for(auto token : chunk) {
+
 			size_t remainingWidth = COLS-x;
 
 			if(token.size() > remainingWidth)
 			{
 				y++;
+				lines.push_back(emptyLine);
 				x = 0;
 			}
 			for(size_t i = 0; i < token.size(); i++)
 			{
 
 				DungeonChar dc = token[i];
-				chtype attributes;
-				if(dc.bold) attributes = A_BOLD;
-				else attributes = A_NORMAL;
 
-				if(dc.foreColor != currentColor || dc.backColor != currentBgColor)
-				{
-					setcolors(window,dc.foreColor,dc.backColor);
-					currentColor = dc.foreColor;
-					currentBgColor = dc.backColor;
-				}
-				
 				if(dc.alignment == DUNGEON_ALIGN::CENTER)
 				{
-					centering = true;
 					if(x!=0)
 					{
 						y++;
+						lines.push_back(emptyLine);
 						x=0;
 					}
-					centerBuffer.push_back(dc);
-
+					lines[y].push_back(dc);
+					centering = true;
 				}
 				else if(centering && dc.alignment == DUNGEON_ALIGN::LEFT)
 				{
-					x = (COLS - centerBuffer.size())/2;
-					for(size_t j = 0; j < centerBuffer.size();j++)
-					{
-						DungeonChar centerChar = centerBuffer[j];
-						currentColor = centerChar.foreColor;
-						currentBgColor = centerChar.backColor;
-						setcolors(window,currentColor,currentBgColor);
-						if (centerChar.bold) attributes = A_BOLD;
-						else attributes = A_NORMAL;
-						mvwaddch(window,y,x,centerChar.c | attributes);
-						x++;						
-					}
-					y++;
-					x=0;
-					centerBuffer.clear();
 					centering = false;
-				}				
-				else {
+					y++;
+					lines.push_back(emptyLine);
+					x=0;
 					if(dc.c == CHR_NEWLINE) {
-						mvwaddch(window,y,x,CHR_SPACE | attributes);
+						lines[y].push_back(dc);
 						x = 0;
 						y++;
-					}
-					else if(x > COLS) {
-						y++;
-						x = 0;
-						mvwaddch(window,y,x,dc.c | attributes);
+						lines.push_back(emptyLine);
 					}
 					else
 					{
-						mvwaddch(window,y,x,dc.c | attributes);
+						lines[y].push_back(dc);
+						x++;
+					}
+				}
+				else {
+					if(dc.c == CHR_NEWLINE) {
+						lines[y].push_back(dc);
+						x = 0;
+						y++;
+						lines.push_back(emptyLine);
+					}
+					else if(x > COLS) {
+						y++;
+						lines.push_back(emptyLine);
+						x = 0;
+						lines[y].push_back(dc);
+					}
+					else
+					{
+						lines[y].push_back(dc);
 						x++;
 					}
 				}
 			}
+
 		} // end for token
-		y++;
+
+		int fc = COLOR_WHITE;
+		int bc = COLOR_BLACK;
+		setcolors(window,fc,bc);
+		bool bold = false;
+		int attributes = A_NORMAL;
+		x = 0;		
+		int starty;
+		if (linesRemaining - lines.size() >= 0) starty = 0;
+		else starty = lines.size() - linesRemaining;
+		for (int line_i = starty; line_i < lines.size(); line_i++)
+		{
+			auto line = lines[line_i];
+			for(auto dc : line)
+			{
+				if(dc.foreColor != fc || dc.backColor != bc || dc.bold != bold)
+				{
+					fc = dc.foreColor; 
+					bc = dc.backColor;
+					setcolors(window,fc,bc);
+					if (bold) attributes = A_BOLD;
+					else attributes = A_NORMAL;
+				}
+				mvwaddch(window,starty,x,dc.c | attributes);
+				x++;
+			}
+			x=0;
+			starty++;
+			linesRemaining--;			
+		}
+		
 	} // end for chunk
+
 }
