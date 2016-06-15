@@ -421,3 +421,13 @@ vector<DungeonObject*> getAllObjects(DungeonPlayer* player,DungeonRoom* room)
 	result.insert(result.end(),resultB.begin(),resultB.end());
 	return result;
 }
+
+DungeonEntity* getEntityById(void* v,int uid)
+{
+	vector<DungeonEntity*> *eee = (vector<DungeonEntity*>*)v;
+	for(auto e : *eee)
+	{
+		if (e->uid == uid) return e;
+	}
+	return nullptr;
+}

@@ -1,7 +1,7 @@
 #include "dungeon_action.h"
 #include "dungeon_serializer.h"
 #include "utils.h"
-#include "json.h";
+#include "json.h"
 #include <sstream>
 
 using namespace std;

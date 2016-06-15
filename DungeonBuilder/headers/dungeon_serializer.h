@@ -6,9 +6,8 @@
 #include <stack>
 #include <vector>
 
+struct DungeonObject;
 
-
-struct DungeonEntity;
 
 //reflection, the C way
 // #x expands to a string literal of the variable name
@@ -25,6 +24,8 @@ struct DungeonEntity;
 #define loadBool(x,json) x = _loadBool(#x,json)
 #define loadVectorString(x,json) x = _loadVectorString(#x,json)
 
+#define loadVectorEntity(x,json) _loadVectorEntity(#x,&x,json)
+
 
 //save
 std::string _writeInt(std::string name, int value);
@@ -39,6 +40,7 @@ int _loadInt(std::string name, void* json);
 std::string _loadString(std::string name, void* json);
 bool _loadBool(std::string name, void* json);
 std::vector<std::string> _loadVectorString(std::string name, void* json);
+void _loadVectorEntity(std::string name,void* _v,void *_json);
 
 void loadJson(std::string filename);
 

@@ -59,4 +59,6 @@ std::string extractPhrase(std::vector<std::string> phrasesToFind, std::string  *
 void dbsleep(unsigned int milliseconds);
 int min(int a, int b);
 int max(int a, int b);
+
+DungeonEntity* getEntityById(void* v,int uid);
 #endif

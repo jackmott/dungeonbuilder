@@ -105,6 +105,38 @@ vector<string> _loadVectorString(string name,void *_json)
 	return result; //todo - proper error here?
 }
 
+void _loadVectorEntity(string name,void *_v,void *_json)
+{
+	json_value * json = (json_value*)_json;
+	vector<DungeonEntity*> *result = (vector<DungeonEntity*> *)_v;
+	for(int i = 0; i < json->u.object.length; i++)
+	{
+		string json_name = json->u.object.values[i].name;
+		if(json_name == name)
+		{
+			if(json->u.object.values[i].value->type == json_array)
+			{
+				auto v = json->u.object.values[i].value->u.array;
+				for(int j = 0; j < v.length; j++)
+				{
+					if(v.values[j]->type == json_integer) {
+						int uid = v.values[j]->u.integer;
+						result->push_back((DungeonEntity*)uid);
+					}
+					else {
+						break;
+					}
+				}
+				break;
+			}
+			else
+				break;
+		}
+	}	
+}
+
+
+
 string _writeInt(string name,int value)
 {
 	return STR_QUOT + name + STR_QUOT + ":" + to_string(value) +",";
@@ -152,6 +184,8 @@ string _writeVectorEntity(string name,void *value)
 }
 
 
+
+
 void loadJson(string filename)
 {
 	ifstream fin;
@@ -160,6 +194,7 @@ void loadJson(string filename)
 	string contents((istreambuf_iterator<char>(fin)),istreambuf_iterator<char>());
 	const char *jsonStr = contents.c_str();
 
+	//shallow load of all entities
 	json_value* root = json_parse(jsonStr,contents.size()+1);
 	for(int i = 0; i < root->u.object.length;i++)
 	{
@@ -226,5 +261,10 @@ void loadJson(string filename)
 		}
 	}
 
+	for(auto r : g_roomList)
+	{
+		r->fixUpPointers();
+	}
+	
 
 }

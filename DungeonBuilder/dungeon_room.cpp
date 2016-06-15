@@ -12,6 +12,9 @@
 using namespace std;
 
 extern vector<DungeonRoom*> g_roomList;
+extern vector<DungeonObject*> g_objectList;
+extern vector<DungeonExit*> g_exitList;
+extern vector<DungeonCreature*> g_creatureList;
 
 DungeonRoom::DungeonRoom()
 {
@@ -30,7 +33,37 @@ DungeonRoom::DungeonRoom(void* _json)
 	loadVectorString(names,json);
 	loadString(description,json);
 	loadBool(hasLight,json);
+
+	// This will put bogus ints in place of the pointers
+	// to be fixed up later
+	// If this is too crazy for you, maybe you aren't read for...
+	// THE DUNGEON
+	loadVectorEntity(objects,json);
+	loadVectorEntity(creatures,json);
+	loadVectorEntity(exits,json);
 	
+}
+
+void DungeonRoom::fixUpPointers()
+{	
+	for(int i = 0; i < objects.size();i++)
+	{
+		int uid = (int)objects[i];
+		DungeonObject* o = dynamic_cast<DungeonObject*>(getEntityById(&g_objectList,uid));
+		objects[i] = o;
+	}
+	for(int i = 0; i < creatures.size();i++)
+	{
+		int uid = (int)creatures[i];
+		DungeonCreature* c = dynamic_cast<DungeonCreature*>(getEntityById(&g_creatureList,uid));
+		creatures[i] = c;
+	}
+	for(int i = 0; i < exits.size();i++)
+	{
+		int uid = (int)exits[i];
+		DungeonExit* e = dynamic_cast<DungeonExit*>(getEntityById(&g_exitList,uid));
+		exits[i] = e;
+	}
 }
 
 DungeonRoom::~DungeonRoom()
