@@ -4,6 +4,8 @@
 #include "dungeon_object.h"
 #include "dungeon_exit.h"
 #include "dungeon_effect.h"
+#include "dungeon_action.h"
+#include "dungeon_trigger.h"
 #include "dungeon_creature.h"
 #include "json.h"
 using namespace std;
@@ -176,23 +178,51 @@ void loadJson(string filename)
 		}
 		else if(name == "exits")
 		{
-
+			for(int j = 0; j < v.length; j++)
+			{
+				DungeonExit *exit = new DungeonExit(v.values[j]);				
+				g_exitList.push_back(exit);
+			}
 		}
 		else if(name == "creatures")
 		{
-
+			for(int j = 0; j < v.length; j++)
+			{
+				DungeonCreature *creature = new DungeonCreature(v.values[j]);				
+				g_creatureList.push_back(creature);
+			}
 		}
 		else if(name == "objects")
 		{
+			for(int j = 0; j < v.length; j++)
+			{
+				DungeonObject *object = new DungeonObject(v.values[j]);				
+				g_objectList.push_back(object);
+			}
 		}
 		else if(name == "effects")
 		{
+			for(int j = 0; j < v.length; j++)
+			{
+				DungeonEffect *effect = new DungeonEffect(v.values[j]);				
+				g_effectList.push_back(effect);
+			}
 		}
 		else if(name == "actions")
 		{
+			for(int j = 0; j < v.length; j++)
+			{
+				DungeonAction *action = new DungeonAction(v.values[j]);				
+				g_actionList.push_back(action);
+			}
 		}
 		else if(name == "triggers")
 		{
+			for(int j = 0; j < v.length; j++)
+			{
+				DungeonTrigger *trigger = new DungeonTrigger(v.values[j]);				
+				g_triggerList.push_back(trigger);
+			}
 		}
 	}
 

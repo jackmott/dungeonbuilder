@@ -10,7 +10,7 @@ struct DungeonObject;
 struct DungeonCreature: DungeonEntity
 {
 	DungeonCreature();
-	DungeonCreature(std::string json);
+	DungeonCreature(void* _json);
 	~DungeonCreature();
 
 	std::string description;

@@ -26,12 +26,6 @@ struct DungeonEntity;
 #define loadVectorString(x,json) x = _loadVectorString(#x,json)
 
 
-struct DungeonRoom;
-struct DungeonObject;
-struct DungeonCreature;
-struct DungeonExit;
-
-
 //save
 std::string _writeInt(std::string name, int value);
 std::string _writeString(std::string name,std::string value);

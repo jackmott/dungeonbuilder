@@ -28,7 +28,7 @@ enum class EFFECT_TYPE { EFFECT_ENUM_LOOP(GEN_ENUM) };
 struct DungeonEffect : DungeonEntity
 {
 	DungeonEffect();
-	DungeonEffect(std::string json);
+	DungeonEffect(void * _json);
 	~DungeonEffect();
 		
 	EFFECT_TYPE type;

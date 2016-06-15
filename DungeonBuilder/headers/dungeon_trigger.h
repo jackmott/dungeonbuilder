@@ -27,7 +27,7 @@ enum class TRIGGER_TYPE { TRIGGER_ENUM_LOOP(GEN_ENUM) };
 struct DungeonTrigger : DungeonEntity
 {
 	DungeonTrigger();
-	DungeonTrigger(std::string json);
+	DungeonTrigger(void* _json);
 	~DungeonTrigger();
 
 			

@@ -4,6 +4,7 @@
 #include "dungeon_player.h"
 #include <sstream>
 #include "utils.h"
+#include "json.h"
 
 using namespace std;
 
@@ -16,14 +17,21 @@ DungeonCreature::DungeonCreature()
 	hitpoints = 100;
 	g_creatureList.push_back(this);
 }
+
+DungeonCreature::DungeonCreature(void* _json)
+{
+	json_value* json = (json_value*)_json;
+	entityType = ENTITY_TYPE::Creature;
+	loadInt(uid,json);
+	loadVectorString(names,json);
+	loadString(description,json);
+	loadInt(hitpoints,json);
+	loadInt(alignment,json);
+}
+
 DungeonCreature::~DungeonCreature()
 {
 
-}
-
-DungeonCreature::DungeonCreature(string json)
-{
-	entityType = ENTITY_TYPE::Creature;
 }
 
 void DungeonCreature::kill(vector<string> *textBuffer)

@@ -1,6 +1,7 @@
 #include "dungeon_action.h"
 #include "dungeon_serializer.h"
 #include "utils.h"
+#include "json.h";
 #include <sstream>
 
 using namespace std;
@@ -14,10 +15,13 @@ DungeonAction::DungeonAction()
 	g_actionList.push_back(this);
 }
 
-DungeonAction::DungeonAction(string json)
+DungeonAction::DungeonAction(void* _json)
 {
+	json_value* json = (json_value*)_json;
 	entityType = ENTITY_TYPE::Action;
-	//todo make thyself
+	loadInt(uid,json);
+	loadBool(needToHold,json);
+	loadVectorString(names,json);
 }
 
 DungeonAction::~DungeonAction()
@@ -30,6 +34,7 @@ string DungeonAction::toJSON()
 	ostringstream sout;
 
 	sout << writeInt(uid);
+	sout << writeVectorString(names);
 	sout << writeBool(needToHold);
 	sout << writeVectorEntity(effects);
 	sout << writeVectorEntity(targets);

@@ -5,6 +5,7 @@
 #include "dungeon_trigger.h"
 #include "utils.h"
 #include <sstream>
+#include "json.h"
 
 using namespace std;
 
@@ -20,9 +21,15 @@ DungeonTrigger::DungeonTrigger()
 	g_triggerList.push_back(this);
 }
 
-DungeonTrigger::DungeonTrigger(string json)
+DungeonTrigger::DungeonTrigger(void* _json)
 {
 	entityType = ENTITY_TYPE::Trigger;
+	json_value *json = (json_value*)_json;
+	loadInt(uid,json);
+	loadBool(needToHold,json);
+	loadString(output,json);
+	loadInt(magnitude,json);
+
 }
 
 DungeonTrigger::~DungeonTrigger()

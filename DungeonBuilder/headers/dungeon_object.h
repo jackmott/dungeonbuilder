@@ -9,7 +9,7 @@ struct DungeonTrigger;
 struct DungeonObject: DungeonEntity
 {
 	DungeonObject();
-	DungeonObject(std::string json);
+	DungeonObject(void* _json);
 	~DungeonObject();
 
 	std::string description;

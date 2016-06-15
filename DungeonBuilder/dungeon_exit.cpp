@@ -3,6 +3,7 @@
 #include "dungeon_room.h"
 #include <sstream>
 #include "utils.h"
+#include "json.h"
 
 using namespace std;
 
@@ -10,6 +11,7 @@ extern vector<DungeonExit*> g_exitList;
 
 DungeonExit::DungeonExit()
 {
+	entityType = ENTITY_TYPE::Exit;
 	isDoor = false;
 	isOpen = true;
 	distance = 1;
@@ -18,8 +20,19 @@ DungeonExit::DungeonExit()
 	g_exitList.push_back(this);
 }
 
-DungeonExit::DungeonExit(string json)
+DungeonExit::DungeonExit(void* _json)
 {
+	entityType = ENTITY_TYPE::Exit;
+	json_value* json = (json_value*)_json;
+	loadInt(uid,json);
+	loadVectorString(names,json);
+	loadBool(isOpen,json);
+	loadBool(isDoor,json);
+	loadInt(distance,json);
+	loadString(openingText,json);
+	loadString(closingText,json);
+	loadString(openText,json);
+	loadString(closedText,json);	
 
 }
 

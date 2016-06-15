@@ -7,6 +7,7 @@
 #include "dungeon_serializer.h"
 #include <sstream>
 #include "utils.h"
+#include "json.h"
 
 using namespace std;
 
@@ -22,9 +23,15 @@ DungeonEffect::DungeonEffect()
 	g_effectList.push_back(this);
 }
 
-DungeonEffect::DungeonEffect(string json)
+DungeonEffect::DungeonEffect(void* _json)
 {
+	json_value* json = (json_value*)_json;
 	entityType = ENTITY_TYPE::Effect;
+	loadInt(uid,json);
+	loadString(output,json);
+	loadInt(speed,json);
+	
+
 }
 DungeonEffect::~DungeonEffect()
 {
