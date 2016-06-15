@@ -309,7 +309,8 @@ vector<DungeonChunk> parseDungeonText(vector<string> &textBuffer)
 
 void renderDungeonText(WINDOW * window,vector<DungeonChunk> chunks)
 {
-	size_t linesRemaining = getmaxy(window);
+	size_t maxY = getmaxy(window);
+	size_t linesRemaining = maxY;
 	
 
 	//For handling centered text
@@ -362,7 +363,7 @@ void renderDungeonText(WINDOW * window,vector<DungeonChunk> chunks)
 					lines.push_back(emptyLine);
 					x=0;
 					if(dc.c == CHR_NEWLINE) {
-						lines[y].push_back(dc);
+						//lines[y].push_back(dc);
 						x = 0;
 						y++;
 						lines.push_back(emptyLine);
@@ -375,7 +376,7 @@ void renderDungeonText(WINDOW * window,vector<DungeonChunk> chunks)
 				}
 				else {
 					if(dc.c == CHR_NEWLINE) {
-						lines[y].push_back(dc);
+						//lines[y].push_back(dc);
 						x = 0;
 						y++;
 						lines.push_back(emptyLine);
@@ -405,24 +406,30 @@ void renderDungeonText(WINDOW * window,vector<DungeonChunk> chunks)
 		int starty;
 		if (linesRemaining - lines.size() >= 0) starty = 0;
 		else starty = lines.size() - linesRemaining;
+		int startRenderY = linesRemaining- (lines.size()-starty);
 		for (int line_i = starty; line_i < lines.size(); line_i++)
 		{
-			auto line = lines[line_i];
+			auto line = lines[line_i];			
+			if(line.size() > 0 && line[0].alignment == DUNGEON_ALIGN::CENTER)
+			{
+				x = (COLS-line.size())/2;
+			}
 			for(auto dc : line)
 			{
 				if(dc.foreColor != fc || dc.backColor != bc || dc.bold != bold)
 				{
 					fc = dc.foreColor; 
 					bc = dc.backColor;
+					bold = dc.bold;
 					setcolors(window,fc,bc);
 					if (bold) attributes = A_BOLD;
 					else attributes = A_NORMAL;
 				}
-				mvwaddch(window,starty,x,dc.c | attributes);
+				mvwaddch(window,startRenderY,x,dc.c | attributes);
 				x++;
 			}
-			x=0;
-			starty++;
+			x=0;			
+			startRenderY++;
 			linesRemaining--;			
 		}
 		
