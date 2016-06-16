@@ -351,53 +351,54 @@ void RoomEditor::resetWindows()
 	responseWindow = newwin(1,COLS,LINES-2,0);
 	mainWindow = newwin(LINES-3,COLS,1,0);
 	headerWindow = newwin(1,COLS,0,0);	
-	getmaxyx(stdscr,h,w); // this doesn't work in windows
-
+	
+	textBuffer.clear();
 
 	printHeader(headerWindow,"ROOM:"+room->getPrimaryName());
 
-	int lineCount = 2;
+	
 	string nameRow = STR_MENU_ROOM_NAME + room->getPrimaryName();
-	mvwprintw(mainWindow,lineCount,0,nameRow.c_str());
-	lineCount++;
+	textBuffer.push_back(nameRow);
+	
 	string desc = room->description.size() > (COLS - 20) ? room->description.substr(0,60) + STR_ELLIPSES : room->description;
 	string descRow = STR_MENU_DESCRIPTION + desc;
-	mvwprintw(mainWindow,lineCount,0,descRow.c_str());
-	lineCount++;
+	textBuffer.push_back(descRow);
+	
 	string torf = room->hasLight ? "T" : "F";
 	string lightRow = STR_MENU_HAS_LIGHT + torf;
-	mvwprintw(mainWindow,lineCount,0,lightRow.c_str());
+	textBuffer.push_back(lightRow);
 
-	lineCount++;
-	lineCount++;
-	mvwprintw(mainWindow,lineCount,0,STR_MENU_OBJECT);
+	textBuffer.push_back(STR_MENU_OBJECT);
+	
 	for(auto o : room->objects)
 	{
-		lineCount++;
 		string row = o->getPrimaryName();
-		mvwprintw(mainWindow,lineCount,2,row.c_str());
+		textBuffer.push_back("  "+row);		
 	}
 
-	lineCount++;
-	mvwprintw(mainWindow,lineCount,0,STR_MENU_CREATURE);
+	textBuffer.push_back(STR_MENU_CREATURE);	
 	for(auto creature : room->creatures)
 	{
-		lineCount++;
+		
 		string row = creature->getPrimaryName();
-		mvwprintw(mainWindow,lineCount,2,row.c_str());
+		textBuffer.push_back("  "+row);
 	}
 
-	lineCount++;
-	mvwprintw(mainWindow,lineCount,0,STR_MENU_EXIT);
+	textBuffer.push_back(STR_MENU_EXIT);	
 	for(auto e : room->exits)
 	{
-		lineCount++;
+	
 		string row = e->getPrimaryName() + STR_RIGHT_ARROW + e->room->getPrimaryName();
-		mvwprintw(mainWindow,lineCount,2,row.c_str());
+		textBuffer.push_back("  "+row);
 	}
-	lineCount++;
-	mvwprintw(mainWindow,lineCount,0,STR_MENU_ROOM_MOVE);
-
+	textBuffer.push_back(STR_MENU_ROOM_MOVE);
+	
+	int y = 1;
+	for(auto line : textBuffer)
+	{
+		mvwprintw(mainWindow,y,0,line.c_str());
+		y++;
+	}
 
 	wrefresh(commandWindow);
 	wrefresh(responseWindow);

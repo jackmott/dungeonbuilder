@@ -24,7 +24,9 @@ struct RoomEditor
 	WINDOW *mainWindow;
 	WINDOW *headerWindow;
 
-	int w,h;
+
+
+	std::vector<std::string> textBuffer;
 	
 	void clearWindows();
 	void resetWindows();
