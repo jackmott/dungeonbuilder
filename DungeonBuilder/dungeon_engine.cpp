@@ -498,7 +498,7 @@ void DungeonEngine::look()
 					textBuffer.push_back(exit->closedText);
 				}
 			}
-					}
+		}
 	}
 	else {
 		textBuffer.push_back("All you see is darkness....");
@@ -675,13 +675,14 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 
 		render(renderOffset);
 		string userInput = cmdW.getCommandAsString(commandWindow,STR_PROMPT);
-
+		string originalUserInput = userInput;
 		if(userInput == STR_EXIT) break;
 		if(userInput != STR_PAGE_DOWN && userInput != STR_PAGE_UP && userInput != STR_KEY_RESIZE)
 		{
 			textBuffer.push_back(STR_PROMPT+userInput);
 		}
 
+		bool didInputCauseAnyAction = false;
 		if(userInput.length() > 0) {
 
 
@@ -700,26 +701,11 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 
 				string moveStr = extractPhrase(directions,&userInput);
 
-				if(moveStr == "") {
-					vector<string> actions;
-					for(map<string,ActionFunction>::iterator it = actionMap.begin(); it != actionMap.end(); ++it) {
-						actions.push_back(it->first);
-					}
-
-					string actionStr = extractPhrase(actions,&userInput);
-					if(actionStr == ""){
-						textBuffer.push_back("What are you doing, dave?");
-					}
-					else {
-						ActionFunction actFunc = actionMap[actionStr];
-						int turnsUsed = (this->*actFunc)(actionStr,userInput);
-						gameLogic(turnsUsed);
-					}
-				}
-				else
+				if(moveStr != "")
 				{
 					move(moveMap[moveStr]);
 					gameLogic(1);
+					didInputCauseAnyAction = true;
 				}
 			}
 			else
@@ -727,8 +713,29 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 				commandFunction cmdFunc = cmdMap[verb];
 				int turnsUsed = (this->*cmdFunc)(userInput);
 				gameLogic(turnsUsed);
-
+				didInputCauseAnyAction = true;
 			}
+
+			//Apply actions, even if other things have been applied
+			vector<string> actions;
+			for(map<string,ActionFunction>::iterator it = actionMap.begin(); it != actionMap.end(); ++it) {
+				actions.push_back(it->first);
+			}
+			string actionStr = extractPhrase(actions,&originalUserInput);			
+			
+
+			if (actionStr != "") {
+				ActionFunction actFunc = actionMap[actionStr];
+				int turnsUsed = (this->*actFunc)(actionStr,userInput);
+				gameLogic(turnsUsed);
+				didInputCauseAnyAction = true;
+			}
+
+			if(!didInputCauseAnyAction)
+			{
+				textBuffer.push_back("I don't understand...");
+			}
+
 		}
 
 	}
