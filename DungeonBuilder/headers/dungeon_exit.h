@@ -20,7 +20,7 @@ struct DungeonExit: DungeonEntity
 
 	std::string openingText;
 	std::string closingText;
-
+	std::string travelText;
 	std::string openText;
 	std::string closedText;
 

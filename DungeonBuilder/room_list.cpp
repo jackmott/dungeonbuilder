@@ -100,7 +100,9 @@ void DungeonRoomList::resetWindows()
 		string id = to_string(r->uid);
 
 		mvwprintwBold(mainWindow,lineCount,0,id.c_str());
-		mvwprintw(mainWindow,lineCount,idWidth,r->getPrimaryName().c_str());
+		string roomStr = r->getPrimaryName();
+		roomStr += " ("+ r->description.substr(0,30)+" ...)";
+		mvwprintw(mainWindow,lineCount,idWidth,roomStr.c_str());
 		//print each rooms immediate exits
 		for(auto e : r->exits)
 		{
@@ -108,6 +110,7 @@ void DungeonRoomList::resetWindows()
 			{
 				lineCount++;
 				string row = e->getPrimaryName() +STR_RIGHT_ARROW+ e->room->getPrimaryName();
+				
 				mvwprintw(mainWindow,lineCount,idWidth+2,row.c_str());
 			}
 		}

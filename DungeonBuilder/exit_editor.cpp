@@ -65,6 +65,10 @@ string ExitEditor::set(vector<string> args)
 	{
 		dungeonExit->openingText = join(2,args,CHR_SPACE);
 	}
+	else if(setNoun == STR_TRAVEL_TEXT)
+	{
+		dungeonExit->travelText = join(2,args,CHR_SPACE);
+	}
 
 
 
@@ -172,7 +176,7 @@ void ExitEditor::resetWindows()
 	responseWindow = newwin(1,COLS,LINES-2,0);
 	headerWindow = newwin(1,COLS,0,0);
 	mainWindow = newwin(LINES-3,COLS,1,0);
-	
+
 	refresh();
 
 	wrefresh(commandWindow);
@@ -181,10 +185,10 @@ void ExitEditor::resetWindows()
 
 	string command;
 
-	
+
 	printHeader(headerWindow,dungeonExit->parent->getPrimaryName(),"EXIT:"+dungeonExit->getPrimaryName(),dungeonExit->room->getPrimaryName());
-	
-	
+
+
 	int lineCount = 2;
 	setcolor(mainWindow,COLOR_WHITE);
 
@@ -193,12 +197,13 @@ void ExitEditor::resetWindows()
 	mvwprintw(mainWindow,lineCount,0,nameRow.c_str());
 
 	lineCount++;
-	string openTextRow = STR_MENU_OPENTEXT + dungeonExit->openText;
-	mvwprintw(mainWindow,lineCount,0,openTextRow.c_str());
+	string travelRow = STR_MENU_TRAVEL_TEXT +  dungeonExit->travelText;
+	mvwprintw(mainWindow,lineCount,0,travelRow.c_str());
 
 	lineCount++;
 	string roomRow = STR_MENU_EXIT_ROOM + dungeonExit->room->getPrimaryName();
 	mvwprintw(mainWindow,lineCount,0,roomRow.c_str());
+
 
 	lineCount++;
 	string torf = dungeonExit->isDoor ? STR_TRUE : STR_FALSE;
@@ -206,10 +211,15 @@ void ExitEditor::resetWindows()
 	mvwprintw(mainWindow,lineCount,0,doorRow.c_str());
 
 	if(dungeonExit->isDoor) {
+
 		lineCount++;
 		torf = dungeonExit->isOpen ? STR_TRUE : STR_FALSE;
 		string openRow = STR_MENU_IS_OPEN + torf;
 		mvwprintw(mainWindow,lineCount,0,openRow.c_str());
+
+		lineCount++;
+		string openTextRow = STR_MENU_OPENTEXT + dungeonExit->openText;
+		mvwprintw(mainWindow,lineCount,0,openTextRow.c_str());
 
 		lineCount++;
 		string closedTextRow = STR_MENU_CLOSEDTEXT + dungeonExit->closedText;
@@ -232,7 +242,7 @@ void ExitEditor::resetWindows()
 DungeonRoom* ExitEditor::load(DungeonExit *_dungeonExit)
 {
 	dungeonExit = _dungeonExit;
-	
+
 	cmdMap[STR_EDIT] = &ExitEditor::edit;
 	cmdMap[STR_EXIT] = &ExitEditor::exit;
 	cmdMap[STR_SET] = &ExitEditor::set;

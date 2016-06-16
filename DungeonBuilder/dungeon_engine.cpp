@@ -371,6 +371,7 @@ void DungeonEngine::move(DungeonExit *dungeonExit)
 	//if this is not a logical door, of it is open, go!
 	if(! dungeonExit->isDoor || dungeonExit->isOpen)
 	{
+		textBuffer.push_back(dungeonExit->travelText);
 		room = dungeonExit->room;
 		turns++;
 		updateCmdMap();
@@ -497,11 +498,7 @@ void DungeonEngine::look()
 					textBuffer.push_back(exit->closedText);
 				}
 			}
-			else {
-				textBuffer.push_back(exit->openText);
-			}
-
-		}
+					}
 	}
 	else {
 		textBuffer.push_back("All you see is darkness....");

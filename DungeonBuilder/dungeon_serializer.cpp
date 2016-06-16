@@ -192,13 +192,14 @@ string _writeVectorString(string name,vector<string> const &value)
 
 string _writeEntity(string name,DungeonEntity* value)
 {
-	if(value != nullptr)
+	if(value != nullptr && value >= 0)
 	{
 		return STR_QUOT + name + STR_QUOT+":"+to_string(value->uid)+",";
 	}
 	else
 	{
-		   return "";	}
+		   return "";
+	}
 } 
 
 //This only writes out the ids

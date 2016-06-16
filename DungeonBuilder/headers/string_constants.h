@@ -22,7 +22,7 @@
 
 //Exit
 #define STR_MENU_EXIT_ROOM "[Set/Edit](Room):"
-
+#define STR_MENU_TRAVEL_TEXT "[Set](TravelText):"
 
 //Objects
 #define STR_MENU_DURABILITY "[Set](Durability):"
@@ -50,6 +50,7 @@
 #define STR_MENU_NEED_HOLD "[Set](Held):"
 
 
+#define STR_TRAVEL_TEXT "traveltext"
 #define STR_DURABILITY "durability"
 #define STR_LIGHT "light"
 #define STR_NEED_HELD "held"

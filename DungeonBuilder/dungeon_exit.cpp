@@ -33,6 +33,7 @@ DungeonExit::DungeonExit(void* _json)
 	loadBool(isOpen,json);
 	loadBool(isDoor,json);
 	loadInt(distance,json);
+	loadString(travelText,json);
 	loadString(openingText,json);
 	loadString(closingText,json);
 	loadString(openText,json);
@@ -63,6 +64,7 @@ string DungeonExit::toJSON()
 	sout << writeBool(isOpen);
 	sout << writeBool(isDoor);
 	sout << writeInt(distance);
+	sout << writeString(travelText);
 	sout << writeString(openingText);
 	sout << writeString(closingText);
 	sout << writeString(openText);
