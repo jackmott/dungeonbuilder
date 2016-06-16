@@ -25,7 +25,7 @@ typedef std::vector<DungeonToken> DungeonChunk;
 
 
 std::vector<DungeonChunk> parseDungeonText(std::vector<std::string> &textBuffer);
-void renderDungeonText(WINDOW* window,std::vector<DungeonChunk> chunks);
+void renderDungeonText(WINDOW* window,std::vector<DungeonChunk> chunks, int lineOffset);
 
 
 void mvwprintwCenter (WINDOW * window,int row, std::string  text);

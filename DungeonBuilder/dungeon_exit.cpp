@@ -45,7 +45,7 @@ DungeonExit::DungeonExit(void* _json)
 void DungeonExit::fixUpPointers()
 {
 	room = dynamic_cast<DungeonRoom*>(getEntityById(&g_roomList,(int)room));
-	if (parent != nullptr)
+	if (parent != (DungeonEntity*)-1)
 		parent = (DungeonEntity*)getEntityById(&g_entityList,(int)parent);
 }
 

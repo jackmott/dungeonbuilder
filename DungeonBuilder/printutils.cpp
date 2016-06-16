@@ -307,11 +307,11 @@ vector<DungeonChunk> parseDungeonText(vector<string> &textBuffer)
 	return chunks;
 }
 
-void renderDungeonText(WINDOW * window,vector<DungeonChunk> chunks)
+void renderDungeonText(WINDOW * window,vector<DungeonChunk> chunks,int lineOffset)
 {
 	size_t maxY = getmaxy(window);
 	size_t linesRemaining = maxY;
-	
+
 
 	//For handling centered text
 
@@ -320,10 +320,10 @@ void renderDungeonText(WINDOW * window,vector<DungeonChunk> chunks)
 	{
 		//Each chunk starts at x = 0 and default colors
 		//and attributes
-		if (linesRemaining <= 0) return;
+		if(linesRemaining <= 0) return;
 		auto chunk = chunks[chunks_i];
 		size_t x =0;
-		size_t y = 0;		
+		size_t y = 0;
 		bool centering = false;
 		typedef vector<DungeonChar> DungeonLine;
 		vector<DungeonLine> lines;
@@ -402,37 +402,47 @@ void renderDungeonText(WINDOW * window,vector<DungeonChunk> chunks)
 		setcolors(window,fc,bc);
 		bool bold = false;
 		int attributes = A_NORMAL;
-		x = 0;		
+		x = 0;
 		int starty;
-		if (linesRemaining - lines.size() >= 0) starty = 0;
+		if(linesRemaining - lines.size() >= 0) starty = 0;
 		else starty = lines.size() - linesRemaining;
 		int startRenderY = linesRemaining- (lines.size()-starty);
-		for (int line_i = starty; line_i < lines.size(); line_i++)
+		int lineFinish = lines.size();
+		for(int line_i = starty; line_i < lineFinish; line_i++)
 		{
-			auto line = lines[line_i];			
-			if(line.size() > 0 && line[0].alignment == DUNGEON_ALIGN::CENTER)
-			{
-				x = (COLS-line.size())/2;
-			}
-			for(auto dc : line)
-			{
-				if(dc.foreColor != fc || dc.backColor != bc || dc.bold != bold)
+			if(lineOffset == 0) {
+				auto line = lines[line_i];
+				if(line.size() > 0 && line[0].alignment == DUNGEON_ALIGN::CENTER)
 				{
-					fc = dc.foreColor; 
-					bc = dc.backColor;
-					bold = dc.bold;
-					setcolors(window,fc,bc);
-					if (bold) attributes = A_BOLD;
-					else attributes = A_NORMAL;
+					x = (COLS-line.size())/2;
 				}
-				mvwaddch(window,startRenderY,x,dc.c | attributes);
-				x++;
+				for(auto dc : line)
+				{
+					if(dc.foreColor != fc || dc.backColor != bc || dc.bold != bold)
+					{
+						fc = dc.foreColor;
+						bc = dc.backColor;
+						bold = dc.bold;
+						setcolors(window,fc,bc);
+						if(bold) attributes = A_BOLD;
+						else attributes = A_NORMAL;
+					}
+					mvwaddch(window,startRenderY,x,dc.c | attributes);
+					x++;
+				}
+				x=0;
+				startRenderY++;
+				linesRemaining--;
 			}
-			x=0;			
-			startRenderY++;
-			linesRemaining--;			
+			else
+			{
+				lineOffset--;
+				line_i--;				
+				lineFinish--;
+				startRenderY++;
+			}
 		}
-		
+
 	} // end for chunk
 
 }

@@ -70,7 +70,7 @@ void DungeonObject::fixUpPointers()
 	{
 		triggers[i] = (DungeonTrigger*)getEntityById(&g_triggerList,(int)triggers[i]);
 	}
-	if (parent != nullptr)
+	if (parent != (DungeonEntity*)-1)
 		parent = (DungeonEntity*)getEntityById(&g_entityList,(int)parent);
 }
 

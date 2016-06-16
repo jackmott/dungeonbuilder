@@ -49,7 +49,7 @@ void DungeonEffect::fixUpPointers()
 	{
 		transforms[i] = (DungeonObject*)getEntityById(&g_objectList,(int)transforms[i]);
 	}
-	if (parent != nullptr)
+	if (parent != (DungeonEntity*)-1)
 		parent = (DungeonEntity*)getEntityById(&g_entityList,(int)parent);
 }
 string DungeonEffect::getPrimaryName() const

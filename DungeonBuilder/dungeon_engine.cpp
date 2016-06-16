@@ -23,14 +23,13 @@ int DungeonEngine::resize(string args)
 
 int DungeonEngine::pageUp(string args)
 {
-	int bufferSize = (int)textBuffer.size() - pageSize;
-	renderOffset = min(renderOffset+pageSize,bufferSize);
+	renderOffset++;
 	return 0;
 }
 
 int DungeonEngine::pageDown(string args)
 {
-	renderOffset = max(0,renderOffset - pageSize);
+	if(renderOffset > 0) renderOffset--;
 	return 0;
 }
 
@@ -77,12 +76,28 @@ int DungeonEngine::examine(string args)
 
 	if(thing != nullptr && thing->description.size() == 0)
 	{
+		if(thing->canOpen && thing->isOpen)
+		{
+			textBuffer.push_back("It is open.");
+		}
+		else if(thing->canOpen && !thing->isOpen)
+		{
+			textBuffer.push_back("It is closed.");
+		}
 		textBuffer.push_back("You see no further detail.");
 
 	}
 	else if(thing != nullptr)
 	{
-		textBuffer.push_back(thing->description);		
+		textBuffer.push_back(thing->description);
+		if(thing->canOpen && thing->isOpen)
+		{
+			textBuffer.push_back("It is open.");
+		}
+		else if(thing->canOpen && !thing->isOpen)
+		{
+			textBuffer.push_back("It is closed.");
+		}
 	}
 	else {
 		DungeonCreature *gal = (DungeonCreature*)extractEntity(&room->creatures,&args);
@@ -93,7 +108,7 @@ int DungeonEngine::examine(string args)
 				textBuffer.push_back("There is nothing more to see.");
 			}
 			else {
-				textBuffer.push_back(gal->description);				
+				textBuffer.push_back(gal->description);
 			}
 		}
 		else
@@ -202,7 +217,7 @@ int DungeonEngine::action(string actionStr,string args)
 	{
 		textBuffer.push_back("I don't understand.");
 		return 0;
-	} 
+	}
 
 	ObjectTarget ot = extractObjectTarget(vArgs);
 	//no preposition found?
@@ -210,7 +225,7 @@ int DungeonEngine::action(string actionStr,string args)
 	{
 		ot.object = join(0,vArgs,CHR_SPACE);
 	}
-	
+
 	DungeonEntity * targetEntity = nullptr;
 	if(ot.target != "")
 	{
@@ -261,6 +276,48 @@ int DungeonEngine::action(string actionStr,string args)
 
 
 }
+
+int DungeonEngine::close(string args)
+{
+
+	//chceck for objects to open in the room
+	DungeonObject* thingToClose = extractObject(&room->objects,&args);
+	//failing that, check for them on the player
+	if(thingToClose == nullptr)
+	{
+		thingToClose = extractObject(&player->objects,&args);
+	}
+	//If it is an openable thing, that is not already open, open it!
+	if(thingToClose != nullptr && thingToClose->canOpen == true && thingToClose->isOpen == true)
+	{
+		thingToClose->isOpen = false;
+		textBuffer.push_back("You close the "+thingToClose->getPrimaryName()+".");
+		return 1;
+	}
+	else if(thingToClose != nullptr)
+	{
+		textBuffer.push_back("You can't close that.");
+		return 0;
+	}
+
+	//Now check for 'doors' to open
+	DungeonExit * exitToClose = (DungeonExit*)extractEntity(&room->exits,&args);
+	if(exitToClose != nullptr && exitToClose->isDoor && exitToClose->isOpen)
+	{
+		exitToClose->isOpen = false;
+		textBuffer.push_back(exitToClose->closingText);
+		return 1;
+	}
+	else if(exitToClose != nullptr)
+	{
+		textBuffer.push_back("You try but fail.");
+		return 0;
+	}
+
+	textBuffer.push_back("You don't see that here.");
+	return 0;
+}
+
 
 int DungeonEngine::open(string args)
 {
@@ -350,12 +407,6 @@ void DungeonEngine::resetWindows()
 	headerWindow = newwin(1,COLS,0,0);
 	commandWindow = newwin(1,COLS,LINES-1,0);
 	mainWindow = newwin(LINES-2,COLS,1,0);
-	scrollok(mainWindow,TRUE);
-	getmaxyx(stdscr,h,w);
-
-	setbackground(headerWindow,COLOR_BLACK,COLOR_RED);
-	
-	
 
 	refresh();
 	wrefresh(headerWindow);
@@ -412,7 +463,7 @@ void DungeonEngine::look()
 
 	if(isThereAnyLight)
 	{
-		textBuffer.push_back(room->description);		
+		textBuffer.push_back(room->description);
 		for(auto creature : room->creatures)
 		{
 			textBuffer.push_back(thereIsA(creature->getPrimaryName()));
@@ -465,9 +516,9 @@ void DungeonEngine::look()
 void DungeonEngine::render(unsigned long offset)
 {
 	wclear(mainWindow);
-	
-	renderDungeonText(mainWindow,parseDungeonText(textBuffer));
-	
+
+	renderDungeonText(mainWindow,parseDungeonText(textBuffer),offset);
+
 	wrefresh(mainWindow);
 }
 
@@ -481,6 +532,7 @@ void DungeonEngine::updateCmdMap()
 	cmdMap[STR_TAKE] = &DungeonEngine::take;
 	cmdMap[STR_LOOK] = &DungeonEngine::lookCmd;
 	cmdMap[STR_OPEN] = &DungeonEngine::open;
+	cmdMap[STR_CLOSE] = &DungeonEngine::close;
 	cmdMap[STR_PUT] = &DungeonEngine::put;
 	cmdMap[STR_PLACE] = &DungeonEngine::put;
 	cmdMap[STR_EXAMINE] = &DungeonEngine::examine;
@@ -572,7 +624,7 @@ void DungeonEngine::updatePhysicalObjects()
 void DungeonEngine::checkTriggers(DungeonObject* o)
 {
 
-	
+
 	for(auto t : o->triggers)
 	{
 		bool isTriggered = false;
@@ -620,9 +672,7 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 		updateCmdMap();
 		wmove(headerWindow,0,0);
 		wclrtoeol(headerWindow);
-		mvwprintw(headerWindow,0,0,"Dungeon Builder");
-		mvwprintwCenter(headerWindow,0,room->getPrimaryName().c_str());
-		mvwprintw(headerWindow,0,COLS-5,to_string(turns).c_str());
+		printHeader(headerWindow,"Dungeon Builder",room->getPrimaryName().c_str(),to_string(turns).c_str());
 		wrefresh(headerWindow);
 
 

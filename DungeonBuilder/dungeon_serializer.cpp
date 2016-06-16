@@ -122,7 +122,7 @@ void _loadEntity(string name,DungeonEntity **e,void *_json)
 			else break;
 		}
 	}
-				
+	*e = (DungeonEntity*)-1;
 }
 void _loadVectorEntity(string name,void *_v,void *_json)
 {

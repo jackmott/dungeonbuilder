@@ -69,7 +69,7 @@ void DungeonTrigger::fixUpPointers()
 	{
 		rooms[i] = (DungeonRoom*)getEntityById(&g_roomList,(int)rooms[i]);
 	}
-	if (parent != nullptr)
+	if (parent != (DungeonEntity*)-1)
 		parent = (DungeonEntity*)getEntityById(&g_entityList,(int)parent);
 }
 string DungeonTrigger::getPrimaryName() const

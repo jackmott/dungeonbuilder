@@ -65,7 +65,7 @@ void DungeonRoom::fixUpPointers()
 	{		
 		exits[i] = dynamic_cast<DungeonExit*>(getEntityById(&g_exitList,(int)exits[i]));	
 	}
-	if (parent != nullptr)
+	if (parent != (DungeonEntity*)-1)
 		parent = (DungeonEntity*)getEntityById(&g_entityList,(int)parent);
 }
 

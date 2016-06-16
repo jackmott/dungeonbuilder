@@ -47,7 +47,7 @@ void DungeonCreature::fixUpPointers()
 	{
 		objects[i] = (DungeonObject*)getEntityById(&g_objectList,(int)objects[i]);
 	}
-	if (parent != nullptr)
+	if (parent != (DungeonEntity*)-1)
 		parent = (DungeonEntity*)getEntityById(&g_entityList,(int)parent);
 }
 

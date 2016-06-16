@@ -42,7 +42,7 @@ void DungeonAction::fixUpPointers()
 	{
 		effects[i] = (DungeonEffect*)getEntityById(&g_entityList,(int)effects[i]);
 	}
-	if (parent != nullptr)
+	if (parent != (DungeonEntity*)-1)
 		parent = (DungeonEntity*)getEntityById(&g_entityList,(int)parent);
 }
 

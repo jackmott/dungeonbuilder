@@ -163,7 +163,7 @@ void MainMenu::resetWindows()
 	commandWindow = newwin(1,COLS,LINES-1,0);
 	responseWindow = newwin(1,COLS,LINES-2,0);
 	mainWindow = newwin(LINES-2,COLS,0,0);
-	getmaxyx(stdscr,h,w); // this doesn't work in windows
+	
 	refresh();
 
 	wrefresh(commandWindow);
