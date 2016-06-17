@@ -43,6 +43,8 @@ void DungeonAction::fixUpPointers()
 	}
 	if (parent != (DungeonEntity*)-1)
 		parent = (DungeonEntity*)getEntityById(&globalState.entityList,(int)parent);
+	else
+		parent = nullptr;
 }
 
 DungeonAction::~DungeonAction()

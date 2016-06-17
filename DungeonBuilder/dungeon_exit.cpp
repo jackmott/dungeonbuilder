@@ -26,7 +26,7 @@ DungeonExit::DungeonExit(void* _json)
 	entityType = ENTITY_TYPE::Exit;
 	json_value* json = (json_value*)_json;
 	loadInt(uid,json);
-	loadEntity(parent,json);
+	loadEntity(parent,json);	
 	loadVectorString(names,json);
 	loadBool(isOpen,json);
 	loadBool(isDoor,json);
@@ -46,6 +46,8 @@ void DungeonExit::fixUpPointers()
 	room = dynamic_cast<DungeonRoom*>(getEntityById(&globalState.roomList,(int)room));
 	if (parent != (DungeonEntity*)-1)
 		parent = (DungeonEntity*)getEntityById(&globalState.entityList,(int)parent);
+	else
+		parent = nullptr;
 }
 
 DungeonExit::~DungeonExit()
