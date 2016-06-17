@@ -350,7 +350,7 @@ void ObjectEditor::resetWindows()
 	string nameRow = STR_MENU_NAME + join(0,object->getNames(),',');
 	textBuffer.push_back(nameRow);
 
-	string desc = object->description.size() > (COLS - 20) ? object->description + STR_ELLIPSES : object->description;
+	string desc = object->description.size() > (COLS - 20) ? object->description.substr(0,COLS-20) + STR_ELLIPSES : object->description;
 	string descRow = STR_MENU_DESCRIPTION + desc;
 	textBuffer.push_back(descRow);
 

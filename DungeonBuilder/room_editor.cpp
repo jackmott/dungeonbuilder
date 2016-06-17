@@ -361,7 +361,7 @@ void RoomEditor::resetWindows()
 	string nameRow = STR_MENU_ROOM_NAME + room->getPrimaryName();
 	textBuffer.push_back(nameRow);
 	
-	string desc = room->description.size() > (COLS - 20) ? room->description.substr(0,60) + STR_ELLIPSES : room->description;
+	string desc = room->description.size() > (COLS - 20) ? room->description.substr(0,COLS-20) + STR_ELLIPSES : room->description;
 	string descRow = STR_MENU_DESCRIPTION + desc;
 	textBuffer.push_back(descRow);
 	
