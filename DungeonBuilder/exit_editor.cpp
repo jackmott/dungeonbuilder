@@ -184,56 +184,43 @@ void ExitEditor::resetWindows()
 
 	string command;
 
-
 	printHeader(headerWindow,dungeonExit->parent->getPrimaryName(),"EXIT:"+dungeonExit->getPrimaryName(),dungeonExit->room->getPrimaryName());
-
-
-	int lineCount = 2;
-	setcolor(mainWindow,COLOR_WHITE);
-
-
+	
 	string nameRow = STR_MENU_NAME + join(0,dungeonExit->getNames(),',');
-	mvwprintw(mainWindow,lineCount,0,nameRow.c_str());
-
-	lineCount++;
+	textBuffer.push_back(nameRow);
+	
 	string travelRow = STR_MENU_TRAVEL_TEXT +  dungeonExit->travelText;
-	mvwprintw(mainWindow,lineCount,0,travelRow.c_str());
-
-	lineCount++;
+	textBuffer.push_back(travelRow);
+	
 	string roomRow = STR_MENU_EXIT_ROOM + dungeonExit->room->getPrimaryName();
-	mvwprintw(mainWindow,lineCount,0,roomRow.c_str());
+	textBuffer.push_back(roomRow);
 
 
-	lineCount++;
+	
 	string torf = dungeonExit->isDoor ? STR_TRUE : STR_FALSE;
 	string doorRow = STR_MENU_IS_DOOR + torf;
-	mvwprintw(mainWindow,lineCount,0,doorRow.c_str());
+	textBuffer.push_back(doorRow);
 
 	if(dungeonExit->isDoor) {
 
-		lineCount++;
 		torf = dungeonExit->isOpen ? STR_TRUE : STR_FALSE;
 		string openRow = STR_MENU_IS_OPEN + torf;
-		mvwprintw(mainWindow,lineCount,0,openRow.c_str());
-
-		lineCount++;
+		textBuffer.push_back(openRow);
+		
 		string openTextRow = STR_MENU_OPENTEXT + dungeonExit->openText;
-		mvwprintw(mainWindow,lineCount,0,openTextRow.c_str());
-
-		lineCount++;
+		textBuffer.push_back(openTextRow);
+		
 		string closedTextRow = STR_MENU_CLOSEDTEXT + dungeonExit->closedText;
-		mvwprintw(mainWindow,lineCount,0,closedTextRow.c_str());
-
-		lineCount++;
+		textBuffer.push_back(closedTextRow);
+		
 		string openingTextRow = STR_MENU_OPENINGTEXT + dungeonExit->openingText;
-		mvwprintw(mainWindow,lineCount,0,openingTextRow.c_str());
-
-		lineCount++;
+		textBuffer.push_back(openingTextRow);
+		
 		string closingTextRow = STR_MENU_CLOSINGTEXT + dungeonExit->closingText;
-		mvwprintw(mainWindow,lineCount,0,closingTextRow.c_str());
+		textBuffer.push_back(closingTextRow);
 
 	}
-
+	renderTextBuffer();
 	wrefresh(mainWindow);
 
 }
@@ -259,6 +246,7 @@ DungeonRoom* ExitEditor::load(DungeonExit *_dungeonExit)
 		cmd = cmdW.getCommand(commandWindow,STR_PROMPT);
 		if(cmd.size() > 0) {
 			toLower(&cmd[0]);
+			if (checkCommonInput(cmd[0])) continue;
 			cmdFound = cmdMap.count(cmd[0]) > 0;
 		}
 

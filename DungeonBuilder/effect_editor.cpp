@@ -178,8 +178,7 @@ void EffectEditor::resetWindows()
 	responseWindow = newwin(1,COLS,LINES-2,0);
 	mainWindow = newwin(LINES-3,COLS,1,0);
 	headerWindow = newwin(1,COLS,0,0);
-
-	getmaxyx(stdscr,h,w); // this doesn't work in windows
+	
 	refresh();
 
 	wrefresh(commandWindow);
@@ -192,7 +191,7 @@ void EffectEditor::resetWindows()
 
 	printHeader(headerWindow,effect->parent->parent->getPrimaryName(),effect->parent->getPrimaryName(),"EFFECT:"+effect->getPrimaryName(),3);
 
-	int lineCount = 2;
+
 
 	setcolor(mainWindow,COLOR_WHITE);
 	string typesRow = "| ";
@@ -200,29 +199,26 @@ void EffectEditor::resetWindows()
 	{
 		typesRow += s + " | ";
 	}
-	mvwprintwCenter(mainWindow,lineCount,typesRow.c_str());
-
-	lineCount++;
+	textBuffer.push_back(typesRow);
+		
 	string typeRow = STR_MENU_TYPE + effect->getPrimaryName();
-	mvwprintw(mainWindow,lineCount,0,typeRow.c_str());
+	textBuffer.push_back(typeRow);
 
 	if(effect->type == EFFECT_TYPE::Heal || effect->type == EFFECT_TYPE::Damage)
-	{
-		lineCount++;
+	{		
 		string magnitudeRow = STR_MENU_MAGNITUDE + to_string(effect->magnitude);
-		mvwprintw(mainWindow,lineCount,0,magnitudeRow.c_str());
+		textBuffer.push_back(magnitudeRow);
 	}
 
 	if(effect->type == EFFECT_TYPE::Transform)
 	{
-		lineCount++;
-		mvwprintw(mainWindow,lineCount,0,STR_MENU_SET_ADD_OBJECT);
+		textBuffer.push_back(STR_MENU_SET_ADD_OBJECT);		
 		for(auto e : effect->transforms)
 		{
-			lineCount++;
-			mvwprintw(mainWindow,lineCount,2,e->getPrimaryName().c_str());
+			textBuffer.push_back("  "+e->getPrimaryName());			
 		}
 	}
+	renderTextBuffer();
 	wrefresh(mainWindow);
 
 }
@@ -245,6 +241,7 @@ void EffectEditor::load(DungeonEffect* _effect)
 		cmd = cmdW.getCommand(commandWindow,STR_PROMPT);
 		if(cmd.size() > 0) {
 			toLower(&cmd[0]);
+			if (checkCommonInput(cmd[0])) continue;
 			cmdFound = cmdMap.count(cmd[0]) > 0;
 		}
 		if(!cmdFound) {

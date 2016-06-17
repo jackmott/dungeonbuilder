@@ -1,10 +1,7 @@
 #ifndef EXIT_EDITOR_H
 #define EXIT_EDITOR_H
 
-#include <vector>
-#include <string>
-#include <map>
-#include "lib.h"
+#include "abstract_editor.h"
 
 struct GlobalState;
 struct DungeonRoom;
@@ -12,19 +9,13 @@ struct DungeonExit;
 
 extern GlobalState globalState;
 
-struct ExitEditor
+struct ExitEditor : AbstractEditor
 {
 	typedef std::string  (ExitEditor::*commandFunction) (std::vector<std::string>);			
 	std::map<std::string,commandFunction> cmdMap;
 
 	DungeonExit *dungeonExit;
 	
-
-	WINDOW *responseWindow;
-	WINDOW *commandWindow;
-	WINDOW *mainWindow;
-	WINDOW *headerWindow;
-
 		
 	void clearWindows();
 	void resetWindows();

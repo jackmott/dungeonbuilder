@@ -1,29 +1,18 @@
 #ifndef EFFECT_EDITOR
 #define EFFECT_EDITOR
 
-#include <map>
-#include <vector>
-#include <string>
-#include "lib.h"
+#include "abstract_editor.h"
 
 struct DungeonEffect;
 
 
-struct EffectEditor
+struct EffectEditor : AbstractEditor
 {
 	typedef std::string  (EffectEditor::*commandFunction) (std::vector<std::string>);			
 	std::map<std::string,commandFunction> cmdMap;
 
 	DungeonEffect* effect;
-
-	WINDOW *responseWindow;
-	WINDOW *commandWindow;
-	WINDOW *mainWindow;
-	WINDOW *headerWindow;
-
-	int w,h;
-
-	
+		
 	void clearWindows();
 	void resetWindows();
 	void load(DungeonEffect *_effect);

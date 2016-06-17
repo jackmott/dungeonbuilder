@@ -1,5 +1,6 @@
 #include "dungeon_effect.h"
 #include "action_editor.h"
+#include "dungeon_action.h"
 #include "command_window.h"
 #include "text_editor.h"
 #include "printutils.h"

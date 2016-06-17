@@ -150,7 +150,7 @@ void CreatureEditor::resetWindows()
 	responseWindow = newwin(1,COLS,LINES-2,0);
 	mainWindow = newwin(LINES-3,COLS,1,0);
 	headerWindow = newwin(1,COLS,0,0);
-	getmaxyx(stdscr,h,w); // this doesn't work in windows
+
 	refresh();
 
 	wrefresh(commandWindow);
@@ -163,15 +163,19 @@ void CreatureEditor::resetWindows()
 	
 	setcolor(mainWindow,COLOR_WHITE);
 	string nameRow = STR_MENU_NAME + join(0,creature->getNames(),',');
-	mvwprintw(mainWindow,3,0,nameRow.c_str());
+	textBuffer.push_back(nameRow);
+	
 	string desc = creature->description.size() > (COLS-20) ? creature->description + STR_ELLIPSES : creature->description;
 	string descRow = STR_MENU_DESCRIPTION + desc;
-	mvwprintw(mainWindow,4,0,descRow.c_str());
+	textBuffer.push_back(descRow);
+	
 	string hitpointsRow = STR_MENU_HITPOINTS + to_string(creature->hitpoints);
-	mvwprintw(mainWindow,5,0,hitpointsRow.c_str());
+	textBuffer.push_back(hitpointsRow);
+	
 	string alignmentRow = STR_MENU_ALIGNMENT + to_string(creature->alignment);
-	mvwprintw(mainWindow,6,0,alignmentRow.c_str());
+	textBuffer.push_back(alignmentRow);
 
+	renderTextBuffer();
 	wrefresh(mainWindow);
 
 }
@@ -193,6 +197,7 @@ void CreatureEditor::load(DungeonCreature *_creature)
 		cmd = cmdW.getCommand(commandWindow,STR_PROMPT);
 		if(cmd.size() > 0) {
 			toLower(&cmd[0]);
+			if (checkCommonInput(cmd[0])) continue;
 			cmdFound = cmdMap.count(cmd[0]) > 0;
 		}
 		if(!cmdFound) {

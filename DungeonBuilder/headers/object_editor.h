@@ -1,26 +1,19 @@
-#pragma once
+#ifndef OBJECT_EDITOR_H
+#define OBJECT_EDITOR_H
 
-#include <map>
-#include "lib.h"
+#include "abstract_editor.h"
 
 struct DungeonObject;
 
 
-struct ObjectEditor
+struct ObjectEditor : AbstractEditor
 {
 	typedef std::string  (ObjectEditor::*commandFunction) (std::vector<std::string>);			
 	std::map<std::string,commandFunction> cmdMap;
 
 	DungeonObject *object;
 
-	WINDOW *responseWindow;
-	WINDOW *commandWindow;
-	WINDOW *mainWindow;
-	WINDOW *headerWindow;
-
-	int w,h;
-
-	
+		
 	void clearWindows();
 	void resetWindows();
 	void load(DungeonObject *object);
@@ -32,3 +25,4 @@ struct ObjectEditor
 	std::string del(std::vector<std::string> args);
 };
 
+#endif

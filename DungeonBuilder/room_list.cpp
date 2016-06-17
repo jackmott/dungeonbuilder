@@ -9,23 +9,6 @@
 using namespace std;
 
 
-DungeonRoom* DungeonRoomList::pageUp(vector<string> args)
-{
-	pos -= 3;
-	if(pos < 0) pos = 0;
-	resetWindows();
-	return nullptr;
-}
-
-DungeonRoom* DungeonRoomList::pageDown(vector<string> args)
-{
-	pos += 3;
-	if(pos > rooms.size() - LINES - 5) pos -= 3;
-	resetWindows();
-	return nullptr;
-}
-
-
 DungeonRoom* DungeonRoomList::pickRoom(int id)
 {
 	for(auto r : rooms)
@@ -84,41 +67,39 @@ void DungeonRoomList::resetWindows()
 		printHeader(headerWindow,STR_MENU_ID_OR_NEW);
 	}
 
-	int lineCount = 0;
+
 	setcolor(mainWindow,COLOR_WHITE);
 	int idWidth = 5;
-	size_t numRows = LINES - 5;
+
 	//print all the rooms
-	for(size_t i = pos; i < numRows+pos; i++)
+	for(size_t i = 0; i < rooms.size(); i++)
 	{
-		if(i >= rooms.size())
-		{
-			break;
-		}
-		DungeonRoom *r = rooms[i];
-		lineCount++;
+		
+		DungeonRoom *r = rooms[i];		
 		string id = to_string(r->uid);
 
-		mvwprintwBold(mainWindow,lineCount,0,id.c_str());
+		while(id.size() < idWidth)
+		{
+			id += " ";
+		}
+				
 		string roomStr = r->getPrimaryName();
 		roomStr += " ("+ r->description.substr(0,30)+" ...)";
-		mvwprintw(mainWindow,lineCount,idWidth,roomStr.c_str());
+		textBuffer.push_back(id+roomStr);
 		//print each rooms immediate exits
 		for(auto e : r->exits)
 		{
 			if(e->room != nullptr)
-			{
-				lineCount++;
-				string row = e->getPrimaryName() +STR_RIGHT_ARROW+ e->room->getPrimaryName();
-				
-				mvwprintw(mainWindow,lineCount,idWidth+2,row.c_str());
+			{				
+				string row;
+				row.insert(0,idWidth+2,' ');
+				row += e->getPrimaryName() +STR_RIGHT_ARROW+ e->room->getPrimaryName();				
+				textBuffer.push_back(row);
 			}
 		}
 
 	}
-	if(rooms.size() > numRows+pos) {
-		mvwprintwCenter(mainWindow,numRows+1,"PgDown For More");
-	}
+	renderTextBuffer();
 
 	wrefresh(mainWindow);
 	wrefresh(headerWindow);
@@ -130,12 +111,9 @@ DungeonRoom* DungeonRoomList::load(vector<DungeonRoom *> _rooms,DungeonExit* _fr
 
 	rooms = _rooms;
 	fromExit = _fromExit;
-
-	pos = 0;
+	
 
 	cmdMap[STR_NEW] = &DungeonRoomList::newRoom;
-	cmdMap[STR_PAGE_UP] = &DungeonRoomList::pageUp;
-	cmdMap[STR_PAGE_DOWN] = &DungeonRoomList::pageDown;
 	resetWindows();
 
 	CommandWindow cmdW;
@@ -146,6 +124,7 @@ DungeonRoom* DungeonRoomList::load(vector<DungeonRoom *> _rooms,DungeonExit* _fr
 
 		if(cmd[0].size() > 0)
 		{
+			if (checkCommonInput(cmd[0])) continue;
 			//check if input was a number
 			char *p;
 			long id = strtol(cmd[0].c_str(),&p,10);

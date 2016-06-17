@@ -1,3 +1,4 @@
+#include "dungeon_action.h"
 #include "dungeon_object.h"
 #include "trigger_editor.h"
 #include "object_editor.h"
@@ -266,8 +267,7 @@ void ObjectEditor::resetWindows()
 	responseWindow = newwin(1,COLS,LINES-2,0);
 	mainWindow = newwin(LINES-3,COLS,1,0);
 	headerWindow = newwin(1,COLS,0,0);
-	
-	getmaxyx(stdscr,h,w); // this doesn't work in windows
+		
 	refresh();
 
 	wrefresh(commandWindow);
@@ -276,7 +276,6 @@ void ObjectEditor::resetWindows()
 	wrefresh(headerWindow);
 
 	string command;
-
 	
 	string childString;
 	if(object->contents.size() == 1)
@@ -292,72 +291,54 @@ void ObjectEditor::resetWindows()
 		childString = "empty";	
 	}
 	printHeader(headerWindow,object->parent->getPrimaryName(),"OBJECT:"+object->getPrimaryName(),childString);
-	
-	int lineCount = 2;	
-	
+			
 	setcolor(mainWindow,COLOR_WHITE);
 	string nameRow = STR_MENU_NAME + join(0,object->getNames(),',');
-	mvwprintw(mainWindow,lineCount,0,nameRow.c_str());
-
-	lineCount++;
+	textBuffer.push_back(nameRow);
+	
 	string desc = object->description.size() > (COLS - 20) ? object->description + STR_ELLIPSES : object->description;
 	string descRow = STR_MENU_DESCRIPTION + desc;
-	mvwprintw(mainWindow,lineCount,0,descRow.c_str());
-	
-	lineCount++;
-	mvwprintw(mainWindow,lineCount,0,STR_MENU_OBJECT);
+	textBuffer.push_back(descRow);
+			
+	textBuffer.push_back(STR_MENU_OBJECT);
 	for(auto o : object->contents)
-	{
-		lineCount++;
-		string row = o->getPrimaryName();
-		mvwprintw(mainWindow,lineCount,2,row.c_str());
+	{				
+		textBuffer.push_back(o->getPrimaryName());
 	}
 
 
-	lineCount++;	
-	mvwprintw(mainWindow,lineCount,0,STR_MENU_ACTIONS);
+	textBuffer.push_back(STR_MENU_ACTIONS);	
 	for(auto a : object->actions)
 	{
-		lineCount++;
-		string row = a->getPrimaryName();
-		mvwprintw(mainWindow,lineCount,2,row.c_str());
+		textBuffer.push_back(a->getPrimaryName());
 	}
 
-	lineCount++;	
-	mvwprintw(mainWindow,lineCount,0,STR_MENU_TRIGGERS);
+	textBuffer.push_back(STR_MENU_TRIGGERS);	
 	for(auto t : object->triggers)
 	{
-		lineCount++;
-		string row = t->getPrimaryName();
-		mvwprintw(mainWindow,lineCount,2,row.c_str());
+		textBuffer.push_back(t->getPrimaryName());
 	}
-
-
-	lineCount++;
+	
 	string dmgRow = STR_MENU_DURABILITY + to_string(object->durability);
-	mvwprintw(mainWindow,lineCount,0,dmgRow.c_str());
-
-	lineCount++;
+	textBuffer.push_back(dmgRow);
+	
 	string torf = object->canTake? STR_TRUE : STR_FALSE;
 	string takeRow = STR_MENU_TAKEABLE + torf;
-	mvwprintw(mainWindow,lineCount,0,takeRow.c_str());
-
-	lineCount++;
+	textBuffer.push_back(takeRow);
+	
 	torf = object->canOpen ? STR_TRUE : STR_FALSE;
 	string canOpenRow = STR_MENU_CAN_OPEN + torf;
-	mvwprintw(mainWindow,lineCount,0,canOpenRow.c_str());
-
-	lineCount++;
+	textBuffer.push_back(canOpenRow);
+	
 	torf = object->isOpen ? STR_TRUE : STR_FALSE;
 	string isOpenRow = STR_MENU_IS_OPEN + torf;
-	mvwprintw(mainWindow,lineCount,0,isOpenRow.c_str());
+	textBuffer.push_back(isOpenRow);
 
-	lineCount++;
 	torf = object->isLight ? STR_TRUE : STR_FALSE;
 	string isLightRow = STR_MENU_HAS_LIGHT + torf;
-	mvwprintw(mainWindow,lineCount,0,isLightRow.c_str());
+	textBuffer.push_back(isLightRow);
 
-
+	renderTextBuffer();
 	wrefresh(mainWindow);
 
 }
@@ -379,6 +360,7 @@ void ObjectEditor::load(DungeonObject *_object)
 		cmd = cmdW.getCommand(commandWindow,STR_PROMPT);
 		if(cmd.size() > 0) {
 			toLower(&cmd[0]);
+			if (checkCommonInput(cmd[0])) continue;
 			cmdFound = cmdMap.count(cmd[0]) > 0;
 		}
 		if(!cmdFound) {

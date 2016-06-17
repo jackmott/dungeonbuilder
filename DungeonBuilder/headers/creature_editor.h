@@ -1,28 +1,18 @@
 #ifndef CREATURE_EDITOR
 #define CREATURE_EDITOR
 
-#include <vector>
-#include <string>
-#include <map>
-#include "lib.h"
+#include "abstract_editor.h"
+
 
 struct DungeonCreature;
 
 
-struct CreatureEditor
+struct CreatureEditor : AbstractEditor
 {
 	typedef std::string  (CreatureEditor::*commandFunction) (std::vector<std::string>);			
 	std::map<std::string,commandFunction> cmdMap;
 
 	DungeonCreature *creature;
-
-	WINDOW *responseWindow;
-	WINDOW *commandWindow;
-	WINDOW *mainWindow;
-	WINDOW *headerWindow;
-
-	int w,h;
-
 	
 	void clearWindows();
 	void resetWindows();

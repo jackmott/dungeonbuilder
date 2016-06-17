@@ -2,8 +2,8 @@
 #define ACTION_EDITOR_H
 
 #include "abstract_editor.h"
-#include "dungeon_action.h"
-#include "lib.h"
+
+struct DungeonAction;
 
 
 struct ActionEditor : AbstractEditor
