@@ -686,7 +686,7 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 		updateCmdMap();
 		wmove(headerWindow,0,0);
 		wclrtoeol(headerWindow);
-		printHeader(headerWindow,"Dungeon Builder",room->getPrimaryName().c_str(),to_string(turns).c_str());
+		printEngineHeader(headerWindow,"Dungeon Builder",room->getPrimaryName(),to_string(turns));
 		wrefresh(headerWindow);
 
 

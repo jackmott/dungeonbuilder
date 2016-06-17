@@ -74,15 +74,9 @@ void DungeonObjectList::resetWindows()
 
 	string command;
 
-
-
-
-	//if(fromExit != nullptr){
-		//printHeader(headerWindow,fromExit->parent->getPrimaryName(),"EXIT:"+fromExit->getPrimaryName(),STR_MENU_ID_OR_NEW);		
-	//}
-	//else {
-	printHeader(headerWindow,STR_MENU_ID_OR_NEW);
-	//}
+	
+	printHeader(headerWindow,"Object List",STR_MENU_ID_OR_NEW);
+	
 
 	int lineCount = 0;
 	setcolor(mainWindow,COLOR_WHITE);

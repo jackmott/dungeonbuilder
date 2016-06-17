@@ -189,9 +189,7 @@ void EffectEditor::resetWindows()
 	string command;
 
 
-	printHeader(headerWindow,effect->parent->parent->getPrimaryName(),effect->parent->getPrimaryName(),"EFFECT:"+effect->getPrimaryName(),3);
-
-
+	printHeader(headerWindow,"Effect",effect->parent->parent->getPrimaryName(),effect->parent->getPrimaryName(),effect->getPrimaryName(),3);
 
 	setcolor(mainWindow,COLOR_WHITE);
 	string typesRow = "| ";

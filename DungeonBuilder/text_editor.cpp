@@ -19,7 +19,7 @@ void TextEditor::resetWindows()
 {	
 	headerWindow = newwin(1,COLS,0,0);
 	mainWindow = newwin(LINES-1,COLS,1,0);
-	printHeader(headerWindow,header);
+	printHeader(headerWindow,"Dungeon Edit",header);
 	keypad(mainWindow,true);   //turns on arrows and f keys
 }
 

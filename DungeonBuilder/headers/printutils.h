@@ -35,8 +35,8 @@ int getColorGroup(int fore,int back);
 void setbackground(WINDOW* window,int fore,int back);
 void setcolor (WINDOW* window, int fore);
 void setcolors(WINDOW* window, int fore,int back);
-void printHeader(WINDOW *window,std::string leftText,std::string centerText,std::string rightText, int boldIndex = 2);
-void printHeader(WINDOW* window,std::string text);
-void printHeader(WINDOW *window,std::string leftText,std::string rightText);
-
+void printHeader(WINDOW *window,std::string heading,std::string leftText,std::string centerText,std::string rightText, int boldIndex = 2);
+void printHeader(WINDOW* window,std::string heading,std::string text);
+void printHeader(WINDOW *window,std::string heading,std::string leftText,std::string rightText);
+void printEngineHeader(WINDOW *window,std::string heading,std::string location,std::string turns);
 #endif

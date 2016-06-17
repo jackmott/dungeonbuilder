@@ -61,10 +61,10 @@ void DungeonRoomList::resetWindows()
 
 
 	if(fromExit != nullptr){
-		printHeader(headerWindow,fromExit->parent->getPrimaryName(),"EXIT:"+fromExit->getPrimaryName(),STR_MENU_ID_OR_NEW);
+		printHeader(headerWindow,"Exit Room List",fromExit->parent->getPrimaryName(),fromExit->getPrimaryName(),STR_MENU_ID_OR_NEW);
 	}
 	else {
-		printHeader(headerWindow,STR_MENU_ID_OR_NEW);
+		printHeader(headerWindow,"Room List",STR_MENU_ID_OR_NEW);
 	}
 
 

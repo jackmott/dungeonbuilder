@@ -37,6 +37,7 @@ DungeonObject::DungeonObject(void* _json)
 	loadInt(durability,json);
 	loadInt(mass,json);
 	loadInt(size,json);
+	loadBool(isSurface,json);
 	loadBool(canOpen,json);
 	loadBool(canTake,json);
 	loadBool(isOpen,json);
@@ -107,6 +108,7 @@ string DungeonObject::toJSON()
 	sout << writeBool(canTake);
 	sout << writeBool(isOpen);
 	sout << writeBool(isLight);
+	sout << writeBool(isSurface);
 	sout << writeVectorEntity(contents);
 	sout << writeVectorEntity(actions);
 	sout << writeVectorEntity(triggers);

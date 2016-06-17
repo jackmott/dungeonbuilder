@@ -344,7 +344,7 @@ void ObjectEditor::resetWindows()
 	{
 		childString = "empty";
 	}
-	printHeader(headerWindow,object->parent->getPrimaryName(),"OBJECT:"+object->getPrimaryName(),childString);
+	printHeader(headerWindow,"Object",object->parent->getPrimaryName(),object->getPrimaryName(),childString);
 
 	setcolor(mainWindow,COLOR_WHITE);
 	string nameRow = STR_MENU_NAME + join(0,object->getNames(),',');

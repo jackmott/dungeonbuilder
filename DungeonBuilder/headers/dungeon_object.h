@@ -14,6 +14,7 @@ struct DungeonObject: DungeonEntity
 	void fixUpPointers();
 
 	std::string description;
+	
 
 	int durability;
 	int mass;

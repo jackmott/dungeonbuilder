@@ -151,7 +151,7 @@ void TriggerEditor::resetWindows()
 	string command;
 
 
-	printHeader(headerWindow,trigger->parent->parent->getPrimaryName(),trigger->parent->getPrimaryName(),"Trigger:"+trigger->getPrimaryName(),3);
+	printHeader(headerWindow,"Trigger",trigger->parent->parent->getPrimaryName(),trigger->parent->getPrimaryName(),trigger->getPrimaryName(),3);
 	
 
 	string typeRow = STR_MENU_TYPE + trigger->getPrimaryName();

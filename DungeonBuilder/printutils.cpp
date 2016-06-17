@@ -29,23 +29,23 @@ void mvwprintwCenterBold (WINDOW *window,int row,string text)
 
 
 #define DUNGEON_HEADER_BG COLOR_RED
-#define DUNGEON_HEADER_FG COLOR_BLACK
-#define DUNGEON_HEADER_FG_BOLD COLOR_WHITE
+#define DUNGEON_HEADER_FG COLOR_WHITE
 
-void printHeader(WINDOW *window,string leftText,string centerText,string rightText,int boldIndex)
+
+void printHeader(WINDOW *window,string heading, string leftText,string centerText,string rightText,int boldIndex)
 {
 
 	setbackground(window,DUNGEON_HEADER_FG,DUNGEON_HEADER_BG);
 	wclrtoeol(window);
 
 	centerText = STR_RIGHT_ARROW + centerText + STR_RIGHT_ARROW;
-
+	mvwprintwBold(window,0,0,heading.c_str());
 
 	int startX = (COLS - (leftText.size()+rightText.size()+centerText.size()))/2;
 
 	if(boldIndex == 1)
 	{
-		setcolors(window,DUNGEON_HEADER_FG_BOLD,DUNGEON_HEADER_BG);
+		setcolors(window,DUNGEON_HEADER_FG,DUNGEON_HEADER_BG);
 		mvwprintwBold(window,0,startX,leftText.c_str());
 	}
 	else
@@ -57,7 +57,7 @@ void printHeader(WINDOW *window,string leftText,string centerText,string rightTe
 
 	if(boldIndex == 2)
 	{
-		setcolors(window,DUNGEON_HEADER_FG_BOLD,DUNGEON_HEADER_BG);
+		setcolors(window,DUNGEON_HEADER_FG,DUNGEON_HEADER_BG);
 		mvwprintwBold(window,0,startX,centerText.c_str());
 	}
 	else
@@ -69,7 +69,7 @@ void printHeader(WINDOW *window,string leftText,string centerText,string rightTe
 	setcolors(window,DUNGEON_HEADER_FG,DUNGEON_HEADER_BG);
 	if(boldIndex == 3)
 	{
-		setcolors(window,DUNGEON_HEADER_FG_BOLD,DUNGEON_HEADER_BG);
+		setcolors(window,DUNGEON_HEADER_FG,DUNGEON_HEADER_BG);
 		mvwprintwBold(window,0,startX,rightText.c_str());
 	}
 	else
@@ -80,29 +80,37 @@ void printHeader(WINDOW *window,string leftText,string centerText,string rightTe
 	wrefresh(window);
 }
 
-void printHeader(WINDOW *window,string leftText,string rightText){
+void printHeader(WINDOW *window,string heading,string leftText,string rightText){
 
 	setbackground(window,DUNGEON_HEADER_FG,DUNGEON_HEADER_BG);
 	wclrtoeol(window);
-
+	mvwprintwBold(window,0,0,heading.c_str());
 	rightText = STR_RIGHT_ARROW + rightText;
 
 	int startX = (COLS - (leftText.size()+rightText.size()))/2;
 	setcolors(window,DUNGEON_HEADER_FG,DUNGEON_HEADER_BG);
 	mvwprintw(window,0,startX,leftText.c_str());
 	startX += leftText.size();
-	setcolors(window,DUNGEON_HEADER_FG_BOLD,DUNGEON_HEADER_BG);
+	setcolors(window,DUNGEON_HEADER_FG,DUNGEON_HEADER_BG);
 	mvwprintwBold(window,0,startX,rightText.c_str());
 	wrefresh(window);
 }
 
-void printHeader(WINDOW* window,string text)
+void printHeader(WINDOW* window,string heading,string text)
 {
 	setbackground(window,DUNGEON_HEADER_FG,DUNGEON_HEADER_BG);
 	wclrtoeol(window);
-
+	mvwprintwBold(window,0,0,heading);
 	mvwprintwCenterBold(window,0,text.c_str());
 	wrefresh(window);
+}
+
+void printEngineHeader(WINDOW *window,string heading,string location,string turns)
+{
+	setbackground(window,COLOR_BLACK,COLOR_WHITE);
+	mvwprintw(window,0,0,heading.c_str());
+	mvwprintwCenter(window,0,location);
+	mvwprintw(window,0,COLS-10,turns.c_str());
 }
 
 //to keep track of color pairs and group numbers because
@@ -284,6 +292,7 @@ vector<DungeonChunk> parseDungeonText(vector<string> &textBuffer)
 				}
 				else if(dc.c == CHR_NEWLINE)
 				{
+					align = DUNGEON_ALIGN::LEFT;
 					chunk.push_back(token);
 					token.clear();
 					while(i < text.size() && (unsigned char)text[i] == CHR_NEWLINE)

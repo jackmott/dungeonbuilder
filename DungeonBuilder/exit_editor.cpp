@@ -184,7 +184,7 @@ void ExitEditor::resetWindows()
 
 	string command;
 
-	printHeader(headerWindow,dungeonExit->parent->getPrimaryName(),"EXIT:"+dungeonExit->getPrimaryName(),dungeonExit->room->getPrimaryName());
+	printHeader(headerWindow,"Exit",dungeonExit->parent->getPrimaryName(),dungeonExit->getPrimaryName(),dungeonExit->room->getPrimaryName());
 	
 	string nameRow = STR_MENU_NAME + join(0,dungeonExit->getNames(),',');
 	textBuffer.push_back(nameRow);

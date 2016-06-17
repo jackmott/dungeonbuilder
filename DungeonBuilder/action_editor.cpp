@@ -157,9 +157,7 @@ void ActionEditor::resetWindows()
 	string command;
 
 
-	printHeader(headerWindow,action->parent->parent->getPrimaryName(),action->parent->getPrimaryName(),"ACTION:"+action->getPrimaryName(),3);
-
-
+	printHeader(headerWindow,"Action",action->parent->parent->getPrimaryName(),action->parent->getPrimaryName(),action->getPrimaryName(),3);
 
 	setcolor(mainWindow,COLOR_WHITE);
 

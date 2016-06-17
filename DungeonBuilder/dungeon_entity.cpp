@@ -5,8 +5,24 @@ using namespace std;
 void DungeonEntity::addName(string name)
 {
 	names.push_back(name);
+	if(names.size() == 1)
+	{
+		guessArticle();
+	}
 }
 
+void DungeonEntity::guessArticle()
+{
+	string name = names[0];
+	if(isVowel(name[0]))
+	{
+		article = "an";
+	}
+	else
+	{
+		article = "a";
+	}
+}
 bool DungeonEntity::removeName(string name)
 {
 	if(names.size() > 1) {
@@ -44,6 +60,7 @@ void DungeonEntity::setPrimaryName(string name)
 	if(names.size() > 0)
 	{
 		names[0] = name;
+		guessArticle();
 	}
 	else
 	{

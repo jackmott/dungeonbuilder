@@ -159,7 +159,7 @@ void CreatureEditor::resetWindows()
 
 	string command;
 
-	printHeader(headerWindow,creature->parent->getPrimaryName(),"CREATURE:"+creature->getPrimaryName(),"");
+	printHeader(headerWindow,"Creature",creature->parent->getPrimaryName(),creature->getPrimaryName(),"");
 	
 	setcolor(mainWindow,COLOR_WHITE);
 	string nameRow = STR_MENU_NAME + join(0,creature->getNames(),',');

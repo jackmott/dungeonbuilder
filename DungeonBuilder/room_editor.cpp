@@ -355,7 +355,7 @@ void RoomEditor::resetWindows()
 	
 	textBuffer.clear();
 
-	printHeader(headerWindow,"ROOM:"+room->getPrimaryName());
+	printHeader(headerWindow,"Room",room->getPrimaryName());
 
 	
 	string nameRow = STR_MENU_ROOM_NAME + room->getPrimaryName();
