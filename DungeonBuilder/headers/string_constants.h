@@ -25,6 +25,8 @@
 #define STR_MENU_TRAVEL_TEXT "[Set](TravelText):"
 
 //Objects
+#define STR_MENU_CONTENTS "[Add/Del/Edit](Contents):"
+#define STR_MENU_ONTOP "[Add/Del/Edit](OnTop):"
 #define STR_MENU_DURABILITY "[Set](Durability):"
 #define STR_MENU_ACTIONS "[Add/Del/Edit](Action):"
 #define STR_MENU_TRIGGERS "[Add/Del/Edit](Trigger):"
@@ -32,6 +34,7 @@
 #define STR_MENU_CAN_OPEN "[Set](Openable)[T/F]:"
 #define STR_MENU_IS_OPEN "[Set](Open)[T/F]:"
 #define STR_MENU_IS_DOOR "[Set](Door)[T/F]:"
+#define STR_MENU_IS_SURFACE "[Set](Surface)[T/F]"
 #define STR_MENU_OPENTEXT "[Set](Desc/OpenText):"
 #define STR_MENU_CLOSEDTEXT "[Set](ClosedText):"
 #define STR_MENU_OPENINGTEXT "[Set](OpeningText):"
@@ -50,6 +53,9 @@
 #define STR_MENU_NEED_HOLD "[Set](Held):"
 
 
+#define STR_SURFACE "surface"
+#define STR_CONTENTS "contents"
+#define STR_ONTOP "ontop"
 #define STR_TRAVEL_TEXT "traveltext"
 #define STR_DURABILITY "durability"
 #define STR_LIGHT "light"

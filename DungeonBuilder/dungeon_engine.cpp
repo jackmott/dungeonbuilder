@@ -430,7 +430,12 @@ void DungeonEngine::showContents(vector<DungeonObject*> *objects,int depth)
 			textBuffer.push_back(indent+a_an(o->getPrimaryName())+ " which contains ");
 			showContents(&o->contents,depth+1);
 		}
-		else {
+		if(o->ontops.size() > 0)
+		{
+			textBuffer.push_back(indent+a_an("on top of the "+o->getPrimaryName()+" you see " ));
+			showContents(&o->ontops,depth+1);
+		}
+		else if (o->ontops.size() == 0 && (!o->isOpen || o->contents.size() ==0)) {
 			textBuffer.push_back(indent + a_an(o->getPrimaryName()));
 		}
 
@@ -473,12 +478,24 @@ void DungeonEngine::look()
 		for(auto o : room->objects)
 		{
 			string objString = thereIsA(o->getPrimaryName())+".";
+			bool thereIsA = false;
 			if(o->isOpen && o->contents.size() > 0) {
+				thereIsA = true;
 				objString += " Inside it you see ";
 				textBuffer.push_back(objString);
 				showContents(&o->contents);
 			}
-			else {
+			if(o->ontops.size() > 0)
+			{
+				if (thereIsA)
+					objString = " On the "+o->getPrimaryName()+" you see";
+				else 
+					objString += "On it you see";
+				textBuffer.push_back(objString);
+				showContents(&o->ontops);
+			}
+			
+			if (o->ontops.size() == 0 && (!o->isOpen || o->contents.size() == 0)){
 				textBuffer.push_back(objString);
 			}
 

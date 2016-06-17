@@ -19,6 +19,7 @@ DungeonObject::DungeonObject()
 	isOpen = false;
 	canTake = true;
 	isLight = false;
+	isSurface = false;
 	globalState.objectList.push_back(this);
 	globalState.entityList.push_back(this);
 
@@ -41,6 +42,7 @@ DungeonObject::DungeonObject(void* _json)
 	loadBool(isOpen,json);
 	loadBool(isLight,json);
 	loadVectorEntity(contents,json);
+	loadVectorEntity(ontops,json);
 	loadVectorEntity(actions,json);
 	loadVectorEntity(triggers,json);
 	globalState.objectList.push_back(this);
@@ -58,6 +60,10 @@ void DungeonObject::fixUpPointers()
 	for(int i = 0; i < contents.size();i++)
 	{
 		contents[i] = (DungeonObject*)getEntityById(&globalState.objectList,(int)contents[i]);
+	}
+	for(int i = 0; i < contents.size();i++)
+	{
+		ontops[i] = (DungeonObject*)getEntityById(&globalState.objectList,(int)ontops[i]);
 	}
 	for(int i = 0; i < actions.size();i++)
 	{
@@ -104,6 +110,7 @@ string DungeonObject::toJSON()
 	sout << writeVectorEntity(contents);
 	sout << writeVectorEntity(actions);
 	sout << writeVectorEntity(triggers);
+	sout << writeVectorEntity(ontops);
 
 	return sout.str();
 	

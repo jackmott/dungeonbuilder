@@ -33,13 +33,13 @@ string ObjectEditor::del(vector<string> args)
 		{
 			return "Provide an alias to delete.";
 		}
-		string actionStr = join(2,args,CHR_SPACE);		
-		DungeonAction *a = (DungeonAction*) extractEntity(&object->actions,&actionStr);		
+		string actionStr = join(2,args,CHR_SPACE);
+		DungeonAction *a = (DungeonAction*)extractEntity(&object->actions,&actionStr);
 		if(a == nullptr)
 		{
-			return "That doesn't seem to exit.";	
+			return "That doesn't seem to exit.";
 		}
-		
+
 	}
 	else if(delNoun == STR_NAME)
 	{
@@ -47,12 +47,12 @@ string ObjectEditor::del(vector<string> args)
 		{
 			return "Provide a name to delete.";
 		}
-		string name = join(2,args,CHR_SPACE);				
+		string name = join(2,args,CHR_SPACE);
 		if(!object->removeName(name)) {
 			return "You can't.";
-		}				
+		}
 	}
-	else if(delNoun == STR_OBJECT)
+	else if(delNoun == STR_CONTENTS)
 	{
 		if(args.size() <3)
 		{
@@ -63,18 +63,35 @@ string ObjectEditor::del(vector<string> args)
 		if(o != nullptr)
 		{
 			removePointer(&object->contents,o);
-			delete o;		
+			delete o;
 		}
 		else
 		{
 			return "I don't see that here.";
 		}
 	}
-
+	else if(delNoun == STR_ONTOP)
+	{
+		if(args.size() <3)
+		{
+			return "Which object do you want to delete?";
+		}
+		string objStr = join(2,args,CHR_SPACE);
+		DungeonObject *o = (DungeonObject*)extractEntity(&object->ontops,&objStr);
+		if(o != nullptr)
+		{
+			removePointer(&object->ontops,o);
+			delete o;
+		}
+		else
+		{
+			return "I don't see that here.";
+		}
+	}
 	else
 	{
 		return "I don't know how to add that.";
-	}	
+	}
 	resetWindows();
 	return "";
 }
@@ -97,14 +114,23 @@ string ObjectEditor::set(vector<string> args)
 	}
 	else if(editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
 	{
-		string desc = join(2,args,CHR_SPACE);		
+		string desc = join(2,args,CHR_SPACE);
 		object->description = desc;
+	}
+	else if(editNoun == STR_SURFACE)
+	{		
+		bool b = isAffirmative(args[2]);
+		if(object->ontops.size() > 0 && !b)
+		{
+			return "Remove all objects first";
+		}
+		object->isSurface = isAffirmative(args[2]);
 	}
 	else if(editNoun == STR_DURABILITY)
 	{
 		string durStr = args[2];
 		object->durability = stoi(durStr,nullptr,10);
-		
+
 	}
 	else if(editNoun == STR_TAKEABLE)
 	{
@@ -125,7 +151,7 @@ string ObjectEditor::set(vector<string> args)
 	else {
 		return "I don't know how to set that.";
 	}
-	
+
 	resetWindows();
 	return "";
 }
@@ -150,7 +176,7 @@ string ObjectEditor::edit(vector<string> args)
 		TextEditor ed;
 		object->description = ed.edit("Editing Description For Object:"+object->getPrimaryName(),object->description);
 	}
-	else if(editNoun == STR_OBJECT)
+	else if(editNoun == STR_CONTENTS)
 	{
 		if(args.size() <3)
 		{
@@ -160,8 +186,26 @@ string ObjectEditor::edit(vector<string> args)
 		DungeonObject *o = (DungeonObject*)extractEntity(&object->contents,&objStr);
 		if(o != nullptr)
 		{
-			ObjectEditor ed;			
-			ed.load(o);			
+			ObjectEditor ed;
+			ed.load(o);
+		}
+		else
+		{
+			return "I don't see that here.";
+		}
+	}
+	else if(editNoun == STR_ONTOP)
+	{
+		if(args.size() <3)
+		{
+			return "Which object do you want to edit?";
+		}
+		string objStr = join(2,args,CHR_SPACE);
+		DungeonObject *o = (DungeonObject*)extractEntity(&object->ontops,&objStr);
+		if(o != nullptr)
+		{
+			ObjectEditor ed;
+			ed.load(o);
 		}
 		else
 		{
@@ -179,7 +223,7 @@ string ObjectEditor::edit(vector<string> args)
 		if(a != nullptr)
 		{
 			ActionEditor ed;
-			ed.load(a);			
+			ed.load(a);
 		}
 		else
 		{
@@ -205,7 +249,7 @@ string ObjectEditor::add(vector<string> args)
 	toLower(&addNoun);
 
 	if(addNoun == STR_ACTION) {
-		
+
 		if(args.size() < 3)
 		{
 			return "Provide a string to name the action.";
@@ -219,9 +263,9 @@ string ObjectEditor::add(vector<string> args)
 		ae.load(action);
 	}
 	else if(addNoun == STR_TRIGGER) {
-						
+
 		DungeonTrigger *trigger = new DungeonTrigger();
-		trigger->parent = object;		
+		trigger->parent = object;
 		object->triggers.push_back(trigger);
 		TriggerEditor ed;
 		ed.load(trigger);
@@ -235,14 +279,23 @@ string ObjectEditor::add(vector<string> args)
 		string name = join(2,args,CHR_SPACE);
 		object->addName(name);
 	}
-	else if(addNoun == STR_OBJECT)
+	else if(addNoun == STR_CONTENTS)
 	{
 		ObjectEditor oe;
 		DungeonObject* o = new DungeonObject();
 		o->parent = object;
-		o->addName(join(2,args,CHR_SPACE));		
+		o->addName(join(2,args,CHR_SPACE));
 		oe.load(o);
-		object->contents.push_back(o);				
+		object->contents.push_back(o);
+	}
+	else if(addNoun == STR_ONTOP)
+	{
+		ObjectEditor oe;
+		DungeonObject* o = new DungeonObject();
+		o->parent = object;
+		o->addName(join(2,args,CHR_SPACE));
+		oe.load(o);
+		object->ontops.push_back(o);
 	}
 	else
 	{
@@ -277,63 +330,79 @@ void ObjectEditor::resetWindows()
 	wrefresh(headerWindow);
 
 	string command;
-	
+
 	string childString;
 	if(object->contents.size() == 1)
 	{
 		childString = object->contents[0]->getPrimaryName();
 	}
 	else if(object->contents.size() > 1)
-	{		
+	{
 		childString = object->contents[0]->getPrimaryName() +" ...";
 	}
 	else
 	{
-		childString = "empty";	
+		childString = "empty";
 	}
 	printHeader(headerWindow,object->parent->getPrimaryName(),"OBJECT:"+object->getPrimaryName(),childString);
-			
+
 	setcolor(mainWindow,COLOR_WHITE);
 	string nameRow = STR_MENU_NAME + join(0,object->getNames(),',');
 	textBuffer.push_back(nameRow);
-	
+
 	string desc = object->description.size() > (COLS - 20) ? object->description + STR_ELLIPSES : object->description;
 	string descRow = STR_MENU_DESCRIPTION + desc;
 	textBuffer.push_back(descRow);
-			
-	textBuffer.push_back(STR_MENU_OBJECT);
-	for(auto o : object->contents)
-	{				
-		textBuffer.push_back(o->getPrimaryName());
-	}
 
 
-	textBuffer.push_back(STR_MENU_ACTIONS);	
-	for(auto a : object->actions)
-	{
-		textBuffer.push_back(a->getPrimaryName());
-	}
-
-	textBuffer.push_back(STR_MENU_TRIGGERS);	
-	for(auto t : object->triggers)
-	{
-		textBuffer.push_back(t->getPrimaryName());
-	}
-	
-	string dmgRow = STR_MENU_DURABILITY + to_string(object->durability);
-	textBuffer.push_back(dmgRow);
-	
-	string torf = object->canTake? STR_TRUE : STR_FALSE;
-	string takeRow = STR_MENU_TAKEABLE + torf;
-	textBuffer.push_back(takeRow);
-	
-	torf = object->canOpen ? STR_TRUE : STR_FALSE;
+	string torf = object->canOpen ? STR_TRUE : STR_FALSE;
 	string canOpenRow = STR_MENU_CAN_OPEN + torf;
 	textBuffer.push_back(canOpenRow);
-	
+
 	torf = object->isOpen ? STR_TRUE : STR_FALSE;
 	string isOpenRow = STR_MENU_IS_OPEN + torf;
 	textBuffer.push_back(isOpenRow);
+	if(object->isOpen || object->canOpen) {
+		textBuffer.push_back(STR_MENU_CONTENTS);
+		for(auto o : object->contents)
+		{
+			textBuffer.push_back("  "+o->getPrimaryName());
+		}
+	}
+
+	torf = object->isSurface ? STR_TRUE : STR_FALSE;
+	string isSurface = STR_MENU_IS_SURFACE;
+	textBuffer.push_back(isSurface);
+
+	if(object->isSurface)
+	{
+		textBuffer.push_back(STR_MENU_ONTOP);
+		for(auto o: object->ontops)
+		{
+			textBuffer.push_back("  "+o->getPrimaryName());
+		}
+	}
+
+	textBuffer.push_back(STR_MENU_ACTIONS);
+	for(auto a : object->actions)
+	{
+		textBuffer.push_back("  "+a->getPrimaryName());
+	}
+
+	textBuffer.push_back(STR_MENU_TRIGGERS);
+	for(auto t : object->triggers)
+	{
+		textBuffer.push_back("  "+t->getPrimaryName());
+	}
+
+	string dmgRow = STR_MENU_DURABILITY + to_string(object->durability);
+	textBuffer.push_back(dmgRow);
+
+	torf = object->canTake? STR_TRUE : STR_FALSE;
+	string takeRow = STR_MENU_TAKEABLE + torf;
+	textBuffer.push_back(takeRow);
+
+	
 
 	torf = object->isLight ? STR_TRUE : STR_FALSE;
 	string isLightRow = STR_MENU_HAS_LIGHT + torf;
@@ -361,7 +430,7 @@ void ObjectEditor::load(DungeonObject *_object)
 		cmd = cmdW.getCommand(commandWindow,STR_PROMPT);
 		if(cmd.size() > 0) {
 			toLower(&cmd[0]);
-			if (checkCommonInput(cmd[0])) continue;
+			if(checkCommonInput(cmd[0])) continue;
 			cmdFound = cmdMap.count(cmd[0]) > 0;
 		}
 		if(!cmdFound) {

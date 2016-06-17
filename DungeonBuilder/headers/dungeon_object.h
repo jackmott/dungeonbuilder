@@ -23,12 +23,15 @@ struct DungeonObject: DungeonEntity
 	bool isOpen;
 	bool canTake;
 	bool isLight;
+	bool isSurface;
 
 	void applyDamage(std::vector<std::string> *textBuffer,int dmg);
 	void destroy(std::vector<std::string> *textBuffer);
 
 	
 	std::vector<DungeonObject*> contents;
+	std::vector<DungeonObject*> ontops;
+
 	std::vector<DungeonAction*> actions;
 	std::vector<DungeonTrigger*> triggers;
 	
