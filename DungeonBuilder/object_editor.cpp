@@ -1,4 +1,5 @@
 #include "dungeon_action.h"
+#include "dungeon_trigger.h"
 #include "dungeon_object.h"
 #include "trigger_editor.h"
 #include "object_editor.h"
@@ -267,7 +268,7 @@ void ObjectEditor::resetWindows()
 	responseWindow = newwin(1,COLS,LINES-2,0);
 	mainWindow = newwin(LINES-3,COLS,1,0);
 	headerWindow = newwin(1,COLS,0,0);
-		
+	textBuffer.clear();
 	refresh();
 
 	wrefresh(commandWindow);

@@ -1,26 +1,15 @@
 #ifndef TRIGGER_EDITOR_H
 #define TRIGGER_EDITOR_H
 
-#include <map>
-#include "dungeon_trigger.h"
-#include "lib.h"
+#include "abstract_editor.h"
 
-
-struct TriggerEditor
+struct TriggerEditor : AbstractEditor
 {
 	typedef std::string (TriggerEditor::*commandFunction) (std::vector<std::string>);			
 	std::map<std::string,commandFunction> cmdMap;
 
 	DungeonTrigger* trigger;
-
-	WINDOW *responseWindow;
-	WINDOW *commandWindow;
-	WINDOW *mainWindow;
-	WINDOW *headerWindow;
-
-	int w,h;
-
-	
+		
 	void clearWindows();
 	void resetWindows();
 	void load(DungeonTrigger *_trigger);

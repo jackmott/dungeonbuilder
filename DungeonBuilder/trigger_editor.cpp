@@ -1,4 +1,5 @@
 #include "dungeon_effect.h"
+#include "dungeon_trigger.h"
 #include "dungeon_entity.h"
 #include "trigger_editor.h"
 #include "command_window.h"
@@ -138,8 +139,8 @@ void TriggerEditor::resetWindows()
 	responseWindow = newwin(1,COLS,LINES-2,0);
 	mainWindow = newwin(LINES-3,COLS,1,0);
 	headerWindow = newwin(1,COLS,0,0);
-
-	getmaxyx(stdscr,h,w); // this doesn't work in windows
+	textBuffer.clear();
+	
 	refresh();
 
 	wrefresh(commandWindow);
@@ -151,37 +152,28 @@ void TriggerEditor::resetWindows()
 
 
 	printHeader(headerWindow,trigger->parent->parent->getPrimaryName(),trigger->parent->getPrimaryName(),"Trigger:"+trigger->getPrimaryName(),3);
-
-	int lineCount = 2;
-
-	setcolor(mainWindow,COLOR_WHITE);
-
+	
 
 	string typeRow = STR_MENU_TYPE + trigger->getPrimaryName();
-	mvwprintw(mainWindow,lineCount,0,typeRow.c_str());
-
-	lineCount++;
+	textBuffer.push_back(typeRow);
+	
 	string outputRow = STR_MENU_TEXT_OUTPUT + trigger->output;
-	mvwprintw(mainWindow,lineCount,0,outputRow.c_str());
-
-	lineCount++;
+	textBuffer.push_back(outputRow);
+	
 	string torf = trigger->needToHold ? STR_TRUE : STR_FALSE;
 	string holdRow = STR_MENU_NEED_HOLD + torf;
-	mvwprintw(mainWindow,lineCount,0,holdRow.c_str());
-
-	lineCount++;
+	textBuffer.push_back(holdRow);
+	
 	string magnitudeRow = STR_MENU_MAGNITUDE + to_string(trigger->magnitude);
-	mvwprintw(mainWindow,lineCount,0,magnitudeRow.c_str());
+	textBuffer.push_back(magnitudeRow);
 
-
-	lineCount++;
-	mvwprintw(mainWindow,lineCount,0,STR_MENU_EFFECT);
+	textBuffer.push_back(STR_MENU_EFFECT);
 	for(auto e : trigger->effects)
-	{
-		lineCount++;
-		mvwprintw(mainWindow,lineCount,2,e->getPrimaryName().c_str());
+	{		
+		textBuffer.push_back("  "+e->getPrimaryName());
 	}
 
+	renderTextBuffer();
 	wrefresh(mainWindow);
 
 }
@@ -203,6 +195,7 @@ void TriggerEditor::load(DungeonTrigger* _trigger)
 		cmd = cmdW.getCommand(commandWindow,STR_PROMPT);
 		if(cmd.size() > 0) {
 			toLower(&cmd[0]);
+			if (checkCommonInput(cmd[0])) continue;
 			cmdFound = cmdMap.count(cmd[0]) > 0;
 		}
 		if(!cmdFound) {

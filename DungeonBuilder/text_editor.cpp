@@ -16,8 +16,7 @@ void TextEditor::clearWindows()
 }
 
 void TextEditor::resetWindows()
-{
-
+{	
 	headerWindow = newwin(1,COLS,0,0);
 	mainWindow = newwin(LINES-1,COLS,1,0);
 	printHeader(headerWindow,header);

@@ -150,7 +150,7 @@ void CreatureEditor::resetWindows()
 	responseWindow = newwin(1,COLS,LINES-2,0);
 	mainWindow = newwin(LINES-3,COLS,1,0);
 	headerWindow = newwin(1,COLS,0,0);
-
+	textBuffer.clear();
 	refresh();
 
 	wrefresh(commandWindow);
