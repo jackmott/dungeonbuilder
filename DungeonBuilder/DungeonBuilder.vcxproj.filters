@@ -28,6 +28,7 @@
     <ClCompile Include="trigger_editor.cpp" />
     <ClCompile Include="dungeon_serializer.cpp" />
     <ClCompile Include="json.c" />
+    <ClCompile Include="abstract_editor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\room_editor.h" />
@@ -59,6 +60,7 @@
     <ClInclude Include="headers\trigger_editor.h" />
     <ClInclude Include="headers\dungeon_serializer.h" />
     <ClInclude Include="headers\json.h" />
+    <ClInclude Include="headers\abstract_editor.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\pdcurses.lib" />

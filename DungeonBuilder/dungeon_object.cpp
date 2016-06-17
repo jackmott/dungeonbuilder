@@ -6,10 +6,7 @@
 
 using namespace std;
 
-extern vector<DungeonObject*> g_objectList;
-extern vector<DungeonAction*> g_actionList;
-extern vector<DungeonTrigger*> g_triggerList;
-extern vector<DungeonEntity*> g_entityList;
+extern GlobalState globalState;
 
 DungeonObject::DungeonObject()
 {
@@ -22,8 +19,8 @@ DungeonObject::DungeonObject()
 	isOpen = false;
 	canTake = true;
 	isLight = false;
-	g_objectList.push_back(this);
-	g_entityList.push_back(this);
+	globalState.objectList.push_back(this);
+	globalState.entityList.push_back(this);
 
 }
 
@@ -46,8 +43,8 @@ DungeonObject::DungeonObject(void* _json)
 	loadVectorEntity(contents,json);
 	loadVectorEntity(actions,json);
 	loadVectorEntity(triggers,json);
-	g_objectList.push_back(this);
-	g_entityList.push_back(this);
+	globalState.objectList.push_back(this);
+	globalState.entityList.push_back(this);
 		
 }
 
@@ -60,18 +57,18 @@ void DungeonObject::fixUpPointers()
 {
 	for(int i = 0; i < contents.size();i++)
 	{
-		contents[i] = (DungeonObject*)getEntityById(&g_objectList,(int)contents[i]);
+		contents[i] = (DungeonObject*)getEntityById(&globalState.objectList,(int)contents[i]);
 	}
 	for(int i = 0; i < actions.size();i++)
 	{
-		actions[i] = (DungeonAction*)getEntityById(&g_actionList,(int)actions[i]);
+		actions[i] = (DungeonAction*)getEntityById(&globalState.actionList,(int)actions[i]);
 	}
 	for(int i = 0; i < triggers.size();i++)
 	{
-		triggers[i] = (DungeonTrigger*)getEntityById(&g_triggerList,(int)triggers[i]);
+		triggers[i] = (DungeonTrigger*)getEntityById(&globalState.triggerList,(int)triggers[i]);
 	}
 	if (parent != (DungeonEntity*)-1)
-		parent = (DungeonEntity*)getEntityById(&g_entityList,(int)parent);
+		parent = (DungeonEntity*)getEntityById(&globalState.entityList,(int)parent);
 }
 
 void DungeonObject::applyDamage(vector<string> *textBuffer,int dmg)

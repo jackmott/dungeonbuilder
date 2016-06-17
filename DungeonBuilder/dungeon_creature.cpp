@@ -8,17 +8,15 @@
 
 using namespace std;
 
-extern vector<DungeonCreature*> g_creatureList;
-extern vector<DungeonEntity*> g_entityList;
-extern vector<DungeonObject*> g_objectList;
+extern GlobalState globalState;
 
 DungeonCreature::DungeonCreature()
 {
 	entityType = ENTITY_TYPE::Creature;
 	uid = getUID();
 	hitpoints = 100;
-	g_creatureList.push_back(this);
-	g_entityList.push_back(this);
+	globalState.creatureList.push_back(this);
+	globalState.entityList.push_back(this);
 }
 
 DungeonCreature::DungeonCreature(void* _json)
@@ -32,8 +30,8 @@ DungeonCreature::DungeonCreature(void* _json)
 	loadInt(hitpoints,json);
 	loadInt(alignment,json);
 	loadVectorEntity(objects,json);
-	g_creatureList.push_back(this);
-	g_entityList.push_back(this);
+	globalState.creatureList.push_back(this);
+	globalState.entityList.push_back(this);
 }
 
 DungeonCreature::~DungeonCreature()
@@ -45,10 +43,10 @@ void DungeonCreature::fixUpPointers()
 {
 	for(int i = 0; i < objects.size();i++)
 	{
-		objects[i] = (DungeonObject*)getEntityById(&g_objectList,(int)objects[i]);
+		objects[i] = (DungeonObject*)getEntityById(&globalState.objectList,(int)objects[i]);
 	}
 	if (parent != (DungeonEntity*)-1)
-		parent = (DungeonEntity*)getEntityById(&g_entityList,(int)parent);
+		parent = (DungeonEntity*)getEntityById(&globalState.entityList,(int)parent);
 }
 
 void DungeonCreature::kill(vector<string> *textBuffer)

@@ -11,7 +11,7 @@
 #include "string_constants.h"
 
 using namespace std;
-extern vector<DungeonObject*> g_objectList;
+extern GlobalState globalState;
 
 string EffectEditor::exit(vector<string> args)
 {
@@ -87,7 +87,7 @@ string EffectEditor::set(vector<string> args)
 	else if(editNoun == STR_OBJECT)
 	{
 		DungeonObjectList ol;
-		DungeonObject* o = ol.load(g_objectList);
+		DungeonObject* o = ol.load(globalState.objectList);
 		if(o != nullptr)
 		{
 			effect->transforms.push_back(o);

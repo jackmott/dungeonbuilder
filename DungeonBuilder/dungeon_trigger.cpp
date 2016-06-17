@@ -9,13 +9,7 @@
 
 using namespace std;
 
-extern vector<DungeonTrigger*> g_triggerList;
-extern vector<DungeonEntity*> g_entityList;
-extern vector<DungeonObject*> g_objectList;
-extern vector<DungeonCreature*> g_creatureList;
-extern vector<DungeonEffect*> g_effectList;
-extern vector<DungeonRoom*> g_roomList;
-
+extern GlobalState globalState;
 
 DungeonTrigger::DungeonTrigger()
 {
@@ -24,8 +18,8 @@ DungeonTrigger::DungeonTrigger()
 	needToHold = true;
 	type = TRIGGER_TYPE::Proximity;
 	magnitude = 1;
-	g_triggerList.push_back(this);
-	g_entityList.push_back(this);
+	globalState.triggerList.push_back(this);
+	globalState.entityList.push_back(this);
 }
 
 DungeonTrigger::DungeonTrigger(void* _json)
@@ -41,8 +35,8 @@ DungeonTrigger::DungeonTrigger(void* _json)
 	loadVectorEntity(creatures,json);
 	loadVectorEntity(effects,json);
 	loadVectorEntity(rooms,json);
-	g_triggerList.push_back(this);
-	g_entityList.push_back(this);
+	globalState.triggerList.push_back(this);
+	globalState.entityList.push_back(this);
 }
 
 DungeonTrigger::~DungeonTrigger()
@@ -55,22 +49,22 @@ void DungeonTrigger::fixUpPointers()
 {
 	for(int i =0; i < objects.size();i++)
 	{
-		objects[i] = (DungeonObject*)getEntityById(&g_objectList,(int)objects[i]);
+		objects[i] = (DungeonObject*)getEntityById(&globalState.objectList,(int)objects[i]);
 	}
 	for(int i =0; i < creatures.size();i++)
 	{
-		creatures[i] = (DungeonCreature*)getEntityById(&g_creatureList,(int)creatures[i]);
+		creatures[i] = (DungeonCreature*)getEntityById(&globalState.creatureList,(int)creatures[i]);
 	}
 	for(int i =0; i < effects.size();i++)
 	{
-		effects[i] = (DungeonEffect*)getEntityById(&g_effectList,(int)effects[i]);
+		effects[i] = (DungeonEffect*)getEntityById(&globalState.effectList,(int)effects[i]);
 	}
 	for(int i =0; i < rooms.size();i++)
 	{
-		rooms[i] = (DungeonRoom*)getEntityById(&g_roomList,(int)rooms[i]);
+		rooms[i] = (DungeonRoom*)getEntityById(&globalState.roomList,(int)rooms[i]);
 	}
 	if (parent != (DungeonEntity*)-1)
-		parent = (DungeonEntity*)getEntityById(&g_entityList,(int)parent);
+		parent = (DungeonEntity*)getEntityById(&globalState.entityList,(int)parent);
 }
 string DungeonTrigger::getPrimaryName() const
 {

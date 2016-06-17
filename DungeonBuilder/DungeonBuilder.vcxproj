@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="abstract_editor.cpp" />
     <ClCompile Include="action_editor.cpp" />
     <ClCompile Include="creature_editor.cpp" />
     <ClCompile Include="dungeon_action.cpp" />
@@ -43,6 +44,7 @@
     <ClCompile Include="room_editor.cpp" />
     <ClCompile Include="trigger_editor.cpp" />
     <ClCompile Include="utils.cpp" />
+    <ClInclude Include="headers\abstract_editor.h" />
     <ClInclude Include="headers\action_editor.h" />
     <ClInclude Include="headers\command_window.h" />
     <ClInclude Include="headers\creature_editor.h" />

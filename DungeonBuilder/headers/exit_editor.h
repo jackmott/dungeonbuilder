@@ -6,11 +6,12 @@
 #include <map>
 #include "lib.h"
 
+struct GlobalState;
 struct DungeonRoom;
 struct DungeonExit;
 
-extern DungeonRoom *g_startRoom;
-extern std::vector<DungeonRoom*> g_roomList;
+extern GlobalState globalState;
+
 struct ExitEditor
 {
 	typedef std::string  (ExitEditor::*commandFunction) (std::vector<std::string>);			

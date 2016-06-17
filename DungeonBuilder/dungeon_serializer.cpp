@@ -12,17 +12,7 @@ using namespace std;
 
 
 
-extern DungeonRoom *g_startRoom;
-extern DungeonPlayer *g_player;
-extern vector<DungeonRoom*> g_roomList;
-extern vector<DungeonObject*> g_objectList;
-extern vector<DungeonCreature*> g_creatureList;
-extern vector<DungeonExit*> g_exitList;
-extern vector<DungeonAction*> g_actionList;
-extern vector<DungeonEffect*> g_effectList;
-extern vector<DungeonTrigger*> g_triggerList;
-extern vector<DungeonEntity*> g_entityList;
-
+extern GlobalState globalState;
 
 int _loadInt(string name,void *_json)
 {
@@ -237,7 +227,7 @@ void loadJson(string filename)
 			for(int j = 0; j < v.length; j++)
 			{
 				DungeonRoom *room = new DungeonRoom(v.values[j]);
-				if(j == 0) g_startRoom = room;				
+				if(j == 0) globalState.startRoom = room;				
 			}
 
 		}
@@ -285,7 +275,7 @@ void loadJson(string filename)
 		}
 	}
 
-	for(auto e : g_entityList)
+	for(auto e : globalState.entityList)
 	{
 		e->fixUpPointers();
 	}

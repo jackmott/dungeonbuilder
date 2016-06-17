@@ -11,19 +11,15 @@
 
 using namespace std;
 
-extern vector<DungeonRoom*> g_roomList;
-extern vector<DungeonObject*> g_objectList;
-extern vector<DungeonExit*> g_exitList;
-extern vector<DungeonCreature*> g_creatureList;
-extern vector<DungeonEntity*> g_entityList;
+extern GlobalState globalState;
 
 DungeonRoom::DungeonRoom()
 {
 	entityType = ENTITY_TYPE::Room;
 	uid = getUID();
 	hasLight = true;
-	g_roomList.push_back(this);
-	g_entityList.push_back(this);
+	globalState.roomList.push_back(this);
+	globalState.entityList.push_back(this);
 	
 }
 
@@ -46,8 +42,8 @@ DungeonRoom::DungeonRoom(void* _json)
 	loadVectorEntity(creatures,json);
 	loadVectorEntity(exits,json);
 
-	g_roomList.push_back(this);
-	g_entityList.push_back(this);
+	globalState.roomList.push_back(this);
+	globalState.entityList.push_back(this);
 	
 }
 
@@ -55,18 +51,18 @@ void DungeonRoom::fixUpPointers()
 {	
 	for(int i = 0; i < objects.size();i++)
 	{		
-		objects[i] = dynamic_cast<DungeonObject*>(getEntityById(&g_objectList,(int)objects[i]));		 
+		objects[i] = dynamic_cast<DungeonObject*>(getEntityById(&globalState.objectList,(int)objects[i]));		 
 	}
 	for(int i = 0; i < creatures.size();i++)
 	{		
-		creatures[i] = dynamic_cast<DungeonCreature*>(getEntityById(&g_creatureList,(int)creatures[i]));		
+		creatures[i] = dynamic_cast<DungeonCreature*>(getEntityById(&globalState.creatureList,(int)creatures[i]));		
 	}
 	for(int i = 0; i < exits.size();i++)
 	{		
-		exits[i] = dynamic_cast<DungeonExit*>(getEntityById(&g_exitList,(int)exits[i]));	
+		exits[i] = dynamic_cast<DungeonExit*>(getEntityById(&globalState.exitList,(int)exits[i]));	
 	}
 	if (parent != (DungeonEntity*)-1)
-		parent = (DungeonEntity*)getEntityById(&g_entityList,(int)parent);
+		parent = (DungeonEntity*)getEntityById(&globalState.entityList,(int)parent);
 }
 
 DungeonRoom::~DungeonRoom()

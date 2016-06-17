@@ -9,8 +9,7 @@ struct DungeonRoom;
 struct DungeonPlayer;
 struct DungeonExit;
 
-extern DungeonRoom *g_startRoom;
-extern std::vector<DungeonRoom*> g_roomList;
+extern GlobalState globalState;
 
 struct DungeonEngine
 {

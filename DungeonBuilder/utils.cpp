@@ -10,7 +10,7 @@
 
 using namespace std;
 
-unsigned long getUID() { return global_id++; }
+unsigned long getUID() { return globalState.global_id++; }
 
 vector<string> &split(const string &s,char delim,vector<string> &elems) {
 	stringstream ss(s);

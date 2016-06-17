@@ -8,6 +8,7 @@
 #include "effect_editor.h"
 using namespace std;
 
+
 string ActionEditor::exit(vector<string> args)
 {
 	return STR_EXIT;
@@ -144,8 +145,7 @@ void ActionEditor::resetWindows()
 	responseWindow = newwin(1,COLS,LINES-2,0);
 	mainWindow = newwin(LINES-3,COLS,1,0);
 	headerWindow = newwin(1,COLS,0,0);
-
-	getmaxyx(stdscr,h,w); // this doesn't work in windows
+	
 	refresh();
 
 	wrefresh(commandWindow);
@@ -158,30 +158,30 @@ void ActionEditor::resetWindows()
 
 	printHeader(headerWindow,action->parent->parent->getPrimaryName(),action->parent->getPrimaryName(),"ACTION:"+action->getPrimaryName(),3);
 
-	int lineCount = 2;
+
 
 	setcolor(mainWindow,COLOR_WHITE);
 
 	string nameRow = STR_MENU_NAME + join(0,action->getNames(),',');
-	mvwprintw(mainWindow,lineCount,0,nameRow.c_str());
+	textBuffer.push_back(nameRow);
+	
 
-	lineCount++;
+	
 	string outputRow = STR_MENU_TEXT_OUTPUT + action->output;
-	mvwprintw(mainWindow,lineCount,0,outputRow.c_str());
+	textBuffer.push_back(outputRow);
 
-	lineCount++;
+	
 	string torf = action->needToHold ? STR_TRUE : STR_FALSE;
 	string holdRow = STR_MENU_NEED_HOLD + torf;
-	mvwprintw(mainWindow,lineCount,0,holdRow.c_str());
-
-	lineCount++;
-	mvwprintw(mainWindow,lineCount,0,STR_MENU_EFFECT);
+	textBuffer.push_back(holdRow);
+		
+	textBuffer.push_back(STR_MENU_EFFECT);
 	for(auto e : action->effects)
 	{
-		lineCount++;
-		mvwprintw(mainWindow,lineCount,2,e->getPrimaryName().c_str());
+		textBuffer.push_back("  "+e->getPrimaryName());		
 	}
 
+	renderTextBuffer();
 	wrefresh(mainWindow);
 
 }
@@ -203,6 +203,7 @@ void ActionEditor::load(DungeonAction* _action)
 		cmd = cmdW.getCommand(commandWindow,STR_PROMPT);
 		if(cmd.size() > 0) {
 			toLower(&cmd[0]);
+			if (checkCommonInput(cmd[0])) continue;
 			cmdFound = cmdMap.count(cmd[0]) > 0;
 		}
 		if(!cmdFound) {
@@ -216,7 +217,7 @@ void ActionEditor::load(DungeonAction* _action)
 			if(cmd[0] == STR_EXIT) break;
 			commandFunction cmdFunc = cmdMap[cmd[0]];
 			string response = (this->*cmdFunc)(cmd);
-			if(response.length() > 0) {
+			if(response.length() > 0 && response != STR_PAGE_UP && response != STR_PAGE_DOWN) {
 				cmd.clear();
 				mvwprintw(responseWindow,0,0,response.c_str());
 				wclrtoeol(responseWindow);

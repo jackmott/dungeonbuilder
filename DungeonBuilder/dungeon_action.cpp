@@ -5,16 +5,15 @@
 #include <sstream>
 
 using namespace std;
-extern vector<DungeonAction*> g_actionList;
-extern vector<DungeonEntity*> g_entityList;
+extern GlobalState globalState;
 
 DungeonAction::DungeonAction()
 {
 	entityType = ENTITY_TYPE::Action;
 	uid = getUID();
 	needToHold = true;
-	g_actionList.push_back(this);
-	g_entityList.push_back(this);
+	globalState.actionList.push_back(this);
+	globalState.entityList.push_back(this);
 }
 
 DungeonAction::DungeonAction(void* _json)
@@ -28,22 +27,22 @@ DungeonAction::DungeonAction(void* _json)
 	loadVectorString(names,json);
 	loadVectorEntity(targets,json);
 	loadVectorEntity(effects,json);
-	g_actionList.push_back(this);
-	g_entityList.push_back(this);
+	globalState.actionList.push_back(this);
+	globalState.entityList.push_back(this);
 }
 
 void DungeonAction::fixUpPointers()
 {
 	for(int i = 0; i < targets.size();i++)
 	{
-		targets[i] = (DungeonEntity*)getEntityById(&g_entityList,(int)targets[i]);
+		targets[i] = (DungeonEntity*)getEntityById(&globalState.entityList,(int)targets[i]);
 	}
 	for(int i = 0; i < effects.size();i++)
 	{
-		effects[i] = (DungeonEffect*)getEntityById(&g_entityList,(int)effects[i]);
+		effects[i] = (DungeonEffect*)getEntityById(&globalState.entityList,(int)effects[i]);
 	}
 	if (parent != (DungeonEntity*)-1)
-		parent = (DungeonEntity*)getEntityById(&g_entityList,(int)parent);
+		parent = (DungeonEntity*)getEntityById(&globalState.entityList,(int)parent);
 }
 
 DungeonAction::~DungeonAction()

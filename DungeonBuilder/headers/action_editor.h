@@ -1,30 +1,22 @@
 #ifndef ACTION_EDITOR_H
 #define ACTION_EDITOR_H
 
-#include <map>
+#include "abstract_editor.h"
 #include "dungeon_action.h"
 #include "lib.h"
 
 
-struct ActionEditor
+struct ActionEditor : AbstractEditor
 {
 	typedef std::string (ActionEditor::*commandFunction) (std::vector<std::string>);			
 	std::map<std::string,commandFunction> cmdMap;
 
 	DungeonAction* action;
-
-	WINDOW *responseWindow;
-	WINDOW *commandWindow;
-	WINDOW *mainWindow;
-	WINDOW *headerWindow;
-
-	int w,h;
-
-	
+				
 	void clearWindows();
 	void resetWindows();
 	void load(DungeonAction *_action);
-
+	
 	std::string edit(std::vector<std::string> args);
 	std::string exit(std::vector<std::string> args);
 	std::string add(std::vector<std::string> args);

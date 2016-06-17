@@ -11,9 +11,7 @@
 
 using namespace std;
 
-extern vector<DungeonEffect*> g_effectList;
-extern vector<DungeonEntity*> g_entityList;
-extern vector<DungeonObject*> g_objectList;
+extern GlobalState globalState;
 
 DungeonEffect::DungeonEffect()
 {
@@ -21,8 +19,8 @@ DungeonEffect::DungeonEffect()
 	magnitude = 0;
 	type = EFFECT_TYPE::Heal;
 	uid = getUID();
-	g_effectList.push_back(this);
-	g_entityList.push_back(this);
+	globalState.effectList.push_back(this);
+	globalState.entityList.push_back(this);
 }
 
 DungeonEffect::DungeonEffect(void* _json)
@@ -35,8 +33,8 @@ DungeonEffect::DungeonEffect(void* _json)
 	loadString(output,json);
 	loadInt(speed,json);
 	loadVectorEntity(transforms,json);
-	g_effectList.push_back(this);
-	g_entityList.push_back(this);
+	globalState.effectList.push_back(this);
+	globalState.entityList.push_back(this);
 	
 }
 DungeonEffect::~DungeonEffect()
@@ -47,10 +45,10 @@ void DungeonEffect::fixUpPointers()
 {
 	for(int i = 0; i < transforms.size();i++)
 	{
-		transforms[i] = (DungeonObject*)getEntityById(&g_objectList,(int)transforms[i]);
+		transforms[i] = (DungeonObject*)getEntityById(&globalState.objectList,(int)transforms[i]);
 	}
 	if (parent != (DungeonEntity*)-1)
-		parent = (DungeonEntity*)getEntityById(&g_entityList,(int)parent);
+		parent = (DungeonEntity*)getEntityById(&globalState.entityList,(int)parent);
 }
 string DungeonEffect::getPrimaryName() const
 {

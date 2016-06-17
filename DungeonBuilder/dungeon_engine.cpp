@@ -600,7 +600,7 @@ void DungeonEngine::updatePhysicalObjects()
 	}
 
 	// All objects in room
-	for(auto r : g_roomList)
+	for(auto r : globalState.roomList)
 	{
 		vector<DungeonObject*> roomObjects = getAllRoomObjects(r);
 		for(auto o : roomObjects)

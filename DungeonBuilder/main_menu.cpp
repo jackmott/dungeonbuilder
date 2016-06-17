@@ -21,19 +21,10 @@
 using namespace std;
 
 
-DungeonRoom *g_startRoom = nullptr;
-DungeonPlayer *g_player;
-vector<DungeonRoom*> g_roomList;
-vector<DungeonObject*> g_objectList;
-vector<DungeonCreature*> g_creatureList;
-vector<DungeonExit*> g_exitList;
-vector<DungeonAction*> g_actionList;
-vector<DungeonEffect*> g_effectList;
-vector<DungeonTrigger*> g_triggerList;
-vector<DungeonEntity*> g_entityList;
+
+GlobalState globalState;
 
 
-unsigned long global_id = 0;
 
 void MainMenu::resize(vector<string> args)
 {
@@ -54,21 +45,21 @@ void MainMenu::create(vector<string> args)
 	//Add the room to the global room list
 	//Edit the room
 	RoomEditor ed;
-	if(g_startRoom == nullptr)
+	if(globalState.startRoom == nullptr)
 	{
-		g_startRoom = new DungeonRoom();
-		g_startRoom->setPrimaryName("Start Room");
+		globalState.startRoom = new DungeonRoom();
+		globalState.startRoom->setPrimaryName("Start Room");
 	}
 	clearWindows();
-	ed.load(g_startRoom);
+	ed.load(globalState.startRoom);
 	resetWindows();
 }
 
 void MainMenu::play(vector<string> args)
 {
 	DungeonEngine engine;
-	g_player = new DungeonPlayer();
-	engine.load(g_startRoom,g_player);
+	globalState.player = new DungeonPlayer();
+	engine.load(globalState.startRoom,globalState.player);
 	resetWindows();
 }
 
@@ -83,7 +74,7 @@ void MainMenu::saveMap(vector<string> args)
 {
 	if(args.size() < 2)
 		mvwprintw(responseWindow,0,0,"Save to what filename?");
-	else if(!g_startRoom)
+	else if(!globalState.startRoom)
 		mvwprintw(responseWindow,0,0,"Must make a room first");
 	else
 	{
@@ -92,43 +83,43 @@ void MainMenu::saveMap(vector<string> args)
 		fout << "{" << endl;
 
 		fout << "\"rooms\":[" << endl;
-		for(auto room : g_roomList) {
+		for(auto room : globalState.roomList) {
 			fout << "{" << room->toJSON() << "}," << endl;
 		}
 		fout << "]," << endl;
 
 		fout << "\"objects\":[" << endl;
-		for(auto item : g_objectList) {
+		for(auto item : globalState.objectList) {
 			fout << "{" << item->toJSON() << "}," << endl;
 		}
 		fout << "]," << endl;
 
 		fout << "\"creatures\":[" << endl;
-		for(auto creature : g_creatureList) {
+		for(auto creature : globalState.creatureList) {
 			fout << "{" << creature->toJSON() << "}," << endl;
 		}
 		fout << "]," << endl;
 
 		fout << "\"exits\":[" << endl;
-		for(auto exit : g_exitList) {
+		for(auto exit : globalState.exitList) {
 			fout << "{" << exit->toJSON() << "}," << endl;
 		}
 		fout << "]," << endl;
 
 		fout << "\"effects\":[" << endl;
-		for(auto effect : g_effectList) {
+		for(auto effect : globalState.effectList) {
 			fout << "{" << effect->toJSON() << "}," << endl;
 		}
 		fout << "]," << endl;
 
 		fout << "\"triggers\":[" << endl;
-		for(auto trigger : g_triggerList) {
+		for(auto trigger : globalState.triggerList) {
 			fout << "{" << trigger->toJSON() << "}," << endl;
 		}
 		fout << "]," << endl;
 
 		fout << "\"actions\":[" << endl;
-		for(auto action : g_actionList) {
+		for(auto action : globalState.actionList) {
 			fout << "{" << action->toJSON() << "}," << endl;
 		}
 		fout << "]," << endl;

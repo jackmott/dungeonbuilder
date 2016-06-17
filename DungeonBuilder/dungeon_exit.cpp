@@ -7,9 +7,7 @@
 
 using namespace std;
 
-extern vector<DungeonExit*> g_exitList;
-extern vector<DungeonRoom*> g_roomList;
-extern vector<DungeonEntity*> g_entityList;
+extern GlobalState globalState;
 
 DungeonExit::DungeonExit()
 {
@@ -19,8 +17,8 @@ DungeonExit::DungeonExit()
 	distance = 1;
 	room = nullptr;
 	uid = getUID();
-	g_exitList.push_back(this);
-	g_entityList.push_back(this);
+	globalState.exitList.push_back(this);
+	globalState.entityList.push_back(this);
 }
 
 DungeonExit::DungeonExit(void* _json)
@@ -39,15 +37,15 @@ DungeonExit::DungeonExit(void* _json)
 	loadString(openText,json);
 	loadString(closedText,json);	
 	loadEntity(room,json);
-	g_exitList.push_back(this);
-	g_entityList.push_back(this);
+	globalState.exitList.push_back(this);
+	globalState.entityList.push_back(this);
 }
 
 void DungeonExit::fixUpPointers()
 {
-	room = dynamic_cast<DungeonRoom*>(getEntityById(&g_roomList,(int)room));
+	room = dynamic_cast<DungeonRoom*>(getEntityById(&globalState.roomList,(int)room));
 	if (parent != (DungeonEntity*)-1)
-		parent = (DungeonEntity*)getEntityById(&g_entityList,(int)parent);
+		parent = (DungeonEntity*)getEntityById(&globalState.entityList,(int)parent);
 }
 
 DungeonExit::~DungeonExit()

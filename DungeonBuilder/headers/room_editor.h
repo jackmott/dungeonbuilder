@@ -1,37 +1,22 @@
 #ifndef ROOM_EDITOR_H
 #define ROOM_EDITOR_H
 
-#include <vector>
-#include <map>
-#include <string>
-#include "lib.h"
+#include "abstract_editor.h"
 
 struct DungeonRoom;
 
-
-extern DungeonRoom *g_startRoom;
-extern std::vector<DungeonRoom*> g_roomList;
-extern std::vector<DungeonObject*> g_objectList;
-
-struct RoomEditor
+struct RoomEditor : AbstractEditor
 {
 	typedef std::string  (RoomEditor::*commandFunction) (std::vector<std::string>);			
 	std::map<std::string,commandFunction> cmdMap;
 
 	DungeonRoom *room;
-	WINDOW *responseWindow;
-	WINDOW *commandWindow;
-	WINDOW *mainWindow;
-	WINDOW *headerWindow;
-
-
-
-	std::vector<std::string> textBuffer;
-	
+		
 	void clearWindows();
 	void resetWindows();
-	void load(DungeonRoom *_room);
 
+	void load(DungeonRoom *_room);
+	
 	std::string move(std::vector<std::string> args);
 	std::string edit(std::vector<std::string> args);	
 	std::string del(std::vector<std::string> args);

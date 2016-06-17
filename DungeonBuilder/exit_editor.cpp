@@ -16,7 +16,6 @@ string ExitEditor::exit(vector<string> args)
 }
 
 
-
 string ExitEditor::set(vector<string> args)
 {
 	if(args.size() < 2)
@@ -32,7 +31,7 @@ string ExitEditor::set(vector<string> args)
 	if(setNoun == STR_ROOM)
 	{
 		DungeonRoomList dl;
-		DungeonRoom * newRoom = dl.load(g_roomList,dungeonExit);
+		DungeonRoom * newRoom = dl.load(globalState.roomList,dungeonExit);
 		dungeonExit->room = newRoom;
 
 	}

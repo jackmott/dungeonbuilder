@@ -9,8 +9,27 @@ struct DungeonEntity;
 struct DungeonObject;
 struct DungeonRoom;
 struct DungeonPlayer;
+struct DungeonEffect;
+struct DungeonAction;
+struct DungeonExit;
+struct DungeonTrigger;
+struct DungeonCreature;
 
-extern unsigned long global_id;
+struct GlobalState {
+	DungeonRoom *startRoom = nullptr;
+	DungeonPlayer *player;
+	std::vector<DungeonRoom*> roomList;
+	std::vector<DungeonObject*> objectList;
+	std::vector<DungeonCreature*> creatureList;
+	std::vector<DungeonExit*> exitList;
+	std::vector<DungeonAction*> actionList;
+	std::vector<DungeonEffect*> effectList;
+	std::vector<DungeonTrigger*> triggerList;
+	std::vector<DungeonEntity*> entityList;
+	unsigned long global_id = 0;
+};
+
+extern GlobalState globalState;
 
 #define ARRAYSIZE(a) \
   ((sizeof(a) / sizeof(*(a))) / \

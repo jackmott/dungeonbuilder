@@ -17,6 +17,7 @@
 
 using namespace std;
 
+
 string RoomEditor::exit(vector<string> args)
 {
 	return STR_EXIT;
@@ -27,7 +28,7 @@ string RoomEditor::move(vector<string> args)
 	if(args.size() < 2)
 	{
 		DungeonRoomList dl;
-		DungeonRoom* result = dl.load(g_roomList);
+		DungeonRoom* result = dl.load(globalState.roomList);
 		room = result;
 	}
 	else {
@@ -107,7 +108,7 @@ string RoomEditor::edit(vector<string> args)
 		{
 			//object not found round here, bring up the list!
 			DungeonObjectList dol;
-			DungeonObject* o = dol.load(g_objectList);
+			DungeonObject* o = dol.load(globalState.objectList);
 			ObjectEditor ed;
 			ed.load(o);
 		}
@@ -123,7 +124,7 @@ string RoomEditor::edit(vector<string> args)
 			{
 				//object not found round here, bring up the list!
 				DungeonObjectList dol;
-				DungeonObject* o = dol.load(g_objectList);
+				DungeonObject* o = dol.load(globalState.objectList);
 				ObjectEditor ed;
 				ed.load(o);
 
@@ -308,7 +309,7 @@ string RoomEditor::add(vector<string> args)
 		//Fire up the list picker with a list of rooms
 		DungeonRoomList listPicker;
 		clearWindows();
-		DungeonRoom *newRoom = listPicker.load(g_roomList,e);
+		DungeonRoom *newRoom = listPicker.load(globalState.roomList,e);
 
 		//Once a room is picked, fire up the exit editor with the room
 		if(newRoom != nullptr)
@@ -393,12 +394,8 @@ void RoomEditor::resetWindows()
 	}
 	textBuffer.push_back(STR_MENU_ROOM_MOVE);
 	
-	int y = 1;
-	for(auto line : textBuffer)
-	{
-		mvwprintw(mainWindow,y,0,line.c_str());
-		y++;
-	}
+	renderTextBuffer();
+
 
 	wrefresh(commandWindow);
 	wrefresh(responseWindow);
@@ -410,6 +407,7 @@ void RoomEditor::resetWindows()
 void RoomEditor::load(DungeonRoom *_room)
 {
 	room = _room;
+
 	cmdMap[STR_EDIT] = &RoomEditor::edit;
 	cmdMap[STR_SET] = &RoomEditor::set;
 	cmdMap[STR_EXIT] = &RoomEditor::exit;
@@ -426,6 +424,8 @@ void RoomEditor::load(DungeonRoom *_room)
 		cmd = cmdW.getCommand(commandWindow,STR_PROMPT);
 		if(cmd.size() > 0) {
 			toLower(&cmd[0]);
+			if (checkCommonInput(cmd[0])) continue;
+			
 			cmdFound = cmdMap.count(cmd[0]) > 0;
 
 			if(!cmdFound) {
@@ -439,7 +439,7 @@ void RoomEditor::load(DungeonRoom *_room)
 				if(cmd[0] == STR_EXIT) break;
 				commandFunction cmdFunc = cmdMap[cmd[0]];
 				string response = (this->*cmdFunc)(cmd);
-				if(response.length() > 0) {
+				if(response.length() > 0 && response != STR_PAGE_UP && response != STR_PAGE_DOWN) {
 					cmd.clear();
 					mvwprintw(responseWindow,0,0,response.c_str());
 					wclrtoeol(responseWindow);
