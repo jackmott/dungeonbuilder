@@ -6,7 +6,7 @@ First person text based N dimensional adventure engine for all platforms
 - Builds and Runs in Linux (using ncurses 6.0) 
 - Builds and Runs on OSX??
 
-At this point you can create arbitrarily large directed cyclic graphs of 'rooms', put creatures and objects in the 'rooms', and kill those creatures with those objects. Objects can go inside of other objects. You can take them out, put them back in, examine them, and drop them.
+At this point you can create arbitrarily large directed cyclic graphs of 'rooms', put creatures and objects in the 'rooms', and kill those creatures with those objects. Objects can go inside of other objects. You can take them out, put them back in, examine them, and drop them. Text for descriptions supports a simple markup language  #r #g #b etc will change the current color, wrapping text in * characters will make it 'bold' (brighter)  ~r ~g ~b etc will change the background color, and wrapping text in ` will center it. Saving and loading is now fully operational as well.
 
 ## How To Help
 contact me at jack.mott@theemailmanypeopleusethatgoogledoes
