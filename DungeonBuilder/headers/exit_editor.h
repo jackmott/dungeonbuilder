@@ -15,11 +15,13 @@ struct ExitEditor : AbstractEditor
 	std::map<std::string,commandFunction> cmdMap;
 
 	DungeonExit *dungeonExit;
-	
-		
+				
 	void clearWindows();
 	void resetWindows();
+
 	DungeonRoom* load(DungeonExit *_dungeonExit);
+
+	bool isExitMirrored();
 
 	std::string set(std::vector<std::string> args);
 	std::string add(std::vector<std::string> args);

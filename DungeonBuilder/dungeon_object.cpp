@@ -62,7 +62,7 @@ void DungeonObject::fixUpPointers()
 	{
 		contents[i] = (DungeonObject*)getEntityById(&globalState.objectList,(int)contents[i]);
 	}
-	for(int i = 0; i < contents.size();i++)
+	for(int i = 0; i < ontops.size();i++)
 	{
 		ontops[i] = (DungeonObject*)getEntityById(&globalState.objectList,(int)ontops[i]);
 	}

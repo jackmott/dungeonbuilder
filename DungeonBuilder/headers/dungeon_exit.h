@@ -2,7 +2,7 @@
 #define DUNGEON_EXIT_H
 
 #include "dungeon_entity.h"
-
+#include <map>
 struct DungeonRoom;
 
 
@@ -17,6 +17,7 @@ struct DungeonExit: DungeonEntity
 	bool isOpen;   //or whatever
 
 	int distance;
+    
 
 	std::string openingText;
 	std::string closingText;
@@ -25,6 +26,9 @@ struct DungeonExit: DungeonEntity
 	std::string closedText;
 
 	DungeonRoom* room;
+
+	DungeonExit* mirror();
+    static std::string getOppositeDirection(std::string);
 	
 	std::string toJSON();
 };

@@ -239,8 +239,7 @@ string RoomEditor::del(vector<string> args)
 		string exitStr = join(2,args,CHR_SPACE);
 		DungeonExit *e = (DungeonExit*)extractEntity(&room->exits,&exitStr);
 		if(e != nullptr)
-		{
-			removePointer(&room->exits,e);
+		{			
 			delete e;
 			resetWindows();
 			return "";
@@ -303,7 +302,8 @@ string RoomEditor::add(vector<string> args)
 		//Make a a new exit, add it to the room's list of exits
 		DungeonExit * e = new DungeonExit();
 		e->parent = room;
-		e->addName(join(2,args,CHR_SPACE));
+        string name = join(2,args,CHR_SPACE);
+		e->addName(name);
 		room->exits.push_back(e);
 
 		//Fire up the list picker with a list of rooms
@@ -311,10 +311,13 @@ string RoomEditor::add(vector<string> args)
 		clearWindows();
 		DungeonRoom *newRoom = listPicker.load(globalState.roomList,e);
 
+        
+
 		//Once a room is picked, fire up the exit editor with the room
 		if(newRoom != nullptr)
-		{
+		{			
 			e->room = newRoom;
+			e->mirror();
 			ExitEditor ed;
 			newRoom = ed.load(e);
 			if(newRoom != nullptr)

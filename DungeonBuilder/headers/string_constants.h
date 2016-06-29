@@ -23,6 +23,7 @@
 //Exit
 #define STR_MENU_EXIT_ROOM "[Set/Edit](Room):"
 #define STR_MENU_TRAVEL_TEXT "[Set](TravelText):"
+#define STR_MENU_MIRROR "[Set](Mirror)[T/F]"
 
 //Objects
 #define STR_MENU_CONTENTS "[Add/Del/Edit](Contents):"
@@ -53,6 +54,7 @@
 #define STR_MENU_NEED_HOLD "[Set](Held):"
 
 
+#define STR_MIRROR "mirror"
 #define STR_SURFACE "surface"
 #define STR_CONTENTS "contents"
 #define STR_ONTOP "ontop"
@@ -75,6 +77,7 @@
 #define STR_CLOSING_TEXT "closingtext"
 #define STR_DOOR "door"
 #define STR_EXIT "exit"
+#define STR_ONEWAY "oneway"
 #define STR_SET "set"
 #define STR_EDIT "edit"
 #define STR_OBJECT "object"

@@ -17,13 +17,9 @@
 #include "string_constants.h"
 
 
-
 using namespace std;
 
-
-
 GlobalState globalState;
-
 
 
 void MainMenu::resize(vector<string> args)

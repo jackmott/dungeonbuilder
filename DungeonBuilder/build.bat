@@ -1,0 +1,1 @@
+msbuild DungeonBuilder.vcxproj /t:Clean,Build

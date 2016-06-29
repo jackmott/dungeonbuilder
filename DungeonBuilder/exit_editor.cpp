@@ -67,6 +67,32 @@ string ExitEditor::set(vector<string> args)
 	else if(setNoun == STR_TRAVEL_TEXT)
 	{
 		dungeonExit->travelText = join(2,args,CHR_SPACE);
+	} else if (setNoun == STR_MIRROR)	
+	{
+		if (isAffirmative(args[2]) && !isExitMirrored())
+		{
+			dungeonExit->mirror();
+		} 
+		else if (!isAffirmative(args[2]))
+		{
+			DungeonExit* toDelete = nullptr;
+			for(auto r : dungeonExit->room->exits)
+			{
+				if(r->room == dungeonExit->parent)
+				{
+					string dir = toLower(DungeonExit::getOppositeDirection(r->getPrimaryName()));
+					if(dir == toLower(dungeonExit->getPrimaryName()))
+					{
+						toDelete = r;
+						break;
+					}
+				}
+			}
+			if (toDelete != nullptr)
+			{
+				delete toDelete;
+			}
+		}
 	}
 
 
@@ -134,6 +160,23 @@ string ExitEditor::add(vector<string> args)
 }
 
 
+//Checks if this exit, has a mirror exit going
+//The other way
+bool ExitEditor::isExitMirrored()
+{	
+	for (auto r : dungeonExit->room->exits)
+	{
+		if (r->room == dungeonExit->parent)
+		{
+			string dir = toLower(DungeonExit::getOppositeDirection(r->getPrimaryName()));
+			if (dir == toLower(dungeonExit->getPrimaryName()))
+				return true;
+		}
+	}
+	return false;
+
+}
+
 
 string ExitEditor::edit(vector<string> args)
 {
@@ -188,6 +231,13 @@ void ExitEditor::resetWindows()
 	
 	string nameRow = STR_MENU_NAME + join(0,dungeonExit->getNames(),',');
 	textBuffer.push_back(nameRow);
+
+	if (dungeonExit->room != dungeonExit->parent)
+	{
+		string isMirror = isExitMirrored() ? "T" : "F";
+		string mirrorRow = STR_MENU_MIRROR + isMirror;
+		textBuffer.push_back(mirrorRow);
+	}
 	
 	string travelRow = STR_MENU_TRAVEL_TEXT +  dungeonExit->travelText;
 	textBuffer.push_back(travelRow);
@@ -226,8 +276,10 @@ void ExitEditor::resetWindows()
 }
 
 DungeonRoom* ExitEditor::load(DungeonExit *_dungeonExit)
-{
+{	
+
 	dungeonExit = _dungeonExit;
+	
 
 	cmdMap[STR_EDIT] = &ExitEditor::edit;
 	cmdMap[STR_EXIT] = &ExitEditor::exit;
