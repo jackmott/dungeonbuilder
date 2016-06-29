@@ -205,7 +205,7 @@ void MainMenu::load()
 			wclrtoeol(responseWindow);
 			wrefresh(responseWindow);
 		}
-		else {
+		else if (cmd.size() > 0) {
 			commandFunction cmdFunc = cmdMap[cmd[0]];
 			(this->*cmdFunc)(cmd);
 		}

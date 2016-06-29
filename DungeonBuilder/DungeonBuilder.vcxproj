@@ -146,7 +146,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
       <AdditionalIncludeDirectories>headers</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PreprocessToFile>false</PreprocessToFile>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
@@ -180,7 +180,7 @@
       <AdditionalIncludeDirectories>headers</AdditionalIncludeDirectories>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <ExceptionHandling>Sync</ExceptionHandling>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <DebugInformationFormat>None</DebugInformationFormat>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>

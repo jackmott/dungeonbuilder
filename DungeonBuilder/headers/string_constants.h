@@ -14,7 +14,7 @@
 #define STR_MENU_CREATURE "[Add/Del/Edit](Creature):"
 #define STR_MENU_EXIT "[Add/Del/Edit](Exit):"
 #define STR_MENU_ROOM_MOVE "[Go](Exit/Blank):"
-#define STR_MENU_HAS_LIGHT "[Light](T/F):"
+#define STR_MENU_HAS_LIGHT "[Set](Light)[T/F]:"
 
 //Creature
 #define STR_MENU_HITPOINTS "[Set](Hitpoints):"

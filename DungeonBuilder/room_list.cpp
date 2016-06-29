@@ -122,7 +122,7 @@ DungeonRoom* DungeonRoomList::load(vector<DungeonRoom *> _rooms,DungeonExit* _fr
 	while(true) {
 		cmd = cmdW.getCommand(commandWindow,STR_PROMPT);
 
-		if(cmd[0].size() > 0)
+		if(cmd.size() > 0 && cmd[0].size() > 0)
 		{
 			if (checkCommonInput(cmd[0])) continue;
 			//check if input was a number
