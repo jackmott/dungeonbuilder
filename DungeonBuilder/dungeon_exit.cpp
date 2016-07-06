@@ -68,7 +68,7 @@ DungeonExit* DungeonExit::mirror()
 string DungeonExit::getOppositeDirection(string direction)
 {
 	string lowerD = toLower(direction);
-	string result;
+	string result = "placeholder";
 	if(lowerD == "north")
 	{
 		result = "south";

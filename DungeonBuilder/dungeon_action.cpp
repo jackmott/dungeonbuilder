@@ -49,7 +49,7 @@ void DungeonAction::fixUpPointers()
 
 DungeonAction::~DungeonAction()
 {
-
+	
 }
 
 string DungeonAction::toJSON()

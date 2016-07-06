@@ -17,7 +17,8 @@ struct DungeonCreature;
 	EFFECT(Heal)	  \
 	EFFECT(Damage)	  \
 	EFFECT(Attack)	  \
-	EFFECT(Transform) 
+	EFFECT(Transform) \
+    EFFECT(AlterDesc)
 
 
 
@@ -32,8 +33,10 @@ struct DungeonEffect : DungeonEntity
 	~DungeonEffect();
 	void fixUpPointers();
 	EFFECT_TYPE type;
+	
 	std::string output;
 
+	std::string modificationString;
 	int magnitude;
 	int speed;
 		

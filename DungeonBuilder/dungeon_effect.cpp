@@ -27,7 +27,7 @@ DungeonEffect::DungeonEffect(void* _json)
 {
 	json_value* json = (json_value*)_json;
 	entityType = ENTITY_TYPE::Effect;
-	loadInt(uid,json);	
+	loadInt(uid,json);
 	loadEntity(parent,json);
 	type = (EFFECT_TYPE)loadEnum(type,json);
 	loadString(output,json);
@@ -35,7 +35,7 @@ DungeonEffect::DungeonEffect(void* _json)
 	loadVectorEntity(transforms,json);
 	globalState.effectList.push_back(this);
 	globalState.entityList.push_back(this);
-	
+
 }
 DungeonEffect::~DungeonEffect()
 {
@@ -47,7 +47,7 @@ void DungeonEffect::fixUpPointers()
 	{
 		transforms[i] = (DungeonObject*)getEntityById(&globalState.objectList,(int)transforms[i]);
 	}
-	if (parent != (DungeonEntity*)-1)
+	if(parent != (DungeonEntity*)-1)
 		parent = (DungeonEntity*)getEntityById(&globalState.entityList,(int)parent);
 	else
 		parent = nullptr;
@@ -62,30 +62,35 @@ void DungeonEffect::apply(vector<string> *textBuffer,DungeonEntity* target,Dunge
 	switch(type)
 	{
 	case EFFECT_TYPE::Heal:
-	{player->heal(magnitude);}
-	break;
+		player->heal(magnitude);
+		break;
 	case EFFECT_TYPE::Damage:
 		//todo damage
 		break;
 	case EFFECT_TYPE::Transform:
-	{DungeonObject *toTransform = (DungeonObject*)parent->parent;
-	if(objectOnPlayer) {
-		removePointer(&player->objects,toTransform);
-		for(auto e : transforms)
-		{
-			player->objects.push_back(e);
+	{
+		//this assume the parent is an action and its parent is an object
+		DungeonObject *toTransform = (DungeonObject*)parent->parent;
+		if(objectOnPlayer) {
+			removePointer(&player->objects,toTransform);
+			for(auto e : transforms)
+			{
+				player->objects.push_back(e);
+			}
+		}
+		else {
+			removePointer(&room->objects,toTransform);
+			for(auto e : transforms) {
+				room->objects.push_back(e);
+			}
 		}
 	}
-	else {
-		removePointer(&room->objects,toTransform);
-		for(auto e : transforms) {
-			room->objects.push_back(e);
-		}
-	}}
-	break;
+		break;
 	case EFFECT_TYPE::Attack:
-	{}
-	break;
+		break;
+	case EFFECT_TYPE::AlterDesc:
+		break;
+
 	}
 
 }

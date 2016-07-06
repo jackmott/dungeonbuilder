@@ -9,6 +9,7 @@ struct TextEditor
 {
 
 	size_t x,y,pos;
+	size_t hStart,hEnd;
 	std::string text;
 	int done = 0;
 

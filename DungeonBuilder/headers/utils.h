@@ -26,6 +26,7 @@ struct GlobalState {
 	std::vector<DungeonEffect*> effectList;
 	std::vector<DungeonTrigger*> triggerList;
 	std::vector<DungeonEntity*> entityList;
+	std::string clipboard;
 	unsigned long global_id = 0;
 };
 
