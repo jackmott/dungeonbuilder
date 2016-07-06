@@ -69,6 +69,13 @@ string EffectEditor::set(vector<string> args)
 		int mag = stoi(magStr,nullptr,10);
 		effect->magnitude = mag;
 	}
+	else if (editNoun == STR_DESC || editNoun == STR_DESCRIPTION)
+	{
+		if (args.size() < 3) {
+			return "Please supply value directly in the command.";
+		}		
+		effect->modificationString = join(2,args,CHR_SPACE);
+	}
 	else if(editNoun == STR_TYPE)
 	{
 		if(args.size() < 3) {
@@ -128,6 +135,11 @@ string EffectEditor::edit(vector<string> args)
 		{
 			return "I don't see that here.";
 		}
+	}
+	else if(editNoun == STR_DESCRIPTION || editNoun == STR_DESC)
+	{
+		TextEditor ed;
+		effect->modificationString = ed.edit("Replacement Description For:"+effect->parent->getPrimaryName(),effect->modificationString);
 	}
 	clearWindows();
 	resetWindows();
@@ -215,6 +227,11 @@ void EffectEditor::resetWindows()
 		{
 			textBuffer.push_back("  "+e->getPrimaryName());			
 		}
+	}
+
+	if (effect->type == EFFECT_TYPE::ReplaceRoomDesc)
+	{
+		textBuffer.push_back(STR_MENU_REPLACE_ROOM_DESC + effect->modificationString);
 	}
 	renderTextBuffer();
 	wrefresh(mainWindow);

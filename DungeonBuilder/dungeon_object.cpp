@@ -53,24 +53,25 @@ DungeonObject::DungeonObject(void* _json)
 
 DungeonObject::~DungeonObject()
 {
-
+	removePointer(&globalState.objectList,this);
+	removePointer(&globalState.entityList,this);
 }
 
 void DungeonObject::fixUpPointers()
 {
-	for(int i = 0; i < contents.size();i++)
+	for(size_t i = 0; i < contents.size();i++)
 	{
 		contents[i] = (DungeonObject*)getEntityById(&globalState.objectList,(int)contents[i]);
 	}
-	for(int i = 0; i < ontops.size();i++)
+	for(size_t i = 0; i < ontops.size();i++)
 	{
 		ontops[i] = (DungeonObject*)getEntityById(&globalState.objectList,(int)ontops[i]);
 	}
-	for(int i = 0; i < actions.size();i++)
+	for(size_t i = 0; i < actions.size();i++)
 	{
 		actions[i] = (DungeonAction*)getEntityById(&globalState.actionList,(int)actions[i]);
 	}
-	for(int i = 0; i < triggers.size();i++)
+	for(size_t i = 0; i < triggers.size();i++)
 	{
 		triggers[i] = (DungeonTrigger*)getEntityById(&globalState.triggerList,(int)triggers[i]);
 	}

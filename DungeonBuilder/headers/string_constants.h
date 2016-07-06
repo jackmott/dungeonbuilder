@@ -48,12 +48,16 @@
 #define STR_MENU_TYPE "[Set](Type):"
 #define STR_MENU_MAGNITUDE "[Set](Magnitude)[#]:"
 #define STR_MENU_SET_ADD_OBJECT "[Set/Add/Del/Edit](Object):"
+#define STR_MENU_REPLACE_ROOM_DESC "[Set](Desc):"
+
 //Action
 #define STR_MENU_TEXT_OUTPUT "[Set](Output):"
 #define STR_MENU_EFFECT "[Add/Del/Edit #](Effect):"
 #define STR_MENU_NEED_HOLD "[Set](Held):"
+#define STR_MENU_ONETIME "[Set](Onetime):"
 
 
+#define STR_ONETIME "onetime"
 #define STR_MIRROR "mirror"
 #define STR_SURFACE "surface"
 #define STR_CONTENTS "contents"

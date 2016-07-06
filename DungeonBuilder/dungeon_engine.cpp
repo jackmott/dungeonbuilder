@@ -240,34 +240,39 @@ int DungeonEngine::action(string actionStr,string args)
 		}
 	}
 
+	//Check if any player objects have the action
 	DungeonObject* playerObject = extractObject(&player->objects,&ot.object);
-
 	if(playerObject != nullptr) {
 
 		DungeonAction* action = (DungeonAction*)extractEntity(&playerObject->actions,&actionStr);
 		if(action != nullptr)
 		{
-			for(auto e : action->effects)
-			{
-				e->apply(&textBuffer,targetEntity,player,room,true);
-			}
-			textBuffer.push_back(action->output);
+			string output = action->apply(&textBuffer,targetEntity,player,room,true);		
+			textBuffer.push_back(output);
 			return 1; //Todo maybe some actions take more than 1 turn?
 		}
 
 	}
+	
+	//Check if the room has the action
+	DungeonAction * action = (DungeonAction*)extractEntity(&room->actions,&actionStr);
+	if (action != nullptr)
+	{
+		string output = action->apply(&textBuffer,targetEntity,player,room,false);
+		textBuffer.push_back(output);
+		return 1; //Todo maybe some actions take more than 1 turn?
+	}
 
+	//Check if objects in the room ahve the action
 	DungeonObject *roomObject = extractObject(&room->objects,&ot.object);
 	if(roomObject != nullptr)
 	{
 		DungeonAction* action = (DungeonAction*)extractEntity(&roomObject->actions,&actionStr);
 		if(action != nullptr && !action->needToHold)
 		{
-			for(auto e : action -> effects)
-			{
-				e->apply(&textBuffer,targetEntity,player,room,false);
-			}
-			textBuffer.push_back(action->output);
+			
+			string output = action->apply(&textBuffer,targetEntity,player,room,false);			
+			textBuffer.push_back(output);
 			return 1; //Todo maybe some actions take more than 1 turn?
 		}
 	}
@@ -577,6 +582,13 @@ void DungeonEngine::updateCmdMap()
 			{
 				actionMap[name] = &DungeonEngine::action;
 			}
+		}
+	}
+	for (auto action : room->actions)
+	{
+		for(auto name : action->getLcaseNames())
+		{
+			actionMap[name] = &DungeonEngine::action;
 		}
 	}
 	for(auto o : room->objects)

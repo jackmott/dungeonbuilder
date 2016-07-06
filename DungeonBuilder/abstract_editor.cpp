@@ -23,7 +23,7 @@ bool AbstractEditor::checkCommonInput(string s)
 void AbstractEditor::renderTextBuffer()
 {
 	wclear(mainWindow);
-	for(int y = 0; y < LINES-3;y++)
+	for(size_t y = 0; y < LINES-3;y++)
 	{
 		if(y+scrollpos >= textBuffer.size()) break;
 		mvwprintw(mainWindow,y,0,textBuffer[y+scrollpos].c_str());

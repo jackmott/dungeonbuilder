@@ -62,6 +62,10 @@ string ActionEditor::set(vector<string> args)
 	else if(editNoun == STR_NEED_HELD)
 	{
 		action->needToHold = isAffirmative(args[2]);
+	} 
+	else if (editNoun == STR_ONETIME)
+	{
+		action->onetime = isAffirmative(args[2]);
 	}
 	resetWindows();
 	return "";
@@ -156,8 +160,11 @@ void ActionEditor::resetWindows()
 
 	string command;
 
-
-	printHeader(headerWindow,"Action",action->parent->parent->getPrimaryName(),action->parent->getPrimaryName(),action->getPrimaryName(),3);
+    if (action->parent->parent != nullptr) {
+		printHeader(headerWindow,"Action",action->parent->parent->getPrimaryName(),action->parent->getPrimaryName(),action->getPrimaryName(),3);
+	} else {
+		printHeader(headerWindow,"Action","",action->parent->getPrimaryName(),action->getPrimaryName(),3);
+	}
 
 	setcolor(mainWindow,COLOR_WHITE);
 
@@ -166,6 +173,7 @@ void ActionEditor::resetWindows()
 	
 
 	
+	
 	string outputRow = STR_MENU_TEXT_OUTPUT + action->output;
 	textBuffer.push_back(outputRow);
 
@@ -173,6 +181,10 @@ void ActionEditor::resetWindows()
 	string torf = action->needToHold ? STR_TRUE : STR_FALSE;
 	string holdRow = STR_MENU_NEED_HOLD + torf;
 	textBuffer.push_back(holdRow);
+
+	torf = action->onetime ? STR_TRUE : STR_FALSE;	
+	string onetimeRow = STR_MENU_ONETIME + torf;
+	textBuffer.push_back(onetimeRow);
 		
 	textBuffer.push_back(STR_MENU_EFFECT);
 	for(auto e : action->effects)

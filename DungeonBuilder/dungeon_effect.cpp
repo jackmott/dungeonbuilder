@@ -31,6 +31,7 @@ DungeonEffect::DungeonEffect(void* _json)
 	loadEntity(parent,json);
 	type = (EFFECT_TYPE)loadEnum(type,json);
 	loadString(output,json);
+	loadString(modificationString,json);
 	loadInt(speed,json);
 	loadVectorEntity(transforms,json);
 	globalState.effectList.push_back(this);
@@ -43,7 +44,7 @@ DungeonEffect::~DungeonEffect()
 
 void DungeonEffect::fixUpPointers()
 {
-	for(int i = 0; i < transforms.size();i++)
+	for(size_t i = 0; i < transforms.size();i++)
 	{
 		transforms[i] = (DungeonObject*)getEntityById(&globalState.objectList,(int)transforms[i]);
 	}
@@ -88,7 +89,15 @@ void DungeonEffect::apply(vector<string> *textBuffer,DungeonEntity* target,Dunge
 		break;
 	case EFFECT_TYPE::Attack:
 		break;
-	case EFFECT_TYPE::AlterDesc:
+	case EFFECT_TYPE::ReplaceRoomDesc:
+		//ascend the tree of entities until we hit the first room
+		DungeonEntity* entity = parent;
+		while (entity->entityType != ENTITY_TYPE::Room)
+		{
+			entity = entity->parent;
+		}
+		DungeonRoom* room = (DungeonRoom*) entity;
+		room->description = modificationString;
 		break;
 
 	}
@@ -99,7 +108,7 @@ void DungeonEffect::apply(vector<string> *textBuffer,DungeonEntity* target,Dunge
 string DungeonEffect::toJSON()
 {
 	ostringstream sout;
-
+	sout << writeString(modificationString);
 	sout << writeInt(uid);
 	sout << writeEntity(parent);
 	sout << writeEnum(type);

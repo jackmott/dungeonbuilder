@@ -47,19 +47,19 @@ DungeonTrigger::~DungeonTrigger()
 
 void DungeonTrigger::fixUpPointers()
 {
-	for(int i =0; i < objects.size();i++)
+	for(size_t i =0; i < objects.size();i++)
 	{
 		objects[i] = (DungeonObject*)getEntityById(&globalState.objectList,(int)objects[i]);
 	}
-	for(int i =0; i < creatures.size();i++)
+	for(size_t i =0; i < creatures.size();i++)
 	{
 		creatures[i] = (DungeonCreature*)getEntityById(&globalState.creatureList,(int)creatures[i]);
 	}
-	for(int i =0; i < effects.size();i++)
+	for(size_t i =0; i < effects.size();i++)
 	{
 		effects[i] = (DungeonEffect*)getEntityById(&globalState.effectList,(int)effects[i]);
 	}
-	for(int i =0; i < rooms.size();i++)
+	for(size_t i =0; i < rooms.size();i++)
 	{
 		rooms[i] = (DungeonRoom*)getEntityById(&globalState.roomList,(int)rooms[i]);
 	}

@@ -41,7 +41,7 @@ DungeonCreature::~DungeonCreature()
 
 void DungeonCreature::fixUpPointers()
 {
-	for(int i = 0; i < objects.size();i++)
+	for(size_t i = 0; i < objects.size();i++)
 	{
 		objects[i] = (DungeonObject*)getEntityById(&globalState.objectList,(int)objects[i]);
 	}

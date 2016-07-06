@@ -1,4 +1,5 @@
 #include "dungeon_serializer.h"
+#include "dungeon_action.h"
 #include "dungeon_object.h"
 #include "dungeon_exit.h"
 #include "dungeon_creature.h"
@@ -41,6 +42,7 @@ DungeonRoom::DungeonRoom(void* _json)
 	loadVectorEntity(objects,json);
 	loadVectorEntity(creatures,json);
 	loadVectorEntity(exits,json);
+	loadVectorEntity(actions,json);
 
 	globalState.roomList.push_back(this);
 	globalState.entityList.push_back(this);
@@ -49,18 +51,23 @@ DungeonRoom::DungeonRoom(void* _json)
 
 void DungeonRoom::fixUpPointers()
 {	
-	for(int i = 0; i < objects.size();i++)
+	for(size_t i = 0; i < objects.size();i++)
 	{		
 		objects[i] = dynamic_cast<DungeonObject*>(getEntityById(&globalState.objectList,(int)objects[i]));		 
 	}
-	for(int i = 0; i < creatures.size();i++)
+	for(size_t i = 0; i < creatures.size();i++)
 	{		
 		creatures[i] = dynamic_cast<DungeonCreature*>(getEntityById(&globalState.creatureList,(int)creatures[i]));		
 	}
-	for(int i = 0; i < exits.size();i++)
+	for(size_t i = 0; i < exits.size();i++)
 	{		
 		exits[i] = dynamic_cast<DungeonExit*>(getEntityById(&globalState.exitList,(int)exits[i]));	
 	}
+	for (size_t i = 0; i < exits.size(); i++)
+	{
+		actions[i] = dynamic_cast<DungeonAction*>(getEntityById(&globalState.actionList,(int)exits[i]));
+	}
+
 	if (parent != (DungeonEntity*)-1)
 		parent = (DungeonEntity*)getEntityById(&globalState.entityList,(int)parent);
 	else
@@ -83,5 +90,6 @@ string DungeonRoom::toJSON()
 	sout << writeVectorEntity(objects);
 	sout << writeVectorEntity(creatures);
 	sout << writeVectorEntity(exits);
+	sout << writeVectorEntity(actions);
 	return sout.str();
 }

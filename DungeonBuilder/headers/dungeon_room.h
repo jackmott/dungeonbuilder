@@ -8,6 +8,7 @@
 struct DungeonCreature;
 struct DungeonObject;
 struct DungeonExit;
+struct DungeonAction;
 
 struct DungeonRoom : DungeonEntity
 {
@@ -20,6 +21,7 @@ struct DungeonRoom : DungeonEntity
 	std::vector<DungeonExit*> exits;
 	std::vector<DungeonObject*> objects;
 	std::vector<DungeonCreature*> creatures;
+	std::vector<DungeonAction*> actions;
 	
 	std::string toJSON() ;
 

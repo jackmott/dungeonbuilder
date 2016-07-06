@@ -1,5 +1,7 @@
 #include "object_list.h"
 #include "dungeon_creature.h"
+#include "action_editor.h"
+#include "dungeon_action.h"
 #include "dungeon_object.h"
 #include "dungeon_exit.h"
 #include "dungeon_room.h"
@@ -149,6 +151,24 @@ string RoomEditor::edit(vector<string> args)
 			return "I don't see that here.";
 		}
 	}
+	else if(editNoun == STR_ACTION)
+	{
+		if(args.size() <3)
+		{
+			return "Which action do you want to edit?";
+		}
+		string actionStr = join(2,args,CHR_SPACE);
+		DungeonAction *a = (DungeonAction*)extractEntity(&room->actions,&actionStr);
+		if(a != nullptr)
+		{
+			ActionEditor ed;
+			ed.load(a);
+		}
+		else
+		{
+			return "I don't see that here.";
+		}
+	}
 	else if(editNoun == STR_EXIT)
 	{
 		if(args.size() <3)
@@ -210,6 +230,23 @@ string RoomEditor::del(vector<string> args)
 			return "I don't see that here.";
 		}
 	}
+	else if(delNoun == STR_ACTION) {
+
+		//TODO - check if use alias is already used for summin else
+		if(args.size() < 3)
+		{
+			return "Provide an alias to delete.";
+		}
+		string actionStr = join(2,args,CHR_SPACE);
+		DungeonAction *a = (DungeonAction*)extractEntity(&room->actions,&actionStr);
+		if(a != nullptr)
+		{
+			removePointer(&room->actions,a);
+			delete a;
+			return "";
+		}
+		return "That doesn't seem to exit.";
+	}
 	else if(delNoun == STR_CREATURE)
 	{
 		if(args.size() <3)
@@ -270,8 +307,23 @@ string RoomEditor::add(vector<string> args)
 
 	toLower(&addNoun);
 
+	if(addNoun == STR_ACTION) {
 
-	if(addNoun == STR_CREATURE)
+		if(args.size() < 3)
+		{
+			return "Provide a string to name the action.";
+		}
+		string actionStr = join(2,args,CHR_SPACE);
+		DungeonAction *action = new DungeonAction();
+		action->setPrimaryName(actionStr);
+		action->parent = room;
+		room->actions.push_back(action);
+		ActionEditor ae;
+		ae.load(action);
+		resetWindows();
+		return "";
+	}
+	else if(addNoun == STR_CREATURE)
 	{
 		CreatureEditor editor;
 		DungeonCreature* creature = new DungeonCreature();
@@ -395,6 +447,13 @@ void RoomEditor::resetWindows()
 		string row = e->getPrimaryName() + STR_RIGHT_ARROW + e->room->getPrimaryName();
 		textBuffer.push_back("  "+row);
 	}
+
+	textBuffer.push_back(STR_MENU_ACTIONS);
+	for(auto a : room->actions)
+	{
+		textBuffer.push_back("  "+a->getPrimaryName());
+	}
+
 	textBuffer.push_back(STR_MENU_ROOM_MOVE);
 	
 	renderTextBuffer();

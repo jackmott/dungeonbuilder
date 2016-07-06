@@ -4,6 +4,9 @@
 #include "dungeon_entity.h"
 
 struct DungeonEffect;
+struct DungeonEntity;
+struct DungeonPlayer;
+struct DungeonRoom;
 
 struct DungeonAction : DungeonEntity
 {
@@ -13,11 +16,12 @@ struct DungeonAction : DungeonEntity
 	void fixUpPointers();
 	std::string output;
 	bool needToHold;
+	bool onetime;
 
 	//These will be DungeonEntities
 	std::vector<DungeonEntity*> targets;
 	std::vector<DungeonEffect*> effects;
-
+	std::string apply(std::vector<std::string>* textBuffer, DungeonEntity* targetEntity, DungeonPlayer* player, DungeonRoom* room, bool objectOnPlayer);
 	std::string toJSON();
 };
 

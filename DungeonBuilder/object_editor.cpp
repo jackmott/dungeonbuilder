@@ -35,10 +35,13 @@ string ObjectEditor::del(vector<string> args)
 		}
 		string actionStr = join(2,args,CHR_SPACE);
 		DungeonAction *a = (DungeonAction*)extractEntity(&object->actions,&actionStr);
-		if(a == nullptr)
+		if(a != nullptr)
 		{
-			return "That doesn't seem to exit.";
+			removePointer(&object->actions,a);
+			delete a;
+			return "";
 		}
+		return "That doesn't seem to exit.";
 
 	}
 	else if(delNoun == STR_NAME)

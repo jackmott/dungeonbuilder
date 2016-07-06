@@ -18,7 +18,7 @@ struct DungeonCreature;
 	EFFECT(Damage)	  \
 	EFFECT(Attack)	  \
 	EFFECT(Transform) \
-    EFFECT(AlterDesc)
+    EFFECT(ReplaceRoomDesc)
 
 
 
