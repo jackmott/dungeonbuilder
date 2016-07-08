@@ -29,7 +29,7 @@
     <ClCompile Include="dungeon_exit.cpp" />
     <ClCompile Include="dungeon_trigger.cpp" />
     <ClCompile Include="json.c" />
-    <ClCompile Include="object_list.cpp" />
+    <ClCompile Include="entity_list.cpp" />
     <ClCompile Include="room_list.cpp" />
     <ClCompile Include="dungeon_engine.cpp" />
     <ClCompile Include="dungeon_object.cpp" />
@@ -60,7 +60,7 @@
     <ClInclude Include="headers\effect_editor.h" />
     <ClInclude Include="headers\exit_editor.h" />
     <ClInclude Include="headers\json.h" />
-    <ClInclude Include="headers\object_list.h" />
+    <ClInclude Include="headers\entity_list.h" />
     <ClInclude Include="headers\room_list.h" />
     <ClInclude Include="headers\dungeon_serializer.h" />
     <ClInclude Include="headers\lib.h" />

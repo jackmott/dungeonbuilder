@@ -18,7 +18,7 @@ struct DungeonRoomList : AbstractEditor
 	void resetWindows();
 
 	//display these entities in a list and let user choose one
-	DungeonRoom* load(std::vector<DungeonRoom*> _rooms, DungeonExit* _fromExit = nullptr);
+	DungeonRoom* load(const std::vector<DungeonRoom*> &_rooms, DungeonExit* _fromExit = nullptr);
 	DungeonRoom* pickRoom(int id);
 	DungeonRoom* newRoom(std::vector<std::string> args);
 	

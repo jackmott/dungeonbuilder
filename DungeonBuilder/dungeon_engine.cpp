@@ -122,7 +122,7 @@ int DungeonEngine::examine(string args)
 int DungeonEngine::put(string args)
 {
 	//get the string before and after the word "in" to clarify what is being put where
-	unsigned long inLocation = args.find(" in ");
+	size_t inLocation = args.find(" in ");
 	if(inLocation == string::npos)
 	{
 		textBuffer.push_back("Your fumble about, but it doesn't work.");
@@ -210,8 +210,6 @@ int DungeonEngine::action(string actionStr,string args)
 	vector<string> vArgs = split(args,' ');
 	vArgs = removeArticles(vArgs);
 
-	string objectStr;
-	string targetStr;
 
 	if(vArgs.size() < 1)
 	{
@@ -221,13 +219,13 @@ int DungeonEngine::action(string actionStr,string args)
 
 	ObjectTarget ot = extractObjectTarget(vArgs);
 	//no preposition found?
-	if(ot.object == "" && ot.target == "")
+	if(ot.object.empty() && ot.target.empty())
 	{
 		ot.object = join(0,vArgs,CHR_SPACE);
 	}
 
 	DungeonEntity * targetEntity = nullptr;
-	if(ot.target != "")
+	if(!ot.target.empty())
 	{
 		targetEntity = extractObject(&player->objects,&ot.target);
 		if(targetEntity == nullptr)
@@ -722,7 +720,7 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 
 			string verb = extractPhrase(verbs,&userInput);
 
-			if(verb == "") {
+			if(verb.empty()) {
 				vector<string> directions;
 				for(map<string,DungeonExit*>::iterator it = moveMap.begin(); it != moveMap.end(); ++it) {
 					directions.push_back(it->first);
@@ -730,7 +728,7 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 
 				string moveStr = extractPhrase(directions,&userInput);
 
-				if(moveStr != "")
+				if(!moveStr.empty())
 				{
 					move(moveMap[moveStr]);
 					gameLogic(1);
@@ -753,7 +751,7 @@ void DungeonEngine::load(DungeonRoom *_room,DungeonPlayer *_player)
 			string actionStr = extractPhrase(actions,&originalUserInput);			
 			
 
-			if (actionStr != "") {
+			if (!actionStr.empty()) {
 				ActionFunction actFunc = actionMap[actionStr];
 				int turnsUsed = (this->*actFunc)(actionStr,userInput);
 				gameLogic(turnsUsed);

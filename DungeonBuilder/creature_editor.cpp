@@ -9,12 +9,12 @@
 
 using namespace std;
 
-string CreatureEditor::exit(vector<string> args)
+string CreatureEditor::exit(const vector<string> &args)
 {
 	return STR_EXIT;
 }
 
-string CreatureEditor::set(vector<string> args)
+string CreatureEditor::set(const vector<string> &args)
 {
 	if(args.size() < 2)
 	{
@@ -53,7 +53,7 @@ string CreatureEditor::set(vector<string> args)
 	return "";
 }
 
-string CreatureEditor::del(vector<string> args)
+string CreatureEditor::del(const vector<string> &args)
 {
 	if(args.size() < 2)
 	{
@@ -79,7 +79,7 @@ string CreatureEditor::del(vector<string> args)
 	return "";
 }
 
-string CreatureEditor::add(vector<string> args)
+string CreatureEditor::add(const vector<string> &args)
 {
 	if(args.size() < 2)
 	{
@@ -107,7 +107,7 @@ string CreatureEditor::add(vector<string> args)
 }
 
 
-string CreatureEditor::edit(vector<string> args)
+string CreatureEditor::edit(const vector<string> &args)
 {
 	if(args.size() < 2)
 	{
@@ -157,7 +157,7 @@ void CreatureEditor::resetWindows()
 	wrefresh(responseWindow);
 	wrefresh(mainWindow);
 
-	string command;
+	
 
 	printHeader(headerWindow,"Creature",creature->parent->getPrimaryName(),creature->getPrimaryName(),"");
 	
@@ -165,7 +165,8 @@ void CreatureEditor::resetWindows()
 	string nameRow = STR_MENU_NAME + join(0,creature->getNames(),',');
 	textBuffer.push_back(nameRow);
 	
-	string desc = creature->description.size() > (COLS-20) ? creature->description + STR_ELLIPSES : creature->description;
+	
+	string desc = (int)creature->description.size() > (COLS-20) ? creature->description + STR_ELLIPSES : creature->description;
 	string descRow = STR_MENU_DESCRIPTION + desc;
 	textBuffer.push_back(descRow);
 	

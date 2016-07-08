@@ -24,7 +24,7 @@ void TextEditor::resetWindows()
 	keypad(mainWindow,true);   //turns on arrows and f keys
 }
 
-string TextEditor::edit(string _header,string startText)
+string TextEditor::edit(const string &_header,const string &startText)
 {
 	text = startText;
 	x = 0;
@@ -304,7 +304,7 @@ void TextEditor::printBuff() {
 		{
 			for(size_t i = 0; i < token.size(); i++)
 			{
-				if(px >= COLS){
+				if(px >= (size_t)COLS){
 					lineLengths.push_back(px);
 					py++;
 					px = 0;
@@ -329,7 +329,7 @@ void TextEditor::printBuff() {
 		}
 		else
 		{
-			if(token.size() > remainingWidth) {
+			if((int)token.size() > remainingWidth) {
 				lineLengths.push_back(px);
 				py++;
 				px = 0;

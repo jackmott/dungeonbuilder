@@ -21,7 +21,7 @@
 #define STR_MENU_ALIGNMENT "[Set](Alignment):"
 
 //Exit
-#define STR_MENU_EXIT_ROOM "[Set/Edit](Room):"
+#define STR_MENU_ROOM "[Set/Edit](Room):"
 #define STR_MENU_TRAVEL_TEXT "[Set](TravelText):"
 #define STR_MENU_MIRROR "[Set](Mirror)[T/F]"
 
@@ -127,7 +127,7 @@
 #define STR_ELLIPSES "..."
 
 #ifdef _WIN32
-#define CHR_NEWLINE 170
+#define CHR_NEWLINE 170u
 #else
 #define CHR_NEWLINE 172 //This doesn't seem to work in common terminals. bla.
 #endif

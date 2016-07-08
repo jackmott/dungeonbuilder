@@ -28,7 +28,7 @@ struct DungeonExit: DungeonEntity
 	DungeonRoom* room;
 
 	DungeonExit* mirror();
-    static std::string getOppositeDirection(std::string);
+    static std::string getOppositeDirection(const std::string &);
 	
 	std::string toJSON();
 };

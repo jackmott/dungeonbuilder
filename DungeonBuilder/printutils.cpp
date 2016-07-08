@@ -7,20 +7,20 @@
 using namespace std;
 
 
-void mvwprintwCenter (WINDOW * window,int row,string text)
+void mvwprintwCenter (WINDOW * window,int row,const string &text)
 {
 	mvwprintw(window,row,(COLS-text.length())/2,text.c_str());
 }
 
 
-void mvwprintwBold (WINDOW *window,int row,int col,string text)
+void mvwprintwBold (WINDOW *window,int row,int col,const string &text)
 {
 	wattron(window,A_BOLD);
 	mvwprintw(window,row,col,text.c_str());
 	wattroff(window,A_BOLD);
 }
 
-void mvwprintwCenterBold (WINDOW *window,int row,string text)
+void mvwprintwCenterBold (WINDOW *window,int row,const string &text)
 {
 	wattron(window,A_BOLD);
 	mvwprintw(window,row,(COLS-text.length())/2,text.c_str());
@@ -32,16 +32,16 @@ void mvwprintwCenterBold (WINDOW *window,int row,string text)
 #define DUNGEON_HEADER_FG COLOR_WHITE
 
 
-void printHeader(WINDOW *window,string heading, string leftText,string centerText,string rightText,int boldIndex)
+void printHeader(WINDOW *window,const string &heading, const string &leftText,const string &centerText,const string &rightText,int boldIndex)
 {
 
 	setbackground(window,DUNGEON_HEADER_FG,DUNGEON_HEADER_BG);
 	wclrtoeol(window);
 
-	centerText = STR_RIGHT_ARROW + centerText + STR_RIGHT_ARROW;
+	string arrowCenterText = STR_RIGHT_ARROW + centerText + STR_RIGHT_ARROW;
 	mvwprintwBold(window,0,0,heading.c_str());
 
-	int startX = (COLS - (leftText.size()+rightText.size()+centerText.size()))/2;
+	int startX = (COLS - (leftText.size()+rightText.size()+arrowCenterText.size()))/2;
 
 	if(boldIndex == 1)
 	{
@@ -58,12 +58,12 @@ void printHeader(WINDOW *window,string heading, string leftText,string centerTex
 	if(boldIndex == 2)
 	{
 		setcolors(window,DUNGEON_HEADER_FG,DUNGEON_HEADER_BG);
-		mvwprintwBold(window,0,startX,centerText.c_str());
+		mvwprintwBold(window,0,startX,arrowCenterText.c_str());
 	}
 	else
 	{
 		setcolors(window,DUNGEON_HEADER_FG,DUNGEON_HEADER_BG);
-		mvwprintw(window,0,startX,centerText.c_str());
+		mvwprintw(window,0,startX,arrowCenterText.c_str());
 	}
 	startX += centerText.size();
 	setcolors(window,DUNGEON_HEADER_FG,DUNGEON_HEADER_BG);
@@ -80,23 +80,23 @@ void printHeader(WINDOW *window,string heading, string leftText,string centerTex
 	wrefresh(window);
 }
 
-void printHeader(WINDOW *window,string heading,string leftText,string rightText){
+void printHeader(WINDOW *window,const string &heading,const string &leftText,const string &rightText){
 
 	setbackground(window,DUNGEON_HEADER_FG,DUNGEON_HEADER_BG);
 	wclrtoeol(window);
 	mvwprintwBold(window,0,0,heading.c_str());
-	rightText = STR_RIGHT_ARROW + rightText;
+	string arrowRightText = STR_RIGHT_ARROW + rightText;
 
-	int startX = (COLS - (leftText.size()+rightText.size()))/2;
+	int startX = (COLS - (leftText.size()+arrowRightText.size()))/2;
 	setcolors(window,DUNGEON_HEADER_FG,DUNGEON_HEADER_BG);
 	mvwprintw(window,0,startX,leftText.c_str());
 	startX += leftText.size();
 	setcolors(window,DUNGEON_HEADER_FG,DUNGEON_HEADER_BG);
-	mvwprintwBold(window,0,startX,rightText.c_str());
+	mvwprintwBold(window,0,startX,arrowRightText.c_str());
 	wrefresh(window);
 }
 
-void printHeader(WINDOW* window,string heading,string text)
+void printHeader(WINDOW* window,const string &heading,const string &text)
 {
 	setbackground(window,DUNGEON_HEADER_FG,DUNGEON_HEADER_BG);
 	wclrtoeol(window);
@@ -105,7 +105,7 @@ void printHeader(WINDOW* window,string heading,string text)
 	wrefresh(window);
 }
 
-void printEngineHeader(WINDOW *window,string heading,string location,string turns)
+void printEngineHeader(WINDOW *window,const string &heading,const string &location,const string &turns)
 {
 	setbackground(window,COLOR_BLACK,COLOR_WHITE);
 	mvwprintw(window,0,0,heading.c_str());
@@ -316,10 +316,10 @@ vector<DungeonChunk> parseDungeonText(vector<string> &textBuffer)
 	return chunks;
 }
 
-void renderDungeonText(WINDOW * window,vector<DungeonChunk> chunks,int lineOffset)
+void renderDungeonText(WINDOW * window,const vector<DungeonChunk> &chunks,int lineOffset)
 {
 	size_t maxY = getmaxy(window);
-	size_t linesRemaining = maxY;
+	int linesRemaining = maxY;
 
 
 	//For handling centered text
@@ -390,7 +390,7 @@ void renderDungeonText(WINDOW * window,vector<DungeonChunk> chunks,int lineOffse
 						y++;
 						lines.push_back(emptyLine);
 					}
-					else if(x > COLS) {
+					else if(x > (size_t)COLS) {
 						y++;
 						lines.push_back(emptyLine);
 						x = 0;

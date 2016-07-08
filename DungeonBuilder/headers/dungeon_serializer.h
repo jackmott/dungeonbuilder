@@ -31,21 +31,21 @@ struct DungeonEntity;
 
 
 //save
-std::string _writeInt(std::string name, int value);
-std::string _writeString(std::string name,std::string value);
-std::string _writeBool(std::string name,bool value);
-std::string _writeVectorString(std::string name,std::vector<std::string> const &value);
+std::string _writeInt(const std::string &name, int value);
+std::string _writeString(const std::string &name,std::string value);
+std::string _writeBool(const std::string &name,bool value);
+std::string _writeVectorString(const std::string &name,std::vector<std::string> const &value);
 //only the ids!
-std::string _writeEntity(std::string name, DungeonEntity* e);
-std::string _writeVectorEntity(std::string name, void *value);
+std::string _writeEntity(const std::string &name, DungeonEntity* e);
+std::string _writeVectorEntity(const std::string &name, void *value);
 
 //load
-int _loadInt(std::string name, void* json);
-std::string _loadString(std::string name, void* json);
-bool _loadBool(std::string name, void* json);
-std::vector<std::string> _loadVectorString(std::string name, void* json);
-void _loadVectorEntity(std::string name,void* _v,void *_json);
-void _loadEntity(std::string name,DungeonEntity **e, void *_json);
+int _loadInt(const std::string &name, void* json);
+std::string _loadString(const std::string &name, void* json);
+bool _loadBool(const std::string &name, void* json);
+std::vector<std::string> _loadVectorString(const std::string &name, void* json);
+void _loadVectorEntity(const std::string &name,void* _v,void *_json);
+void _loadEntity(const std::string &name,DungeonEntity **e, void *_json);
 void loadJson(std::string filename);
 
 #endif

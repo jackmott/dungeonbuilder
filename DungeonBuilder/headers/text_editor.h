@@ -22,7 +22,7 @@ struct TextEditor
 	void clearWindows();
 	
 	std::vector<size_t> lineLengths;
-	std::string edit(std::string _header, std::string startText);
+	std::string edit(const std::string &_header,const  std::string &startText);
 		
 	std::string remTabs(std::string line);
 

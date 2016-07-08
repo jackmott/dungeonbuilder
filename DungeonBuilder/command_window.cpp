@@ -12,7 +12,7 @@ void CommandWindow::reset(){
 }
 
 string CommandWindow::getCommandAsString(WINDOW* _window,string _prompt) {
-	input = "";
+	input.clear();
 	prompt = _prompt;
 	window = _window;
 	keypad(window,true);
@@ -122,7 +122,7 @@ bool CommandWindow::handleInput(int c) {
 		input = STR_EXIT;;
 		return true;
 	default:
-		if(input.size() < (unsigned int)(COLS -2))
+		if(input.size() < (size_t)(COLS -2))
 		{
 			input.insert(x-prompt.size(),1,(char)c);
 			x++;

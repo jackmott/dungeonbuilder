@@ -157,8 +157,7 @@ void MainMenu::resetWindows()
 	wrefresh(responseWindow);
 	wrefresh(mainWindow);
 
-	string command;
-
+	
 	setcolor(mainWindow,COLOR_RED);
 	mvwprintwCenterBold(mainWindow,3,"Dungeon Builder <-> Pre Alpha");
 	setcolor(mainWindow,COLOR_CYAN);

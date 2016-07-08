@@ -11,7 +11,7 @@ struct CommandWindow
 	size_t x;	
 	int w;
 	std::string input;
-	int done = 0;
+	bool done = false;
 	std::string prompt;
 				
 	void reset();	

@@ -65,7 +65,7 @@ DungeonExit* DungeonExit::mirror()
 	return nullptr;
 }
 
-string DungeonExit::getOppositeDirection(string direction)
+string DungeonExit::getOppositeDirection(const string &direction)
 {
 	string lowerD = toLower(direction);
 	string result = "placeholder";

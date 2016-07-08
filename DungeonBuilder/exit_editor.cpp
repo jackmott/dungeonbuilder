@@ -88,10 +88,9 @@ string ExitEditor::set(vector<string> args)
 					}
 				}
 			}
-			if (toDelete != nullptr)
-			{
-				delete toDelete;
-			}
+			
+			delete toDelete;
+			
 		}
 	}
 
@@ -225,7 +224,7 @@ void ExitEditor::resetWindows()
 	wrefresh(responseWindow);
 	wrefresh(mainWindow);
 
-	string command;
+
 
 	printHeader(headerWindow,"Exit",dungeonExit->parent->getPrimaryName(),dungeonExit->getPrimaryName(),dungeonExit->room->getPrimaryName());
 	
@@ -242,7 +241,7 @@ void ExitEditor::resetWindows()
 	string travelRow = STR_MENU_TRAVEL_TEXT +  dungeonExit->travelText;
 	textBuffer.push_back(travelRow);
 	
-	string roomRow = STR_MENU_EXIT_ROOM + dungeonExit->room->getPrimaryName();
+	string roomRow = STR_MENU_ROOM + dungeonExit->room->getPrimaryName();
 	textBuffer.push_back(roomRow);
 
 

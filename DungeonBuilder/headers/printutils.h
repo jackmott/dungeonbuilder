@@ -25,18 +25,18 @@ typedef std::vector<DungeonToken> DungeonChunk;
 
 
 std::vector<DungeonChunk> parseDungeonText(std::vector<std::string> &textBuffer);
-void renderDungeonText(WINDOW* window,std::vector<DungeonChunk> chunks, int lineOffset);
+void renderDungeonText(WINDOW* window,const std::vector<DungeonChunk> &chunks, int lineOffset);
 
 
-void mvwprintwCenter (WINDOW * window,int row, std::string  text);
-void mvwprintwCenterBold (WINDOW * window,int row, std::string  text);
-void mvwprintwBold (WINDOW * window,int row,int col, std::string  text);
+void mvwprintwCenter (WINDOW * window,int row, const std::string  &text);
+void mvwprintwCenterBold (WINDOW * window,int row, const std::string  &text);
+void mvwprintwBold (WINDOW * window,int row,int col, const std::string  &text);
 int getColorGroup(int fore,int back);
 void setbackground(WINDOW* window,int fore,int back);
 void setcolor (WINDOW* window, int fore);
 void setcolors(WINDOW* window, int fore,int back);
-void printHeader(WINDOW *window,std::string heading,std::string leftText,std::string centerText,std::string rightText, int boldIndex = 2);
-void printHeader(WINDOW* window,std::string heading,std::string text);
-void printHeader(WINDOW *window,std::string heading,std::string leftText,std::string rightText);
-void printEngineHeader(WINDOW *window,std::string heading,std::string location,std::string turns);
+void printHeader(WINDOW *window,const std::string &heading,const std::string &leftText,const std::string &centerText,const std::string &rightText, int boldIndex = 2);
+void printHeader(WINDOW* window,const std::string &heading,const std::string &text);
+void printHeader(WINDOW *window,const std::string &heading,const std::string &leftText,const std::string &rightText);
+void printEngineHeader(WINDOW *window,const std::string &heading,const std::string &location,const std::string &turns);
 #endif

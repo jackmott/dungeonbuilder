@@ -48,20 +48,20 @@ struct ObjectTarget
 	std::string target;
 };
 
-ObjectTarget extractObjectTarget(std::vector<std::string> words);
+ObjectTarget extractObjectTarget(const std::vector<std::string> &words);
 
 unsigned long getUID();
 std::vector<std::string> splitOnSpaceAndEnter(const std::string &s);
 std::vector<std::string> &split(const std::string  &s, char delim, std::vector<std::string> &elems);
 std::vector<std::string> split(const std::string  &s, char delim);
 std::string join(unsigned int offset, std::vector<std::string> const &v, char delim);
-std::vector<std::string> removeArticles(std::vector<std::string> words);
+std::vector<std::string> removeArticles(const std::vector<std::string> &words);
 std::string toLower(std::string s);
 void toLower(std::string *s);
 bool isVowel(char c);
-std::string a_an (std::string s);
-bool isAffirmative(std::string s);
-std::string thereIsA(std::string thing);
+std::string a_an (const std::string &s);
+bool isAffirmative(const std::string &s);
+std::string thereIsA(const std::string &thing);
 DungeonEntity* extractEntity(void* _entities ,std::string *userInput, int *matchedName = nullptr);
 DungeonObject* extractObject(std::vector<DungeonObject*> * objects,std::string *userInput, int* matchedName = nullptr);
 DungeonObject* extractAndRemoveObject(std::vector<DungeonObject*> * objects,std::string *userInput);

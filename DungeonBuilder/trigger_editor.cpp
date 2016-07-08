@@ -148,9 +148,7 @@ void TriggerEditor::resetWindows()
 	wrefresh(mainWindow);
 	wrefresh(headerWindow);
 
-	string command;
-
-
+	
 	printHeader(headerWindow,"Trigger",trigger->parent->parent->getPrimaryName(),trigger->parent->getPrimaryName(),trigger->getPrimaryName(),3);
 	
 

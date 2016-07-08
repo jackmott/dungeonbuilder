@@ -158,7 +158,7 @@ void ActionEditor::resetWindows()
 	wrefresh(mainWindow);
 	wrefresh(headerWindow);
 
-	string command;
+	
 
     if (action->parent->parent != nullptr) {
 		printHeader(headerWindow,"Action",action->parent->parent->getPrimaryName(),action->parent->getPrimaryName(),action->getPrimaryName(),3);

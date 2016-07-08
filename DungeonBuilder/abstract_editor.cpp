@@ -25,7 +25,7 @@ void AbstractEditor::renderTextBuffer()
 	wclear(mainWindow);
 	for(size_t y = 0; y < LINES-3;y++)
 	{
-		if(y+scrollpos >= textBuffer.size()) break;
+		if(y+scrollpos >= (int)textBuffer.size()) break;
 		mvwprintw(mainWindow,y,0,textBuffer[y+scrollpos].c_str());
 	}
 	wrefresh(mainWindow);

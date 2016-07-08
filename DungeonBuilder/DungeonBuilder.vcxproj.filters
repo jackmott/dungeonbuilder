@@ -23,12 +23,12 @@
     <ClCompile Include="dungeon_room.cpp" />
     <ClCompile Include="dungeon_exit.cpp" />
     <ClCompile Include="room_list.cpp" />
-    <ClCompile Include="object_list.cpp" />
     <ClCompile Include="dungeon_trigger.cpp" />
     <ClCompile Include="trigger_editor.cpp" />
     <ClCompile Include="dungeon_serializer.cpp" />
     <ClCompile Include="json.c" />
     <ClCompile Include="abstract_editor.cpp" />
+    <ClCompile Include="entity_list.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\room_editor.h" />
@@ -55,12 +55,12 @@
     <ClInclude Include="headers\dungeon_room.h" />
     <ClInclude Include="headers\dungeon_exit.h" />
     <ClInclude Include="headers\room_list.h" />
-    <ClInclude Include="headers\object_list.h" />
     <ClInclude Include="headers\dungeon_trigger.h" />
     <ClInclude Include="headers\trigger_editor.h" />
     <ClInclude Include="headers\dungeon_serializer.h" />
     <ClInclude Include="headers\json.h" />
     <ClInclude Include="headers\abstract_editor.h" />
+    <ClInclude Include="headers\entity_list.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\pdcurses.lib" />

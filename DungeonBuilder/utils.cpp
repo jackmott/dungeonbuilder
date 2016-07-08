@@ -21,7 +21,7 @@ vector<string> &split(const string &s,char delim,vector<string> &elems) {
 	return elems;
 }
 
-vector<string> removeArticles(vector<string> words)
+vector<string> removeArticles(const vector<string> &words)
 {
 	vector<string> result;
 	for(auto word: words)
@@ -38,7 +38,7 @@ vector<string> removeArticles(vector<string> words)
 
 
 
-ObjectTarget extractObjectTarget(vector<string> words)
+ObjectTarget extractObjectTarget(const vector<string> &words)
 {
 	ObjectTarget result;
 	for(size_t i = 0; i < words.size(); i++)
@@ -57,7 +57,7 @@ ObjectTarget extractObjectTarget(vector<string> words)
 			}
 			break;
 		}
-		else if(lowerWord == "on" || lowerWord == "at" || lowerWord == "on" || lowerWord == "toward")  //object -> target
+		else if(lowerWord == "on" || lowerWord == "at" ||  lowerWord == "toward")  //object -> target
 		{
 			for(size_t j = 0; j < i; j++)
 			{
@@ -136,7 +136,7 @@ bool isVowel(char c)
 
 }
 
-string a_an (string s)
+string a_an (const string &s)
 {
 	string lowerS = s;
 	toLower(&lowerS);
@@ -209,7 +209,7 @@ void entitysort(vector<DungeonEntity*> *v)
 //sort strings from longest to shortest
 
 
-bool isAffirmative(string s)
+bool isAffirmative(const string &s)
 {
 	string l = s;
 	toLower(&l);
@@ -218,7 +218,7 @@ bool isAffirmative(string s)
 	return false;
 }
 
-string thereIsA(string thing)
+string thereIsA(const string &thing)
 {
 	return "There is " + a_an(thing) + " here";
 }

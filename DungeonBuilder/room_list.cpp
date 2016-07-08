@@ -55,11 +55,6 @@ void DungeonRoomList::resetWindows()
 	wrefresh(mainWindow);
 	wrefresh(headerWindow);
 
-	string command;
-
-
-
-
 	if(fromExit != nullptr){
 		printHeader(headerWindow,"Exit Room List",fromExit->parent->getPrimaryName(),fromExit->getPrimaryName(),STR_MENU_ID_OR_NEW);
 	}
@@ -69,7 +64,7 @@ void DungeonRoomList::resetWindows()
 
 
 	setcolor(mainWindow,COLOR_WHITE);
-	int idWidth = 5;
+	size_t idWidth = 5;
 
 	//print all the rooms
 	for(size_t i = 0; i < rooms.size(); i++)
@@ -106,7 +101,7 @@ void DungeonRoomList::resetWindows()
 
 }
 
-DungeonRoom* DungeonRoomList::load(vector<DungeonRoom *> _rooms,DungeonExit* _fromExit)
+DungeonRoom* DungeonRoomList::load(const vector<DungeonRoom *> &_rooms,DungeonExit* _fromExit)
 {
 
 	rooms = _rooms;

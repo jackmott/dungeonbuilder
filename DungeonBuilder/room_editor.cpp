@@ -1,4 +1,4 @@
-#include "object_list.h"
+#include "entity_list.h"
 #include "dungeon_creature.h"
 #include "action_editor.h"
 #include "dungeon_action.h"
@@ -108,11 +108,7 @@ string RoomEditor::edit(vector<string> args)
 	{
 		if(args.size() <3)
 		{
-			//object not found round here, bring up the list!
-			DungeonObjectList dol;
-			DungeonObject* o = dol.load(globalState.objectList);
-			ObjectEditor ed;
-			ed.load(o);
+			return "specify and object name";
 		}
 		else {
 			string objStr = join(2,args,CHR_SPACE);
@@ -125,10 +121,7 @@ string RoomEditor::edit(vector<string> args)
 			else
 			{
 				//object not found round here, bring up the list!
-				DungeonObjectList dol;
-				DungeonObject* o = dol.load(globalState.objectList);
-				ObjectEditor ed;
-				ed.load(o);
+				return "object not found";
 
 			}
 		}
@@ -416,7 +409,7 @@ void RoomEditor::resetWindows()
 	string nameRow = STR_MENU_ROOM_NAME + room->getPrimaryName();
 	textBuffer.push_back(nameRow);
 	
-	string desc = room->description.size() > (COLS - 20) ? room->description.substr(0,COLS-20) + STR_ELLIPSES : room->description;
+	string desc = room->description.size() > (size_t)(COLS - 20) ? room->description.substr(0,COLS-20) + STR_ELLIPSES : room->description;
 	string descRow = STR_MENU_DESCRIPTION + desc;
 	textBuffer.push_back(descRow);
 	

@@ -49,22 +49,22 @@ void DungeonTrigger::fixUpPointers()
 {
 	for(size_t i =0; i < objects.size();i++)
 	{
-		objects[i] = (DungeonObject*)getEntityById(&globalState.objectList,(int)objects[i]);
+		objects[i] = (DungeonObject*)getEntityById(&globalState.objectList,(size_t)objects[i]);
 	}
 	for(size_t i =0; i < creatures.size();i++)
 	{
-		creatures[i] = (DungeonCreature*)getEntityById(&globalState.creatureList,(int)creatures[i]);
+		creatures[i] = (DungeonCreature*)getEntityById(&globalState.creatureList,(size_t)creatures[i]);
 	}
 	for(size_t i =0; i < effects.size();i++)
 	{
-		effects[i] = (DungeonEffect*)getEntityById(&globalState.effectList,(int)effects[i]);
+		effects[i] = (DungeonEffect*)getEntityById(&globalState.effectList,(size_t)effects[i]);
 	}
 	for(size_t i =0; i < rooms.size();i++)
 	{
-		rooms[i] = (DungeonRoom*)getEntityById(&globalState.roomList,(int)rooms[i]);
+		rooms[i] = (DungeonRoom*)getEntityById(&globalState.roomList,(size_t)rooms[i]);
 	}
 	if (parent != (DungeonEntity*)-1)
-		parent = (DungeonEntity*)getEntityById(&globalState.entityList,(int)parent);
+		parent = (DungeonEntity*)getEntityById(&globalState.entityList,(size_t)parent);
 	else
 		parent = nullptr;
 }

@@ -53,19 +53,19 @@ void DungeonRoom::fixUpPointers()
 {	
 	for(size_t i = 0; i < objects.size();i++)
 	{		
-		objects[i] = dynamic_cast<DungeonObject*>(getEntityById(&globalState.objectList,(int)objects[i]));		 
+		objects[i] = dynamic_cast<DungeonObject*>(getEntityById(&globalState.objectList,(size_t)objects[i]));		 
 	}
 	for(size_t i = 0; i < creatures.size();i++)
 	{		
-		creatures[i] = dynamic_cast<DungeonCreature*>(getEntityById(&globalState.creatureList,(int)creatures[i]));		
+		creatures[i] = dynamic_cast<DungeonCreature*>(getEntityById(&globalState.creatureList,(size_t)creatures[i]));		
 	}
 	for(size_t i = 0; i < exits.size();i++)
 	{		
-		exits[i] = dynamic_cast<DungeonExit*>(getEntityById(&globalState.exitList,(int)exits[i]));	
+		exits[i] = dynamic_cast<DungeonExit*>(getEntityById(&globalState.exitList,(size_t)exits[i]));	
 	}
 	for (size_t i = 0; i < exits.size(); i++)
 	{
-		actions[i] = dynamic_cast<DungeonAction*>(getEntityById(&globalState.actionList,(int)exits[i]));
+		actions[i] = dynamic_cast<DungeonAction*>(getEntityById(&globalState.actionList,(size_t)exits[i]));
 	}
 
 	if (parent != (DungeonEntity*)-1)

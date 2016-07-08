@@ -33,7 +33,8 @@ DungeonEffect::DungeonEffect(void* _json)
 	loadString(output,json);
 	loadString(modificationString,json);
 	loadInt(speed,json);
-	loadVectorEntity(transforms,json);
+	loadVectorEntity(removeTransforms,json);
+	loadVectorEntity(addTransforms,json);
 	globalState.effectList.push_back(this);
 	globalState.entityList.push_back(this);
 
@@ -44,12 +45,16 @@ DungeonEffect::~DungeonEffect()
 
 void DungeonEffect::fixUpPointers()
 {
-	for(size_t i = 0; i < transforms.size();i++)
+	for(size_t i = 0; i < removeTransforms.size();i++)
 	{
-		transforms[i] = (DungeonObject*)getEntityById(&globalState.objectList,(int)transforms[i]);
+		removeTransforms[i] = (DungeonEntity*)getEntityById(&globalState.objectList,(size_t)removeTransforms[i]);
+	}
+	for(size_t i = 0; i < addTransforms.size();i++)
+	{
+		addTransforms[i] = (DungeonEntity*)getEntityById(&globalState.objectList,(size_t)addTransforms[i]);
 	}
 	if(parent != (DungeonEntity*)-1)
-		parent = (DungeonEntity*)getEntityById(&globalState.entityList,(int)parent);
+		parent = (DungeonEntity*)getEntityById(&globalState.entityList,(size_t)parent);
 	else
 		parent = nullptr;
 }
@@ -71,6 +76,7 @@ void DungeonEffect::apply(vector<string> *textBuffer,DungeonEntity* target,Dunge
 	case EFFECT_TYPE::Transform:
 	{
 		//this assume the parent is an action and its parent is an object
+		/*
 		DungeonObject *toTransform = (DungeonObject*)parent->parent;
 		if(objectOnPlayer) {
 			removePointer(&player->objects,toTransform);
@@ -84,11 +90,11 @@ void DungeonEffect::apply(vector<string> *textBuffer,DungeonEntity* target,Dunge
 			for(auto e : transforms) {
 				room->objects.push_back(e);
 			}
-		}
+		}*/
 	}
 		break;
 	case EFFECT_TYPE::Attack:
-		break;
+		break;	
 	case EFFECT_TYPE::ReplaceRoomDesc:
 		//ascend the tree of entities until we hit the first room
 		DungeonEntity* entity = parent;
@@ -115,7 +121,8 @@ string DungeonEffect::toJSON()
 	sout << writeString(output);
 	sout << writeInt(magnitude);
 	sout << writeInt(speed);
-	sout << writeVectorEntity(transforms);
+	sout << writeVectorEntity(removeTransforms);
+	sout << writeVectorEntity(addTransforms);
 
 	return sout.str();
 }

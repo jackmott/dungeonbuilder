@@ -14,7 +14,7 @@ using namespace std;
 
 extern GlobalState globalState;
 
-int _loadInt(string name,void *_json)
+int _loadInt(const string &name,void *_json)
 {
 	json_value * json = (json_value*)_json;
 	for(size_t i = 0; i < json->u.object.length; i++)
@@ -23,7 +23,7 @@ int _loadInt(string name,void *_json)
 		if(json_name == name)
 		{
 			if(json->u.object.values[i].value->type == json_integer)
-				return json->u.object.values[i].value->u.integer;
+				return (int)json->u.object.values[i].value->u.integer;
 			else
 				break;
 		}
@@ -31,7 +31,7 @@ int _loadInt(string name,void *_json)
 	return 0; //todo - proper error here?
 }
 
-string _loadString(string name,void *_json)
+string _loadString(const string &name,void *_json)
 {
 	json_value * json = (json_value*)_json;
 	for(size_t i = 0; i < json->u.object.length; i++)
@@ -48,7 +48,7 @@ string _loadString(string name,void *_json)
 	return ""; //todo - proper error here?
 }
 
-bool _loadBool(string name,void *_json)
+bool _loadBool(const string &name,void *_json)
 {
 	json_value * json = (json_value*)_json;
 	for(size_t i = 0; i < json->u.object.length; i++)
@@ -57,7 +57,10 @@ bool _loadBool(string name,void *_json)
 		if(json_name == name)
 		{
 			if(json->u.object.values[i].value->type == json_boolean)
-				return json->u.object.values[i].value->u.boolean;
+				if (json->u.object.values[i].value->u.boolean) 
+					return true;
+				else
+					return false;
 			else
 				break;
 		}
@@ -65,7 +68,7 @@ bool _loadBool(string name,void *_json)
 	return false; //todo - proper error here?
 }
 
-vector<string> _loadVectorString(string name,void *_json)
+vector<string> _loadVectorString(const string &name,void *_json)
 {
 	json_value * json = (json_value*)_json;
 	vector<string> result;
@@ -96,7 +99,7 @@ vector<string> _loadVectorString(string name,void *_json)
 	return result; //todo - proper error here?
 }
 
-void _loadEntity(string name,DungeonEntity **e,void *_json)
+void _loadEntity(const string &name,DungeonEntity **e,void *_json)
 {
 	json_value * json = (json_value*)_json;
 	for(size_t i = 0; i < json->u.object.length; i++)
@@ -114,7 +117,7 @@ void _loadEntity(string name,DungeonEntity **e,void *_json)
 	}
 	*e = (DungeonEntity*)-1;
 }
-void _loadVectorEntity(string name,void *_v,void *_json)
+void _loadVectorEntity(const string &name,void *_v,void *_json)
 {
 	json_value * json = (json_value*)_json;
 	vector<DungeonEntity*> *result = (vector<DungeonEntity*> *)_v;
@@ -129,7 +132,7 @@ void _loadVectorEntity(string name,void *_v,void *_json)
 				for(size_t j = 0; j < v.length; j++)
 				{
 					if(v.values[j]->type == json_integer) {
-						int uid = v.values[j]->u.integer;
+						int uid = (int)v.values[j]->u.integer;
 						result->push_back((DungeonEntity*)uid);
 					}
 					else {
@@ -146,17 +149,17 @@ void _loadVectorEntity(string name,void *_v,void *_json)
 
 
 
-string _writeInt(string name,int value)
+string _writeInt(const string &name,int value)
 {
 	return STR_QUOT + name + STR_QUOT + ":" + to_string(value) +",";
 }
 
-string _writeString(string name,string value)
+string _writeString(const string &name,string value)
 {
 	return STR_QUOT + name +STR_QUOT+ ":" + STR_QUOT + value + STR_QUOT+",";
 }
 
-string _writeBool(string name,bool value)
+string _writeBool(const string &name,bool value)
 {
 	string truth;
 	
@@ -166,7 +169,7 @@ string _writeBool(string name,bool value)
 	return STR_QUOT + name +STR_QUOT + ":" +truth+",";
 }
 
-string _writeVectorString(string name,vector<string> const &value)
+string _writeVectorString(const string &name,vector<string> const &value)
 {
 	string result =  STR_QUOT + name + STR_QUOT+ ":[";
 	for(size_t i = 0; i < value.size(); i++)
@@ -180,9 +183,9 @@ string _writeVectorString(string name,vector<string> const &value)
 	return result;
 }
 
-string _writeEntity(string name,DungeonEntity* value)
+string _writeEntity(const string &name,DungeonEntity* value)
 {
-	if(value != nullptr && value >= 0)
+	if(value != nullptr)
 	{
 		return STR_QUOT + name + STR_QUOT+":"+to_string(value->uid)+",";
 	}
@@ -193,7 +196,7 @@ string _writeEntity(string name,DungeonEntity* value)
 } 
 
 //This only writes out the ids
-string _writeVectorEntity(string name,void *value)
+string _writeVectorEntity(const string &name,void *value)
 {
 	vector<DungeonEntity*> *entityValue = (vector<DungeonEntity*>*)value;
 	string result =  STR_QUOT + name + STR_QUOT+ ":[";

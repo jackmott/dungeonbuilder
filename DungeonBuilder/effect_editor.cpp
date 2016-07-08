@@ -1,4 +1,4 @@
-#include "object_list.h"
+#include "entity_list.h"
 #include "dungeon_action.h"
 #include "dungeon_effect.h"
 #include "dungeon_object.h"
@@ -33,10 +33,10 @@ string EffectEditor::del(vector<string> args)
 			return "Which object do you want to delete?";
 		}
 		string objStr = join(2,args,CHR_SPACE);
-		DungeonObject *o = (DungeonObject*)extractEntity(&effect->transforms,&objStr);
+		DungeonObject *o = (DungeonObject*)extractEntity(&effect->removeTransforms,&objStr);
 		if(o != nullptr)
 		{
-			removePointer(&effect->transforms,o);
+			removePointer(&effect->removeTransforms,o);
 			delete o;
 			resetWindows();
 			return "";
@@ -93,11 +93,19 @@ string EffectEditor::set(vector<string> args)
 	}
 	else if(editNoun == STR_OBJECT)
 	{
-		DungeonObjectList ol;
-		DungeonObject* o = ol.load(globalState.objectList);
-		if(o != nullptr)
+		EntityList el;
+		
+
+		DungeonEntity* room = effect->parent;
+		while (room->entityType != ENTITY_TYPE::Room)
 		{
-			effect->transforms.push_back(o);
+			room = room->parent;
+		}
+
+		DungeonEntity* e = el.load((DungeonRoom*)room);
+		if(e != nullptr)
+		{
+			effect->removeTransforms.push_back(e);
 		}
 		else {
 			return "ERROR GOT BAD INFO BACK FROM THE OBJECT LIST";
@@ -125,7 +133,7 @@ string EffectEditor::edit(vector<string> args)
 			return "Which object do you want to edit?";
 		}
 		string objStr = join(2,args,CHR_SPACE);
-		DungeonObject *o = (DungeonObject*)extractEntity(&effect->transforms,&objStr);
+		DungeonObject *o = (DungeonObject*)extractEntity(&effect->removeTransforms,&objStr);
 		if(o != nullptr)
 		{
 			ObjectEditor ed;
@@ -163,7 +171,7 @@ string EffectEditor::add(vector<string> args)
 		o->addName(join(2,args,CHR_SPACE));
 		clearWindows();
 		oe.load(o);
-		effect->transforms.push_back(o);
+		effect->removeTransforms.push_back(o);
 		resetWindows();
 
 		return "";
@@ -196,10 +204,7 @@ void EffectEditor::resetWindows()
 	wrefresh(commandWindow);
 	wrefresh(responseWindow);
 	wrefresh(mainWindow);
-	wrefresh(headerWindow);
-
-	string command;
-
+	wrefresh(headerWindow);	
 
 	printHeader(headerWindow,"Effect",effect->parent->parent->getPrimaryName(),effect->parent->getPrimaryName(),effect->getPrimaryName(),3);
 
@@ -223,7 +228,7 @@ void EffectEditor::resetWindows()
 	if(effect->type == EFFECT_TYPE::Transform)
 	{
 		textBuffer.push_back(STR_MENU_SET_ADD_OBJECT);		
-		for(auto e : effect->transforms)
+		for(auto e : effect->removeTransforms)
 		{
 			textBuffer.push_back("  "+e->getPrimaryName());			
 		}
@@ -231,7 +236,7 @@ void EffectEditor::resetWindows()
 
 	if (effect->type == EFFECT_TYPE::ReplaceRoomDesc)
 	{
-		textBuffer.push_back(STR_MENU_REPLACE_ROOM_DESC + effect->modificationString);
+		textBuffer.push_back(STR_MENU_REPLACE_ROOM_DESC + effect->modificationString);		
 	}
 	renderTextBuffer();
 	wrefresh(mainWindow);

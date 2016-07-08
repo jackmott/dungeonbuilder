@@ -11,6 +11,7 @@ struct DungeonRoom;
 struct DungeonPlayer;
 struct DungeonObject;
 struct DungeonCreature;
+struct DungeonRoom;
 
 
 #define EFFECT_ENUM_LOOP(EFFECT) \
@@ -18,7 +19,7 @@ struct DungeonCreature;
 	EFFECT(Damage)	  \
 	EFFECT(Attack)	  \
 	EFFECT(Transform) \
-    EFFECT(ReplaceRoomDesc)
+    EFFECT(ReplaceRoomDesc) 
 
 
 
@@ -40,7 +41,12 @@ struct DungeonEffect : DungeonEntity
 	int magnitude;
 	int speed;
 		
-	std::vector<DungeonObject*> transforms;
+	DungeonRoom* oldRoom;
+	DungeonRoom* newRoom;
+
+	std::vector<DungeonEntity*> removeTransforms;
+	std::vector<DungeonEntity*> addTransforms;
+
 	
 	void apply(std::vector<std::string> *textBuffer,DungeonEntity* target,DungeonPlayer* player, DungeonRoom* room, bool objectOnPlayer);
 
